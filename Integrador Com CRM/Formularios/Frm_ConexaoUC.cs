@@ -15,9 +15,32 @@ namespace Integrador_Com_CRM.Formularios
 {
     public partial class Frm_ConexaoUC : UserControl
     {
+        public string Servidor
+        {
+            get { return Txt_Servidor.Text; }
+        }
+        public string IpHost
+        {
+            get { return Txt_IpHost.Text; }
+        }
+        public string DataBase
+        {
+            get { return Txt_DataBase.Text; }
+        }
+        public string Usuario
+        {
+            get { return Txt_Usuario.Text; }
+        }
+        public string Senha
+        {
+            get { return Txt_Senha.Text; }
+        }
+
         public Frm_ConexaoUC()
         {
             InitializeComponent();
+
+            CarregarDadosConexao();
         }
 
         private void Btn_TestarConexao_Click(object sender, EventArgs e)
@@ -66,6 +89,11 @@ namespace Integrador_Com_CRM.Formularios
         }
 
         private void Frm_ConexaoUC_Load(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void CarregarDadosConexao()
         {
             try
             {
