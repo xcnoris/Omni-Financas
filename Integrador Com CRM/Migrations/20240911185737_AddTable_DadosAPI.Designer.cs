@@ -4,6 +4,7 @@ using Integrador_Com_CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Integrador_Com_CRM.Migrations
 {
     [DbContext(typeof(IntegradorDBContext))]
-    partial class IntegradorDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240911185737_AddTable_DadosAPI")]
+    partial class AddTable_DadosAPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,58 +41,6 @@ namespace Integrador_Com_CRM.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DadosAPI_CRM");
-                });
-
-            modelBuilder.Entity("Integrador_Com_CRM.Models.RelacaoBoletoCRMModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CNPJ_CPF")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Celular_Entidade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Cod_Oportunidade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Data_Vencimento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email_Entidade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Id_Documento")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_Entidade")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nome_Entidade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Numero_Documento")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quitado")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Situacao")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RelacaoBoletoCRM");
                 });
 
             modelBuilder.Entity("Integrador_Com_CRM.Models.RelacaoOrdemServicoModels", b =>

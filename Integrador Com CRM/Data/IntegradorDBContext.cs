@@ -4,6 +4,7 @@ using Integrador_Com_CRM.Data.Map;
 using Integrador_Com_CRM.DataBase;
 using Integrador_Com_CRM.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Integrador_Com_CRM.Data
 {
@@ -18,18 +19,15 @@ namespace Integrador_Com_CRM.Data
             _connectionString = conexao.Carregarbanco();
         }
 
-        //// Construtor que aceita a string de conexão
-        //public IntegradorDBContext(string connectionString)
-        //{
-        //    _connectionString = connectionString;
-        //}
-
+        public DbSet<DadosAPIModels> DadosAPI_CRM { get; set; }
         public DbSet<RelacaoOrdemServicoModels> Relacao_OS_Com_CRM { get; set; }
+        public DbSet<RelacaoBoletoCRMModel> RelacaoBoletoCRM { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
+        { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());
+            modelBuilder.ApplyConfiguration(new DadosAPIMap());
+            modelBuilder.ApplyConfiguration(new RelacaoBoletoCRMMap());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

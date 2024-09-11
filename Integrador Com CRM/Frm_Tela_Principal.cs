@@ -1,14 +1,5 @@
-﻿using Integrador_Com_CRM.DataBase;
+﻿
 using Integrador_Com_CRM.Formularios;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Integrador_Com_CRM
 {
@@ -21,6 +12,7 @@ namespace Integrador_Com_CRM
 
         //Declando Variaveis dos Formularios
         private readonly Frm_GeralUC FrmGeralUC;
+        private readonly Frm_ConexaoUC ConexaoUC;
 
 
         public Frm_Tela_Principal()
@@ -29,6 +21,36 @@ namespace Integrador_Com_CRM
 
             //Instanciando Variaveis dos Formularios
             FrmGeralUC = new Frm_GeralUC(this);
+            ConexaoUC = new Frm_ConexaoUC();
+
+            AdicionarUserontrols();
+        }
+
+        private void AdicionarUserontrols()
+        {
+            FrmGeralUC.Dock = DockStyle.Fill;
+            ConexaoUC.Dock= DockStyle.Fill;
+
+            TabPage TB1 = new TabPage
+            {
+                Name = "Geral",
+                Text = "Geral"
+            };
+            TB1.Controls.Add(FrmGeralUC);
+
+            TabPage TB2 = new TabPage
+            {
+                Name = "Conexão",
+                Text = "Conexão"
+            };
+            TB2.Controls.Add(ConexaoUC);
+
+
+
+
+
+            TBC_Dados.TabPages.Add(TB1);
+            TBC_Dados.TabPages.Add(TB2);
 
         }
 
