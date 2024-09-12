@@ -9,7 +9,7 @@ namespace Integrador_Com_CRM.Models.EF
     internal class RelacaoBoletoCRMModel
     {
         public int Id { get; set; }
-        public int Id_Documento { get; set; }
+        public int Id_DocumentoReceber { get; set; }
         public string Numero_Documento { get; set; }
         public int Id_Entidade { get; set; }
         public string Nome_Entidade { get; set; }

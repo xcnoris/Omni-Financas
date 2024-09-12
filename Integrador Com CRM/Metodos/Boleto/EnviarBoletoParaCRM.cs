@@ -2,14 +2,18 @@
 using Integrador_Com_CRM.Models;
 using Integrador_Com_CRM.Models.EF;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Integrador_Com_CRM.Metodos.OS
+namespace Integrador_Com_CRM.Metodos.Boleto
 {
-    internal class EnviarOrdemServiçoForCRM
+    internal class EnviarBoletoParaCRM
     {
-        public static async Task<OportunidadeResponse> EnviarOportunidade(OrdemServiçoRequest request, string Token, RelacaoOrdemServicoModels TableRelacaoOS,DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        public static async Task<OportunidadeResponse> CriarOportunidade(OrdemServiçoRequest request, string Token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -22,7 +26,7 @@ namespace Integrador_Com_CRM.Metodos.OS
 
                 try
                 {
-                    MetodosGerais.RegistrarLog("OS", "Criando Oportunidade no CRM....");
+                    MetodosGerais.RegistrarLog("BOLETO", "Criando Oportunidade no CRM....");
                     HttpResponseMessage response = await client.PostAsync(url, content);
                     string responseBody = await response.Content.ReadAsStringAsync();
 
@@ -31,43 +35,44 @@ namespace Integrador_Com_CRM.Metodos.OS
                         OportunidadeResponse resposta = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
                         if (resposta != null)
                         {
-
-                            MetodosGerais.RegistrarLog("OS", "Resposta OK - Oportunidade criada no CRM:");
-                            MetodosGerais.RegistrarLog("OS", responseBody);
-
                             /*
-                                Define o CodOportunidade com valor que retornou no response da chamada da API
-                                O codOportunidade usaremos mais tarde para movimentar a Oportunidade no CRM
+                                Caso der certo a criação da oportunidade, atribui
+                                o valor retornado da api do codigo da oportunidade 
                             */
-                            TableRelacaoOS.Cod_Oportunidade = resposta.CodigoOportunidade;
-                            TableRelacaoOS.Data_Criacao = DateTime.Now;
-                            await dalRelacaoOS.AdicionarAsync(TableRelacaoOS);
+
+                            MetodosGerais.RegistrarLog("BOLETO", "Resposta OK - Oportunidade criada no CRM:");
+                            MetodosGerais.RegistrarLog("BOLETO", responseBody);
+
+
+                            boletoInTabRel.Cod_Oportunidade = resposta.CodigoOportunidade.ToString();
+
+                            dalTableRelacaoBoleto.AdicionarAsync(boletoInTabRel);
                             return resposta;
 
                         }
                         else
                         {
-                            MetodosGerais.RegistrarLog("OS", "Erro na resposta: resposta desserializada é nula.");
+                            MetodosGerais.RegistrarLog("BOLETO", "Erro na resposta: resposta desserializada é nula.");
                         }
                     }
                     else
                     {
-                        MetodosGerais.RegistrarLog("OS", "Erro na resposta da API:");
-                        MetodosGerais.RegistrarLog("OS", $"Status Code: {response.StatusCode}");
-                        MetodosGerais.RegistrarLog("OS", responseBody);
+                        MetodosGerais.RegistrarLog("BOLETO", "Erro na resposta da API:");
+                        MetodosGerais.RegistrarLog("BOLETO", $"Status Code: {response.StatusCode}");
+                        MetodosGerais.RegistrarLog("BOLETO", responseBody);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("OS", "Exceção durante a chamada da API:");
-                    MetodosGerais.RegistrarLog("OS", ex.Message);
+                    MetodosGerais.RegistrarLog("BOLETO", "Exceção durante a chamada da API:");
+                    MetodosGerais.RegistrarLog("BOLETO", ex.Message);
                 }
 
                 return null;
             }
         }
 
-        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string Token, RelacaoOrdemServicoModels TableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string Token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel BoletoRElacao, bool foiquitado)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -88,32 +93,35 @@ namespace Integrador_Com_CRM.Metodos.OS
                         OportunidadeResponse resposta = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
                         if (resposta != null)
                         {
-                            MetodosGerais.RegistrarLog("OS", "Resposta OK -  Oportunidade Atualizada no CRM: ");
-                            MetodosGerais.RegistrarLog("OS", responseBody);
+                            MetodosGerais.RegistrarLog("BOLETO", "Resposta OK -  Oportunidade Atualizada no CRM: ");
+                            MetodosGerais.RegistrarLog("BOLETO", responseBody);
 
-                            
-                            TableRelacaoOS.Data_Alteracao = DateTime.Now;
-                            dalRelacaoOS.AtualizarAsync(TableRelacaoOS);
-                            MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {TableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {TableRelacaoOS.Id_OrdemServico}.");
-                           
+                            if (foiquitado)
+                            {
+
+                                dalTableRelacaoBoleto.AtualizarAsync(BoletoRElacao);
+                             
+                                MetodosGerais.RegistrarLog("BOLETO", $"Situacao atualizada para {BoletoRElacao.Situacao} na tabela de relação para a o documento a receber {BoletoRElacao.Id_DocumentoReceber}.");
+                             
+                            }
                             return resposta;
                         }
                         else
                         {
-                            MetodosGerais.RegistrarLog("OS", "Erro na resposta: resposta desserializada é nula.");
+                            MetodosGerais.RegistrarLog("BOLETO", "Erro na resposta: resposta desserializada é nula.");
                         }
                     }
                     else
                     {
-                        MetodosGerais.RegistrarLog("OS", "Erro na resposta da API:");
-                        MetodosGerais.RegistrarLog("OS", $"Status Code: {response.StatusCode}");
-                        MetodosGerais.RegistrarLog("OS", responseBody);
+                        MetodosGerais.RegistrarLog("BOLETO", "Erro na resposta da API:");
+                        MetodosGerais.RegistrarLog("BOLETO", $"Status Code: {response.StatusCode}");
+                        MetodosGerais.RegistrarLog("BOLETO", responseBody);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("OS", "Exceção durante a chamada da API:");
-                    MetodosGerais.RegistrarLog("OS", ex.Message);
+                    MetodosGerais.RegistrarLog("BOLETO", "Exceção durante a chamada da API:");
+                    MetodosGerais.RegistrarLog("BOLETO", ex.Message);
                 }
 
                 return null;

@@ -14,7 +14,7 @@ namespace Integrador_Com_CRM.Data.Map
         public void Configure(EntityTypeBuilder<RelacaoBoletoCRMModel> builder)
         {
             builder.HasKey(x=> x.Id);
-            builder.Property(x => x.Id_Documento).IsRequired();
+            builder.Property(x => x.Id_DocumentoReceber).IsRequired();
             builder.Property(x => x.Numero_Documento).IsRequired();
             builder.Property(x => x.Id_Entidade).IsRequired();
             builder.Property(x => x.Nome_Entidade).IsRequired();
