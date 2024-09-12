@@ -1,14 +1,5 @@
 ﻿using Integrador_Com_CRM.Metodos;
 using Integrador_Com_CRM.Metodos.OS;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -30,7 +21,7 @@ namespace Integrador_Com_CRM.Formularios
             {
                 controlOrdemServico.VerificarNovosServicos(DadosAPI);
               
-                MetodosGerais.RegistrarLog("OS", $"Ordens de serviço consutadas manulamnete.");
+                MetodosGerais.RegistrarLog("OS", $"=======>>> Ordens de serviço consultadas manualmente <<<=======\n");
                 MessageBox.Show("Consulta de Ordem de Serviço Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                    
                

@@ -22,7 +22,7 @@ namespace Integrador_Com_CRM.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Integrador_Com_CRM.Models.DadosAPIModels", b =>
+            modelBuilder.Entity("Integrador_Com_CRM.Models.EF.DadosAPIModels", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace Integrador_Com_CRM.Migrations
                     b.ToTable("DadosAPI_CRM");
                 });
 
-            modelBuilder.Entity("Integrador_Com_CRM.Models.RelacaoBoletoCRMModel", b =>
+            modelBuilder.Entity("Integrador_Com_CRM.Models.EF.RelacaoBoletoCRMModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,7 +92,7 @@ namespace Integrador_Com_CRM.Migrations
                     b.ToTable("RelacaoBoletoCRM");
                 });
 
-            modelBuilder.Entity("Integrador_Com_CRM.Models.RelacaoOrdemServicoModels", b =>
+            modelBuilder.Entity("Integrador_Com_CRM.Models.EF.RelacaoOrdemServicoModels", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

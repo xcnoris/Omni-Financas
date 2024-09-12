@@ -38,7 +38,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                     // Acessa os valores diretamente das propriedades da classe RetornoOrdemServico
                     string id_ordemServico = OS.Id_Ordem_Servico.ToString();
                     string id_Categoria = OS.Id_CategoriaOS.ToString();
-                    int cpf_cnpj_cliente = OS.Identificador_Cliente;
+                    string cpf_cnpj_cliente = OS.Identificador_Cliente;
                     string email = OS.Email_Cliente;
                     string nomecliente = OS.Nome_Cliente;
                     string telefone = OS.Telefone;
@@ -47,7 +47,7 @@ namespace Integrador_Com_CRM.Metodos.OS
 
                     // Verifica se a OS já esta na tabela de relação, caso ela este, significa que já existe um cady/oportunidade criada no CRM
 
-                    RelacaoOrdemServicoModels OSInTableRelacao = TableRelacaoOS.First(x => x.Id_OrdemServico.Equals(id_ordemServico));
+                    RelacaoOrdemServicoModels OSInTableRelacao = TableRelacaoOS.FirstOrDefault(x => x.Id_OrdemServico == Convert.ToInt32(id_ordemServico));
 
                     RelacaoOrdemServicoModels OrdemServicoRelacao = new RelacaoOrdemServicoModels()
                     {
@@ -121,8 +121,9 @@ namespace Integrador_Com_CRM.Metodos.OS
 
                             OrdemServicoRelacao.Cod_Oportunidade = cod_oportunidade;
                             // Atualize a categoria na tabela de relação se necessário
+                            RelacaoOrdemServicoModels TableRelacao = await dalOrdemServico.BuscarPorAsync(x => x.Id_OrdemServico == Convert.ToInt32(id_ordemServico));
 
-                            EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OrdemServicoRelacao,dalOrdemServico);
+                            EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, TableRelacao, dalOrdemServico);
 
                         }
 
@@ -155,9 +156,10 @@ namespace Integrador_Com_CRM.Metodos.OS
                                 textoFollowup = textoFolloup
                             };
 
-                            OrdemServicoRelacao.Cod_Oportunidade = cod_oportunidade;
+                            //RelacaoOrdemServicoModels TablerelacaoOS = await dalOrdemServico.BuscarPorAsync(x => x.Id_OrdemServico == Convert.ToInt32(id_ordemServico));
+                            OSInTableRelacao.Id_CategoriaOS = idCategoria;
                             // Atualize a categoria na tabela de relação se necessário
-                            EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OrdemServicoRelacao,dalOrdemServico);
+                            EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao, dalOrdemServico);
 
 
                             MetodosGerais.RegistrarLog("OS", $"A categoria da ordem de serviço {id_ordemServico} mudou de {IdcategoriaExiste} para {id_Categoria}.");

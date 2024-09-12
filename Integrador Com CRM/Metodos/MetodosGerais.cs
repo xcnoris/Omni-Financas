@@ -124,7 +124,7 @@ namespace Integrador_Com_CRM.Metodos
                     return "88F9B12D58D6950B3C72";
 
                 case "17": // ENVIADO PARA DESCARTE
-                    return "88F9B12D58D6950B3C72";
+                    return "40F70529EC12C876748B";
 
                 default:
                     MetodosGerais.RegistrarLog("OS", "Número inválido. Por favor, escolha um número de 1 a 5.");

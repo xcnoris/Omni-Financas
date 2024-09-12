@@ -35,9 +35,9 @@ namespace Integrador_Com_CRM
             ControlOS = new ControleOrdemDeServico();
 
             //Instanciando Variaveis dos Formularios
-            FrmGeralUC = new Frm_GeralUC(ControlOS);
-            FrmConexaoUC = new Frm_ConexaoUC();
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
+            FrmConexaoUC = new Frm_ConexaoUC();
+            FrmGeralUC = new Frm_GeralUC(ControlOS, FrmDadosAPIUUC);
 
             
             AdicionarUserontrols();

@@ -18,7 +18,8 @@ namespace Integrador_Com_CRM.Metodos.OS
 
         public CrudOS()
         {
-            _conexaoDB = new ConexaoDB();
+            string Validacao = "";
+            _conexaoDB = new ConexaoDB(Validacao);
             _comandosDB = new ComandosDB(_conexaoDB);
         }
 
@@ -49,11 +50,14 @@ namespace Integrador_Com_CRM.Metodos.OS
                         pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
                     WHERE 
                          OS.data_hora_cadastro >= '18/07/2024'
+                    and os.id_ordem_servico = 8759
                 ";
                 //string query = "SELECT id_ordem_servico, nome_cliente, fone_ddd_cliente + fone_numero_cliente AS telefone, email_cliente, id_categoria_ordem_servico FROM ordem_servico WHERE id_ordem_servico = 8674";
 
                 // Converte o resultado do select em DataTable
-                List<RetornoOrdemServico> retornoOSs= _comandosDB.ExecuteQuery(query);
+                DataTable retornoOS = _comandosDB.ExecuteQuery(query);
+
+                List<RetornoOrdemServico> retornoOSs = DataTableToList(retornoOS);
 
                 MetodosGerais.RegistrarLog("OS", $"Foram encontradas {retornoOSs.Count()} ordem de serviço no banco de dados\n");
                 return retornoOSs;
@@ -61,6 +65,35 @@ namespace Integrador_Com_CRM.Metodos.OS
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message} - {_comandosDB.Mensagem}");
+                return null;
+            }
+        }
+
+        private List<RetornoOrdemServico> DataTableToList(DataTable dt)
+        {
+            try
+            {
+                List<RetornoOrdemServico> listaRetornoOS = new List<RetornoOrdemServico> ();
+
+                foreach (DataRow linha in dt.Rows)
+                {
+                    RetornoOrdemServico ROS = new RetornoOrdemServico()
+                    {
+                        Id_Ordem_Servico = linha["id_ordem_servico"].ToString(),
+                        Identificador_Cliente = linha["identificador_cliente"].ToString(),
+                        Nome_Cliente = linha["nome_cliente"].ToString(),
+                        Telefone = linha["telefone"].ToString(),
+                        Email_Cliente = linha["email_cliente"].ToString(),
+                        Id_CategoriaOS = linha["id_categoria_ordem_servico"].ToString()
+                    };
+
+                    listaRetornoOS.Add( ROS );
+                }
+                return listaRetornoOS;
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("OS", ex.Message);
                 return null;
             }
         }
