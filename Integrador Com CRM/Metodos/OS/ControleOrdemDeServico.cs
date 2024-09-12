@@ -12,7 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Integrador_Com_CRM.Metodos.OS
 {
-    internal class ControleOrdemDeServico
+    public class ControleOrdemDeServico
     {
         private readonly CrudOS _crudOS;
         private DAL<RelacaoOrdemServicoModels> dalOrdemServico;

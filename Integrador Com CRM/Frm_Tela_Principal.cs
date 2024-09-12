@@ -32,13 +32,13 @@ namespace Integrador_Com_CRM
             InitializeComponent();
 
             context =new IntegradorDBContext();
+            ControlOS = new ControleOrdemDeServico();
 
             //Instanciando Variaveis dos Formularios
-            FrmGeralUC = new Frm_GeralUC(this);
+            FrmGeralUC = new Frm_GeralUC(ControlOS);
             FrmConexaoUC = new Frm_ConexaoUC();
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
 
-            ControlOS = new ControleOrdemDeServico();
             
             AdicionarUserontrols();
 

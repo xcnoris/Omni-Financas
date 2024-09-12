@@ -34,7 +34,7 @@
             // 
             // Btn_BuscarBoletos
             // 
-            Btn_BuscarBoletos.Location = new Point(266, 160);
+            Btn_BuscarBoletos.Location = new Point(266, 252);
             Btn_BuscarBoletos.Name = "Btn_BuscarBoletos";
             Btn_BuscarBoletos.Size = new Size(247, 66);
             Btn_BuscarBoletos.TabIndex = 0;
@@ -43,20 +43,21 @@
             // 
             // Btn_BuscarOS
             // 
-            Btn_BuscarOS.Location = new Point(266, 254);
+            Btn_BuscarOS.Location = new Point(266, 166);
             Btn_BuscarOS.Name = "Btn_BuscarOS";
             Btn_BuscarOS.Size = new Size(247, 64);
             Btn_BuscarOS.TabIndex = 1;
             Btn_BuscarOS.Text = "Consultar Ordem de Serviço";
             Btn_BuscarOS.UseVisualStyleBackColor = true;
+            Btn_BuscarOS.Click += Btn_BuscarOS_Click;
             // 
-            // Frm_Geral
+            // Frm_GeralUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(Btn_BuscarOS);
             Controls.Add(Btn_BuscarBoletos);
-            Name = "Frm_Geral";
+            Name = "Frm_GeralUC";
             Size = new Size(829, 421);
             ResumeLayout(false);
         }
