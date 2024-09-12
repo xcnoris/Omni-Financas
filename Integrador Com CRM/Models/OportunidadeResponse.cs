@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.Models
 {
-    internal class DadosAPIModels
+    internal class OportunidadeResponse
     {
-        public int Id { get; set; }
-        public string Token { get; set; }
+        public string CodigoOportunidade { get; set; }
+        public OrdemServiçoRequest OS { get; set; }
     }
 }

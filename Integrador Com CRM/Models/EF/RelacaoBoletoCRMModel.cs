@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Integrador_Com_CRM.Models
+namespace Integrador_Com_CRM.Models.EF
 {
     internal class RelacaoBoletoCRMModel
     {

@@ -3,7 +3,8 @@ using Integrador_Com_CRM.Data;
 using Integrador_Com_CRM.DataBase;
 using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Metodos;
-using Integrador_Com_CRM.Models;
+using Integrador_Com_CRM.Metodos.OS;
+using Integrador_Com_CRM.Models.EF;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace Integrador_Com_CRM
@@ -21,7 +22,9 @@ namespace Integrador_Com_CRM
         private readonly Frm_DadosAPIUC FrmDadosAPIUUC;
 
         private readonly IntegradorDBContext context;
-        
+        private readonly ControleOrdemDeServico ControlOS;
+
+
 
 
         public Frm_Tela_Principal()
@@ -35,9 +38,27 @@ namespace Integrador_Com_CRM
             FrmConexaoUC = new Frm_ConexaoUC();
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
 
+            ControlOS = new ControleOrdemDeServico();
             
             AdicionarUserontrols();
+
+            // Timer para executar a função periodicamente a cada 5 minutos
+            timer5Min = new System.Timers.Timer(300000); // 5 min
+            timer5Min.Elapsed += async (s, e) =>
+            {
+                try
+                {
+                    await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
+                }
+                catch (Exception ex)
+                {
+                    // Log de erro
+                    MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
+                }
+            };
+            timer5Min.Start();
         }
+
 
         private void AdicionarUserontrols()
         {

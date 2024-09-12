@@ -97,5 +97,26 @@ namespace Integrador_Com_CRM.DataBase
                 return "";
             }
         }
+
+        public SqlConnection GetConnection()
+        {
+            return _connection;
+        }
+
+        public void OpenConnection()
+        {
+            if (_connection.State == ConnectionState.Closed)
+            {
+                _connection.Open();
+            }
+        }
+
+        public void CloseConnection()
+        {
+            if (_connection.State == ConnectionState.Open)
+            {
+                _connection.Close();
+            }
+        }
     }
 }

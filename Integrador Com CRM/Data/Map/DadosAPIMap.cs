@@ -1,4 +1,4 @@
-﻿using Integrador_Com_CRM.Models;
+﻿using Integrador_Com_CRM.Models.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

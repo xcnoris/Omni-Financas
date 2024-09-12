@@ -2,7 +2,7 @@
 
 using Integrador_Com_CRM.Data.Map;
 using Integrador_Com_CRM.DataBase;
-using Integrador_Com_CRM.Models;
+using Integrador_Com_CRM.Models.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
