@@ -16,7 +16,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         public string Message;
         public bool Status;
 
-        public void AtualizarAcaoNoCRM(int diasAtraso,  string codigoJornada, Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado)
+        public void AtualizarAcaoNoCRM(int diasAtraso,  string codigoJornada, Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
         {
             try
             {
@@ -30,11 +30,28 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     codigoJornada = codigoJornada,
                     textoFollowup = textoFollowup
                 };
-                RelacaoBoletoCRMModel BoletoInTableRElacao = dalBoleto.BuscarPor(x => x.Id_DocumentoReceber == BoletoRelacao.Id_DocumentoReceber);
-                BoletoInTableRElacao.Situacao = BoletoRelacao.Situacao;
-                BoletoInTableRElacao.Quitado = BoletoRelacao.Quitado;
 
-                EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoInTableRElacao, foiQuitado);
+                /*
+                    Verifica se o boleto já esta na tabela relação,caso já esteja, significa que não precisa fazer
+                    uma consuta no banco para descobrir o Id, visto que a instancia que veio no parametro já tem o Id
+
+                */
+                if (foiQuitado)
+                {
+                    BoletoRelacao.Quitado = 1;
+                }
+                if (naTableRelacao == true)
+                {
+                    EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoRelacao, foiQuitado);     
+                }
+                else
+                {
+                    RelacaoBoletoCRMModel BoletoInTableRElacao = dalBoleto.BuscarPor(x => x.Id_DocumentoReceber == BoletoRelacao.Id_DocumentoReceber);
+                    BoletoInTableRElacao.Situacao = BoletoRelacao.Situacao;
+                    EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoInTableRElacao, foiQuitado);
+                }
+
+
 
                 MetodosGerais.RegistrarLog("BOLETO", $"Doc a Receber atualizado para a etapa '{textoFollowup}'");
             }
@@ -45,9 +62,25 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 Status = false;
             }
         }
+        internal void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto)
+        {
+            switch (diasAtraso)
+            {
+                case 2:
+                case 5:
+                case 6:
+                case 10:
+                case 35:
+                    AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                    break;
+                default:
+                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto não está em atraso significativo.");
+                    break;
+            }
+        }
 
 
-        private string SelecionarCodAcao(int diasAtraso)
+        internal string SelecionarCodAcao(int diasAtraso)
         {
             try
             {
@@ -72,6 +105,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
                     case 35:  // Atraso 35 dias
                         return "02820F32C84EAE405E5A";
+                    
 
                     default:
                         MetodosGerais.RegistrarLog("BOLETO", "Número inválido. Por favor, escolha um número de 1 a 5.");

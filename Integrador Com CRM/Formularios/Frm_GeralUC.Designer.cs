@@ -40,6 +40,7 @@
             Btn_BuscarBoletos.TabIndex = 0;
             Btn_BuscarBoletos.Text = "Consultar Boletos";
             Btn_BuscarBoletos.UseVisualStyleBackColor = true;
+            Btn_BuscarBoletos.Click += Btn_BuscarBoletos_Click;
             // 
             // Btn_BuscarOS
             // 

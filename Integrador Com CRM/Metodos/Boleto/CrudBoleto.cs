@@ -55,7 +55,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     AND 
 	                    DR.tem_boleto = 1
                     AND 
-	                    DR.id_documento_receber = 17802 
+	                    DR.id_documento_receber = 18024  
                 ";
 
                 // Converte o resultado do select em DataTable
@@ -85,12 +85,12 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     {
                         Num_DocReceber = linha["numero_documento_receber"].ToString(),
                         Id_DocReceber = linha["id_documento_receber"].ToString(),
-                        Id_Entidade = linha["nome_cliente"].ToString(),
+                        Id_Entidade = linha["id_entidade"].ToString(),
                         Nome = linha["nome"].ToString(),
                         Celular = linha["celular"].ToString(),
                         Email = linha["email_principal"].ToString(),
                         Identificador_Cliente = linha["identificador_cliente"].ToString(),
-                        Situacao = linha["id_categoria_ordem_servico"].ToString(),
+                        Situacao = linha["situacao"].ToString(),
                         Data_Vencimento = Convert.ToDateTime(linha["data_vencimento"])
                     };
 

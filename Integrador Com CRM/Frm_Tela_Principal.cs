@@ -3,6 +3,7 @@ using Integrador_Com_CRM.Data;
 using Integrador_Com_CRM.DataBase;
 using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Metodos;
+using Integrador_Com_CRM.Metodos.Boleto;
 using Integrador_Com_CRM.Metodos.OS;
 using Integrador_Com_CRM.Models.EF;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
@@ -23,6 +24,7 @@ namespace Integrador_Com_CRM
 
         private readonly IntegradorDBContext context;
         private readonly ControleOrdemDeServico ControlOS;
+        private readonly ControleBoletos ControlBoleto;
 
 
 
@@ -33,22 +35,24 @@ namespace Integrador_Com_CRM
 
             context =new IntegradorDBContext();
             ControlOS = new ControleOrdemDeServico();
+            ControlBoleto = new ControleBoletos();
 
             //Instanciando Variaveis dos Formularios
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
-            FrmGeralUC = new Frm_GeralUC(ControlOS, FrmDadosAPIUUC);
+            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC);
 
             
             AdicionarUserontrols();
 
             // Timer para executar a função periodicamente a cada 5 minutos
-            timer5Min = new System.Timers.Timer(300000); // 5 min
+            timer5Min = new System.Timers.Timer(3000000); // 5 min
             timer5Min.Elapsed += async (s, e) =>
             {
                 try
                 {
-                    await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
+                    //await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
+                    ControlBoleto.VerificarNovosBoletos(FrmDadosAPIUUC);
                 }
                 catch (Exception ex)
                 {
