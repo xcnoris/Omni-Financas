@@ -55,7 +55,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     // Verifica se a BOLETO já esta na tabela de relação, caso ele esteja, significa que já existe um cady/oportunidade criada no CRM
                     RelacaoBoletoCRMModel BoletoRelacao = TableRelacaoBoleto.FirstOrDefault(x => x.Id_DocumentoReceber == Convert.ToInt32(id_DocReceber));
 
-
+                    int DiasEmAtrasoBoleto = BoletoRelacao.DiasEmAtraso;
                     //string cod_oportunidade = Tb.Rows[0]["cod_oportunidade"].ToString();
 
                     // Log para verificação
@@ -107,6 +107,10 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             //MetodosGerais.RegistrarLog("BOLETO", $"Oportunidade criada para o doc a receber {id_DocReceber}: {response.} ");
                             Status = true;
                         }
+                        else
+                        {
+                            MetodosGerais.RegistrarLog("BOLETO", $"Documento Cancelado/Estornado. Não consta na Tabela relação nem CRM!");
+                        }
                     }
                     else
                     {
@@ -122,9 +126,11 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
                                 if (situacao == 3)
                                 {
-
-                                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
-                                    metodosGeraisBoleto.AtualizarAcaoNoCRM(3, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, false, true);
+                                    if (DiasEmAtrasoBoleto != 3)
+                                    {
+                                        MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
+                                        metodosGeraisBoleto.AtualizarAcaoNoCRM(3, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, false, true);
+                                    }
                                 }
                                 else
                                 {
@@ -145,7 +151,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                     else
                                     {
                                         MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está á {diasAtraso} dias em atraso.");
-                                        metodosGeraisBoleto.VerificarAtrasoEBoleto(BoletoRelacao, diasAtraso, codigoJornada, DadosAPI, dalBoleto);
+                                        metodosGeraisBoleto.VerificarAtrasoEBoleto(BoletoRelacao, diasAtraso, codigoJornada, DadosAPI, dalBoleto, DiasEmAtrasoBoleto);
                                     }
                                 }
                             }

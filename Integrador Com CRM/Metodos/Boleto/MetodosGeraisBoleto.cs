@@ -48,6 +48,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 {
                     RelacaoBoletoCRMModel BoletoInTableRElacao = dalBoleto.BuscarPor(x => x.Id_DocumentoReceber == BoletoRelacao.Id_DocumentoReceber);
                     BoletoInTableRElacao.Situacao = BoletoRelacao.Situacao;
+                    BoletoInTableRElacao.DiasEmAtraso = BoletoRelacao.DiasEmAtraso;
                     EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoInTableRElacao, foiQuitado);
                 }
 
@@ -62,16 +63,45 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 Status = false;
             }
         }
-        internal void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto)
+        internal void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
         {
+           
             switch (diasAtraso)
             {
                 case 2:
+                    if (DiasAtrasoRelBoleto !=2)
+                    {
+                        boleto.DiasEmAtraso = diasAtraso;
+                        AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                    }
+                    break;
                 case 5:
+                    if (DiasAtrasoRelBoleto !=5)
+                    {
+                        boleto.DiasEmAtraso = diasAtraso;
+                        AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                    }
+                    break;
                 case 6:
+                    if (DiasAtrasoRelBoleto != 6)
+                    {
+                        boleto.DiasEmAtraso = diasAtraso;
+                        AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                    }
+                    break;
                 case 10:
+                    if (DiasAtrasoRelBoleto != 10)
+                    {
+                        boleto.DiasEmAtraso = diasAtraso;
+                        AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                    }
+                    break;
                 case 35:
-                    AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                    if (DiasAtrasoRelBoleto != 35)
+                    {
+                        boleto.DiasEmAtraso = diasAtraso;
+                        AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                    }
                     break;
                 default:
                     MetodosGerais.RegistrarLog("BOLETO", $"Boleto não está em atraso significativo.");

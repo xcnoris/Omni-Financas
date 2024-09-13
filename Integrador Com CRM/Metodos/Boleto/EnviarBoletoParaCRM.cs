@@ -96,10 +96,10 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             MetodosGerais.RegistrarLog("BOLETO", "Resposta OK -  Oportunidade Atualizada no CRM: ");
                             MetodosGerais.RegistrarLog("BOLETO", responseBody);
 
+                            dalTableRelacaoBoleto.AtualizarAsync(BoletoRElacao);
                             if (foiquitado)
                             {
 
-                                dalTableRelacaoBoleto.AtualizarAsync(BoletoRElacao);
                              
                                 MetodosGerais.RegistrarLog("BOLETO", $"Situacao atualizada para {BoletoRElacao.Situacao} na tabela de relação para a o documento a receber {BoletoRElacao.Id_DocumentoReceber}.");
                              

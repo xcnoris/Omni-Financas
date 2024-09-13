@@ -20,6 +20,7 @@ namespace Integrador_Com_CRM.Models.EF
         public DateTime Data_Vencimento { get; set; }
         public string Cod_Oportunidade { get; set; }
         public int Quitado { get; set; }
+        public int DiasEmAtraso { get; set; }
 
 
         internal RelacaoBoletoCRMModel InstanciaDados(RetornoBoleto boleto)
@@ -34,7 +35,8 @@ namespace Integrador_Com_CRM.Models.EF
                 Email_Entidade = boleto.Email,
                 CNPJ_CPF = boleto.Identificador_Cliente,
                 Situacao = Convert.ToInt32(boleto.Situacao),
-                Data_Vencimento = boleto.Data_Vencimento
+                Data_Vencimento = boleto.Data_Vencimento,
+                DiasEmAtraso = 0
             };
         }
     }
