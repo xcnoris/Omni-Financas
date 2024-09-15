@@ -55,7 +55,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     // Verifica se a BOLETO já esta na tabela de relação, caso ele esteja, significa que já existe um cady/oportunidade criada no CRM
                     RelacaoBoletoCRMModel BoletoRelacao = TableRelacaoBoleto.FirstOrDefault(x => x.Id_DocumentoReceber == Convert.ToInt32(id_DocReceber));
 
-                    int DiasEmAtrasoBoleto = BoletoRelacao.DiasEmAtraso;
+                
                     //string cod_oportunidade = Tb.Rows[0]["cod_oportunidade"].ToString();
 
                     // Log para verificação
@@ -114,7 +114,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     }
                     else
                     {
-
+                        int DiasEmAtrasoBoleto = BoletoRelacao.DiasEmAtraso;
                         int diasAtraso = (DateTime.Now - linha.Data_Vencimento).Days;
 
                         if (diasAtraso > 0)
@@ -150,6 +150,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                     }
                                     else
                                     {
+                                        // Area de cobrança. Verifica a quantidadede dias em atraso e faz a cobrança
                                         MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está á {diasAtraso} dias em atraso.");
                                         metodosGeraisBoleto.VerificarAtrasoEBoleto(BoletoRelacao, diasAtraso, codigoJornada, DadosAPI, dalBoleto, DiasEmAtrasoBoleto);
                                     }

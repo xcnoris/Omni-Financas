@@ -30,11 +30,12 @@
         {
             Btn_BuscarBoletos = new Button();
             Btn_BuscarOS = new Button();
+            Btn_RealizarCobrancas = new Button();
             SuspendLayout();
             // 
             // Btn_BuscarBoletos
             // 
-            Btn_BuscarBoletos.Location = new Point(266, 252);
+            Btn_BuscarBoletos.Location = new Point(266, 169);
             Btn_BuscarBoletos.Name = "Btn_BuscarBoletos";
             Btn_BuscarBoletos.Size = new Size(247, 66);
             Btn_BuscarBoletos.TabIndex = 0;
@@ -44,7 +45,7 @@
             // 
             // Btn_BuscarOS
             // 
-            Btn_BuscarOS.Location = new Point(266, 166);
+            Btn_BuscarOS.Location = new Point(266, 82);
             Btn_BuscarOS.Name = "Btn_BuscarOS";
             Btn_BuscarOS.Size = new Size(247, 64);
             Btn_BuscarOS.TabIndex = 1;
@@ -52,10 +53,21 @@
             Btn_BuscarOS.UseVisualStyleBackColor = true;
             Btn_BuscarOS.Click += Btn_BuscarOS_Click;
             // 
+            // Btn_RealizarCobrancas
+            // 
+            Btn_RealizarCobrancas.Location = new Point(266, 256);
+            Btn_RealizarCobrancas.Name = "Btn_RealizarCobrancas";
+            Btn_RealizarCobrancas.Size = new Size(247, 66);
+            Btn_RealizarCobrancas.TabIndex = 2;
+            Btn_RealizarCobrancas.Text = "Realizar Cobranças";
+            Btn_RealizarCobrancas.UseVisualStyleBackColor = true;
+            Btn_RealizarCobrancas.Click += Btn_RealizarCobrancas_Click;
+            // 
             // Frm_GeralUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(Btn_RealizarCobrancas);
             Controls.Add(Btn_BuscarOS);
             Controls.Add(Btn_BuscarBoletos);
             Name = "Frm_GeralUC";
@@ -67,5 +79,6 @@
 
         private Button Btn_BuscarBoletos;
         private Button Btn_BuscarOS;
+        private Button Btn_RealizarCobrancas;
     }
 }

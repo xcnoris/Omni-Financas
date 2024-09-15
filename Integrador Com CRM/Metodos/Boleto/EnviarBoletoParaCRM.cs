@@ -13,6 +13,8 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 {
     internal class EnviarBoletoParaCRM
     {
+
+
         public static async Task<OportunidadeResponse> CriarOportunidade(OrdemServiçoRequest request, string Token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel)
         {
             using (HttpClient client = new HttpClient())
@@ -99,8 +101,10 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             dalTableRelacaoBoleto.AtualizarAsync(BoletoRElacao);
                             if (foiquitado)
                             {
+                                CobrancasNaSegundaModel cobrancas = new CobrancasNaSegundaModel();
+                                cobrancas.RemoverRegistro(BoletoRElacao.Id);
 
-                             
+
                                 MetodosGerais.RegistrarLog("BOLETO", $"Situacao atualizada para {BoletoRElacao.Situacao} na tabela de relação para a o documento a receber {BoletoRElacao.Id_DocumentoReceber}.");
                              
                             }

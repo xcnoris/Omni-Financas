@@ -165,5 +165,25 @@ namespace Integrador_Com_CRM.Data
                 return null;
             }
         }
+
+        public async Task<IEnumerable<T?>> RecuperarTodosPorAsync(Expression<Func<T, bool>> condicao, string includeProperties = "")
+        {
+            try
+            {
+                IQueryable<T> query = context.Set<T>();
+
+                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+
+                return await query.Where(condicao).ToListAsync();
+            }
+            catch (Exception Exception)
+            {
+                MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+                return Enumerable.Empty<T>();
+            }
+        }
     }
 }

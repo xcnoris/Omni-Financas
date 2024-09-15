@@ -25,7 +25,7 @@ namespace Integrador_Com_CRM
         private readonly IntegradorDBContext context;
         private readonly ControleOrdemDeServico ControlOS;
         private readonly ControleBoletos ControlBoleto;
-
+        private readonly CobrancasNaSegundaModel cobrancas;
 
 
 
@@ -41,8 +41,9 @@ namespace Integrador_Com_CRM
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
             FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC);
+            cobrancas = new CobrancasNaSegundaModel();
 
-            
+
             AdicionarUserontrols();
 
             // Timer para executar a função periodicamente a cada 5 minutos
@@ -52,7 +53,7 @@ namespace Integrador_Com_CRM
                 try
                 {
                     //await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
-                    ControlBoleto.VerificarNovosBoletos(FrmDadosAPIUUC);
+                
                 }
                 catch (Exception ex)
                 {
@@ -61,6 +62,78 @@ namespace Integrador_Com_CRM
                 }
             };
             timer5Min.Start();
+
+            // Timer para execulta a função periodica todo dia as 10:30h Brasília
+            timerDaily = new System.Timers.Timer();
+            timerDaily.Elapsed += async (s, e) =>
+            {
+                try
+                {
+                    await ControlBoleto.VerificarNovosBoletos(FrmDadosAPIUUC);
+                }
+                catch (Exception ex)
+                {
+                    // Log de erro
+                    MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
+                }
+                // Reconfigurar o timer para o próximo dia às 10:30 AM
+                SetDailyTimer();
+            };
+            SetDailyTimer();
+
+            // Timer para execulta a função periodica toda segunda as 10:45h brasilia
+            timerDaily = new System.Timers.Timer();
+            timerDaily.Elapsed += async (s, e) =>
+            {
+                try
+                {
+                    await cobrancas.RealizarCobrancas(FrmDadosAPIUUC);
+                }
+                catch (Exception ex)
+                {
+                    // Log de erro
+                    MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
+                }
+                // Reconfigurar o timer para o próximo dia às 10:30 AM
+                SetDailyTimer();
+            };
+            SetDailyTimerSegunda();
+        }
+
+        private void SetDailyTimer()
+        {
+            DateTime now = DateTime.Now;
+            DateTime nextRun = new DateTime(now.Year, now.Month, now.Day, 10, 30, 0, 0);
+
+            if (now > nextRun)
+            {
+                nextRun = nextRun.AddDays(1);
+            }
+
+            double intervalToNextRun = (nextRun - now).TotalMilliseconds;
+            timerDaily.Interval = intervalToNextRun;
+            timerDaily.Start();
+        }
+
+        private void SetDailyTimerSegunda()
+        {
+            DateTime now = DateTime.Now;
+
+            // Calcula o próximo dia de segunda-feira
+            int daysUntilMonday = ((int)DayOfWeek.Monday - (int)now.DayOfWeek + 7) % 7;
+
+            // Define o horário de execução na próxima segunda-feira às 10:45 AM
+            DateTime nextRun = now.AddDays(daysUntilMonday).Date.AddHours(10).AddMinutes(45);
+
+            // Se já passou do horário de execução hoje, pula para a próxima segunda-feira
+            if (now > nextRun)
+            {
+                nextRun = nextRun.AddDays(7); // Salta para a próxima segunda-feira
+            }
+
+            double intervalToNextRun = (nextRun - now).TotalMilliseconds;
+            timerDaily.Interval = intervalToNextRun;
+            timerDaily.Start();
         }
 
 
