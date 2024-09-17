@@ -9,6 +9,6 @@ namespace Integrador_Com_CRM.Models
     internal class OportunidadeResponse
     {
         public string CodigoOportunidade { get; set; }
-        public OrdemServiçoRequest OS { get; set; }
+        public ModeloOportunidadeRequest OS { get; set; }
     }
 }

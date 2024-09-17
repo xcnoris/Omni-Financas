@@ -1,18 +1,7 @@
 ﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Data.Map;
 using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Models;
 using Integrador_Com_CRM.Models.EF;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.LinkLabel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Integrador_Com_CRM.Metodos.Boleto
 {
@@ -43,6 +32,8 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
                 string codigoJornada = "06AA9604D2";
 
+                MetodosGerais.RegistrarLog("BOLETO", $"Foram encontrados {boletoList.Count} Boletos.\n");
+
                 // Passa por cada Boleto que retornar no select
                 foreach (var linha in boletoList)
                 {
@@ -55,9 +46,6 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     // Verifica se a BOLETO já esta na tabela de relação, caso ele esteja, significa que já existe um cady/oportunidade criada no CRM
                     RelacaoBoletoCRMModel BoletoRelacao = TableRelacaoBoleto.FirstOrDefault(x => x.Id_DocumentoReceber == Convert.ToInt32(id_DocReceber));
 
-                
-                    //string cod_oportunidade = Tb.Rows[0]["cod_oportunidade"].ToString();
-
                     // Log para verificação
                     MetodosGerais.RegistrarLog("BOLETO", $"Verificando Documento a receber {id_DocReceber}...");
 
@@ -67,7 +55,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                         {
                             // Log para verificação
                             MetodosGerais.RegistrarLog("BOLETO", $"Documento a receber {id_DocReceber} não encontrada na tabela de relação.");
-                            OrdemServiçoRequest oportunidade = new OrdemServiçoRequest();
+                            ModeloOportunidadeRequest oportunidade = new ModeloOportunidadeRequest();
 
                             //Instancia dados das class
                             if (oportunidade != null )
@@ -76,14 +64,17 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             }
                             else
                             {
-                                MetodosGerais.RegistrarLog("ERRO", "Falha ao instanciar OrdemServiçoRequest");
+                                MetodosGerais.RegistrarLog("ERRO", "Falha ao instanciar ModeloOportunidadeRequest");
                             }
                             BoletoRelacao = new RelacaoBoletoCRMModel();
                             BoletoRelacao = BoletoRelacao.InstanciaDados(linha);
 
                             // tenta criar a oportunidade no CRM
                             OportunidadeResponse response = await EnviarBoletoParaCRM.CriarOportunidade(oportunidade, DadosAPI.Token, dalBoleto, BoletoRelacao);
-
+                            if (response is null)
+                            {
+                                MetodosGerais.RegistrarLog("ERRO", "Falha ao criar Oportunidade");
+                            }
                             // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
                             if (situacao == 2)
                             {

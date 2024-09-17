@@ -2,14 +2,6 @@
 using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Models;
 using Integrador_Com_CRM.Models.EF;
-using Microsoft.Web.WebView2.Core;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Integrador_Com_CRM.Metodos.Boleto
 {

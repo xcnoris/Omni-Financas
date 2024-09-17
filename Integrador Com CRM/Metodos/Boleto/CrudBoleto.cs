@@ -1,11 +1,6 @@
 ﻿using Integrador_Com_CRM.DataBase;
 using Integrador_Com_CRM.Models;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.Metodos.Boleto
 {

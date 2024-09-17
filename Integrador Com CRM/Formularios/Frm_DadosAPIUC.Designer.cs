@@ -36,15 +36,15 @@
             // 
             // Txt_Token
             // 
-            Txt_Token.Location = new Point(165, 123);
+            Txt_Token.Location = new Point(100, 57);
             Txt_Token.Name = "Txt_Token";
-            Txt_Token.Size = new Size(197, 23);
+            Txt_Token.Size = new Size(504, 23);
             Txt_Token.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(101, 126);
+            label1.Location = new Point(36, 60);
             label1.Name = "label1";
             label1.Size = new Size(38, 15);
             label1.TabIndex = 1;
@@ -54,12 +54,12 @@
             // 
             groupBox1.Controls.Add(Txt_Token);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(198, 43);
+            groupBox1.Location = new Point(102, 43);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(393, 321);
+            groupBox1.Size = new Size(645, 321);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
-            groupBox1.Text = "groupBox1";
+            groupBox1.Text = "Dados API";
             // 
             // Frm_DadosAPIUC
             // 

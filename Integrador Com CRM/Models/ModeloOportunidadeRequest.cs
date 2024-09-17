@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Integrador_Com_CRM.Models
 {
-    internal class OrdemServiçoRequest
+    internal class ModeloOportunidadeRequest
     {
         public string codigoApi { get; set; }
         public string codigoOportunidade { get; set; }
@@ -17,11 +12,11 @@ namespace Integrador_Com_CRM.Models
         public List<Followup> followups { get; set; }
 
 
-        internal  OrdemServiçoRequest CriarOportunidade(RetornoBoleto boleto)
+        internal  ModeloOportunidadeRequest CriarOportunidade(RetornoBoleto boleto)
         {
             string dataFormatada = boleto.Data_Vencimento.ToString("dd/MM/yyyy");
 
-            return new OrdemServiçoRequest 
+            return new ModeloOportunidadeRequest 
             {
 
                 codigoApi = "2482929491",  // Define o código da API

@@ -39,14 +39,13 @@
             Txt_Senha = new TextBox();
             Txt_Usuario = new TextBox();
             Txt_DataBase = new TextBox();
-            label6 = new Label();
             groupBox1 = new GroupBox();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // Btn_TestarConexao
             // 
-            Btn_TestarConexao.Location = new Point(621, 231);
+            Btn_TestarConexao.Location = new Point(163, 244);
             Btn_TestarConexao.Name = "Btn_TestarConexao";
             Btn_TestarConexao.Size = new Size(149, 23);
             Btn_TestarConexao.TabIndex = 0;
@@ -134,19 +133,11 @@
             Txt_DataBase.Size = new Size(202, 23);
             Txt_DataBase.TabIndex = 10;
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(401, 26);
-            label6.Name = "label6";
-            label6.Size = new Size(38, 15);
-            label6.TabIndex = 11;
-            label6.Text = "label6";
-            // 
             // groupBox1
             // 
             groupBox1.Controls.Add(Txt_Servidor);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(Btn_TestarConexao);
             groupBox1.Controls.Add(Txt_DataBase);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(Txt_Usuario);
@@ -155,12 +146,12 @@
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(Txt_IpHost);
             groupBox1.Controls.Add(label5);
-            groupBox1.Location = new Point(164, 80);
+            groupBox1.Location = new Point(215, 62);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(434, 309);
             groupBox1.TabIndex = 12;
             groupBox1.TabStop = false;
-            groupBox1.Text = "groupBox1";
+            groupBox1.Text = "Dados Conexão";
             // 
             // Frm_ConexaoUC
             // 
@@ -168,15 +159,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             Controls.Add(groupBox1);
-            Controls.Add(label6);
-            Controls.Add(Btn_TestarConexao);
             Name = "Frm_ConexaoUC";
             Size = new Size(829, 421);
             Load += Frm_ConexaoUC_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -192,7 +180,6 @@
         private TextBox Txt_Senha;
         private TextBox Txt_Usuario;
         private TextBox Txt_DataBase;
-        private Label label6;
         private GroupBox groupBox1;
     }
 }

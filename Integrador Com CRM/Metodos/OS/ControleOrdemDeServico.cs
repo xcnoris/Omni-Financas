@@ -59,7 +59,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                         MetodosGerais.RegistrarLog("OS", $"OS {id_ordemServico} não encontrada na tabela de relação.");
 
                         // Instancia a classe para a Ordem de Serviço que não foi encontrada na tabela Relacao_OrdemServico_CRM
-                        OrdemServiçoRequest oportunidade = new OrdemServiçoRequest
+                        ModeloOportunidadeRequest oportunidade = new ModeloOportunidadeRequest
                         {
                             codigoApi = "4B29E80B1A",
                             codigoOportunidade = "",

@@ -3,12 +3,6 @@ using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Metodos;
 using Integrador_Com_CRM.Metodos.Boleto;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.Models.EF
 {

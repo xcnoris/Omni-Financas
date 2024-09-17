@@ -15,7 +15,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
     {
 
 
-        public static async Task<OportunidadeResponse> CriarOportunidade(OrdemServiçoRequest request, string Token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel)
+        public static async Task<OportunidadeResponse> CriarOportunidade(ModeloOportunidadeRequest request, string Token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel)
         {
             using (HttpClient client = new HttpClient())
             {

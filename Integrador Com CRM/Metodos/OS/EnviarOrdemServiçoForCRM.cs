@@ -9,7 +9,7 @@ namespace Integrador_Com_CRM.Metodos.OS
 {
     internal class EnviarOrdemServiçoForCRM
     {
-        public static async Task<OportunidadeResponse> EnviarOportunidade(OrdemServiçoRequest request, string Token, RelacaoOrdemServicoModels TableRelacaoOS,DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        public static async Task<OportunidadeResponse> EnviarOportunidade(ModeloOportunidadeRequest request, string Token, RelacaoOrdemServicoModels TableRelacaoOS,DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {
             using (HttpClient client = new HttpClient())
             {
