@@ -21,6 +21,8 @@ namespace Integrador_Com_CRM.Models.EF
         public string Cod_Oportunidade { get; set; }
         public int Quitado { get; set; }
         public int DiasEmAtraso { get; set; }
+        public DateTime Data_Criacao { get; set; }
+        public DateTime Data_Atualizacao { get; set; }
 
 
         internal RelacaoBoletoCRMModel InstanciaDados(RetornoBoleto boleto)

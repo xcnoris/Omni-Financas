@@ -16,5 +16,6 @@ namespace Integrador_Com_CRM.Models.EF
         public DateTime? Data_Alteracao { get; set; }
 
 
+
     }
 }

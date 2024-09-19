@@ -26,6 +26,8 @@ namespace Integrador_Com_CRM.Data.Map
             builder.Property(x => x.Cod_Oportunidade).IsRequired();
             builder.Property(x => x.Quitado).IsRequired();
             builder.Property(x => x.DiasEmAtraso).IsRequired();
+            builder.Property(x => x.Data_Criacao).IsRequired();
+            builder.Property(x => x.Data_Atualizacao);
 
         }
     }
