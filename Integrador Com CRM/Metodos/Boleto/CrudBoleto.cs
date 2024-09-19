@@ -50,7 +50,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     AND 
 	                    DR.tem_boleto = 1
                     AND 
-	                    DR.id_documento_receber = 18026  
+	                    DR.id_documento_receber = 18029  
                 ";
 
                 // Converte o resultado do select em DataTable

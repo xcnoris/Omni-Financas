@@ -23,12 +23,14 @@ namespace Integrador_Com_CRM.Data
         public DbSet<RelacaoOrdemServicoModels> Relacao_OS_Com_CRM { get; set; }
         public DbSet<RelacaoBoletoCRMModel> RelacaoBoletoCRM { get; set; }
         public DbSet<CobrancasNaSegundaModel> Cobrancas_Na_Segunda_CRM { get; set; }
+        public DbSet<BoletoAcoesCRMModel> boletoAcoes_CRM { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());
             modelBuilder.ApplyConfiguration(new DadosAPIMap());
             modelBuilder.ApplyConfiguration(new RelacaoBoletoCRMMap());
             modelBuilder.ApplyConfiguration(new CobrancasSegundaMap());
+            modelBuilder.ApplyConfiguration(new BoletoAcaoCRM_Map());
 
         }
 

@@ -13,12 +13,14 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         private DAL<RelacaoBoletoCRMModel> dalBoleto;
         private readonly CrudBoleto _CrudBoleto;
         private readonly MetodosGeraisBoleto metodosGeraisBoleto;
+        private readonly Frm_BoletoAcoesCRM_UC FrmBoletoAcao;
 
-        public ControleBoletos( )
+        public ControleBoletos( Frm_BoletoAcoesCRM_UC BoletoAcoes)
         {
             dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
             _CrudBoleto = new CrudBoleto();
-            metodosGeraisBoleto = new MetodosGeraisBoleto();
+            FrmBoletoAcao = BoletoAcoes;
+            metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
         public async Task VerificarNovosBoletos(Frm_DadosAPIUC DadosAPI)
@@ -78,21 +80,21 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
                             if (situacao == 2)
                             {
-                                string cod_oportunidade = response.CodigoOportunidade.ToString();
-
-                                AtualizarAcaoRequest AtualizarAcao = new AtualizarAcaoRequest
-                                {
-                                    codigoOportunidade = cod_oportunidade,
-                                    codigoAcao = metodosGeraisBoleto.SelecionarCodAcao(1),
-                                    codigoJornada = codigoJornada,
-                                    textoFollowup = metodosGeraisBoleto.SelecionarMensagemAtualizacao(1)
-                                };
+                                //string cod_oportunidade = response.CodigoOportunidade.ToString(/*);*/
+                                //BoletoAcoesCRMModel boletoBuscado = FrmBoletoAcao.BuscarBoletoAcoes(-1);
+                                //AtualizarAcaoRequest AtualizarAcao = new AtualizarAcaoRequest
+                                //{
+                                //    codigoOportunidade = cod_oportunidade,
+                                //    codigoAcao = boletoBuscado.Codigo_Acao,
+                                //    codigoJornada = codigoJornada,
+                                //    textoFollowup = boletoBuscado.Mensagem_Atualizacao
+                                //};
 
                                 BoletoRelacao.Quitado = 1;
 
                                 // Atualize para a etapa pago no CRM, e atualiza no banco
                                 // Passa 1 no primeiro parametro para informar que esta quitado
-                                metodosGeraisBoleto.AtualizarAcaoNoCRM(1,  codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, true, false);
+                                metodosGeraisBoleto.AtualizarAcaoNoCRM(-1,  codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, true, false);
                             }
 
                             //MetodosGerais.RegistrarLog("BOLETO", $"Oportunidade criada para o doc a receber {id_DocReceber}: {response.} ");
@@ -120,7 +122,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                     if (DiasEmAtrasoBoleto != 3)
                                     {
                                         MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
-                                        metodosGeraisBoleto.AtualizarAcaoNoCRM(3, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, false, true);
+                                        metodosGeraisBoleto.AtualizarAcaoNoCRM(-2, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, false, true);
                                     }
                                 }
                                 else
@@ -136,7 +138,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                         // Caso seja 1, significa que esse boleto já esta atualizado no CRM e no DB
                                         if (BoletoRelacao.Quitado == 0)
                                         {
-                                            metodosGeraisBoleto.AtualizarAcaoNoCRM(1, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, true, true);
+                                            metodosGeraisBoleto.AtualizarAcaoNoCRM(-1, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, true, true);
                                         }
                                     }
                                     else

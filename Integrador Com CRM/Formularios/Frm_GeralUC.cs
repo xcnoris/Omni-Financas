@@ -11,15 +11,15 @@ namespace Integrador_Com_CRM.Formularios
         private readonly ControleBoletos controlBoletos;
         private readonly CobrancasNaSegundaModel cobrancas;
         private readonly Frm_DadosAPIUC DadosAPI;
-
-        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_DadosAPIUC dadosAPI)
+        private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
+        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_DadosAPIUC dadosAPI, Frm_BoletoAcoesCRM_UC BoletosAcoes)
         {
             InitializeComponent();
 
             controlOrdemServico = controlOS;
-            controlBoletos = new ControleBoletos();
-            cobrancas = new CobrancasNaSegundaModel();
-
+            BoletoAcoes = BoletosAcoes;
+            controlBoletos = new ControleBoletos(BoletoAcoes);
+            cobrancas = new CobrancasNaSegundaModel(BoletoAcoes);
             this.DadosAPI = dadosAPI;
         }
 

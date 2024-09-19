@@ -21,6 +21,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_GeralUC FrmGeralUC;
         private readonly Frm_ConexaoUC FrmConexaoUC;
         private readonly Frm_DadosAPIUC FrmDadosAPIUUC;
+        private readonly Frm_BoletoAcoesCRM_UC BoletoAcoesCRM;
 
         private readonly IntegradorDBContext context;
         private readonly ControleOrdemDeServico ControlOS;
@@ -33,15 +34,17 @@ namespace Integrador_Com_CRM
         {
             InitializeComponent();
 
+            BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
+
             context =new IntegradorDBContext();
             ControlOS = new ControleOrdemDeServico();
-            ControlBoleto = new ControleBoletos();
+            ControlBoleto = new ControleBoletos(BoletoAcoesCRM);
 
             //Instanciando Variaveis dos Formularios
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
-            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC);
-            cobrancas = new CobrancasNaSegundaModel();
+            cobrancas = new CobrancasNaSegundaModel(BoletoAcoesCRM);
+            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC, BoletoAcoesCRM);
 
 
             AdicionarUserontrols();
@@ -100,6 +103,7 @@ namespace Integrador_Com_CRM
             SetDailyTimerSegunda();
         }
 
+
         private void SetDailyTimer()
         {
             DateTime now = DateTime.Now;
@@ -141,6 +145,7 @@ namespace Integrador_Com_CRM
         {
             FrmGeralUC.Dock = DockStyle.Fill;
             FrmConexaoUC.Dock = DockStyle.Fill;
+            BoletoAcoesCRM.Dock = DockStyle.Fill;
 
             TabPage TB1 = new TabPage
             {
@@ -163,6 +168,13 @@ namespace Integrador_Com_CRM
             };
             TB3.Controls.Add(FrmDadosAPIUUC);
 
+            TabPage TB4 = new TabPage
+            {
+                Name = "Ações Boleto API",
+                Text = "Ações Boleto API"
+            };
+            TB4.Controls.Add(BoletoAcoesCRM);
+
 
 
 
@@ -170,7 +182,7 @@ namespace Integrador_Com_CRM
             TBC_Dados.TabPages.Add(TB1);
             TBC_Dados.TabPages.Add(TB2);
             TBC_Dados.TabPages.Add(TB3);
-
+            TBC_Dados.TabPages.Add(TB4);
         }
 
         private void Btn_Sair_Click(object sender, EventArgs e)
@@ -217,7 +229,7 @@ namespace Integrador_Com_CRM
             }
         }
 
-        private async Task SalvarDados()
+        private async void SalvarDados()
         {
             try
             {

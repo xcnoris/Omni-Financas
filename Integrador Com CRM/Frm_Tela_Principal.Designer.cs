@@ -41,12 +41,12 @@
             TBC_Dados.Location = new Point(0, 0);
             TBC_Dados.Name = "TBC_Dados";
             TBC_Dados.SelectedIndex = 0;
-            TBC_Dados.Size = new Size(834, 425);
+            TBC_Dados.Size = new Size(834, 446);
             TBC_Dados.TabIndex = 0;
             // 
             // Btn_Salvar
             // 
-            Btn_Salvar.Location = new Point(280, 442);
+            Btn_Salvar.Location = new Point(300, 452);
             Btn_Salvar.Name = "Btn_Salvar";
             Btn_Salvar.Size = new Size(113, 33);
             Btn_Salvar.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             // Btn_Sair
             // 
-            Btn_Sair.Location = new Point(457, 442);
+            Btn_Sair.Location = new Point(428, 452);
             Btn_Sair.Name = "Btn_Sair";
             Btn_Sair.Size = new Size(113, 33);
             Btn_Sair.TabIndex = 2;
@@ -74,6 +74,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(834, 487);
             Controls.Add(Btn_Sair);
             Controls.Add(Btn_Salvar);

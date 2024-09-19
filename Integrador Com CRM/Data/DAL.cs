@@ -62,9 +62,11 @@ namespace Integrador_Com_CRM.Data
                 await context.Set<T>().AddAsync(objeto);
                 await context.SaveChangesAsync();
             }
-            catch (Exception Exception)
+            catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+
+                MetodosGerais.RegistrarLog("Conexao", ex.Message);
+                throw;
             }
         }
 

@@ -4,6 +4,7 @@ using Integrador_Com_CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Integrador_Com_CRM.Migrations
 {
     [DbContext(typeof(IntegradorDBContext))]
-    partial class IntegradorDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240919140810_AddTBAcoesBoletoInCRM")]
+    partial class AddTBAcoesBoletoInCRM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,11 +40,6 @@ namespace Integrador_Com_CRM.Migrations
                     b.Property<int>("Dias_Cobrancas")
                         .HasMaxLength(300)
                         .HasColumnType("int");
-
-                    b.Property<string>("Mensagem_Atualizacao")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
 

@@ -11,6 +11,7 @@ namespace Integrador_Com_CRM.Models.EF
         internal DAL<RelacaoBoletoCRMModel> dalRelBoleto;
         internal DAL<CobrancasNaSegundaModel> dalCobrancas;
         private MetodosGeraisBoleto metodosBoleto;
+        private readonly Frm_BoletoAcoesCRM_UC FrmBoletoAcao;
 
         public int Id { get; set; }
         public string CodigoJornada { get; set; }
@@ -19,23 +20,29 @@ namespace Integrador_Com_CRM.Models.EF
         public int NovoAtrasoBoleto { get; set; }
 
 
-        public CobrancasNaSegundaModel(string codigoJornada, RelacaoBoletoCRMModel boletoRelacao)
+        public CobrancasNaSegundaModel(string codigoJornada, RelacaoBoletoCRMModel boletoRelacao, Frm_BoletoAcoesCRM_UC FrmBoleto)
         {
             dalCobrancas = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
 
             dalRelBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-            metodosBoleto = new MetodosGeraisBoleto();
+            FrmBoletoAcao = FrmBoleto;
+            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
 
             CodigoJornada = codigoJornada; 
             BoletoId = boletoRelacao.Id;
             NovoAtrasoBoleto = boletoRelacao.DiasEmAtraso;
         }
 
-        public CobrancasNaSegundaModel()
+        public CobrancasNaSegundaModel( Frm_BoletoAcoesCRM_UC FrmBoleto)
         {
             dalCobrancas = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
             dalRelBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-            metodosBoleto = new MetodosGeraisBoleto();
+            FrmBoletoAcao = FrmBoleto;
+            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
+        }
+        public CobrancasNaSegundaModel()
+        {
+            dalCobrancas = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
         }
 
         internal void SalvarDadosEmTableEspera()
@@ -115,12 +122,15 @@ namespace Integrador_Com_CRM.Models.EF
         {
             try
             {
-                List<CobrancasNaSegundaModel> cobracaList = (await dalCobrancas.RecuperarTodosPorAsync(x => x.BoletoId == boletoID) ?? Enumerable.Empty<CobrancasNaSegundaModel>()).ToList();
-
-                foreach (CobrancasNaSegundaModel cobranca in cobracaList)
+                List<CobrancasNaSegundaModel> cobracaList = (await dalCobrancas.RecuperarTodosPorAsync(x => x.BoletoId == boletoID)).ToList();
+                if (cobracaList is not null)
                 {
-                    await dalCobrancas.DeletarAsync(cobranca);      
+                    foreach (CobrancasNaSegundaModel cobranca in cobracaList)
+                    {
+                        await dalCobrancas.DeletarAsync(cobranca);
+                    }
                 }
+              
             }
             catch (SqlException ex)
             {
