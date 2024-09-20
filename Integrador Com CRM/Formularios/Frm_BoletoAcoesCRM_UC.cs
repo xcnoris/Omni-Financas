@@ -1,18 +1,8 @@
 ﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.DataBase;
 using Integrador_Com_CRM.Metodos;
 using Integrador_Com_CRM.Models.EF;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -128,14 +118,22 @@ namespace Integrador_Com_CRM.Formularios
                 bool verificar = VerificaCamposNulos();
                 if (verificar)
                 {
-                    BoletoAcoesCRMModel boleto = new BoletoAcoesCRMModel() { Dias_Cobrancas = Convert.ToInt32(Txt_DiasCobrancas.Text), Codigo_Acao = Txt_CodAcao.Text, Mensagem_Atualizacao = Txt_Mensagem.Text };
-                    AddAcaoToDataGridView(boleto);
-                    BoletoAcaoList.Add(boleto);
-                    LimparTXT();
+                    if (VerificaValoresRepetidos())
+                    {
+                        BoletoAcoesCRMModel boleto = new BoletoAcoesCRMModel() { Dias_Cobrancas = Convert.ToInt32(Txt_DiasCobrancas.Text), Codigo_Acao = Txt_CodAcao.Text, Mensagem_Atualizacao = Txt_Mensagem.Text, Data_Criacao = DateTime.Now };
+                        AddAcaoToDataGridView(boleto);
+                        BoletoAcaoList.Add(boleto);
+                        LimparTXT();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Valores Repetidos De Dias de Cobranças não são permitidos!", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
                 }
                 else
                 {
-                    MessageBox.Show($"Todos os Campos devem ser preenchidos!", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Todos os Campos devem ser preenchidos!", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
             catch (SqlException ex)
@@ -172,6 +170,28 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
+        private bool VerificaValoresRepetidos()
+        {
+            try
+            {
+                BoletoAcoesCRMModel BAM = BoletoAcaoList.FirstOrDefault(x =>x.Dias_Cobrancas == Convert.ToInt32(Txt_DiasCobrancas.Text));
+                if (BAM is null) 
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (ValidationException ex)
+            {
+                MessageBox.Show($" {ex.Message}", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
+                return false;
+            }
+        }
+
         // Recebe um object e convert para uma linha do DataGridView
         private void AddAcaoToDataGridView(BoletoAcoesCRMModel BoletoAcao)
         {
@@ -198,6 +218,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
+
                 foreach (DataGridViewRow row in DGV_Dados.Rows)
                 {
 
@@ -206,6 +227,7 @@ namespace Integrador_Com_CRM.Formularios
                     int? id = idValue != null ? Convert.ToInt32(idValue) : (int?)null;
 
                     // Obter os dados da linha
+                    
                     int diasCobrancas = Convert.ToInt32(row.Cells["Dia_Cobranca"].Value);
                     string codigoAcao = row.Cells["Codigo_Acao"].Value.ToString();
                     string Mensagem = row.Cells["Mensagem"].Value.ToString();
@@ -216,7 +238,8 @@ namespace Integrador_Com_CRM.Formularios
                         Id = id ?? 0,  // Se o ID for nulo, inicialize com 0 para um novo registro
                         Dias_Cobrancas = diasCobrancas,
                         Codigo_Acao = codigoAcao,
-                        Mensagem_Atualizacao = Mensagem
+                        Mensagem_Atualizacao = Mensagem,
+                      
                     };
 
                     if (id.HasValue && id.Value > 0)
@@ -235,6 +258,7 @@ namespace Integrador_Com_CRM.Formularios
                         else
                         {
                             // Se o registro não existe, adiciona um novo
+                            boletoAcao.Data_Criacao = id.HasValue && id.Value > 0 ? registroExistente.Data_Criacao : DateTime.Now;
                             await dalBoletoAcoes.AdicionarAsync(boletoAcao);
                         }
                     }
@@ -246,6 +270,8 @@ namespace Integrador_Com_CRM.Formularios
                 }
 
                 MessageBox.Show("Dados salvos com sucesso!", "App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+
             }
             catch (ValidationException ex)
             {
@@ -258,6 +284,71 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
+        private bool ValidarDiasCobrancasInDGV()
+        {
+            try
+            {
+                // Dicionário para rastrear valores únicos de Dia_Cobranca
+                HashSet<int> diasCobrancaUnicos = new HashSet<int>();
+
+                foreach (DataGridViewRow row in DGV_Dados.Rows)
+                {
+                    // Obter o valor de Dia_Cobranca da linha
+                    var diaCobrancaValue = row.Cells["Dia_Cobranca"].Value;
+                    if (diaCobrancaValue != null)
+                    {
+                        int diaCobranca = Convert.ToInt32(diaCobrancaValue);
+
+                        // Verifica se já existe o valor de Dia_Cobranca
+                        if (diasCobrancaUnicos.Contains(diaCobranca))
+                        {
+                            MessageBox.Show($"O valor do Dia de Cobrança '{diaCobranca}' está duplicado! Por favor, verifique.", "Erro de Validação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false; // Para a execução se houver duplicatas
+                        }
+
+                        // Adiciona o valor ao HashSet se for único
+                        diasCobrancaUnicos.Add(diaCobranca);
+                    }
+                }
+
+                // Retorna verdadeiro se todos os valores forem válidos
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($" {ex.Message}", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
+                return false;
+            }
+        }
+
+        private bool ValidarCamposNulos()
+        {
+            try
+            {
+                foreach (DataGridViewRow row in DGV_Dados.Rows)
+                {
+                    string codigoAcao = row.Cells["Codigo_Acao"].Value.ToString();
+                    string Mensagem = row.Cells["Mensagem"].Value.ToString();
+                    if ((row.Cells["Dia_Cobranca"].Value) is not null)
+                    {
+                        if (string.IsNullOrWhiteSpace(row.Cells["Dia_Cobranca"].Value.ToString()))
+                        {
+                            return false;
+                        }
+                    }
+                    
+                }
+
+                // Retorna verdadeiro se todos os valores forem válidos
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
+                return false;
+            }
+        }
         private async Task CarregarDados()
         {
             try

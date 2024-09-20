@@ -4,6 +4,7 @@ using Integrador_Com_CRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Integrador_Com_CRM.Migrations
 {
     [DbContext(typeof(IntegradorDBContext))]
-    partial class IntegradorDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240919234135_AddTBOSACAO")]
+    partial class AddTBOSACAO
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +50,8 @@ namespace Integrador_Com_CRM.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Dias_Cobrancas");
 
                     b.ToTable("boletoAcoes_CRM");
                 });
@@ -119,6 +124,8 @@ namespace Integrador_Com_CRM.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdCategoria");
 
                     b.ToTable("OSAcao_CRM");
                 });

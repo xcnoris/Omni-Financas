@@ -6,7 +6,6 @@ using Integrador_Com_CRM.Metodos;
 using Integrador_Com_CRM.Metodos.Boleto;
 using Integrador_Com_CRM.Metodos.OS;
 using Integrador_Com_CRM.Models.EF;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 
 namespace Integrador_Com_CRM
 {
@@ -22,6 +21,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_ConexaoUC FrmConexaoUC;
         private readonly Frm_DadosAPIUC FrmDadosAPIUUC;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoesCRM;
+        private readonly Frm_OSAcoesCRM_UC FrmOSAcao;
 
         private readonly IntegradorDBContext context;
         private readonly ControleOrdemDeServico ControlOS;
@@ -35,6 +35,7 @@ namespace Integrador_Com_CRM
             InitializeComponent();
 
             BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
+            FrmOSAcao = new Frm_OSAcoesCRM_UC();
 
             context =new IntegradorDBContext();
             ControlOS = new ControleOrdemDeServico();
@@ -44,6 +45,7 @@ namespace Integrador_Com_CRM
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
             cobrancas = new CobrancasNaSegundaModel(BoletoAcoesCRM);
+
             FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC, BoletoAcoesCRM);
 
 
@@ -146,6 +148,7 @@ namespace Integrador_Com_CRM
             FrmGeralUC.Dock = DockStyle.Fill;
             FrmConexaoUC.Dock = DockStyle.Fill;
             BoletoAcoesCRM.Dock = DockStyle.Fill;
+            FrmOSAcao.Dock = DockStyle .Fill;
 
             TabPage TB1 = new TabPage
             {
@@ -176,6 +179,12 @@ namespace Integrador_Com_CRM
             TB4.Controls.Add(BoletoAcoesCRM);
 
 
+            TabPage TB5 = new TabPage
+            {
+                Name = "Ações Ordem de Serviço API",
+                Text = "Ações Ordem de Serviço API"
+            };
+            TB5.Controls.Add(FrmOSAcao);
 
 
 
@@ -183,6 +192,7 @@ namespace Integrador_Com_CRM
             TBC_Dados.TabPages.Add(TB2);
             TBC_Dados.TabPages.Add(TB3);
             TBC_Dados.TabPages.Add(TB4);
+            TBC_Dados.TabPages.Add(TB5);
         }
 
         private void Btn_Sair_Click(object sender, EventArgs e)

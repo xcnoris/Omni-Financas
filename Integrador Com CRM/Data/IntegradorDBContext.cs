@@ -24,6 +24,7 @@ namespace Integrador_Com_CRM.Data
         public DbSet<RelacaoBoletoCRMModel> RelacaoBoletoCRM { get; set; }
         public DbSet<CobrancasNaSegundaModel> Cobrancas_Na_Segunda_CRM { get; set; }
         public DbSet<BoletoAcoesCRMModel> boletoAcoes_CRM { get; set; }
+        public DbSet<OSAcoesCRMModel> OSAcao_CRM { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());
@@ -31,6 +32,7 @@ namespace Integrador_Com_CRM.Data
             modelBuilder.ApplyConfiguration(new RelacaoBoletoCRMMap());
             modelBuilder.ApplyConfiguration(new CobrancasSegundaMap());
             modelBuilder.ApplyConfiguration(new BoletoAcaoCRM_Map());
+            modelBuilder.ApplyConfiguration(new OSAcaoMap());
 
         }
 
