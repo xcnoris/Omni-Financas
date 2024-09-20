@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Integrador_Com_CRM.Models.EF
 {
-    internal class RelacaoOrdemServicoModels
+    public class RelacaoOrdemServicoModels
     {
         public int Id { get; set; }
         public int Id_OrdemServico { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Integrador_Com_CRM.Metodos
 {
-    internal class MetodosGerais
+    public class MetodosGerais
     {
         private static readonly string LogDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
 

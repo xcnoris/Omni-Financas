@@ -6,7 +6,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Integrador_Com_CRM.Models.EF
 {
-    internal class CobrancasNaSegundaModel
+    public class CobrancasNaSegundaModel
     {
         internal DAL<RelacaoBoletoCRMModel> dalRelBoleto;
         internal DAL<CobrancasNaSegundaModel> dalCobrancas;

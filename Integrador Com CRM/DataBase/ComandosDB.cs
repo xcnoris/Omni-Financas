@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.DataBase
 {
-    internal class ComandosDB
+    public class ComandosDB
     {
         private ConexaoDB _conexaoDB;
         public string Mensagem;

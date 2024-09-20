@@ -5,7 +5,7 @@ using Integrador_Com_CRM.Metodos;
 
 namespace Integrador_Com_CRM.DataBase
 {
-    internal class ConexaoDB
+    public class ConexaoDB
     {
         private SqlConnection _connection;
 

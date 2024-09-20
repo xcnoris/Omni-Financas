@@ -8,9 +8,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Integrador_Com_CRM.Data
 {
-    internal class IntegradorDBContext : DbContext
+    public class IntegradorDBContext : DbContext
     {
         private readonly string _connectionString;
+
+        // Construtor que aceita DbContextOptions
+        public IntegradorDBContext(DbContextOptions<IntegradorDBContext> options)
+            : base(options)
+        {
+        }
 
         public IntegradorDBContext()
         {
