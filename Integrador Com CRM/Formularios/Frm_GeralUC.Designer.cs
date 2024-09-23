@@ -67,9 +67,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(Btn_RealizarCobrancas);
             Controls.Add(Btn_BuscarOS);
             Controls.Add(Btn_BuscarBoletos);
+            DoubleBuffered = true;
             Name = "Frm_GeralUC";
             Size = new Size(829, 421);
             ResumeLayout(false);

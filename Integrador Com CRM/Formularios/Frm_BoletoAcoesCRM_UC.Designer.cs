@@ -28,19 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_BoletoAcoesCRM_UC));
             DGV_Dados = new DataGridView();
             label1 = new Label();
-            Btn_Add = new Button();
             groupBox1 = new GroupBox();
+            Btn_Add = new ComponentesPerson.BotaoArredond(components);
             Txt_Mensagem = new TextBox();
             label5 = new Label();
             Txt_CodAcao = new TextBox();
             label3 = new Label();
             Txt_DiasCobrancas = new TextBox();
             label2 = new Label();
-            Btn_Remover = new Button();
-            Btn_Salvar = new Button();
             label4 = new Label();
+            Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
+            Btn_Remover = new ComponentesPerson.BotaoArredond(components);
+            flecha1 = new ComponentesPerson.Flecha();
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -59,41 +62,44 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.FromArgb(128, 128, 255);
+            label1.ForeColor = Color.Navy;
             label1.Location = new Point(161, 12);
             label1.Name = "label1";
             label1.Size = new Size(498, 30);
             label1.TabIndex = 1;
             label1.Text = "Defina as datas de cobranças e codigos das Ações";
             // 
-            // Btn_Add
-            // 
-            Btn_Add.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_Add.ForeColor = SystemColors.ActiveCaptionText;
-            Btn_Add.Location = new Point(687, 40);
-            Btn_Add.Name = "Btn_Add";
-            Btn_Add.Size = new Size(97, 32);
-            Btn_Add.TabIndex = 2;
-            Btn_Add.Text = "Adicionar";
-            Btn_Add.UseVisualStyleBackColor = true;
-            Btn_Add.Click += Btn_Add_Click;
-            // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(Btn_Add);
             groupBox1.Controls.Add(Txt_Mensagem);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(Txt_CodAcao);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(Txt_DiasCobrancas);
             groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(Btn_Add);
-            groupBox1.ForeColor = SystemColors.ActiveCaption;
+            groupBox1.ForeColor = SystemColors.HotTrack;
             groupBox1.Location = new Point(21, 45);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(790, 82);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Adicionar Dados";
+            // 
+            // Btn_Add
+            // 
+            Btn_Add.BackColor = Color.DodgerBlue;
+            Btn_Add.FlatAppearance.BorderColor = Color.Black;
+            Btn_Add.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Add.ForeColor = SystemColors.ButtonFace;
+            Btn_Add.Location = new Point(675, 39);
+            Btn_Add.Name = "Btn_Add";
+            Btn_Add.RaioCanto = 20;
+            Btn_Add.Size = new Size(97, 32);
+            Btn_Add.TabIndex = 12;
+            Btn_Add.Text = "Adicionar";
+            Btn_Add.UseVisualStyleBackColor = false;
+            Btn_Add.Click += Btn_Add_Click;
             // 
             // Txt_Mensagem
             // 
@@ -133,7 +139,7 @@
             // 
             // Txt_DiasCobrancas
             // 
-            Txt_DiasCobrancas.Location = new Point(107, 23);
+            Txt_DiasCobrancas.Location = new Point(107, 19);
             Txt_DiasCobrancas.MaxLength = 10;
             Txt_DiasCobrancas.Name = "Txt_DiasCobrancas";
             Txt_DiasCobrancas.Size = new Size(114, 23);
@@ -144,58 +150,76 @@
             // 
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.ActiveCaptionText;
-            label2.Location = new Point(13, 30);
+            label2.Location = new Point(13, 22);
             label2.Name = "label2";
             label2.Size = new Size(91, 15);
             label2.TabIndex = 6;
             label2.Text = "Dias Cobranças:";
             // 
-            // Btn_Remover
+            // label4
             // 
-            Btn_Remover.BackColor = Color.Red;
-            Btn_Remover.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_Remover.Location = new Point(736, 391);
-            Btn_Remover.Name = "Btn_Remover";
-            Btn_Remover.Size = new Size(75, 23);
-            Btn_Remover.TabIndex = 7;
-            Btn_Remover.Text = "Remover";
-            Btn_Remover.UseVisualStyleBackColor = false;
-            Btn_Remover.Click += Btn_Remover_Click;
+            label4.AutoSize = true;
+            label4.BackColor = Color.Transparent;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.ForeColor = Color.ForestGreen;
+            label4.Location = new Point(179, 397);
+            label4.Name = "label4";
+            label4.Size = new Size(186, 21);
+            label4.TabIndex = 9;
+            label4.Text = " Não Esqueça de Salvar";
             // 
             // Btn_Salvar
             // 
-            Btn_Salvar.BackColor = Color.LimeGreen;
-            Btn_Salvar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Btn_Salvar.Location = new Point(21, 391);
+            Btn_Salvar.BackColor = Color.Lime;
+            Btn_Salvar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Salvar.ForeColor = SystemColors.ControlText;
+            Btn_Salvar.Location = new Point(34, 391);
             Btn_Salvar.Name = "Btn_Salvar";
+            Btn_Salvar.RaioCanto = 20;
             Btn_Salvar.Size = new Size(75, 27);
-            Btn_Salvar.TabIndex = 8;
+            Btn_Salvar.TabIndex = 10;
             Btn_Salvar.Text = "Salvar";
             Btn_Salvar.UseVisualStyleBackColor = false;
             Btn_Salvar.Click += Btn_Salvar_Click;
             // 
-            // label4
+            // Btn_Remover
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.ForeColor = Color.Yellow;
-            label4.Location = new Point(119, 391);
-            label4.Name = "label4";
-            label4.Size = new Size(227, 21);
-            label4.TabIndex = 9;
-            label4.Text = "<--  Não Esqueça de Salvar :)";
+            Btn_Remover.BackColor = Color.Red;
+            Btn_Remover.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Remover.ForeColor = SystemColors.ControlText;
+            Btn_Remover.Location = new Point(718, 391);
+            Btn_Remover.Name = "Btn_Remover";
+            Btn_Remover.RaioCanto = 20;
+            Btn_Remover.Size = new Size(75, 27);
+            Btn_Remover.TabIndex = 11;
+            Btn_Remover.Text = "Remover";
+            Btn_Remover.UseVisualStyleBackColor = false;
+            Btn_Remover.Click += Btn_Remover_Click;
+            // 
+            // flecha1
+            // 
+            flecha1.Direcao = ComponentesPerson.Flecha.FlechaDirecao.Esquerda;
+            flecha1.Location = new Point(119, 392);
+            flecha1.Name = "flecha1";
+            flecha1.Size = new Size(54, 26);
+            flecha1.TabIndex = 12;
+            flecha1.Text = "flecha1";
             // 
             // Frm_BoletoAcoesCRM_UC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.DimGray;
-            Controls.Add(label4);
-            Controls.Add(Btn_Salvar);
+            BackColor = Color.White;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(flecha1);
             Controls.Add(Btn_Remover);
+            Controls.Add(Btn_Salvar);
+            Controls.Add(label4);
             Controls.Add(groupBox1);
             Controls.Add(label1);
             Controls.Add(DGV_Dados);
+            DoubleBuffered = true;
             Name = "Frm_BoletoAcoesCRM_UC";
             Size = new Size(829, 421);
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).EndInit();
@@ -209,16 +233,17 @@
 
         private DataGridView DGV_Dados;
         private Label label1;
-        private Button Btn_Add;
         private GroupBox groupBox1;
         private TextBox Txt_CodAcao;
         private Label label3;
         private TextBox Txt_DiasCobrancas;
         private Label label2;
-        private Button Btn_Remover;
-        private Button Btn_Salvar;
         private Label label4;
         private TextBox Txt_Mensagem;
         private Label label5;
+        private ComponentesPerson.BotaoArredond Btn_Add;
+        private ComponentesPerson.BotaoArredond Btn_Salvar;
+        private ComponentesPerson.BotaoArredond Btn_Remover;
+        private ComponentesPerson.Flecha flecha1;
     }
 }
