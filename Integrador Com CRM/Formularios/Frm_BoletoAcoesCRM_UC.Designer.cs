@@ -64,7 +64,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Navy;
+            label1.ForeColor = Color.MediumSlateBlue;
             label1.Location = new Point(161, 12);
             label1.Name = "label1";
             label1.Size = new Size(498, 30);
@@ -166,7 +166,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.ForestGreen;
-            label4.Location = new Point(354, 393);
+            label4.Location = new Point(381, 390);
             label4.Name = "label4";
             label4.Size = new Size(186, 21);
             label4.TabIndex = 9;
@@ -176,11 +176,11 @@
             // 
             Btn_Salvar.BackColor = Color.PaleGreen;
             Btn_Salvar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Salvar.ForeColor = Color.Black;
-            Btn_Salvar.Location = new Point(637, 391);
+            Btn_Salvar.ForeColor = SystemColors.MenuText;
+            Btn_Salvar.Location = new Point(655, 391);
             Btn_Salvar.Name = "Btn_Salvar";
             Btn_Salvar.RaioCanto = 20;
-            Btn_Salvar.Size = new Size(75, 27);
+            Btn_Salvar.Size = new Size(75, 23);
             Btn_Salvar.TabIndex = 10;
             Btn_Salvar.Text = "Salvar";
             Btn_Salvar.UseVisualStyleBackColor = false;
@@ -190,11 +190,11 @@
             // 
             Btn_Remover.BackColor = Color.Tomato;
             Btn_Remover.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Remover.ForeColor = Color.Black;
-            Btn_Remover.Location = new Point(718, 391);
+            Btn_Remover.ForeColor = Color.White;
+            Btn_Remover.Location = new Point(736, 391);
             Btn_Remover.Name = "Btn_Remover";
             Btn_Remover.RaioCanto = 20;
-            Btn_Remover.Size = new Size(75, 27);
+            Btn_Remover.Size = new Size(75, 23);
             Btn_Remover.TabIndex = 11;
             Btn_Remover.Text = "Remover";
             Btn_Remover.UseVisualStyleBackColor = false;
@@ -203,9 +203,9 @@
             // flecha2
             // 
             flecha2.Direcao = ComponentesPerson.Flecha.FlechaDirecao.Direita;
-            flecha2.Location = new Point(546, 397);
+            flecha2.Location = new Point(573, 391);
             flecha2.Name = "flecha2";
-            flecha2.Size = new Size(75, 17);
+            flecha2.Size = new Size(50, 22);
             flecha2.TabIndex = 12;
             flecha2.Text = "flecha2";
             // 
