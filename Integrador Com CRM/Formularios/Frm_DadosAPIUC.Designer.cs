@@ -36,7 +36,7 @@
             // 
             // Txt_Token
             // 
-            Txt_Token.Location = new Point(100, 57);
+            Txt_Token.Location = new Point(56, 34);
             Txt_Token.Name = "Txt_Token";
             Txt_Token.Size = new Size(504, 23);
             Txt_Token.TabIndex = 0;
@@ -44,19 +44,22 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(36, 60);
+            label1.ForeColor = SystemColors.Desktop;
+            label1.Location = new Point(12, 37);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(41, 15);
             label1.TabIndex = 1;
-            label1.Text = "Token";
+            label1.Text = "Token:";
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(Txt_Token);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(102, 43);
+            groupBox1.ForeColor = SystemColors.HotTrack;
+            groupBox1.Location = new Point(134, 149);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(645, 321);
+            groupBox1.Size = new Size(566, 76);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Dados API";
@@ -65,7 +68,10 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
+            DoubleBuffered = true;
             Name = "Frm_DadosAPIUC";
             Size = new Size(829, 421);
             Load += Frm_DadosAPIUC_Load;
