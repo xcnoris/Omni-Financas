@@ -43,7 +43,7 @@
             label4 = new Label();
             Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
             Btn_Remover = new ComponentesPerson.BotaoArredond(components);
-            flecha1 = new ComponentesPerson.Flecha();
+            flecha2 = new ComponentesPerson.Flecha();
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -52,6 +52,7 @@
             // 
             DGV_Dados.AllowUserToAddRows = false;
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DGV_Dados.BackgroundColor = SystemColors.ControlLightLight;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DGV_Dados.Location = new Point(21, 133);
             DGV_Dados.Name = "DGV_Dados";
@@ -61,6 +62,7 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Navy;
             label1.Location = new Point(161, 12);
@@ -71,6 +73,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(Btn_Add);
             groupBox1.Controls.Add(Txt_Mensagem);
             groupBox1.Controls.Add(label5);
@@ -88,7 +91,7 @@
             // 
             // Btn_Add
             // 
-            Btn_Add.BackColor = Color.DodgerBlue;
+            Btn_Add.BackColor = Color.MediumPurple;
             Btn_Add.FlatAppearance.BorderColor = Color.Black;
             Btn_Add.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             Btn_Add.ForeColor = SystemColors.ButtonFace;
@@ -162,7 +165,7 @@
             label4.BackColor = Color.Transparent;
             label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.ForestGreen;
-            label4.Location = new Point(179, 397);
+            label4.Location = new Point(354, 393);
             label4.Name = "label4";
             label4.Size = new Size(186, 21);
             label4.TabIndex = 9;
@@ -170,10 +173,10 @@
             // 
             // Btn_Salvar
             // 
-            Btn_Salvar.BackColor = Color.Lime;
+            Btn_Salvar.BackColor = Color.PaleGreen;
             Btn_Salvar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Salvar.ForeColor = SystemColors.ControlText;
-            Btn_Salvar.Location = new Point(34, 391);
+            Btn_Salvar.ForeColor = Color.Black;
+            Btn_Salvar.Location = new Point(637, 391);
             Btn_Salvar.Name = "Btn_Salvar";
             Btn_Salvar.RaioCanto = 20;
             Btn_Salvar.Size = new Size(75, 27);
@@ -184,9 +187,9 @@
             // 
             // Btn_Remover
             // 
-            Btn_Remover.BackColor = Color.Red;
+            Btn_Remover.BackColor = Color.Tomato;
             Btn_Remover.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Remover.ForeColor = SystemColors.ControlText;
+            Btn_Remover.ForeColor = Color.Black;
             Btn_Remover.Location = new Point(718, 391);
             Btn_Remover.Name = "Btn_Remover";
             Btn_Remover.RaioCanto = 20;
@@ -196,14 +199,14 @@
             Btn_Remover.UseVisualStyleBackColor = false;
             Btn_Remover.Click += Btn_Remover_Click;
             // 
-            // flecha1
+            // flecha2
             // 
-            flecha1.Direcao = ComponentesPerson.Flecha.FlechaDirecao.Esquerda;
-            flecha1.Location = new Point(119, 392);
-            flecha1.Name = "flecha1";
-            flecha1.Size = new Size(54, 26);
-            flecha1.TabIndex = 12;
-            flecha1.Text = "flecha1";
+            flecha2.Direcao = ComponentesPerson.Flecha.FlechaDirecao.Direita;
+            flecha2.Location = new Point(546, 397);
+            flecha2.Name = "flecha2";
+            flecha2.Size = new Size(75, 17);
+            flecha2.TabIndex = 12;
+            flecha2.Text = "flecha2";
             // 
             // Frm_BoletoAcoesCRM_UC
             // 
@@ -212,7 +215,7 @@
             BackColor = Color.White;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            Controls.Add(flecha1);
+            Controls.Add(flecha2);
             Controls.Add(Btn_Remover);
             Controls.Add(Btn_Salvar);
             Controls.Add(label4);
@@ -245,5 +248,6 @@
         private ComponentesPerson.BotaoArredond Btn_Salvar;
         private ComponentesPerson.BotaoArredond Btn_Remover;
         private ComponentesPerson.Flecha flecha1;
+        private ComponentesPerson.Flecha flecha2;
     }
 }
