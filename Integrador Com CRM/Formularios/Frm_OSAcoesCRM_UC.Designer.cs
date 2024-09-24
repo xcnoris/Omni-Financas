@@ -39,7 +39,7 @@
             Txt_IdCategoria = new TextBox();
             label2 = new Label();
             label4 = new Label();
-            Btn_Add = new ComponentesPerson.BotaoArredond(components);
+            Btn_Adda = new ComponentesPerson.BotaoArredond(components);
             Btn_Remover = new ComponentesPerson.BotaoArredond(components);
             Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
             flecha1 = new ComponentesPerson.Flecha();
@@ -73,7 +73,7 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Transparent;
-            groupBox1.Controls.Add(Btn_Add);
+            groupBox1.Controls.Add(Btn_Adda);
             groupBox1.Controls.Add(Txt_Mensagem);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(Txt_CodAcao);
@@ -154,19 +154,19 @@
             label4.TabIndex = 9;
             label4.Text = "Não Esqueça de Salvar";
             // 
-            // Btn_Add
+            // Btn_Adda
             // 
-            Btn_Add.BackColor = Color.MediumPurple;
-            Btn_Add.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Add.ForeColor = SystemColors.Window;
-            Btn_Add.Location = new Point(678, 39);
-            Btn_Add.Name = "Btn_Add";
-            Btn_Add.RaioCanto = 20;
-            Btn_Add.Size = new Size(97, 32);
-            Btn_Add.TabIndex = 12;
-            Btn_Add.Text = "Adicionar";
-            Btn_Add.UseVisualStyleBackColor = false;
-            Btn_Add.Click += this.Btn_Add_Click;
+            Btn_Adda.BackColor = Color.MediumPurple;
+            Btn_Adda.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Adda.ForeColor = SystemColors.Window;
+            Btn_Adda.Location = new Point(678, 39);
+            Btn_Adda.Name = "Btn_Add";
+            Btn_Adda.RaioCanto = 20;
+            Btn_Adda.Size = new Size(97, 32);
+            Btn_Adda.TabIndex = 12;
+            Btn_Adda.Text = "Adicionar";
+            Btn_Adda.UseVisualStyleBackColor = false;
+            Btn_Adda.Click += this.Btn_Add_Click;
             // 
             // Btn_Remover
             // 
@@ -241,7 +241,7 @@
         private Label label4;
         private TextBox Txt_Mensagem;
         private Label label5;
-        private ComponentesPerson.BotaoArredond Btn_Add;
+        private ComponentesPerson.BotaoArredond Btn_Adda;
         private ComponentesPerson.BotaoArredond Btn_Remover;
         private ComponentesPerson.BotaoArredond Btn_Salvar;
         private ComponentesPerson.Flecha flecha1;
