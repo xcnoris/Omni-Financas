@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Btn_TestarConexao = new Button();
+            components = new System.ComponentModel.Container();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -40,63 +40,54 @@
             Txt_Usuario = new TextBox();
             Txt_DataBase = new TextBox();
             groupBox1 = new GroupBox();
+            Btn_TestarConexao = new ComponentesPerson.BotaoArredond(components);
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
-            // Btn_TestarConexao
-            // 
-            Btn_TestarConexao.Location = new Point(163, 244);
-            Btn_TestarConexao.Name = "Btn_TestarConexao";
-            Btn_TestarConexao.Size = new Size(149, 23);
-            Btn_TestarConexao.TabIndex = 0;
-            Btn_TestarConexao.Text = "Testar Conexão";
-            Btn_TestarConexao.UseVisualStyleBackColor = true;
-            Btn_TestarConexao.Click += Btn_TestarConexao_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Location = new Point(52, 66);
             label1.Name = "label1";
-            label1.Size = new Size(50, 15);
+            label1.Size = new Size(53, 15);
             label1.TabIndex = 1;
-            label1.Text = "Servidor";
+            label1.Text = "Servidor:";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Location = new Point(52, 95);
             label2.Name = "label2";
-            label2.Size = new Size(52, 15);
+            label2.Size = new Size(50, 15);
             label2.TabIndex = 2;
-            label2.Text = "IP/HOST";
+            label2.Text = "IP/Host:";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(52, 131);
             label3.Name = "label3";
-            label3.Size = new Size(55, 15);
+            label3.Size = new Size(58, 15);
             label3.TabIndex = 3;
-            label3.Text = "DataBase";
+            label3.Text = "Database:";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Location = new Point(56, 168);
             label4.Name = "label4";
-            label4.Size = new Size(46, 15);
+            label4.Size = new Size(50, 15);
             label4.TabIndex = 4;
-            label4.Text = "usuario";
+            label4.Text = "Usuário:";
             // 
             // label5
             // 
             label5.AutoSize = true;
             label5.Location = new Point(56, 202);
             label5.Name = "label5";
-            label5.Size = new Size(39, 15);
+            label5.Size = new Size(42, 15);
             label5.TabIndex = 5;
-            label5.Text = "Senha";
+            label5.Text = "Senha:";
             // 
             // Txt_Servidor
             // 
@@ -136,9 +127,10 @@
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = Color.Transparent;
+            groupBox1.Controls.Add(Btn_TestarConexao);
             groupBox1.Controls.Add(Txt_Servidor);
             groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(Btn_TestarConexao);
             groupBox1.Controls.Add(Txt_DataBase);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(Txt_Usuario);
@@ -147,19 +139,37 @@
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(Txt_IpHost);
             groupBox1.Controls.Add(label5);
-            groupBox1.Location = new Point(215, 62);
+            groupBox1.ForeColor = SystemColors.HotTrack;
+            groupBox1.Location = new Point(212, 34);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(434, 309);
+            groupBox1.Size = new Size(429, 309);
             groupBox1.TabIndex = 12;
             groupBox1.TabStop = false;
             groupBox1.Text = "Dados Conexão";
+            // 
+            // Btn_TestarConexao
+            // 
+            Btn_TestarConexao.BackColor = Color.MediumPurple;
+            Btn_TestarConexao.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_TestarConexao.ForeColor = SystemColors.ControlLightLight;
+            Btn_TestarConexao.Location = new Point(154, 248);
+            Btn_TestarConexao.Name = "Btn_TestarConexao";
+            Btn_TestarConexao.RaioCanto = 20;
+            Btn_TestarConexao.Size = new Size(149, 23);
+            Btn_TestarConexao.TabIndex = 11;
+            Btn_TestarConexao.Text = "Testar Conexão";
+            Btn_TestarConexao.UseVisualStyleBackColor = false;
+            Btn_TestarConexao.Click += Btn_TestarConexao_Click;
             // 
             // Frm_ConexaoUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = SystemColors.ControlLightLight;
+            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
+            DoubleBuffered = true;
             Name = "Frm_ConexaoUC";
             Size = new Size(829, 421);
             Load += Frm_ConexaoUC_Load;
@@ -169,8 +179,6 @@
         }
 
         #endregion
-
-        private Button Btn_TestarConexao;
         private Label label1;
         private Label label2;
         private Label label3;
@@ -182,5 +190,6 @@
         private TextBox Txt_Usuario;
         private TextBox Txt_DataBase;
         private GroupBox groupBox1;
+        private ComponentesPerson.BotaoArredond Btn_TestarConexao;
     }
 }

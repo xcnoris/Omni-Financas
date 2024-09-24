@@ -152,6 +152,7 @@
             // label2
             // 
             label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F);
             label2.ForeColor = SystemColors.ActiveCaptionText;
             label2.Location = new Point(13, 22);
             label2.Name = "label2";
