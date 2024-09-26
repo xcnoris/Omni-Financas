@@ -107,14 +107,17 @@ namespace Integrador_Com_CRM.Models.EF
             catch (NullReferenceException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO",$"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                throw new Exception(ex.Message);
             }
             catch (SqlException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -135,10 +138,12 @@ namespace Integrador_Com_CRM.Models.EF
             catch (SqlException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                throw new Exception(ex.Message);
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
+                throw new Exception(ex.Message);
             }
         }
     }

@@ -64,6 +64,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message} - {_comandosDB.Mensagem}");
+
                 return null;
             }
         }
@@ -96,6 +97,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("OS", ex.Message);
+                
                 return null;
             }
         }

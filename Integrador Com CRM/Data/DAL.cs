@@ -21,10 +21,10 @@ namespace Integrador_Com_CRM.Data
             {
                 return context.Set<T>().ToList();
             }
-            catch(Exception Exception)
+            catch(Exception ex)
             {
-                MetodosGerais.RegistrarLog("Conexao", Exception.Message);
-                return null;
+                MetodosGerais.RegistrarLog("Conexao", ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
-                return null;
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -52,6 +52,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -66,7 +67,7 @@ namespace Integrador_Com_CRM.Data
             {
 
                 MetodosGerais.RegistrarLog("Conexao", ex.Message);
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -80,6 +81,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -93,6 +95,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -106,6 +109,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -119,6 +123,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -131,7 +136,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
-                return null;
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -144,7 +149,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
-                return null;
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -164,7 +169,7 @@ namespace Integrador_Com_CRM.Data
             catch (Exception Exception)
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
-                return null;
+                throw new Exception(Exception.Message);
             }
         }
 
@@ -185,6 +190,7 @@ namespace Integrador_Com_CRM.Data
             {
                 MetodosGerais.RegistrarLog("Conexao", Exception.Message);
                 return Enumerable.Empty<T>();
+                throw new Exception(Exception.Message);
             }
         }
     }

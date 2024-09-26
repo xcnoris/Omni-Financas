@@ -162,6 +162,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 MetodosGerais.RegistrarLog("BOLETO", $"[ERROR NullReference]: {ex.Message}");
                 Message = $"[ERROR]: {ex.Message}";
                 Status = false;
+                throw new Exception(Message);
             }
             catch (Exception ex)
             {
@@ -169,6 +170,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}");
                 Message = $"[ERROR]: {ex.Message}";
                 Status = false;
+                throw new Exception(Message);
             }
             finally
             {

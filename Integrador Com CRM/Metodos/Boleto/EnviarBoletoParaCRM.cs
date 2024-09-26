@@ -68,6 +68,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 {
                     MetodosGerais.RegistrarLog("BOLETO", "Exceção durante a chamada da API:");
                     MetodosGerais.RegistrarLog("BOLETO", ex.Message);
+                    throw new Exception(ex.Message);
                 }
 
                 return null;
@@ -128,6 +129,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 {
                     MetodosGerais.RegistrarLog("BOLETO", "Exceção durante a chamada da API:");
                     MetodosGerais.RegistrarLog("BOLETO", ex.Message);
+                    throw new Exception(ex.Message);
                 }
 
                 return null;

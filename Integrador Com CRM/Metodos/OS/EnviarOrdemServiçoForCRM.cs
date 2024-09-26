@@ -61,6 +61,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                 {
                     MetodosGerais.RegistrarLog("OS", "Exceção durante a chamada da API:");
                     MetodosGerais.RegistrarLog("OS", ex.Message);
+                    throw new Exception(ex.Message);
                 }
 
                 return null;
@@ -114,6 +115,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                 {
                     MetodosGerais.RegistrarLog("OS", "Exceção durante a chamada da API:");
                     MetodosGerais.RegistrarLog("OS", ex.Message);
+                    throw new Exception(ex.Message);
                 }
 
                 return null;

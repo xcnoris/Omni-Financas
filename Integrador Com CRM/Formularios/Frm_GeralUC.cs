@@ -23,11 +23,11 @@ namespace Integrador_Com_CRM.Formularios
             this.DadosAPI = dadosAPI;
         }
 
-        private void Btn_BuscarOS_Click(object sender, EventArgs e)
+        private async void Btn_BuscarOS_Click(object sender, EventArgs e)
         {
             try
             {
-                controlOrdemServico.VerificarNovosServicos(DadosAPI);
+                await controlOrdemServico.VerificarNovosServicos(DadosAPI);
 
                 MetodosGerais.RegistrarLog("OS", $"=======>>> Ordens de serviço consultadas manualmente <<<=======\n");
                 MessageBox.Show("Consulta de Ordem de Serviço Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -41,11 +41,11 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        private void Btn_BuscarBoletos_Click(object sender, EventArgs e)
+        private async void Btn_BuscarBoletos_Click(object sender, EventArgs e)
         {
             try
             {
-                controlBoletos.VerificarNovosBoletos(DadosAPI);
+                await controlBoletos.VerificarNovosBoletos(DadosAPI);
 
                 MetodosGerais.RegistrarLog("OS", $"=======>>> Boletos consultados manualmente <<<=======\n");
                 MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
