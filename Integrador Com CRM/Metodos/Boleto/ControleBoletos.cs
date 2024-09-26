@@ -7,9 +7,6 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 {
     public class ControleBoletos
     {
-        public string Message;
-        public bool Status;
-
         private DAL<RelacaoBoletoCRMModel> dalBoleto;
         private readonly CrudBoleto _CrudBoleto;
         private readonly MetodosGeraisBoleto metodosGeraisBoleto;
@@ -53,6 +50,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
                     if (BoletoRelacao is null)
                     {
+                        // Verifica se o boleto não esta cancelado ou estornado
                         if (situacao != 3)
                         {
                             // Log para verificação
@@ -80,25 +78,11 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
                             if (situacao == 2)
                             {
-                                //string cod_oportunidade = response.CodigoOportunidade.ToString(/*);*/
-                                //BoletoAcoesCRMModel boletoBuscado = FrmBoletoAcao.BuscarBoletoAcoes(-1);
-                                //AtualizarAcaoRequest AtualizarAcao = new AtualizarAcaoRequest
-                                //{
-                                //    codigoOportunidade = cod_oportunidade,
-                                //    codigoAcao = boletoBuscado.Codigo_Acao,
-                                //    codigoJornada = codigoJornada,
-                                //    textoFollowup = boletoBuscado.Mensagem_Atualizacao
-                                //};
-
                                 BoletoRelacao.Quitado = 1;
-
                                 // Atualize para a etapa pago no CRM, e atualiza no banco
-                                // Passa 1 no primeiro parametro para informar que esta quitado
+                                // Passa -1 no primeiro parametro para informar que esta quitado
                                 metodosGeraisBoleto.AtualizarAcaoNoCRM(-1,  codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, true, false);
                             }
-
-                            //MetodosGerais.RegistrarLog("BOLETO", $"Oportunidade criada para o doc a receber {id_DocReceber}: {response.} ");
-                            Status = true;
                         }
                         else
                         {
@@ -160,17 +144,12 @@ namespace Integrador_Com_CRM.Metodos.Boleto
             catch (NullReferenceException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"[ERROR NullReference]: {ex.Message}");
-                Message = $"[ERROR]: {ex.Message}";
-                Status = false;
-                throw new Exception(Message);
+                throw new Exception($"[ERROR NullReference]: {ex.Message}");
             }
             catch (Exception ex)
             {
-                
                 MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}");
-                Message = $"[ERROR]: {ex.Message}";
-                Status = false;
-                throw new Exception(Message);
+                throw new Exception($"[ERROR]: {ex.Message}");
             }
             finally
             {
