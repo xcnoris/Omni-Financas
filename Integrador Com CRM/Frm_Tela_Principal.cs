@@ -38,7 +38,7 @@ namespace Integrador_Com_CRM
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
 
             context =new IntegradorDBContext();
-            ControlOS = new ControleOrdemDeServico();
+            ControlOS = new ControleOrdemDeServico(FrmOSAcao);
             ControlBoleto = new ControleBoletos(BoletoAcoesCRM);
 
             //Instanciando Variaveis dos Formularios
@@ -57,7 +57,7 @@ namespace Integrador_Com_CRM
             {
                 try
                 {
-                    //await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
+                    await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
                 
                 }
                 catch (Exception ex)

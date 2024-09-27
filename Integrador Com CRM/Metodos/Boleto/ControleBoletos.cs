@@ -93,7 +93,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     {
                         int DiasEmAtrasoBoleto = BoletoRelacao.DiasEmAtraso;
                         int diasAtraso = (DateTime.Now - linha.Data_Vencimento).Days;
-
+                        int situacaTBRelacao = BoletoRelacao.Situacao;
                         if (diasAtraso > 0)
                         {
 
@@ -103,10 +103,15 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
                                 if (situacao == 3)
                                 {
-                                    if (DiasEmAtrasoBoleto != 3)
+                                    if (situacaTBRelacao != 3)
                                     {
+                                        BoletoRelacao.Situacao = 3;
                                         MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
                                         metodosGeraisBoleto.AtualizarAcaoNoCRM(-2, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, false, true);
+                                    }
+                                    else
+                                    {
+                                        MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já esta ajustado como Cancelado/Estornado");
                                     }
                                 }
                                 else

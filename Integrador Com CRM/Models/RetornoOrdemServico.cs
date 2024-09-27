@@ -14,5 +14,6 @@ namespace Integrador_Com_CRM.Models
         public string Telefone { get; set; }
         public string? Email_Cliente { get; set; }
         public string Id_CategoriaOS { get; set; }
+        public string Situacao { get; set; }
     }
 }

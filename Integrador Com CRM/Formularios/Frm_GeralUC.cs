@@ -27,9 +27,9 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
+                MetodosGerais.RegistrarLog("OS", $"=======>>> Ordens de serviço consultadas manualmente <<<=======\n");
                 await controlOrdemServico.VerificarNovosServicos(DadosAPI);
 
-                MetodosGerais.RegistrarLog("OS", $"=======>>> Ordens de serviço consultadas manualmente <<<=======\n");
                 MessageBox.Show("Consulta de Ordem de Serviço Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
@@ -45,9 +45,10 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
+                MetodosGerais.RegistrarLog("BOLETO", $"=======>>> Boletos consultados manualmente <<<=======\n");
+
                 await controlBoletos.VerificarNovosBoletos(DadosAPI);
 
-                MetodosGerais.RegistrarLog("OS", $"=======>>> Boletos consultados manualmente <<<=======\n");
                 MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
@@ -55,7 +56,7 @@ namespace Integrador_Com_CRM.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show($"Não foi possivel fazer a consulta. Mensagem: {ex.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MetodosGerais.RegistrarLog("OS", $"Error :{ex.Message}");
+                MetodosGerais.RegistrarLog("BOLETO", $"Error :{ex.Message}");
             }
         }
 
@@ -63,9 +64,9 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
+                MetodosGerais.RegistrarLog("BOLETO", $"=======>>> Boletos consultados manualmente <<<=======\n");
                 await cobrancas.RealizarCobrancas(DadosAPI);
 
-                MetodosGerais.RegistrarLog("OS", $"=======>>> Boletos consultados manualmente <<<=======\n");
                 MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
@@ -73,7 +74,7 @@ namespace Integrador_Com_CRM.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show($"Não foi possivel fazer a consulta. Mensagem: {ex.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MetodosGerais.RegistrarLog("OS", $"Error :{ex.Message}");
+                MetodosGerais.RegistrarLog("BOLETO", $"Error :{ex.Message}");
             }
         }
     }

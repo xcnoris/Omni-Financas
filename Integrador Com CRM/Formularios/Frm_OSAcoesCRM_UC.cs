@@ -24,7 +24,7 @@ namespace Integrador_Com_CRM.Formularios
 
         }
 
-        internal OSAcoesCRMModel BuscarBoletoAcoes(int IdCategoria)
+        internal OSAcoesCRMModel BuscarOSAcoes(int IdCategoria)
         {
             try
             {

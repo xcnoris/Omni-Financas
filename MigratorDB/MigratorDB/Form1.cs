@@ -4,6 +4,7 @@ using Integrador_Com_CRM.Metodos;
 using Integrador_Com_CRM.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 namespace MigratorDB
 {
     public partial class Form1 : Form
@@ -93,7 +94,47 @@ namespace MigratorDB
 
         private void Btn_TestarConexao_Click(object sender, EventArgs e)
         {
+            try
+            {
+                // Cria uma instância de ConexaoDB com os dados fornecidos no formulário
+                ConexaoDB conexao = new ConexaoDB
+                {
+                    Servidor = Txt_Servidor.Text,
+                    IpHost = Txt_IpHost.Text,
+                    DataBase = Txt_DataBase.Text,
+                    Usuario = Txt_Usuario.Text,
+                    Senha = Txt_Senha.Text
+                };
 
+                // Monta a string de conexão com os dados fornecidos
+                string connectionString = $"Server={conexao.IpHost};Database={conexao.DataBase};User Id={conexao.Usuario};Password={conexao.Senha};TrustServerCertificate=True";
+                MetodosGerais.RegistrarInicioLog("ConexãoDB");
+                MetodosGerais.RegistrarLog("ConexãoDB", $"Testando conexão banco de dados {conexao.DataBase}...");
+
+                // Tenta abrir a conexão
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    MessageBox.Show("Conexão bem-sucedida!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MetodosGerais.RegistrarLog("ConexãoDB", $"Conexão bem-sucedida com o banco de dados {conexao.DataBase}!");
+                    sqlConnection.Close();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MetodosGerais.RegistrarLog("ConexãoDB", $"Erro ao testar conexão: {ex.Message}. Verique a string de conexão!");
+
+                MessageBox.Show("Erro ao testar conexão: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("ConexãoDB", $"Erro ao testar conexão: {ex.Message}. Verique a string de conexão!");
+                MessageBox.Show("Erro ao testar conexão: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                MetodosGerais.RegistrarFinalLog("ConexãoDB");
+            }
         }
 
         private void Btn_CriarDB_Click(object sender, EventArgs e)

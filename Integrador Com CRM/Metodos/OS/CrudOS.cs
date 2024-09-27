@@ -39,7 +39,8 @@ namespace Integrador_Com_CRM.Metodos.OS
                         os.nome_cliente, 
                         CONCAT(os.fone_ddd_cliente, os.fone_numero_cliente) AS telefone,
                         os.email_cliente,
-                        os.id_categoria_ordem_servico
+                        os.id_categoria_ordem_servico,
+	                    os.situacao
                     FROM 
                         ordem_servico os
                     INNER JOIN 
@@ -49,8 +50,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                     LEFT JOIN 
                         pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
                     WHERE 
-                         OS.data_hora_cadastro >= '18/07/2024'
-                    and os.id_ordem_servico = 8759
+                         OS.data_hora_cadastro >= '01/08/2024'
                 ";
                 //string query = "SELECT id_ordem_servico, nome_cliente, fone_ddd_cliente + fone_numero_cliente AS telefone, email_cliente, id_categoria_ordem_servico FROM ordem_servico WHERE id_ordem_servico = 8674";
 
@@ -84,7 +84,8 @@ namespace Integrador_Com_CRM.Metodos.OS
                         Nome_Cliente = linha["nome_cliente"].ToString(),
                         Telefone = linha["telefone"].ToString(),
                         Email_Cliente = linha["email_cliente"].ToString(),
-                        Id_CategoriaOS = linha["id_categoria_ordem_servico"].ToString()
+                        Id_CategoriaOS = linha["id_categoria_ordem_servico"].ToString(),
+                        Situacao = linha["situacao"].ToString()
                     };
 
                     listaRetornoOS.Add( ROS );
