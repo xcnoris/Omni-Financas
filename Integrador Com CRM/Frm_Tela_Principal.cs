@@ -52,7 +52,7 @@ namespace Integrador_Com_CRM
             AdicionarUserontrols();
 
             // Timer para executar a função periodicamente a cada 5 minutos
-            timer5Min = new System.Timers.Timer(3000000); // 5 min
+            timer5Min = new System.Timers.Timer(300000); // 5 min
             timer5Min.Elapsed += async (s, e) =>
             {
                 try

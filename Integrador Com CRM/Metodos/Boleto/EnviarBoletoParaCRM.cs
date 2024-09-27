@@ -48,7 +48,13 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
                             boletoInTabRel.Cod_Oportunidade = resposta.CodigoOportunidade.ToString();
                             boletoInTabRel.Data_Criacao = DateTime.Now;
-                            dalTableRelacaoBoleto.AdicionarAsync(boletoInTabRel);
+                            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+                            {
+                                await dalBoletoUsing.AdicionarAsync(boletoInTabRel);
+                            }
+
+
+                           
                             return resposta;
 
                         }
@@ -101,7 +107,10 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
                             BoletoRElacao.Data_Atualizacao =DateTime.Now;
 
-                            dalTableRelacaoBoleto.AtualizarAsync(BoletoRElacao);
+                            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+                            {
+                                await dalBoletoUsing.AtualizarAsync(BoletoRElacao);
+                            }
                             if (foiquitado)
                             {
                                 CobrancasNaSegundaModel cobrancas = new CobrancasNaSegundaModel();

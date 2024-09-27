@@ -41,7 +41,10 @@ namespace Integrador_Com_CRM.Metodos.OS
                             */
                             TableRelacaoOS.Cod_Oportunidade = resposta.CodigoOportunidade;
                             TableRelacaoOS.Data_Criacao = DateTime.Now;
-                            await dalRelacaoOS.AdicionarAsync(TableRelacaoOS);
+                            using (var dalOSUsing = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext()))
+                            {
+                                await dalOSUsing.AdicionarAsync(TableRelacaoOS);
+                            }
                             return resposta;
 
                         }
@@ -94,7 +97,11 @@ namespace Integrador_Com_CRM.Metodos.OS
 
                             
                             TableRelacaoOS.Data_Alteracao = DateTime.Now;
-                            dalRelacaoOS.AtualizarAsync(TableRelacaoOS);
+
+                            using (var dalOSUsing = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext()))
+                            {
+                                await dalOSUsing.AtualizarAsync(TableRelacaoOS);
+                            }
                             MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {TableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {TableRelacaoOS.Id_OrdemServico}.");
                            
                             return resposta;

@@ -27,7 +27,7 @@ namespace Integrador_Com_CRM.Models
                     nomeLead = $"{dataFormatada} - {boleto.Id_Entidade} - {boleto.Nome}",
                     telefoneLead = boleto.Celular,
                     emailLead = boleto.Email,
-                    cnpjLead = boleto.Identificador_Cliente,  // Definir o CNPJ ou CPF do cliente
+                    cnpjLead = "",  // Definir o CNPJ ou CPF do cliente
                     origemLead = "Serviço de consumo de API",
                     contatos = new List<Contato>
                     {

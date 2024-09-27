@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Integrador_Com_CRM.Data
 {
-    internal class DAL<T> where T : class
+    internal class DAL<T> : IDisposable where T : class
     {
         private readonly IntegradorDBContext context;
 
@@ -14,7 +14,11 @@ namespace Integrador_Com_CRM.Data
         {
             this.context = context;
         }
-
+        // Implementação do método Dispose
+        public void Dispose()
+        {
+            context?.Dispose(); // Libera o contexto do banco de dados
+        }
         public IEnumerable<T> Listar()
         {
             try
