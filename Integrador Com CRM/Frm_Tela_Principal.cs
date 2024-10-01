@@ -15,6 +15,7 @@ namespace Integrador_Com_CRM
 
         private System.Timers.Timer timer5Min;
         private System.Timers.Timer timerDaily;
+        private System.Timers.Timer timerMonday;
 
         //Declando Variaveis dos Formularios
         private readonly Frm_GeralUC FrmGeralUC;
@@ -87,8 +88,8 @@ namespace Integrador_Com_CRM
             SetDailyTimer();
 
             // Timer para execulta a função periodica toda segunda as 10:45h brasilia
-            timerDaily = new System.Timers.Timer();
-            timerDaily.Elapsed += async (s, e) =>
+            timerMonday = new System.Timers.Timer();
+            timerMonday.Elapsed += async (s, e) =>
             {
                 try
                 {
@@ -138,8 +139,8 @@ namespace Integrador_Com_CRM
             }
 
             double intervalToNextRun = (nextRun - now).TotalMilliseconds;
-            timerDaily.Interval = intervalToNextRun;
-            timerDaily.Start();
+            timerMonday.Interval = intervalToNextRun;
+            timerMonday.Start();
         }
 
 

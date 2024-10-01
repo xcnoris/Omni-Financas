@@ -139,6 +139,16 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                     }
                                 }
                             }
+                            else if (situacao == 2)
+                            {
+                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está á quitado!");
+                                //Verifica se quitado é igual a 0, caso seja significa se ainda nao foi alterado a ação no CRM e nem atualizado na table relacao
+                                // Caso seja 1, significa que esse boleto já esta atualizado no CRM e no DB
+                                if (BoletoRelacao.Quitado == 0)
+                                {
+                                    metodosGeraisBoleto.AtualizarAcaoNoCRM(-1, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, true, true);
+                                }
+                            }
                             else
                             {
                                 MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Não esta em atraso!");
