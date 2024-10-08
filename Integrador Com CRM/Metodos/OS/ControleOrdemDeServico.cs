@@ -226,10 +226,6 @@ namespace Integrador_Com_CRM.Metodos.OS
                             }
                         }
                     }
-
-
-
-
                 }
                 MetodosGerais.RegistrarFinalLog("OS");
             }
@@ -238,7 +234,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                 MetodosGerais.RegistrarInicioLog("OS");
                 MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
                 MetodosGerais.RegistrarFinalLog("OS");
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

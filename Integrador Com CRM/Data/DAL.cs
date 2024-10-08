@@ -19,18 +19,6 @@ namespace Integrador_Com_CRM.Data
         {
             context?.Dispose(); // Libera o contexto do banco de dados
         }
-        public IEnumerable<T> Listar()
-        {
-            try
-            {
-                return context.Set<T>().ToList();
-            }
-            catch(Exception ex)
-            {
-                MetodosGerais.RegistrarLog("Conexao", ex.Message);
-                throw new Exception(ex.Message);
-            }
-        }
 
         public async Task<IEnumerable<T>> ListarAsync()
         {
@@ -38,20 +26,6 @@ namespace Integrador_Com_CRM.Data
             {
                 return await context.Set<T>().ToListAsync();
 
-            }
-            catch (Exception Exception)
-            {
-                MetodosGerais.RegistrarLog("Conexao", Exception.Message);
-                throw new Exception(Exception.Message);
-            }
-        }
-
-        public void Adicionar(T objeto)
-        {
-            try
-            {
-                context.Set<T>().Add(objeto);
-                context.SaveChanges();
             }
             catch (Exception Exception)
             {
@@ -75,19 +49,6 @@ namespace Integrador_Com_CRM.Data
             }
         }
 
-        public void Atualizar(T objeto)
-        {
-            try
-            {
-                context.Set<T>().Update(objeto);
-                context.SaveChanges();
-            }
-            catch (Exception Exception)
-            {
-                MetodosGerais.RegistrarLog("Conexao", Exception.Message);
-                throw new Exception(Exception.Message);
-            }
-        }
 
         public async Task AtualizarAsync(T objeto)
         {
@@ -103,12 +64,13 @@ namespace Integrador_Com_CRM.Data
             }
         }
 
-        public void Deletar(T objeto)
+
+        public async Task DeletarAsync(T objeto)
         {
             try
             {
                 context.Set<T>().Remove(objeto);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
             catch (Exception Exception)
             {
@@ -117,12 +79,20 @@ namespace Integrador_Com_CRM.Data
             }
         }
 
-        public async Task DeletarAsync(T objeto)
+        public async Task DeletarPorCondicaoAsync(Expression<Func<T, bool>> filtro)
         {
             try
             {
-                context.Set<T>().Remove(objeto);
-                await context.SaveChangesAsync();
+                var objetos = context.Set<T>().Where(filtro).ToList();
+                if (objetos.Any())
+                {
+                    context.Set<T>().RemoveRange(objetos);
+                    await context.SaveChangesAsync();
+                }
+                else
+                {
+                    MetodosGerais.RegistrarLog("Conexao", "Nenhum objeto encontrado para deletar.");
+                }
             }
             catch (Exception Exception)
             {

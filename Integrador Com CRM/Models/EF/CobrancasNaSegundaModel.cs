@@ -18,32 +18,30 @@ namespace Integrador_Com_CRM.Models.EF
         public int BoletoId { get; set; }
         public RelacaoBoletoCRMModel? Boleto { get; set; }
         public int NovoAtrasoBoleto { get; set; }
+        public string Cod_Oportunidade { get; set; }
 
-
-        public CobrancasNaSegundaModel(string codigoJornada, RelacaoBoletoCRMModel boletoRelacao, Frm_BoletoAcoesCRM_UC FrmBoleto)
-        {
-            dalCobrancas = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
-
-            dalRelBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-            FrmBoletoAcao = FrmBoleto;
-            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
-
-            CodigoJornada = codigoJornada; 
-            BoletoId = boletoRelacao.Id;
-            NovoAtrasoBoleto = boletoRelacao.DiasEmAtraso;
-        }
-
-        public CobrancasNaSegundaModel( Frm_BoletoAcoesCRM_UC FrmBoleto)
-        {
-            dalCobrancas = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
-            dalRelBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-            FrmBoletoAcao = FrmBoleto;
-            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
-        }
         public CobrancasNaSegundaModel()
         {
             dalCobrancas = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
+            dalRelBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
         }
+
+        public CobrancasNaSegundaModel(string codigoJornada, RelacaoBoletoCRMModel boletoRelacao, Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
+        {
+            FrmBoletoAcao = FrmBoleto;
+            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
+            CodigoJornada = codigoJornada; 
+            BoletoId = boletoRelacao.Id;
+            NovoAtrasoBoleto = boletoRelacao.DiasEmAtraso;
+            Cod_Oportunidade = boletoRelacao.Cod_Oportunidade;
+        }
+
+        public CobrancasNaSegundaModel( Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
+        {
+            FrmBoletoAcao = FrmBoleto;
+            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
+        }
+       
 
         internal void SalvarDadosEmTableEspera()
         {
@@ -73,8 +71,9 @@ namespace Integrador_Com_CRM.Models.EF
                                 {
                                     if (DadosAPI != null && boletoRelacao != null)
                                     {
+                                        boletoRelacao.DiasEmAtraso = conbranca.NovoAtrasoBoleto;
                                         metodosBoleto.AtualizarAcaoNoCRM(conbranca.NovoAtrasoBoleto, conbranca.CodigoJornada, DadosAPI, dalRelBoletos, boletoRelacao, false, true);
-                                        RemoverRegistro(boletoRelacao.Id);
+                                        await RemoverRegistro(conbranca.Id, false);
                                     }
                                     else
                                     {
@@ -107,43 +106,76 @@ namespace Integrador_Com_CRM.Models.EF
             catch (NullReferenceException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO",$"Ocorreu um [ERROR] na consulta: {ex.Message}");
-                throw new Exception(ex.Message);
+                throw;
             }
             catch (SqlException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
-                throw new Exception(ex.Message);
+                throw;
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
-        internal async Task RemoverRegistro(int boletoID)
+        internal async Task<bool> CobrarAtraso5Dias(string codigoJornada, Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel boleto)
         {
             try
             {
-                List<CobrancasNaSegundaModel> cobracaList = (await dalCobrancas.RecuperarTodosPorAsync(x => x.BoletoId == boletoID)).ToList();
-                if (cobracaList is not null)
-                {
-                    foreach (CobrancasNaSegundaModel cobranca in cobracaList)
-                    {
-                        await dalCobrancas.DeletarAsync(cobranca);
-                    }
-                }
-              
+                metodosBoleto.AtualizarAcaoNoCRM(5, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                await dalCobrancas.DeletarPorCondicaoAsync(x => x.Cod_Oportunidade == boleto.Cod_Oportunidade && x.NovoAtrasoBoleto == 5);
+                return true;
             }
             catch (SqlException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
-                throw new Exception(ex.Message);
+                return false;
+                throw;
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
-                throw new Exception(ex.Message);
+                return false;
+                throw;
+            }
+        }
+
+
+        internal async Task RemoverRegistro(int cobrancaId, bool apagarTodos)
+        {
+            try
+            {
+                var cobrancaList = new List<CobrancasNaSegundaModel>();
+
+                if (apagarTodos)
+                {
+                    cobrancaList = (await dalCobrancas.RecuperarTodosPorAsync(x => x.BoletoId == cobrancaId).ConfigureAwait(false)).ToList();
+                }
+                else
+                {
+                    cobrancaList = (await dalCobrancas.RecuperarTodosPorAsync(x => x.Id == cobrancaId).ConfigureAwait(false)).ToList();
+                }
+
+                if (cobrancaList.Any())
+                {
+                    foreach (var cobranca in cobrancaList)
+                    {
+                        await dalCobrancas.DeletarAsync(cobranca).ConfigureAwait(false);
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
+                throw;
             }
         }
     }

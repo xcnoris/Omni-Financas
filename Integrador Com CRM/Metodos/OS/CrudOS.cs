@@ -37,7 +37,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                             ELSE 'Tipo de entidade desconhecido' 
                         END AS identificador_cliente,
                         os.nome_cliente, 
-                        CONCAT(os.fone_ddd_cliente, os.fone_numero_cliente) AS telefone,
+                        CONCAT(os.celular_ddd_cliente, os.celular_numero_cliente) AS telefone,
                         os.email_cliente,
                         os.id_categoria_ordem_servico,
 	                    os.situacao

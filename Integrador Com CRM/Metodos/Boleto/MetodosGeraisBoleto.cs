@@ -10,9 +10,11 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         public string Message;
         public bool Status;
         private readonly Frm_BoletoAcoesCRM_UC FrmboletoAcao;
+        private readonly CobrancasNaSegundaModel CobrancasNaSegunda;
         public MetodosGeraisBoleto(Frm_BoletoAcoesCRM_UC boleto)
         {
             FrmboletoAcao = boleto;
+            CobrancasNaSegunda = new CobrancasNaSegundaModel();
         }
 
         public void AtualizarAcaoNoCRM(int diasAtraso,  string codigoJornada, Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
@@ -73,18 +75,16 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 Status = false;
             }
         }
-        internal void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
+        internal async void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
         {
-            // Lista de dias para verificar
-            //int[] diasParaVerificar = { 2, 5, 6, 10, 35 };
+            //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesCRMModel boletoAcaoBuscado = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
 
             if (boletoAcaoBuscado is not null)
             {
-
                 // Verifica se o dia de atraso está na lista e não é igual ao registrado
                 if (DiasAtrasoRelBoleto != diasAtraso)
-                    {
+                {
                     boleto.DiasEmAtraso = diasAtraso;
 
                     // Verifica se hoje é final de semana, caso seja, não faz a cobrança dos boleto.
@@ -98,8 +98,21 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     }
                     else
                     {
-                        // Não. Faça isso
-                        AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                        // Verifica se o dia de hoje é segunda-feira
+                        var eSegunda = DateTime.Now.DayOfWeek == DayOfWeek.Monday;
+
+                        //Verifica se o dia em atraso [e 6 e se é segunda, caso seja significa que ele tentou cobrar do dia 5 no fim de semana
+                        // Então deve ser cobrado primeiro os do 5 dias e depois do dia 6
+                        if (diasAtraso == 6 && eSegunda)
+                        {
+                            await CobrancasNaSegunda.CobrarAtraso5Dias(codigoJornada, DadosAPI, dalBoleto, boleto);
+                            AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                        }
+                        else
+                        {
+                            AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                            
+                        }
                     }
                 }
             }
@@ -109,90 +122,5 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 MetodosGerais.RegistrarLog("BOLETO", $"Boleto não está em atraso significativo.");
             }
         }
-
-
-        //internal string SelecionarCodAcao(int diasAtraso)
-        //{
-        //    try
-        //    {
-        //        switch (diasAtraso)
-        //        {
-        //            case 1:   // Quitado
-        //                return "865D7975D28B7C88CBBC";
-
-        //            case 2:   // Atraso 2 dias
-        //                return "29EF5E09D22A38B6D1D1";
-
-        //            case 3:  // Estornado/Cancelado
-        //                return "FE932087C38FC2EBD8C0";
-
-        //            case 5: // Atraso 5 dias
-        //                return "98E9864A3CEFC1679EBC";
-
-        //            case 6:  //Atraso 6 dias
-        //                return "BFB6C9C1B9857FD5919F";
-
-        //            case 10:  // Atraso 10 dias
-        //                return "9A9E99BBCF9FF45B91BB";
-
-        //            case 35:  // Atraso 35 dias
-        //                return "02820F32C84EAE405E5A";
-                    
-
-        //            default:
-        //                MetodosGerais.RegistrarLog("BOLETO", "Número inválido. Por favor, escolha um número de 1 a 5.");
-        //                return null;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}");
-        //        Message = $"[ERROR]: {ex.Message}";
-        //        Status = false;
-        //        return null;
-        //    }
-
-        //}
-
-        //internal string SelecionarMensagemAtualizacao(int diasAtraso)
-        //{
-        //    try
-        //    {
-        //        switch (diasAtraso)
-        //        {
-        //            case 1:  // Pago
-        //                return "Pago / Aguardando Liberação";
-
-        //            case 2:
-        //                return "Atraso 2 dias";
-        //            case 3:
-        //                return "Estornado/Cancelado";
-
-        //            case 5:
-        //                return "Atraso 5 dias";
-
-        //            case 6:
-        //                return "Atraso 6 dias";
-
-        //            case 10:
-        //                return "Atraso 10 dias";
-
-        //            case 35:
-        //                return "Atraso 35 dias";
-
-
-        //            default:
-        //                MetodosGerais.RegistrarLog("BOLETO", "Número inválido. Por favor, escolha um número de 1 a 5.");
-        //                return null;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}");
-        //        Message = $"[ERROR]: {ex.Message}";
-        //        Status = false;
-        //        return null;
-        //    }
-        //}
     }
 }

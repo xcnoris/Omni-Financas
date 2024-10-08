@@ -100,8 +100,8 @@ namespace Integrador_Com_CRM
                     // Log de erro
                     MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
                 }
-                // Reconfigurar o timer para o próximo dia às 10:30 AM
-                SetDailyTimer();
+                // Reconfigurar o timer para a próxima segunda às 10:30 AM
+                SetDailyTimerSegunda();
             };
             SetDailyTimerSegunda();
         }

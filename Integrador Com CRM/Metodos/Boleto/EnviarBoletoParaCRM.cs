@@ -74,7 +74,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 {
                     MetodosGerais.RegistrarLog("BOLETO", "Exceção durante a chamada da API:");
                     MetodosGerais.RegistrarLog("BOLETO", ex.Message);
-                    throw new Exception(ex.Message);
+                    throw;
                 }
 
                 return null;
@@ -114,7 +114,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             if (foiquitado)
                             {
                                 CobrancasNaSegundaModel cobrancas = new CobrancasNaSegundaModel();
-                                cobrancas.RemoverRegistro(BoletoRElacao.Id);
+                                await cobrancas.RemoverRegistro(BoletoRElacao.Id, true);
 
 
                                 MetodosGerais.RegistrarLog("BOLETO", $"Situacao atualizada para {BoletoRElacao.Situacao} na tabela de relação para a o documento a receber {BoletoRElacao.Id_DocumentoReceber}.");
@@ -138,7 +138,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 {
                     MetodosGerais.RegistrarLog("BOLETO", "Exceção durante a chamada da API:");
                     MetodosGerais.RegistrarLog("BOLETO", ex.Message);
-                    throw new Exception(ex.Message);
+                    throw;
                 }
 
                 return null;

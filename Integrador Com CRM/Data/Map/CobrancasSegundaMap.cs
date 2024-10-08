@@ -1,11 +1,6 @@
 ﻿using Integrador_Com_CRM.Models.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.Data.Map
 {
@@ -18,6 +13,7 @@ namespace Integrador_Com_CRM.Data.Map
             bld.Property(x => x.BoletoId).IsRequired();
             bld.HasOne(x => x.Boleto);
             bld.Property(x => x.NovoAtrasoBoleto).IsRequired();
+            bld.Property(x => x.Cod_Oportunidade).IsRequired();
         }
     }
 }
