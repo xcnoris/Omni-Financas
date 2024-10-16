@@ -94,7 +94,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                         // Lidos e enviado a mensagem de cobraça. No final e removido o registro
                         // Sim.Faça isso
                         CobrancasNaSegundaModel CobrancasSegunda = new CobrancasNaSegundaModel(codigoJornada, boleto, FrmboletoAcao);
-                        CobrancasSegunda.SalvarDadosEmTableEspera();
+                        await CobrancasSegunda.SalvarDadosEmTableEspera();
                     }
                     else
                     {

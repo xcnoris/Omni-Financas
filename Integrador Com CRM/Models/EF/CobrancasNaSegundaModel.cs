@@ -43,9 +43,10 @@ namespace Integrador_Com_CRM.Models.EF
         }
        
 
-        internal void SalvarDadosEmTableEspera()
+        internal async Task SalvarDadosEmTableEspera()
         {
-            dalCobrancas.AdicionarAsync(this);
+            await dalCobrancas.AdicionarAsync(this);
+            MetodosGerais.RegistrarLog("Cobranca", $"Boleto: {Boleto.Id_DocumentoReceber}. Foi inserido na tabela para ser cobrado na segunda. Novo atraso a ser cobrado na segunda: {NovoAtrasoBoleto} ");
         }
 
         internal async Task RealizarCobrancas(Frm_DadosAPIUC DadosAPI)
@@ -74,6 +75,7 @@ namespace Integrador_Com_CRM.Models.EF
                                         boletoRelacao.DiasEmAtraso = conbranca.NovoAtrasoBoleto;
                                         metodosBoleto.AtualizarAcaoNoCRM(conbranca.NovoAtrasoBoleto, conbranca.CodigoJornada, DadosAPI, dalRelBoletos, boletoRelacao, false, true);
                                         await RemoverRegistro(conbranca.Id, false);
+                                        MetodosGerais.RegistrarLog("Cobranca", $"Boleto: {Boleto.Id_DocumentoReceber}.Foi realizado a cobrança: {NovoAtrasoBoleto}");
                                     }
                                     else
                                     {
@@ -124,8 +126,10 @@ namespace Integrador_Com_CRM.Models.EF
         {
             try
             {
-                metodosBoleto.AtualizarAcaoNoCRM(5, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
-                await dalCobrancas.DeletarPorCondicaoAsync(x => x.Cod_Oportunidade == boleto.Cod_Oportunidade && x.NovoAtrasoBoleto == 5);
+                int novoAtraso = 5;
+                metodosBoleto.AtualizarAcaoNoCRM(novoAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                await dalCobrancas.DeletarPorCondicaoAsync(x => x.Cod_Oportunidade == boleto.Cod_Oportunidade && x.NovoAtrasoBoleto == novoAtraso);
+                MetodosGerais.RegistrarLog("Cobranca", $"Boleto: {boleto.Id_DocumentoReceber}. Foi atualizado para a etapa {novoAtraso} e excluido da tabela cobranca!");
                 return true;
             }
             catch (SqlException ex)
