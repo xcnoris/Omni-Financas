@@ -47,6 +47,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     }
                     if (naTableRelacao == true)
                     {
+                        BoletoRelacao.Situacao = 2;
                         EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoRelacao, foiQuitado);
                     }
                     else
@@ -59,18 +60,18 @@ namespace Integrador_Com_CRM.Metodos.Boleto
 
 
 
-                    MetodosGerais.RegistrarLog("BOLETO", $"Doc a Receber atualizado para a etapa '{textoFollowup}'");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {BoletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{textoFollowup}'. CodOp: {BoletoRelacao.Cod_Oportunidade}");
                 }
                 else
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: Ao consultar Dados da Ação!");
-                    Message = $"[ERROR]: Ao consultar Dados da Ação!";
+                    MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: Ao consultar Dados da Ação para o boleto: {BoletoRelacao.Id_DocumentoReceber}!");
+                    Message = $"[ERROR]: Ao consultar Dados da Ação para o boleto: {BoletoRelacao.Id_DocumentoReceber}!";
                     Status = false;
                 }
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}");
+                MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}.Para o boleto: {BoletoRelacao.Id_DocumentoReceber}");
                 Message = $"[ERROR]: {ex.Message}";
                 Status = false;
             }

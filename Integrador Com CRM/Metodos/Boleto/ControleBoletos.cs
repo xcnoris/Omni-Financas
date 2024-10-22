@@ -118,10 +118,14 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                             break;
 
                                         case 2:
-                                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
                                             if (BoletoRelacao.Quitado == 0)
                                             {
                                                 metodosGeraisBoleto.AtualizarAcaoNoCRM(-1, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, true, true);
+                                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Foi atualizado para etapa Pago!!");
+                                            }
+                                            else
+                                            {
+                                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
                                             }
                                             break;
 

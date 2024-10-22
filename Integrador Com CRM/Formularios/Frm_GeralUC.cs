@@ -64,7 +64,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"=======>>> Boletos consultados manualmente <<<=======\n");
+                MetodosGerais.RegistrarLog("COBRANCA", $"=======>>> Cobrança consultadas manualmente <<<=======\n");
                 await cobrancas.RealizarCobrancas(DadosAPI);
 
                 MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -74,7 +74,11 @@ namespace Integrador_Com_CRM.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show($"Não foi possivel fazer a consulta. Mensagem: {ex.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MetodosGerais.RegistrarLog("BOLETO", $"Error :{ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Error :{ex.Message}");
+            }
+            finally
+            {
+                MetodosGerais.RegistrarFinalLog("COBRANCA");
             }
         }
     }

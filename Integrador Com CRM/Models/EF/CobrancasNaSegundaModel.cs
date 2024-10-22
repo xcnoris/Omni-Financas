@@ -30,23 +30,32 @@ namespace Integrador_Com_CRM.Models.EF
         {
             FrmBoletoAcao = FrmBoleto;
             metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
-            CodigoJornada = codigoJornada; 
+            CodigoJornada = codigoJornada;
             BoletoId = boletoRelacao.Id;
             NovoAtrasoBoleto = boletoRelacao.DiasEmAtraso;
             Cod_Oportunidade = boletoRelacao.Cod_Oportunidade;
         }
 
-        public CobrancasNaSegundaModel( Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
+        public CobrancasNaSegundaModel(Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
         {
             FrmBoletoAcao = FrmBoleto;
             metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
-       
+
 
         internal async Task SalvarDadosEmTableEspera()
         {
-            await dalCobrancas.AdicionarAsync(this);
-            MetodosGerais.RegistrarLog("Cobranca", $"Boleto: {Boleto.Id_DocumentoReceber}. Foi inserido na tabela para ser cobrado na segunda. Novo atraso a ser cobrado na segunda: {NovoAtrasoBoleto} ");
+            try
+            {
+                await dalCobrancas.AdicionarAsync(this);
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ação {NovoAtrasoBoleto} marcada para ser cobrado na segunda para o boletoBoleto {Boleto.Id_DocumentoReceber}. CodOp: {Cod_Oportunidade}");
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("COBRANCA", $"[ERROR]: {ex.Message}");
+                throw;
+            }
+
         }
 
         internal async Task RealizarCobrancas(Frm_DadosAPIUC DadosAPI)
@@ -75,49 +84,48 @@ namespace Integrador_Com_CRM.Models.EF
                                         boletoRelacao.DiasEmAtraso = conbranca.NovoAtrasoBoleto;
                                         metodosBoleto.AtualizarAcaoNoCRM(conbranca.NovoAtrasoBoleto, conbranca.CodigoJornada, DadosAPI, dalRelBoletos, boletoRelacao, false, true);
                                         await RemoverRegistro(conbranca.Id, false);
-                                        MetodosGerais.RegistrarLog("Cobranca", $"Boleto: {Boleto.Id_DocumentoReceber}.Foi realizado a cobrança: {NovoAtrasoBoleto}");
+                                        MetodosGerais.RegistrarLog("COBRANCA", $"Boleto {boletoRelacao.Id_DocumentoReceber} removido da lista de cobrança. CodOp: {conbranca.Cod_Oportunidade}");
                                     }
                                     else
                                     {
-                                        MetodosGerais.RegistrarLog("BOLETO", "DadosAPI ou boletoRelacao estão nulos.");
+                                        MetodosGerais.RegistrarLog("COBRANCA", "DadosAPI ou boletoRelacao estão nulos.");
                                     }
                                 }
                                 else
                                 {
-                                    MetodosGerais.RegistrarLog("BOLETO", "metodosBoleto está nulo.");
+                                    MetodosGerais.RegistrarLog("COBRANCA", "metodosBoleto está nulo.");
                                 }
                             }
                             else
                             {
-                                MetodosGerais.RegistrarLog("BOLETO", "NovoAtrasoBoleto ou CodigoJornada estão nulos.");
+                                MetodosGerais.RegistrarLog("COBRANCA", "NovoAtrasoBoleto ou CodigoJornada estão nulos.");
                             }
                         }
                         else
                         {
-                            MetodosGerais.RegistrarLog("BOLETO", "Objeto conbranca está nulo.");
+                            MetodosGerais.RegistrarLog("COBRANCA", "Objeto conbranca está nulo.");
                         }
                     }
-
                 }
                 else
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Nenhum Boleto para ser feita a cobrança!");
+                    MetodosGerais.RegistrarLog("COBRANCA", $"Nenhum Boleto para ser feita a cobrança!");
 
                 }
             }
             catch (NullReferenceException ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO",$"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
                 throw;
             }
             catch (SqlException ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
                 throw;
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR]: {ex.Message}");
                 throw;
             }
         }
@@ -126,21 +134,21 @@ namespace Integrador_Com_CRM.Models.EF
         {
             try
             {
-                int novoAtraso = 5;
-                metodosBoleto.AtualizarAcaoNoCRM(novoAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
-                await dalCobrancas.DeletarPorCondicaoAsync(x => x.Cod_Oportunidade == boleto.Cod_Oportunidade && x.NovoAtrasoBoleto == novoAtraso);
-                MetodosGerais.RegistrarLog("Cobranca", $"Boleto: {boleto.Id_DocumentoReceber}. Foi atualizado para a etapa {novoAtraso} e excluido da tabela cobranca!");
+                int atraso5 = 5;
+                metodosBoleto.AtualizarAcaoNoCRM(atraso5, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
+                await dalCobrancas.DeletarPorCondicaoAsync(x => x.Cod_Oportunidade == boleto.Cod_Oportunidade && x.NovoAtrasoBoleto == atraso5);
+                MetodosGerais.RegistrarLog("COBRANCA", $"Atraso {atraso5} realizada para o boleto {boleto.Id_DocumentoReceber}. Boleto foi removido da lista de cobrança. CodOp: {boleto.Cod_Oportunidade}");
                 return true;
             }
             catch (SqlException ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
                 return false;
                 throw;
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR]: {ex.Message}");
                 return false;
                 throw;
             }
@@ -167,18 +175,19 @@ namespace Integrador_Com_CRM.Models.EF
                     foreach (var cobranca in cobrancaList)
                     {
                         await dalCobrancas.DeletarAsync(cobranca).ConfigureAwait(false);
+                        MetodosGerais.RegistrarLog("COBRANCA", $"Oportunidade {cobranca.Cod_Oportunidade} removido da lista de cobrança. Boleto Id: {cobranca.BoletoId}");
                     }
                 }
 
             }
             catch (SqlException ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR] na consulta: {ex.Message}");
                 throw;
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Ocorreu um [ERROR]: {ex.Message}");
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR]: {ex.Message}");
                 throw;
             }
         }
