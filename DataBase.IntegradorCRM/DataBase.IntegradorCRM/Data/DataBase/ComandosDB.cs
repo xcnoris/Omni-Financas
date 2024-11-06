@@ -1,13 +1,7 @@
-﻿using Integrador_Com_CRM.Models;
-using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Integrador_Com_CRM.DataBase
+namespace Integrador_Com_CRM.Data.DataBase
 {
     public class ComandosDB
     {

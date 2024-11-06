@@ -146,7 +146,6 @@ namespace Integrador_Com_CRM.Metodos.OS
                         }
                         else
                         {
-                            MetodosGerais.RegistrarLog("OS", $"OS já existe na tabela relação");
                             // Caso a OS esteja na tabela de relação. Deve ser verificado se o ID da categoria mudou. 
                             // Método para ver se a categoria mudou
 

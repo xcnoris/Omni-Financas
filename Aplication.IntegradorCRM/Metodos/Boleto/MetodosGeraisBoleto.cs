@@ -1,7 +1,10 @@
-﻿using Integrador_Com_CRM.Data;
+﻿using Aplication.IntegradorCRM.Servicos;
+using DataBase.IntegradorCRM.Data;
+using Integrador_Com_CRM.Data;
 using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Models;
 using Integrador_Com_CRM.Models.EF;
+using Metodos.IntegradorCRM.Metodos;
 
 namespace Integrador_Com_CRM.Metodos.Boleto
 {
@@ -10,14 +13,14 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         public string Message;
         public bool Status;
         private readonly Frm_BoletoAcoesCRM_UC FrmboletoAcao;
-        private readonly CobrancasNaSegundaModel CobrancasNaSegunda;
+        private readonly CobrancaServicos CobrancasNaSegunda;
         public MetodosGeraisBoleto(Frm_BoletoAcoesCRM_UC boleto)
         {
             FrmboletoAcao = boleto;
             CobrancasNaSegunda = new CobrancasNaSegundaModel();
         }
 
-        public void AtualizarAcaoNoCRM(int diasAtraso,  string codigoJornada, Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
+        public async Task AtualizarAcaoNoCRM(int diasAtraso,  string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
         {
             try
             {
@@ -48,14 +51,14 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                     if (naTableRelacao == true)
                     {
                         BoletoRelacao.Situacao = 2;
-                        EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoRelacao, foiQuitado);
+                        await EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoRelacao, foiQuitado);
                     }
                     else
                     {
                         RelacaoBoletoCRMModel BoletoInTableRElacao = dalBoleto.BuscarPor(x => x.Id_DocumentoReceber == BoletoRelacao.Id_DocumentoReceber);
                         BoletoInTableRElacao.Situacao = BoletoRelacao.Situacao;
                         BoletoInTableRElacao.DiasEmAtraso = BoletoRelacao.DiasEmAtraso;
-                        EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoInTableRElacao, foiQuitado);
+                        await EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoInTableRElacao, foiQuitado);
                     }
 
 
@@ -76,7 +79,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 Status = false;
             }
         }
-        internal async void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,Frm_DadosAPIUC DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
+        internal async void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesCRMModel boletoAcaoBuscado = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
@@ -94,7 +97,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                         // Cria um registro na tabela Cobrancas_Na_Segunda_CRM. Toda Segunda os registro que estao nessa tabela são
                         // Lidos e enviado a mensagem de cobraça. No final e removido o registro
                         // Sim.Faça isso
-                        CobrancasNaSegundaModel CobrancasSegunda = new CobrancasNaSegundaModel(codigoJornada, boleto, FrmboletoAcao);
+                        CobrancaServicos CobrancasSegunda = new CobrancaServicos(codigoJornada, boleto, FrmboletoAcao);
                         await CobrancasSegunda.SalvarDadosEmTableEspera();
                     }
                     else

@@ -1,12 +1,10 @@
-﻿
-
-using Integrador_Com_CRM.Metodos;
+﻿using Metodos.IntegradorCRM.Metodos;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Integrador_Com_CRM.Data
+namespace DataBase.IntegradorCRM.Data
 {
-    internal class DAL<T> : IDisposable where T : class
+    public class DAL<T> : IDisposable where T : class
     {
         private readonly IntegradorDBContext context;
 

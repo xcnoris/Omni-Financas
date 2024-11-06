@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.Models
 {
-    internal class OportunidadeResponse
+    public class OportunidadeResponse
     {
         public string CodigoOportunidade { get; set; }
         public ModeloOportunidadeRequest OS { get; set; }

@@ -1,6 +1,6 @@
 ﻿
 using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.DataBase;
+using Integrador_Com_CRM.Data.DataBase;
 using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Metodos;
 using Integrador_Com_CRM.Metodos.Boleto;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.Models
 {
-    internal class RetornoBoleto
+    public class RetornoBoleto
     {
         public string Num_DocReceber { get; set; }
         public string Id_DocReceber { get; set; }

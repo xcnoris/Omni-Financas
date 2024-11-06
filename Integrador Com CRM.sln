@@ -5,7 +5,15 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integrador Com CRM", "Integrador Com CRM\Integrador Com CRM.csproj", "{D417C0E3-0034-492E-9E61-54F278169EF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigratorDB", "MigratorDB\MigratorDB\MigratorDB.csproj", "{27B34D60-2DCD-4CEA-B3CE-C7DF4F85DE07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MigratorDB", "MigratorDB\MigratorDB\MigratorDB.csproj", "{27B34D60-2DCD-4CEA-B3CE-C7DF4F85DE07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBase.IntegradorCRM", "DataBase.IntegradorCRM\DataBase.IntegradorCRM\DataBase.IntegradorCRM.csproj", "{E19B12A1-64CE-4C69-91EC-55A2566FF81B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modelos.IntegradorCRM", "Modelos.IntegradorCRM\Modelos.IntegradorCRM\Modelos.IntegradorCRM.csproj", "{BE2A24FF-4462-4638-83FB-D25E2F7E8CC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aplication.IntegradorCRM", "Aplication.IntegradorCRM\Aplication.IntegradorCRM.csproj", "{E05143E8-D86D-4917-BAD3-22308D731E02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metodos.IntegradorCRM", "Metodos.IntegradorCRM\Metodos.IntegradorCRM.csproj", "{907B6399-DDC8-4A17-8583-D36BCE107F51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{27B34D60-2DCD-4CEA-B3CE-C7DF4F85DE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27B34D60-2DCD-4CEA-B3CE-C7DF4F85DE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27B34D60-2DCD-4CEA-B3CE-C7DF4F85DE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19B12A1-64CE-4C69-91EC-55A2566FF81B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19B12A1-64CE-4C69-91EC-55A2566FF81B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19B12A1-64CE-4C69-91EC-55A2566FF81B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19B12A1-64CE-4C69-91EC-55A2566FF81B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE2A24FF-4462-4638-83FB-D25E2F7E8CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE2A24FF-4462-4638-83FB-D25E2F7E8CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE2A24FF-4462-4638-83FB-D25E2F7E8CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE2A24FF-4462-4638-83FB-D25E2F7E8CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E05143E8-D86D-4917-BAD3-22308D731E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E05143E8-D86D-4917-BAD3-22308D731E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E05143E8-D86D-4917-BAD3-22308D731E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E05143E8-D86D-4917-BAD3-22308D731E02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{907B6399-DDC8-4A17-8583-D36BCE107F51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{907B6399-DDC8-4A17-8583-D36BCE107F51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{907B6399-DDC8-4A17-8583-D36BCE107F51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{907B6399-DDC8-4A17-8583-D36BCE107F51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

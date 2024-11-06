@@ -1,7 +1,6 @@
-﻿
-namespace Integrador_Com_CRM.Models
+﻿namespace Integrador_Com_CRM.Models
 {
-    internal class ModeloOportunidadeRequest
+    public class ModeloOportunidadeRequest
     {
         public string codigoApi { get; set; }
         public string codigoOportunidade { get; set; }
@@ -12,7 +11,7 @@ namespace Integrador_Com_CRM.Models
         public List<Followup> followups { get; set; }
 
 
-        internal  ModeloOportunidadeRequest CriarOportunidade(RetornoBoleto boleto)
+        public ModeloOportunidadeRequest CriarOportunidade(RetornoBoleto boleto)
         {
             string dataFormatada = boleto.Data_Vencimento.ToString("dd/MM/yyyy");
 

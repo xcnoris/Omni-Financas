@@ -1,10 +1,10 @@
 using Integrador_Com_CRM.Formularios;
-using Integrador_Com_CRM.DataBase;
 using Integrador_Com_CRM.Metodos;
 using Integrador_Com_CRM.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using Integrador_Com_CRM.Data.DataBase;
 namespace MigratorDB
 {
     public partial class Form1 : Form

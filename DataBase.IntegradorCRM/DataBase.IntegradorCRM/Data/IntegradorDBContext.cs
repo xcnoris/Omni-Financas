@@ -1,12 +1,9 @@
-﻿
-
+﻿using Integrador_Com_CRM.Data.DataBase;
 using Integrador_Com_CRM.Data.Map;
-using Integrador_Com_CRM.DataBase;
 using Integrador_Com_CRM.Models.EF;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Integrador_Com_CRM.Data
+namespace DataBase.IntegradorCRM.Data
 {
     public class IntegradorDBContext : DbContext
     {

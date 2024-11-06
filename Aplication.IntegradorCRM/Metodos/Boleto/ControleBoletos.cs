@@ -1,5 +1,4 @@
-﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Formularios;
+﻿using DataBase.IntegradorCRM.Data;
 using Integrador_Com_CRM.Models;
 using Integrador_Com_CRM.Models.EF;
 
@@ -10,17 +9,19 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         private DAL<RelacaoBoletoCRMModel> dalBoleto;
         private readonly CrudBoleto _CrudBoleto;
         private readonly MetodosGeraisBoleto metodosGeraisBoleto;
-        private readonly Frm_BoletoAcoesCRM_UC FrmBoletoAcao;
+        private readonly DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
+        private readonly DAL<DadosAPIModels> _dalBoletoAcoes;
 
-        public ControleBoletos( Frm_BoletoAcoesCRM_UC BoletoAcoes)
+
+        public ControleBoletos(DAL<BoletoAcoesCRMModel> dalBoletoAcoes)
         {
             dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
             _CrudBoleto = new CrudBoleto();
-            FrmBoletoAcao = BoletoAcoes;
+            _dalBoletoAcoes = dalBoletoAcoes;
             metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
-        public async Task VerificarNovosBoletos(Frm_DadosAPIUC DadosAPI)
+        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI)
         {
             try
             {

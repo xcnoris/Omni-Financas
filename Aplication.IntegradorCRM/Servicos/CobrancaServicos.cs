@@ -1,54 +1,52 @@
-﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Formularios;
-using Integrador_Com_CRM.Metodos;
+﻿using DataBase.IntegradorCRM.Data;
 using Integrador_Com_CRM.Metodos.Boleto;
+using Integrador_Com_CRM.Models.EF;
+using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
 
-namespace Integrador_Com_CRM.Models.EF
+namespace Aplication.IntegradorCRM.Servicos
 {
-    public class CobrancasNaSegundaModel
+    internal class CobrancaServicos
     {
+
         internal DAL<RelacaoBoletoCRMModel> dalRelBoleto;
         internal DAL<CobrancasNaSegundaModel> dalCobrancas;
         private MetodosGeraisBoleto metodosBoleto;
+        private CobrancasNaSegundaModel cobrancasNaSegundaModel;
+        
+
         private readonly Frm_BoletoAcoesCRM_UC FrmBoletoAcao;
 
-        public int Id { get; set; }
-        public string CodigoJornada { get; set; }
-        public int BoletoId { get; set; }
-        public RelacaoBoletoCRMModel? Boleto { get; set; }
-        public int NovoAtrasoBoleto { get; set; }
-        public string Cod_Oportunidade { get; set; }
 
-        public CobrancasNaSegundaModel()
+        public CobrancaServicos()
         {
             dalCobrancas = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
             dalRelBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
         }
 
-        public CobrancasNaSegundaModel(string codigoJornada, RelacaoBoletoCRMModel boletoRelacao, Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
+        public CobrancaServicos(string codigoJornada, RelacaoBoletoCRMModel boletoRelacao, BoletoAcoesCRMModel boelto) : this()
         {
-            FrmBoletoAcao = FrmBoleto;
             metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
-            CodigoJornada = codigoJornada;
-            BoletoId = boletoRelacao.Id;
-            NovoAtrasoBoleto = boletoRelacao.DiasEmAtraso;
-            Cod_Oportunidade = boletoRelacao.Cod_Oportunidade;
+            cobrancasNaSegundaModel.CodigoJornada = codigoJornada;
+            cobrancasNaSegundaModel.BoletoId = boletoRelacao.Id;
+            cobrancasNaSegundaModel.NovoAtrasoBoleto = boletoRelacao.DiasEmAtraso;
+            cobrancasNaSegundaModel.Cod_Oportunidade = boletoRelacao.Cod_Oportunidade;
         }
 
-        public CobrancasNaSegundaModel(Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
+        public CobrancaServicos(Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
         {
             FrmBoletoAcao = FrmBoleto;
             metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
+
 
 
         internal async Task SalvarDadosEmTableEspera()
         {
             try
             {
-                await dalCobrancas.AdicionarAsync(this);
-                MetodosGerais.RegistrarLog("COBRANCA", $"Ação {NovoAtrasoBoleto} marcada para ser cobrado na segunda para o boletoBoleto {Boleto.Id_DocumentoReceber}. CodOp: {Cod_Oportunidade}");
+                await dalCobrancas.AdicionarAsync(cobrancasNaSegundaModel);
+                MetodosGerais.RegistrarLog("COBRANCA", $"Ação {cobrancasNaSegundaModel.NovoAtrasoBoleto} marcada para ser cobrado na segunda para o boletoBoleto {Boleto.Id_DocumentoReceber}. CodOp: {Cod_Oportunidade}");
             }
             catch (Exception ex)
             {

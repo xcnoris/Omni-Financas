@@ -1,9 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Metodos.IntegradorCRM.Metodos;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
-using Integrador_Com_CRM.Metodos;
 
-namespace Integrador_Com_CRM.DataBase
+namespace Integrador_Com_CRM.Data.DataBase
 {
     public class ConexaoDB
     {
@@ -18,7 +18,7 @@ namespace Integrador_Com_CRM.DataBase
         // Construtor é usado no Metodo CarregarBanco, caso não exista, causa um loop
         public ConexaoDB()
         {
-            
+
         }
 
         public ConexaoDB(string teste)
@@ -68,7 +68,7 @@ namespace Integrador_Com_CRM.DataBase
                     throw new FileNotFoundException("O caminho do arquivo de conexão não foi encontrado.");
                 }
 
-                ConexaoDB conexao = ConexaoDB.LoadConnectionData(filePath);
+                ConexaoDB conexao = LoadConnectionData(filePath);
                 if (conexao != null)
                 {
                     Servidor = conexao.Servidor;
@@ -92,9 +92,7 @@ namespace Integrador_Com_CRM.DataBase
             {
                 // Log do erro pode ser adicionado aqui, se necessário
                 MetodosGerais.RegistrarLog("OS", $"ERROR: {ex.Message}");
-                MessageBox.Show("Erro ao carregar dados de conexão: " + ex.Message);
-                // Re-throw a exceção para que ela possa ser tratada em um nível superior, se necessário
-                return "";
+                throw;
             }
         }
 

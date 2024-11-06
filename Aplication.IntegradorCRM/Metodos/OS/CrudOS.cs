@@ -1,4 +1,4 @@
-﻿using Integrador_Com_CRM.DataBase;
+﻿using Integrador_Com_CRM.Data.DataBase;
 using Integrador_Com_CRM.Models;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace Integrador_Com_CRM.Metodos.OS
                     LEFT JOIN 
                         pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
                     WHERE 
-                         OS.data_hora_cadastro >= '01/08/2024'
+                         OS.data_hora_cadastro >= '01/10/2024'
                 ";
                 //string query = "SELECT id_ordem_servico, nome_cliente, fone_ddd_cliente + fone_numero_cliente AS telefone, email_cliente, id_categoria_ordem_servico FROM ordem_servico WHERE id_ordem_servico = 8674";
 
