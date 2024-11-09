@@ -1,6 +1,6 @@
 ﻿
 
-namespace Integrador_Com_CRM.Models.EF
+namespace Modelos.IntegradorCRM.Models.EF
 {
     public class OSAcoesCRMModel
     {

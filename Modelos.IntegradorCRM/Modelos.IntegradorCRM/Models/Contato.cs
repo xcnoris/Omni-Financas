@@ -1,4 +1,4 @@
-﻿namespace Integrador_Com_CRM.Models
+﻿namespace Modelos.IntegradorCRM.Models
 {
     public class Contato
     {

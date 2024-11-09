@@ -1,4 +1,6 @@
-﻿namespace Integrador_Com_CRM.Models
+﻿using Modelos.IntegradorCRM.Models;
+
+namespace Modelos.IntegradorCRMRM.Models
 {
     public class ModeloOportunidadeRequest
     {

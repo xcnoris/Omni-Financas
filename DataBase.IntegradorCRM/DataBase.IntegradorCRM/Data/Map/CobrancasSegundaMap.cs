@@ -1,8 +1,8 @@
-﻿using Integrador_Com_CRM.Models.EF;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Modelos.IntegradorCRM.Models.EF;
 
-namespace Integrador_Com_CRM.Data.Map
+namespace DataBase.IntegradorCRM.Data.Map
 {
     internal class CobrancasSegundaMap : IEntityTypeConfiguration<CobrancasNaSegundaModel>
     {

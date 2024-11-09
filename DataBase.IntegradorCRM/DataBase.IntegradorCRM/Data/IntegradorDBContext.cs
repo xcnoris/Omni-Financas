@@ -1,7 +1,7 @@
 ﻿using Integrador_Com_CRM.Data.DataBase;
 using Integrador_Com_CRM.Data.Map;
-using Integrador_Com_CRM.Models.EF;
 using Microsoft.EntityFrameworkCore;
+using Modelos.IntegradorCRM.Models.EF;
 
 namespace DataBase.IntegradorCRM.Data
 {

@@ -1,11 +1,6 @@
-﻿using Integrador_Com_CRM.Models.EF;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Modelos.IntegradorCRM.Models.EF;
 
 namespace Integrador_Com_CRM.Data.Map
 {
