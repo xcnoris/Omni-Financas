@@ -1,5 +1,4 @@
 ﻿using DataBase.IntegradorCRM.Data;
-using Integrador_Com_CRM.Metodos.Boleto;
 using Integrador_Com_CRM.Models.EF;
 using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
@@ -11,7 +10,7 @@ namespace Aplication.IntegradorCRM.Servicos
 
         internal DAL<RelacaoBoletoCRMModel> dalRelBoleto;
         internal DAL<CobrancasNaSegundaModel> dalCobrancas;
-        private MetodosGeraisBoleto metodosBoleto;
+        private Boleto_Services metodosBoleto;
         private CobrancasNaSegundaModel cobrancasNaSegundaModel;
         
 
@@ -26,7 +25,7 @@ namespace Aplication.IntegradorCRM.Servicos
 
         public CobrancaServicos(string codigoJornada, RelacaoBoletoCRMModel boletoRelacao, BoletoAcoesCRMModel boelto) : this()
         {
-            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
+            metodosBoleto = new Boleto_Services(FrmBoletoAcao);
             cobrancasNaSegundaModel.CodigoJornada = codigoJornada;
             cobrancasNaSegundaModel.BoletoId = boletoRelacao.Id;
             cobrancasNaSegundaModel.NovoAtrasoBoleto = boletoRelacao.DiasEmAtraso;
@@ -36,7 +35,7 @@ namespace Aplication.IntegradorCRM.Servicos
         public CobrancaServicos(Frm_BoletoAcoesCRM_UC FrmBoleto) : this()
         {
             FrmBoletoAcao = FrmBoleto;
-            metodosBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
+            metodosBoleto = new Boleto_Services(FrmBoletoAcao);
         }
 
 

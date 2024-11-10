@@ -3,7 +3,7 @@ using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
 
-namespace Integrador_Com_CRM.Data.DataBase
+namespace DataBase.IntegradorCRM.Data.DataBase
 {
     public class ConexaoDB
     {

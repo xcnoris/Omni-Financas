@@ -1,4 +1,5 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using Aplication.IntegradorCRM.Servicos;
+using DataBase.IntegradorCRM.Data;
 using Integrador_Com_CRM.Models;
 using Integrador_Com_CRM.Models.EF;
 
@@ -8,7 +9,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
     {
         private DAL<RelacaoBoletoCRMModel> dalBoleto;
         private readonly CrudBoleto _CrudBoleto;
-        private readonly MetodosGeraisBoleto metodosGeraisBoleto;
+        private readonly Boleto_Services metodosGeraisBoleto;
         private readonly DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
         private readonly DAL<DadosAPIModels> _dalBoletoAcoes;
 

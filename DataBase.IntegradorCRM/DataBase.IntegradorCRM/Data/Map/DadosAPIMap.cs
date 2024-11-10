@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Modelos.IntegradorCRM.Models.EF;
 
-namespace Integrador_Com_CRM.Data.Map
+namespace DataBase.IntegradorCRM.Data.Map
 {
     internal class DadosAPIMap : IEntityTypeConfiguration<DadosAPIModels>
     {
@@ -10,6 +10,12 @@ namespace Integrador_Com_CRM.Data.Map
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Token).HasMaxLength(500);
+            builder.Property(x => x.Cod_API_Boleto).HasMaxLength(50);
+            builder.Property(x => x.Cod_Jornada_Boleto).HasMaxLength(50);
+            builder.Property(x => x.Cod_API_OrdemServico).HasMaxLength(50);
+            builder.Property(x => x.Cod_Jornada_OrdemServico).HasMaxLength(50);
+
+
         }
     }
 }

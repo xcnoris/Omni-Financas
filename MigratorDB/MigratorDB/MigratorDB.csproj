@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DataBase.IntegradorCRM\DataBase.IntegradorCRM\DataBase.IntegradorCRM.csproj" />
     <ProjectReference Include="..\..\Integrador Com CRM\Integrador Com CRM.csproj" />
+    <ProjectReference Include="..\..\Modelos.IntegradorCRM\Modelos.IntegradorCRM\Modelos.IntegradorCRM.csproj" />
   </ItemGroup>
 
 </Project>

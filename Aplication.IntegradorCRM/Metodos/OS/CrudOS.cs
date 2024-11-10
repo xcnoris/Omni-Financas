@@ -1,11 +1,7 @@
-﻿using Integrador_Com_CRM.Data.DataBase;
-using Integrador_Com_CRM.Models;
-using System;
-using System.Collections.Generic;
+﻿using DataBase.IntegradorCRM.Data.DataBase;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRMRM.Models;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Integrador_Com_CRM.Metodos.OS
 {

@@ -1,10 +1,10 @@
-using Integrador_Com_CRM.Formularios;
-using Integrador_Com_CRM.Metodos;
-using Integrador_Com_CRM.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
-using Integrador_Com_CRM.Data.DataBase;
+using DataBase.IntegradorCRM.Data.DataBase;
+using Metodos.IntegradorCRM.Metodos;
+using DataBase.IntegradorCRM.Data;
+
 namespace MigratorDB
 {
     public partial class Form1 : Form
@@ -103,6 +103,7 @@ namespace MigratorDB
                     IpHost = Txt_IpHost.Text,
                     DataBase = Txt_DataBase.Text,
                     Usuario = Txt_Usuario.Text,
+             
                     Senha = Txt_Senha.Text
                 };
 

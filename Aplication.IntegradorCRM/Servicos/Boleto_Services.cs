@@ -1,26 +1,26 @@
-﻿using Aplication.IntegradorCRM.Servicos;
-using DataBase.IntegradorCRM.Data;
+﻿using DataBase.IntegradorCRM.Data;
 using Integrador_Com_CRM.Data;
 using Integrador_Com_CRM.Formularios;
+using Integrador_Com_CRM.Metodos.Boleto;
 using Integrador_Com_CRM.Models;
 using Integrador_Com_CRM.Models.EF;
 using Metodos.IntegradorCRM.Metodos;
 
-namespace Integrador_Com_CRM.Metodos.Boleto
+namespace Aplication.IntegradorCRM.Servicos
 {
-    internal class MetodosGeraisBoleto
+    internal class Boleto_Services
     {
         public string Message;
         public bool Status;
         private readonly Frm_BoletoAcoesCRM_UC FrmboletoAcao;
         private readonly CobrancaServicos CobrancasNaSegunda;
-        public MetodosGeraisBoleto(Frm_BoletoAcoesCRM_UC boleto)
+        public Boleto_Services(Frm_BoletoAcoesCRM_UC boleto)
         {
             FrmboletoAcao = boleto;
             CobrancasNaSegunda = new CobrancasNaSegundaModel();
         }
 
-        public async Task AtualizarAcaoNoCRM(int diasAtraso,  string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
+        public async Task AtualizarAcaoNoCRM(int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 Status = false;
             }
         }
-        internal async void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada,DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
+        internal async void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesCRMModel boletoAcaoBuscado = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
@@ -115,7 +115,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                         else
                         {
                             AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
-                            
+
                         }
                     }
                 }

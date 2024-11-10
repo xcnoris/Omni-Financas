@@ -1,5 +1,5 @@
-﻿using Integrador_Com_CRM.Data.DataBase;
-using Integrador_Com_CRM.Data.Map;
+﻿using DataBase.IntegradorCRM.Data.DataBase;
+using DataBase.IntegradorCRM.Data.Map;
 using Microsoft.EntityFrameworkCore;
 using Modelos.IntegradorCRM.Models.EF;
 
@@ -28,6 +28,7 @@ namespace DataBase.IntegradorCRM.Data
         public DbSet<CobrancasNaSegundaModel> Cobrancas_Na_Segunda_CRM { get; set; }
         public DbSet<BoletoAcoesCRMModel> boletoAcoes_CRM { get; set; }
         public DbSet<OSAcoesCRMModel> OSAcao_CRM { get; set; }
+        public DbSet<AcaoSituacao_OS_CRM> acaoSituacao_OS_CRM { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());
@@ -36,6 +37,7 @@ namespace DataBase.IntegradorCRM.Data
             modelBuilder.ApplyConfiguration(new CobrancasSegundaMap());
             modelBuilder.ApplyConfiguration(new BoletoAcaoCRM_Map());
             modelBuilder.ApplyConfiguration(new OSAcaoMap());
+            modelBuilder.ApplyConfiguration(new acaoSituacao_OS_Map());
 
         }
 

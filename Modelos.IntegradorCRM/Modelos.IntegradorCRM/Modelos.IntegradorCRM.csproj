@@ -10,4 +10,8 @@
     <ProjectReference Include="..\..\Metodos.IntegradorCRM\Metodos.IntegradorCRM.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\OS\" />
+  </ItemGroup>
+
 </Project>

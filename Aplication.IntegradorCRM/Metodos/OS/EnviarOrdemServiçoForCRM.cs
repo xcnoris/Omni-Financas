@@ -1,7 +1,11 @@
-﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Models;
-using Integrador_Com_CRM.Models.EF;
+﻿using Aplication.IntegradorCRM.Servicos;
+using DataBase.IntegradorCRM.Data;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models;
+using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRMRM.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -9,16 +13,13 @@ namespace Integrador_Com_CRM.Metodos.OS
 {
     internal class EnviarOrdemServiçoForCRM
     {
-        public static async Task<OportunidadeResponse> EnviarOportunidade(ModeloOportunidadeRequest request, string Token, RelacaoOrdemServicoModels TableRelacaoOS,DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+
+        public static async Task<OportunidadeResponse> EnviarOportunidade(ModeloOportunidadeRequest request, string token, RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {
-            using (HttpClient client = new HttpClient())
+            using (HttpClient client = OS_Services.ConfigurarHttpClient(token))
             {
                 string url = "https://api.leadfinder.com.br/integracao/v2/inserirOportunidade";
-                client.DefaultRequestHeaders.Add("Authorization", Token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                string json = JsonConvert.SerializeObject(request);
-                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpContent content = OS_Services.CriarConteudoJson(request);
 
                 try
                 {
@@ -28,59 +29,29 @@ namespace Integrador_Com_CRM.Metodos.OS
 
                     if (response.IsSuccessStatusCode)
                     {
-                        OportunidadeResponse resposta = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
-                        if (resposta != null)
-                        {
-
-                            MetodosGerais.RegistrarLog("OS", "Resposta OK - Oportunidade criada no CRM:");
-                            MetodosGerais.RegistrarLog("OS", responseBody);
-
-                            /*
-                                Define o CodOportunidade com valor que retornou no response da chamada da API
-                                O codOportunidade usaremos mais tarde para movimentar a Oportunidade no CRM
-                            */
-                            TableRelacaoOS.Cod_Oportunidade = resposta.CodigoOportunidade;
-                            TableRelacaoOS.Data_Criacao = DateTime.Now;
-                            using (var dalOSUsing = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext()))
-                            {
-                                await dalOSUsing.AdicionarAsync(TableRelacaoOS);
-                            }
-                            return resposta;
-
-                        }
-                        else
-                        {
-                            MetodosGerais.RegistrarLog("OS", "Erro na resposta: resposta desserializada é nula.");
-                        }
+                        return await OS_Services.ProcessarRespostaSucesso(responseBody, tableRelacaoOS, dalRelacaoOS);
                     }
                     else
                     {
-                        MetodosGerais.RegistrarLog("OS", "Erro na resposta da API:");
-                        MetodosGerais.RegistrarLog("OS", $"Status Code: {response.StatusCode}");
-                        MetodosGerais.RegistrarLog("OS", responseBody);
+                        OS_Services.RegistrarErroResposta(response, responseBody);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("OS", "Exceção durante a chamada da API:");
-                    MetodosGerais.RegistrarLog("OS", ex.Message);
-                    throw new Exception(ex.Message);
+                    MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
+                    throw;
                 }
 
                 return null;
             }
         }
 
-        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string Token, RelacaoOrdemServicoModels TableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string token, RelacaoOrdemServicoModels TableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {
-            using (HttpClient client = new HttpClient())
+            using (HttpClient client = OS_Services.ConfigurarHttpClient(token))
             {
                 string url = "https://api.leadfinder.com.br/integracao/movimentarOportunidade";
-                client.DefaultRequestHeaders.Add("Authorization", Token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                string json = JsonConvert.SerializeObject(request);
-                HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpContent content = OS_Services.CriarConteudoJson(request);
 
                 try
                 {
@@ -89,40 +60,17 @@ namespace Integrador_Com_CRM.Metodos.OS
 
                     if (response.IsSuccessStatusCode)
                     {
-                        OportunidadeResponse resposta = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
-                        if (resposta != null)
-                        {
-                            MetodosGerais.RegistrarLog("OS", "Resposta OK -  Oportunidade Atualizada no CRM: ");
-                            MetodosGerais.RegistrarLog("OS", responseBody);
-
-                            
-                            TableRelacaoOS.Data_Alteracao = DateTime.Now;
-
-                            using (var dalOSUsing = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext()))
-                            {
-                                await dalOSUsing.AtualizarAsync(TableRelacaoOS);
-                            }
-                            MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {TableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {TableRelacaoOS.Id_OrdemServico}.");
-                           
-                            return resposta;
-                        }
-                        else
-                        {
-                            MetodosGerais.RegistrarLog("OS", "Erro na resposta: resposta desserializada é nula.");
-                        }
+                        return await OS_Services.ProcessarRespostaAtualizacao(responseBody, TableRelacaoOS, dalRelacaoOS);
                     }
                     else
                     {
-                        MetodosGerais.RegistrarLog("OS", "Erro na resposta da API:");
-                        MetodosGerais.RegistrarLog("OS", $"Status Code: {response.StatusCode}");
-                        MetodosGerais.RegistrarLog("OS", responseBody);
+                        OS_Services.RegistrarErroResposta(response, responseBody);
                     }
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("OS", "Exceção durante a chamada da API:");
-                    MetodosGerais.RegistrarLog("OS", ex.Message);
-                    throw new Exception(ex.Message);
+                    MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
+                    throw;
                 }
 
                 return null;

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Modelos.IntegradorCRM.Models.EF;
 
-namespace Modelos.IntegradorCRM.Data.Map
+namespace DataBase.IntegradorCRM.Data.Map
 {
     internal class BoletoAcaoCRM_Map : IEntityTypeConfiguration<BoletoAcoesCRMModel>
     {
