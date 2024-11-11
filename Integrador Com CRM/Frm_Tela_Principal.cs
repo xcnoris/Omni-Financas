@@ -1,11 +1,9 @@
-﻿
-using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Data.DataBase;
+﻿using DataBase.IntegradorCRM.Data;
+using DataBase.IntegradorCRM.Data.DataBase;
 using Integrador_Com_CRM.Formularios;
-using Integrador_Com_CRM.Metodos;
-using Integrador_Com_CRM.Metodos.Boleto;
 using Integrador_Com_CRM.Metodos.OS;
-using Integrador_Com_CRM.Models.EF;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models.EF;
 
 namespace Integrador_Com_CRM
 {
@@ -24,12 +22,12 @@ namespace Integrador_Com_CRM
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoesCRM;
         private readonly Frm_OSAcoesCRM_UC FrmOSAcao;
 
+        ControleOrdemDeServico ControlOS;
+
         private readonly IntegradorDBContext context;
-        private readonly ControleOrdemDeServico ControlOS;
-        private readonly ControleBoletos ControlBoleto;
         private readonly CobrancasNaSegundaModel cobrancas;
 
-
+        List<OSAcoesCRMModel> modelList;
 
         public Frm_Tela_Principal()
         {
@@ -39,71 +37,71 @@ namespace Integrador_Com_CRM
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
 
             context =new IntegradorDBContext();
-            ControlOS = new ControleOrdemDeServico(FrmOSAcao);
-            ControlBoleto = new ControleBoletos(BoletoAcoesCRM);
+            ControlOS = new ControleOrdemDeServico(modelList);
+            //ControlBoleto = new ControleBoletos(BoletoAcoesCRM);
 
             //Instanciando Variaveis dos Formularios
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
-            cobrancas = new CobrancasNaSegundaModel(BoletoAcoesCRM);
+            cobrancas = new CobrancasNaSegundaModel();
 
-            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC, BoletoAcoesCRM);
+            //FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC, BoletoAcoesCRM);
 
 
             AdicionarUserontrols();
 
-            // Timer para executar a função periodicamente a cada 5 minutos
-            timer5Min = new System.Timers.Timer(300000); // 5 min
-            timer5Min.Elapsed += async (s, e) =>
-            {
-                try
-                {
-                    await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
+            //// Timer para executar a função periodicamente a cada 5 minutos
+            //timer5Min = new System.Timers.Timer(300000); // 5 min
+            //timer5Min.Elapsed += async (s, e) =>
+            //{
+            //    try
+            //    {
+            //        await ControlOS.VerificarNovosServicos(FrmDadosAPIUUC);
                 
-                }
-                catch (Exception ex)
-                {
-                    // Log de erro
-                    MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
-                }
-            };
-            timer5Min.Start();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Log de erro
+            //        MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
+            //    }
+            //};
+            //timer5Min.Start();
 
-            // Timer para execulta a função periodica todo dia as 10:30h Brasília
-            timerDaily = new System.Timers.Timer();
-            timerDaily.Elapsed += async (s, e) =>
-            {
-                try
-                {
-                    await ControlBoleto.VerificarNovosBoletos(FrmDadosAPIUUC);
-                }
-                catch (Exception ex)
-                {
-                    // Log de erro
-                    MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
-                }
-                // Reconfigurar o timer para o próximo dia às 10:30 AM
-                SetDailyTimer();
-            };
-            SetDailyTimer();
+            //// Timer para execulta a função periodica todo dia as 10:30h Brasília
+            //timerDaily = new System.Timers.Timer();
+            //timerDaily.Elapsed += async (s, e) =>
+            //{
+            //    try
+            //    {
+            //        await ControlBoleto.VerificarNovosBoletos(FrmDadosAPIUUC);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Log de erro
+            //        MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
+            //    }
+            //    // Reconfigurar o timer para o próximo dia às 10:30 AM
+            //    SetDailyTimer();
+            //};
+            //SetDailyTimer();
 
-            // Timer para execulta a função periodica toda segunda as 10:45h brasilia
-            timerMonday = new System.Timers.Timer();
-            timerMonday.Elapsed += async (s, e) =>
-            {
-                try
-                {
-                    await cobrancas.RealizarCobrancas(FrmDadosAPIUUC);
-                }
-                catch (Exception ex)
-                {
-                    // Log de erro
-                    MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
-                }
-                // Reconfigurar o timer para a próxima segunda às 10:30 AM
-                SetDailyTimerSegunda();
-            };
-            SetDailyTimerSegunda();
+            //// Timer para execulta a função periodica toda segunda as 10:45h brasilia
+            //timerMonday = new System.Timers.Timer();
+            //timerMonday.Elapsed += async (s, e) =>
+            //{
+            //    try
+            //    {
+            //        await cobrancas.RealizarCobrancas(FrmDadosAPIUUC);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        // Log de erro
+            //        MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
+            //    }
+            //    // Reconfigurar o timer para a próxima segunda às 10:30 AM
+            //    SetDailyTimerSegunda();
+            //};
+            //SetDailyTimerSegunda();
         }
 
 

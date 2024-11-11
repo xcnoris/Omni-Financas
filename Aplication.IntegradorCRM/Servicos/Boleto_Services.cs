@@ -1,10 +1,12 @@
 ﻿using DataBase.IntegradorCRM.Data;
-using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Formularios;
 using Integrador_Com_CRM.Metodos.Boleto;
-using Integrador_Com_CRM.Models;
-using Integrador_Com_CRM.Models.EF;
 using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRM.Models;
+using Modelos.IntegradorCRMRM.Models;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace Aplication.IntegradorCRM.Servicos
 {
@@ -12,19 +14,18 @@ namespace Aplication.IntegradorCRM.Servicos
     {
         public string Message;
         public bool Status;
-        private readonly Frm_BoletoAcoesCRM_UC FrmboletoAcao;
         private readonly CobrancaServicos CobrancasNaSegunda;
-        public Boleto_Services(Frm_BoletoAcoesCRM_UC boleto)
+        public Boleto_Services()
         {
-            FrmboletoAcao = boleto;
-            CobrancasNaSegunda = new CobrancasNaSegundaModel();
+           
         }
 
+        #region Metodos Gerais
         public async Task AtualizarAcaoNoCRM(int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
         {
             try
             {
-                BoletoAcoesCRMModel BoletoAcaoBuscado = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
+                BoletoAcoesCRMModel BoletoAcaoBuscado = new BoletoAcoesCRMModel();// = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
                 if (BoletoAcaoBuscado is not null)
                 {
 
@@ -82,7 +83,7 @@ namespace Aplication.IntegradorCRM.Servicos
         internal async void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
-            BoletoAcoesCRMModel boletoAcaoBuscado = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
+            BoletoAcoesCRMModel boletoAcaoBuscado = new BoletoAcoesCRMModel();// = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
 
             if (boletoAcaoBuscado is not null)
             {
@@ -97,8 +98,8 @@ namespace Aplication.IntegradorCRM.Servicos
                         // Cria um registro na tabela Cobrancas_Na_Segunda_CRM. Toda Segunda os registro que estao nessa tabela são
                         // Lidos e enviado a mensagem de cobraça. No final e removido o registro
                         // Sim.Faça isso
-                        CobrancaServicos CobrancasSegunda = new CobrancaServicos(codigoJornada, boleto, FrmboletoAcao);
-                        await CobrancasSegunda.SalvarDadosEmTableEspera();
+                        //CobrancaServicos CobrancasSegunda = new CobrancaServicos(codigoJornada, boleto, FrmboletoAcao);
+                        //await CobrancasSegunda.SalvarDadosEmTableEspera();
                     }
                     else
                     {
@@ -109,7 +110,7 @@ namespace Aplication.IntegradorCRM.Servicos
                         // Então deve ser cobrado primeiro os do 5 dias e depois do dia 6
                         if (diasAtraso == 6 && eSegunda)
                         {
-                            await CobrancasNaSegunda.CobrarAtraso5Dias(codigoJornada, DadosAPI, dalBoleto, boleto);
+                            //await CobrancasNaSegunda.CobrarAtraso5Dias(codigoJornada, DadosAPI, dalBoleto, boleto);
                             AtualizarAcaoNoCRM(diasAtraso, codigoJornada, DadosAPI, dalBoleto, boleto, false, true);
                         }
                         else
@@ -126,5 +127,122 @@ namespace Aplication.IntegradorCRM.Servicos
                 MetodosGerais.RegistrarLog("BOLETO", $"Boleto não está em atraso significativo.");
             }
         }
+
+        #endregion
+
+        #region Metodo API
+
+        // Método auxiliar para enviar requisição de criação de oportunidade para a API
+        internal static async Task<OportunidadeResponse> EnviarRequisicaoCriarOportunidade(ModeloOportunidadeRequest request, string token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                try
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", "Enviando requisição para criar oportunidade no CRM...");
+
+                    var response = await client.PostAsync("https://api.leadfinder.com.br/integracao/v2/inserirOportunidade", content);
+                    var responseBody = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MetodosGerais.RegistrarLog("BOLETO", "Resposta OK - Oportunidade criada no CRM");
+                        return JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
+                    }
+
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody}");
+                }
+                catch (HttpRequestException ex)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}");
+                    throw;
+                }
+
+                return null;
+            }
+        }
+
+        // Método auxiliar para adicionar o boleto no banco de dados
+        internal static async Task AdicionarBoletoNoBanco(DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel, string codigoOportunidade)
+        {
+            boletoInTabRel.Cod_Oportunidade = codigoOportunidade;
+            boletoInTabRel.Data_Criacao = DateTime.Now;
+
+            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+            {
+                await dalBoletoUsing.AdicionarAsync(boletoInTabRel);
+            }
+        }
+
+        internal static async Task<OportunidadeResponse> AtualizarOportunidadeNaApi(AtualizarAcaoRequest request, string token)
+        {
+            // configurar o cabeçalho de autorização 
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                try
+                {
+                    var response = await client.PostAsync("https://api.leadfinder.com.br/integracao/movimentarOportunidade", content);
+                    var responseBody = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        MetodosGerais.RegistrarLog("BOLETO", "Resposta OK - Oportunidade Atualizada no CRM");
+                        return JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
+                    }
+
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody}");
+                }
+                catch (HttpRequestException ex)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}");
+                    throw;
+                }
+
+                return null;
+            }
+        }
+
+        // Método auxiliar para atualizar boleto no banco
+        internal static async Task AtualizarBoletoNoBanco(RelacaoBoletoCRMModel boletoRelacao)
+        {
+            boletoRelacao.Data_Atualizacao = DateTime.Now;
+
+            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+            {
+                await dalBoletoUsing.AtualizarAsync(boletoRelacao);
+            }
+        }
+
+        // Metodo Recebe Boletos que tenham sido quitados, o boleto será excluido da tabela de cobrança de fim de semana caso tenha
+        internal static async Task ProcessarBoletoQuitado(RelacaoBoletoCRMModel boletoRelacao)
+        {
+            var cobrancas = new CobrancasNaSegundaModel();
+            //await cobrancas.RemoverRegistro(boletoRelacao.Id, true);
+            MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {boletoRelacao.Situacao} para o documento {boletoRelacao.Id_DocumentoReceber}");
+        }
+
+        #endregion
     }
 }

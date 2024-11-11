@@ -1,6 +1,8 @@
-﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Metodos;
-using Integrador_Com_CRM.Models.EF;
+﻿
+
+using DataBase.IntegradorCRM.Data;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models.EF;
 
 namespace Integrador_Com_CRM.Formularios
 {

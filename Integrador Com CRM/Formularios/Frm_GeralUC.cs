@@ -1,7 +1,9 @@
-﻿using Integrador_Com_CRM.Metodos;
+﻿
+using DataBase.IntegradorCRM.Data;
 using Integrador_Com_CRM.Metodos.Boleto;
 using Integrador_Com_CRM.Metodos.OS;
-using Integrador_Com_CRM.Models.EF;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models.EF;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -10,17 +12,19 @@ namespace Integrador_Com_CRM.Formularios
         private readonly ControleOrdemDeServico controlOrdemServico;
         private readonly ControleBoletos controlBoletos;
         private readonly CobrancasNaSegundaModel cobrancas;
-        private readonly Frm_DadosAPIUC DadosAPI;
+        private readonly DadosAPIModels DadosAPI;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
-        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_DadosAPIUC dadosAPI, Frm_BoletoAcoesCRM_UC BoletosAcoes)
+        DAL<BoletoAcoesCRMModel> osList;
+
+        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, DadosAPIModels dadosAPI, Frm_BoletoAcoesCRM_UC BoletosAcoes)
         {
             InitializeComponent();
 
             controlOrdemServico = controlOS;
             BoletoAcoes = BoletosAcoes;
-            controlBoletos = new ControleBoletos(BoletoAcoes);
-            cobrancas = new CobrancasNaSegundaModel(BoletoAcoes);
-            this.DadosAPI = dadosAPI;
+            controlBoletos = new ControleBoletos(osList);
+            cobrancas = new CobrancasNaSegundaModel();
+            DadosAPI = dadosAPI;
         }
 
         private async void Btn_BuscarOS_Click(object sender, EventArgs e)
@@ -65,7 +69,7 @@ namespace Integrador_Com_CRM.Formularios
             try
             {
                 MetodosGerais.RegistrarLog("COBRANCA", $"=======>>> Cobrança consultadas manualmente <<<=======\n");
-                await cobrancas.RealizarCobrancas(DadosAPI);
+                //await cobrancas(DadosAPI);
 
                 MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

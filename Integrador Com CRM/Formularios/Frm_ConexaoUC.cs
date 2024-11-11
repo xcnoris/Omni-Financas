@@ -1,15 +1,6 @@
-﻿using Integrador_Com_CRM.Data.DataBase;
-using Integrador_Com_CRM.Metodos;
+﻿using DataBase.IntegradorCRM.Data.DataBase;
+using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Integrador_Com_CRM.Formularios
 {

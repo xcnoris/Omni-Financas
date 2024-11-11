@@ -1,5 +1,6 @@
-﻿using Integrador_Com_CRM.Data.DataBase;
-using Integrador_Com_CRM.Models;
+﻿using DataBase.IntegradorCRM.Data.DataBase;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRMRM.Models;
 using System.Data;
 
 namespace Integrador_Com_CRM.Metodos.Boleto

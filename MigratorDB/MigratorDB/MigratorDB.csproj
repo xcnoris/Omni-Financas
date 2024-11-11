@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\DataBase.IntegradorCRM\DataBase.IntegradorCRM\DataBase.IntegradorCRM.csproj" />
     <ProjectReference Include="..\..\Integrador Com CRM\Integrador Com CRM.csproj" />
     <ProjectReference Include="..\..\Modelos.IntegradorCRM\Modelos.IntegradorCRM\Modelos.IntegradorCRM.csproj" />

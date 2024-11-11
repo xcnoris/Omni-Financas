@@ -1,7 +1,8 @@
 ﻿using Aplication.IntegradorCRM.Servicos;
 using DataBase.IntegradorCRM.Data;
-using Integrador_Com_CRM.Models;
-using Integrador_Com_CRM.Models.EF;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRMRM.Models;
 
 namespace Integrador_Com_CRM.Metodos.Boleto
 {
@@ -11,7 +12,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         private readonly CrudBoleto _CrudBoleto;
         private readonly Boleto_Services metodosGeraisBoleto;
         private readonly DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
-        private readonly DAL<DadosAPIModels> _dalBoletoAcoes;
+        private readonly DAL<DadosAPIModels> _dalDadosAPI;
 
 
         public ControleBoletos(DAL<BoletoAcoesCRMModel> dalBoletoAcoes)
@@ -19,7 +20,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
             dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
             _CrudBoleto = new CrudBoleto();
             _dalBoletoAcoes = dalBoletoAcoes;
-            metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
+            //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
         public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI)
@@ -31,7 +32,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB();
                 List<RelacaoBoletoCRMModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoCRMModel>()).ToList();
 
-                string codigoJornada = "06AA9604D2";
+                string codigoJornada = DadosAPI.Cod_Jornada_Boleto;
 
                 MetodosGerais.RegistrarLog("BOLETO", $"Foram encontrados {boletoList.Count} Boletos.\n");
 

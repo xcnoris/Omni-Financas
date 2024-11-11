@@ -1,7 +1,8 @@
-﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Metodos;
-using Integrador_Com_CRM.Models.EF;
+﻿
+using DataBase.IntegradorCRM.Data;
+using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
+using Modelos.IntegradorCRM.Models.EF;
 using System.ComponentModel.DataAnnotations;
 
 namespace Integrador_Com_CRM.Formularios

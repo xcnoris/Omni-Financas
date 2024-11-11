@@ -1,6 +1,9 @@
-﻿using Integrador_Com_CRM.Data;
-using Integrador_Com_CRM.Models;
-using Integrador_Com_CRM.Models.EF;
+﻿using Aplication.IntegradorCRM.Servicos;
+using DataBase.IntegradorCRM.Data;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models;
+using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRMRM.Models;
 
 namespace Integrador_Com_CRM.Metodos.Boleto
 {
@@ -15,12 +18,12 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                 throw new ArgumentException("Parâmetros inválidos para CriarOportunidade.");
 
             // Fazer a requisição para criar a oportunidade na API
-            var apiResponse = await MetodosBoletoAPI.EnviarRequisicaoCriarOportunidade(request, token);
+            var apiResponse = await Boleto_Services.EnviarRequisicaoCriarOportunidade(request, token);
 
             if (apiResponse != null)
             {
                 // Atualizar a tabela de relação com o código da oportunidade e a data de criação
-                await MetodosBoletoAPI.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel, apiResponse.CodigoOportunidade);
+                await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel, apiResponse.CodigoOportunidade);
 
                 MetodosGerais.RegistrarLog("BOLETO", "Oportunidade criada com sucesso.");
                 return apiResponse;
@@ -36,13 +39,13 @@ namespace Integrador_Com_CRM.Metodos.Boleto
             if (request == null || string.IsNullOrEmpty(token) || BoletoRElacao == null)
                 throw new ArgumentException("Parâmetros inválidos para AtualizarAcao.");
 
-            var apiResponse = await MetodosBoletoAPI.AtualizarOportunidadeNaApi(request, token);
+            var apiResponse = await Boleto_Services.AtualizarOportunidadeNaApi(request, token);
 
             if (apiResponse != null)
             {
-                await MetodosBoletoAPI.AtualizarBoletoNoBanco(BoletoRElacao);
+                await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
                 if (foiQuitado)
-                    await MetodosBoletoAPI.ProcessarBoletoQuitado(BoletoRElacao);
+                    await Boleto_Services.ProcessarBoletoQuitado(BoletoRElacao);
 
                 return apiResponse;
             }
