@@ -29,6 +29,7 @@ namespace DataBase.IntegradorCRM.Data
         public DbSet<BoletoAcoesCRMModel> boletoAcoes_CRM { get; set; }
         public DbSet<OSAcoesCRMModel> OSAcao_CRM { get; set; }
         public DbSet<AcaoSituacao_OS_CRM> acaoSituacao_OS_CRM { get; set; }
+        public DbSet<AcaoSituacao_Boleto_CRM> acaoSituacao_Boleto_CRM { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());
@@ -38,6 +39,7 @@ namespace DataBase.IntegradorCRM.Data
             modelBuilder.ApplyConfiguration(new BoletoAcaoCRM_Map());
             modelBuilder.ApplyConfiguration(new OSAcaoMap());
             modelBuilder.ApplyConfiguration(new acaoSituacao_OS_Map());
+            modelBuilder.ApplyConfiguration(new acaoSituacao_Boleto_Map());
 
         }
 

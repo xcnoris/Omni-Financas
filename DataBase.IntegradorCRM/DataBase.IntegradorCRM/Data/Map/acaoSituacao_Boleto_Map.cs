@@ -4,9 +4,9 @@ using Modelos.IntegradorCRM.Models.EF;
 
 namespace DataBase.IntegradorCRM.Data.Map
 {
-    internal class acaoSituacao_OS_Map : IEntityTypeConfiguration<AcaoSituacao_OS_CRM>
+    internal class acaoSituacao_Boleto_Map : IEntityTypeConfiguration<AcaoSituacao_Boleto_CRM>
     {
-        public void Configure(EntityTypeBuilder<AcaoSituacao_OS_CRM> bld)
+        public void Configure(EntityTypeBuilder<AcaoSituacao_Boleto_CRM> bld)
         {
             bld.HasKey(x => x.Id);
             bld.Property(x => x.Situacao).IsRequired();

@@ -15,17 +15,25 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         {
             // Validar entrada
             if (request == null || string.IsNullOrEmpty(token) || boletoInTabRel == null)
-                throw new ArgumentException("Parâmetros inválidos para CriarOportunidade.");
+                throw new ArgumentException($"Parâmetros inválidos para CriarOportunidade. Request: {request} | token: {token} | boletoInTabRel: {boletoInTabRel}");
 
             // Fazer a requisição para criar a oportunidade na API
-            var apiResponse = await Boleto_Services.EnviarRequisicaoCriarOportunidade(request, token);
+            OportunidadeResponse apiResponse = null;
+            try
+            {
+                apiResponse = await Boleto_Services.EnviarRequisicaoCriarOportunidade(request, token);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
 
             if (apiResponse != null)
             {
                 // Atualizar a tabela de relação com o código da oportunidade e a data de criação
                 await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel, apiResponse.CodigoOportunidade);
 
-                MetodosGerais.RegistrarLog("BOLETO", "Oportunidade criada com sucesso.");
+                MetodosGerais.RegistrarLog("BOLETO", $"Oportunidade criada com sucesso.");
                 return apiResponse;
             }
 

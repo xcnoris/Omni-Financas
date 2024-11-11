@@ -2,6 +2,7 @@
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
 
 namespace Integrador_Com_CRM.Metodos.Boleto
@@ -13,7 +14,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
         private readonly Boleto_Services metodosGeraisBoleto;
         private readonly DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
-
+        private readonly Situacao_Boleto SituacaoBoleto = new Situacao_Boleto();
 
         public ControleBoletos(DAL<BoletoAcoesCRMModel> dalBoletoAcoes)
         {
@@ -23,7 +24,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
-        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI)
+        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto)
         {
             try
             {
@@ -54,21 +55,14 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                         if (BoletoRelacao is null)
                         {
                             // Verifica se o boleto não esta cancelado ou estornado
-                            if (situacao != 3)
+                            if ((Situacao_Boleto)situacao != Situacao_Boleto.Cancelada_Ou_Estornado)
                             {
                                 // Log para verificação
                                 MetodosGerais.RegistrarLog("BOLETO", $"Documento a receber {id_DocReceber} não encontrada na tabela de relação.");
-                                ModeloOportunidadeRequest oportunidade = new ModeloOportunidadeRequest();
 
-                                //Instancia dados das class
-                                if (oportunidade != null)
-                                {
-                                    oportunidade = oportunidade.CriarOportunidade(linha);
-                                }
-                                else
-                                {
-                                    MetodosGerais.RegistrarLog("ERRO", "Falha ao instanciar ModeloOportunidadeRequest");
-                                }
+                                ModeloOportunidadeRequest oportunidade = new ModeloOportunidadeRequest();
+                                oportunidade = oportunidade.CriarOportunidade(linha, DadosAPI);
+                               
                                 BoletoRelacao = new RelacaoBoletoCRMModel();
                                 BoletoRelacao = BoletoRelacao.InstanciaDados(linha);
 
@@ -77,15 +71,11 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                 if (response is null)
                                 {
                                     MetodosGerais.RegistrarLog("ERRO", "Falha ao criar Oportunidade");
+                                    return;
                                 }
+
                                 // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
-                                if (situacao == 2)
-                                {
-                                    BoletoRelacao.Quitado = 1;
-                                    // Atualize para a etapa pago no CRM, e atualiza no banco
-                                    // Passa -1 no primeiro parametro para informar que esta quitado
-                                    metodosGeraisBoleto.AtualizarAcaoNoCRM(-1, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, true, false);
-                                }
+                                metodosGeraisBoleto.VerificarQuitacao(situacao, BoletoRelacao, AcoesSituacaoBoleto, codigoJornada, DadosAPI);
                             }
                             else
                             {

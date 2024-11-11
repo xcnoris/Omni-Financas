@@ -1,4 +1,5 @@
 ﻿using Modelos.IntegradorCRM.Models;
+using Modelos.IntegradorCRM.Models.EF;
 
 namespace Modelos.IntegradorCRMRM.Models
 {
@@ -13,16 +14,15 @@ namespace Modelos.IntegradorCRMRM.Models
         public List<Followup> followups { get; set; }
 
 
-        public ModeloOportunidadeRequest CriarOportunidade(RetornoBoleto boleto)
+        public ModeloOportunidadeRequest CriarOportunidade(RetornoBoleto boleto, DadosAPIModels DadosAPI)
         {
             string dataFormatada = boleto.Data_Vencimento.ToString("dd/MM/yyyy");
 
             return new ModeloOportunidadeRequest 
             {
-
-                codigoApi = "2482929491",  // Define o código da API
+                codigoApi = DadosAPI.Cod_API_Boleto,  // Define o código da API
                 codigoOportunidade = "",   // O código da oportunidade será definido mais tarde
-                origemOportunidade = "Lojamix - Consumo API", // Origem da oportunidade
+                origemOportunidade = "Lojamix - Boletos - Consumo API", // Origem da oportunidade
                 lead = new Lead
                 {
                     nomeLead = $"{dataFormatada} - {boleto.Id_Entidade} - {boleto.Nome}",
