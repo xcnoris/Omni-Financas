@@ -1,4 +1,5 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using Aplication.IntegradorCRM.Servicos.Boleto;
+using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
 using Modelos.IntegradorCRM.Models.EF;

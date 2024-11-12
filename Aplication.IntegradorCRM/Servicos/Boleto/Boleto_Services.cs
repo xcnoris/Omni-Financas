@@ -1,5 +1,4 @@
 ﻿using DataBase.IntegradorCRM.Data;
-using Integrador_Com_CRM.Metodos.Boleto;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models;
@@ -8,18 +7,15 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 using Modelos.IntegradorCRM.Models.Enuns;
+using NLog.LayoutRenderers.Wrappers;
 
-namespace Aplication.IntegradorCRM.Servicos
+namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class Boleto_Services
     {
         public string Message;
         public bool Status;
         private readonly CobrancaServicos CobrancasNaSegunda;
-        public Boleto_Services()
-        {
-           
-        }
 
         #region Metodos Gerais
         public async Task AtualizarAcaoNoCRM(int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
@@ -82,92 +78,29 @@ namespace Aplication.IntegradorCRM.Servicos
             }
         }
 
-        public async Task AtualizarAcaoParaPagoNoCRM(AcaoSituacao_Boleto_CRM AcoesSituacao_Quitado_Boleto, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool naTableRelacao)
-        {
-            try
-            {
-                if (AcoesSituacao_Quitado_Boleto is not null)
-                {
-
-                    string codAcao = AcoesSituacao_Quitado_Boleto.CodAcaoCRM;
-                    string textoFollowup = AcoesSituacao_Quitado_Boleto.Mensagem_Acao;
-
-                    AtualizarAcaoRequest AtualizarAcao = new AtualizarAcaoRequest
-                    {
-                        codigoOportunidade = BoletoRelacao.Cod_Oportunidade,
-                        codigoAcao = codAcao,
-                        codigoJornada = codigoJornada,
-                        textoFollowup = textoFollowup
-                    };
-
-                    /*
-                        Verifica se o boleto já esta na tabela relação,caso já esteja, significa que não precisa fazer
-                        uma consuta no banco para descobrir o Id, visto que a instancia que veio no parametro já tem o Id
-                    */
-                    
-                    BoletoRelacao.Quitado = 1;
-                    
-                    if (naTableRelacao == true)
-                    {
-                        BoletoRelacao.Situacao = 2;
-                        await EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoRelacao, foiQuitado);
-                    }
-                    else
-                    {
-                        RelacaoBoletoCRMModel BoletoInTableRElacao = dalBoleto.BuscarPor(x => x.Id_DocumentoReceber == BoletoRelacao.Id_DocumentoReceber);
-                        BoletoInTableRElacao.Situacao = BoletoRelacao.Situacao;
-                        BoletoInTableRElacao.DiasEmAtraso = BoletoRelacao.DiasEmAtraso;
-                        await EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoInTableRElacao, foiQuitado);
-                    }
 
 
-
-                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {BoletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{textoFollowup}'. CodOp: {BoletoRelacao.Cod_Oportunidade}");
-                }
-                else
-                {
-                    MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: Ao consultar Dados da Ação para o boleto: {BoletoRelacao.Id_DocumentoReceber}!");
-                    Message = $"[ERROR]: Ao consultar Dados da Ação para o boleto: {BoletoRelacao.Id_DocumentoReceber}!";
-                    Status = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}.Para o boleto: {BoletoRelacao.Id_DocumentoReceber}");
-                Message = $"[ERROR]: {ex.Message}";
-                Status = false;
-            }
-        }
-
-        public async Task VerificarQuitacao(int situacao, RelacaoBoletoCRMModel BoletoRelacao, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, string codigoJornada, DadosAPIModels DadosAPI)
+        public async Task VerificarQuitacao(int situacao, RelacaoBoletoCRMModel BoletoRelacao, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, string codigoJornada, DadosAPIModels DadosAPI, bool InTBRelacao)
         {
             // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
             if ((Situacao_Boleto)situacao == Situacao_Boleto.Quitado)
             {
-                BoletoRelacao.Quitado = 1;
                 // Atualize para a etapa pago no CRM, e atualiza no banco
-                // Passa -1 no primeiro parametro para informar que esta quitado
-                AcaoSituacao_Boleto_CRM? AcaoSituacaoQuitadoBoleto = AcoesSituacaoBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado));
-                if (AcaoSituacaoQuitadoBoleto is not null)
+                BoletoRelacao.Quitado = 1;
+                try
                 {
-                    try
-                    {
-                        using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
-                            await AtualizarAcaoParaPagoNoCRM(AcaoSituacaoQuitadoBoleto, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, false);
-                    }
-                    catch (Exception ex) 
-                    {
-                        MetodosGerais.RegistrarErroExcecao("Error-BOLETO", $"Erro ao tentar atualziar boleto para etapa pago no CRM. Boleto: {BoletoRelacao.Id_DocumentoReceber}", ex);
-                    }
+                    QuitacaoBoleto acoesInCRMToBoletos = new QuitacaoBoleto();
+                    await acoesInCRMToBoletos.Quitar(AcoesSituacaoBoleto, BoletoRelacao, InTBRelacao, DadosAPI);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("Error-BOLETO", $"[Error]: Nenhuma Ação encontrado para a situação Quitado!");
+                    //MetodosGerais.RegistrarLog("", "");
+                    throw new Exception(ex.Message);
                 }
             }
         }
 
-        internal async void VerificarAtrasoEBoleto(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
+        internal async void VerificarAtrasoESituacoesDeBoletos(RelacaoBoletoCRMModel boleto, int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, int DiasAtrasoRelBoleto)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesCRMModel boletoAcaoBuscado = new BoletoAcoesCRMModel();// = FrmboletoAcao.BuscarBoletoAcoes(diasAtraso);
@@ -215,6 +148,94 @@ namespace Aplication.IntegradorCRM.Servicos
             }
         }
 
+        internal async Task VerificarBoletosCriadosNoCRM(RelacaoBoletoCRMModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao, string codigoJornada, DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto)
+        {
+            if (!string.IsNullOrEmpty(BoletoRelacao.Cod_Oportunidade))
+            {
+                using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+                {
+                    // Verifica se o boleto está em atraso
+                    if (diasAtraso > 0)
+                    {
+
+                        // Verifica a situação do boleto (3 = cancelado/estornado, 2 = quitado)
+                        switch (situacao)
+                        {
+                            // Verifica se esta cancelado
+                            case 3:
+                                if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
+                                {
+                                    await CancelarBoleto(codigoJornada,DadosAPI,BoletoRelacao,dalBoletoUsing);
+                                }
+                                else
+                                {
+                                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
+                                }
+                                break;
+                            // Verifica se esta quitado
+                            case 2:
+                                if (BoletoRelacao.Quitado == 0)
+                                {
+                                    await QuitarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI)
+                                }
+                                else
+                                {
+                                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
+                                }
+                                break;
+
+                            default:
+                                // Caso não seja quitado nem cancelado, faz a cobrança
+                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está com {diasAtraso} dias em atraso.");
+                                VerificarAtrasoESituacoesDeBoletos(BoletoRelacao, diasAtraso, codigoJornada, DadosAPI, dalBoletoUsing, DiasEmAtrasoBoleto);
+                                break;
+                        }
+                    }
+                    // Caso o boleto não esteja em atraso
+                    else
+                    {
+                        if ((Situacao_Boleto)situacao == Situacao_Boleto.Quitado)
+                        {
+                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
+                            if (BoletoRelacao.Quitado == 0)
+                            {
+                                await QuitarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
+                            }
+                        }
+                        else if ((Situacao_Boleto)situacao == Situacao_Boleto.Cancelada_Ou_Estornado)
+                        {
+                            if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
+                            {
+                                BoletoRelacao.Situacao = 3;
+                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
+                                AtualizarAcaoNoCRM(-2, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, false, true);
+                            }
+                            else
+                            {
+                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
+                            }
+                        }
+                        else
+                        {
+                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Não está em atraso!");
+                        }
+                    }
+                }
+            }
+        }
+        private async Task QuitarBoleto(List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, RelacaoBoletoCRMModel BoletoRelacao,DadosAPIModels DadosAPI)
+        {
+            QuitacaoBoleto quitacaoBoleto = new QuitacaoBoleto();
+            await quitacaoBoleto.Quitar(AcoesSituacaoBoleto, BoletoRelacao, true, DadosAPI);
+            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Foi atualizado para etapa Pago!");
+        }
+
+        private async Task CancelarBoleto(string codigoJornada, DadosAPIModels DadosAPI,RelacaoBoletoCRMModel BoletoRelacao, DAL<RelacaoBoletoCRMModel> dalBoleto)
+        {
+            BoletoRelacao.Situacao = 3;
+            await AtualizarAcaoNoCRM(-2, codigoJornada, DadosAPI, dalBoleto, BoletoRelacao, false, true);
+            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
+        }
         #endregion
 
         #region Metodo API
@@ -326,7 +347,7 @@ namespace Aplication.IntegradorCRM.Servicos
         internal static async Task ProcessarBoletoQuitado(RelacaoBoletoCRMModel boletoRelacao)
         {
             var cobrancas = new CobrancasNaSegundaModel();
-            //await cobrancas.RemoverRegistro(boletoRelacao.Id, true);
+            await cobrancas.RemoverRegistro(boletoRelacao.Id, true);
             MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {boletoRelacao.Situacao} para o documento {boletoRelacao.Id_DocumentoReceber}");
         }
 

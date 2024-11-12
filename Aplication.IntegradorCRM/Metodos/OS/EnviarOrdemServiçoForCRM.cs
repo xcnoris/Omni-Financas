@@ -4,12 +4,8 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
-using System.Text;
 
-namespace Integrador_Com_CRM.Metodos.OS
+namespace Aplication.IntegradorCRM.Metodos.OS
 {
     internal class EnviarOrdemServiçoForCRM
     {

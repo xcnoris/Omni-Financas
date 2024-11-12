@@ -3,7 +3,7 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRMRM.Models;
 using System.Data;
 
-namespace Integrador_Com_CRM.Metodos.OS
+namespace Aplication.IntegradorCRM.Metodos.OS
 {
     internal class CrudOS
     {

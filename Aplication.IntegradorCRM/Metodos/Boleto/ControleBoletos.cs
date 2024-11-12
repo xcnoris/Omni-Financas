@@ -1,17 +1,17 @@
-﻿using Aplication.IntegradorCRM.Servicos;
+﻿using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
 
-namespace Integrador_Com_CRM.Metodos.Boleto
+namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
     public class ControleBoletos
     {
         private DAL<RelacaoBoletoCRMModel> dalBoleto;
         private readonly CrudBoleto _CrudBoleto;
-        private readonly Boleto_Services metodosGeraisBoleto;
+        private readonly Boleto_Services BoletoServices;
         private readonly DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly Situacao_Boleto SituacaoBoleto = new Situacao_Boleto();
@@ -75,7 +75,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                                 }
 
                                 // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
-                                metodosGeraisBoleto.VerificarQuitacao(situacao, BoletoRelacao, AcoesSituacaoBoleto, codigoJornada, DadosAPI);
+                                BoletoServices.VerificarQuitacao(situacao, BoletoRelacao, AcoesSituacaoBoleto, codigoJornada, DadosAPI, true);
                             }
                             else
                             {
@@ -88,77 +88,7 @@ namespace Integrador_Com_CRM.Metodos.Boleto
                             int diasAtraso = (DateTime.Now - linha.Data_Vencimento).Days;
                             int situacaTBRelacao = BoletoRelacao.Situacao;
 
-                            if (!string.IsNullOrEmpty(BoletoRelacao.Cod_Oportunidade))
-                            {
-                                // Verifica se o boleto está em atraso
-                                if (diasAtraso > 0)
-                                {
-
-                                    // Verifica a situação do boleto (3 = cancelado/estornado, 2 = quitado)
-                                    switch (situacao)
-                                    {
-                                        case 3:
-                                            if (situacaTBRelacao != 3)
-                                            {
-                                                BoletoRelacao.Situacao = 3;
-                                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
-                                                metodosGeraisBoleto.AtualizarAcaoNoCRM(-2, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, false, true);
-                                            }
-                                            else
-                                            {
-                                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
-                                            }
-                                            break;
-
-                                        case 2:
-                                            if (BoletoRelacao.Quitado == 0)
-                                            {
-                                                metodosGeraisBoleto.AtualizarAcaoNoCRM(-1, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, true, true);
-                                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Foi atualizado para etapa Pago!!");
-                                            }
-                                            else
-                                            {
-                                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
-                                            }
-                                            break;
-
-                                        default:
-                                            // Caso não seja quitado nem cancelado, faz a cobrança
-                                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está com {diasAtraso} dias em atraso.");
-                                            metodosGeraisBoleto.VerificarAtrasoEBoleto(BoletoRelacao, diasAtraso, codigoJornada, DadosAPI, dalBoletoUsing, DiasEmAtrasoBoleto);
-                                            break;
-                                    }
-                                }
-                                // Caso o boleto não esteja em atraso
-                                else 
-                                {
-                                    if (situacao == 2)
-                                    {
-                                        MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
-                                        if (BoletoRelacao.Quitado == 0)
-                                        {
-                                            metodosGeraisBoleto.AtualizarAcaoNoCRM(-1, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, true, true);
-                                        }
-                                    }
-                                    else if (situacao == 3)
-                                    {
-                                        if (situacaTBRelacao != 3)
-                                        {
-                                            BoletoRelacao.Situacao = 3;
-                                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está cancelado/Estornado!");
-                                            metodosGeraisBoleto.AtualizarAcaoNoCRM(-2, codigoJornada, DadosAPI, dalBoletoUsing, BoletoRelacao, false, true);
-                                        }
-                                        else
-                                        {
-                                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Não está em atraso!");
-                                    }
-                                }
-                            }
+                            await BoletoServices.VerificarBoletosCriadosNoCRM(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, codigoJornada, DadosAPI, dalBoletoUsing);
                         }
                     }
                 }

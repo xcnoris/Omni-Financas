@@ -1,11 +1,11 @@
-﻿using Aplication.IntegradorCRM.Servicos;
+﻿using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;
 
-namespace Integrador_Com_CRM.Metodos.Boleto
+namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
     internal class EnviarBoletoParaCRM
     {

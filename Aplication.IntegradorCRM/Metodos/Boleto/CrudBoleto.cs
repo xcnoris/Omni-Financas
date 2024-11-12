@@ -3,7 +3,7 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRMRM.Models;
 using System.Data;
 
-namespace Integrador_Com_CRM.Metodos.Boleto
+namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
     internal class CrudBoleto
     {

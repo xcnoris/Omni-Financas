@@ -1,5 +1,4 @@
-﻿
-using Aplication.IntegradorCRM.Servicos;
+﻿using Aplication.IntegradorCRM.Servicos;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
@@ -7,7 +6,7 @@ using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
 
-namespace Integrador_Com_CRM.Metodos.OS
+namespace Aplication.IntegradorCRM.Metodos.OS
 {
     public class ControleOrdemDeServico
     {
