@@ -1,6 +1,5 @@
-﻿using Azure;
+﻿
 using DataBase.IntegradorCRM.Data;
-using Integrador_Com_CRM.Metodos.OS;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
