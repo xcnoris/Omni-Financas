@@ -1,3 +1,5 @@
+using NLog;
+
 namespace Integrador_Com_CRM
 {
     internal static class Program
@@ -9,6 +11,7 @@ namespace Integrador_Com_CRM
         [STAThread]
         static void Main()
         {
+            LogManager.LoadConfiguration("nlog.config");
             string mutexName = "Global\\Integrador_Com_CRM";
 
             // Tenta criar o Mutex e verifica se já existe uma instância.

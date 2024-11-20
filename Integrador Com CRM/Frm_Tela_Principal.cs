@@ -1,7 +1,8 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using Aplication.IntegradorCRM.Metodos.Boleto;
+using Aplication.IntegradorCRM.Metodos.OS;
+using DataBase.IntegradorCRM.Data;
 using DataBase.IntegradorCRM.Data.DataBase;
 using Integrador_Com_CRM.Formularios;
-using Integrador_Com_CRM.Metodos.OS;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 
@@ -23,29 +24,33 @@ namespace Integrador_Com_CRM
         private readonly Frm_OSAcoesCRM_UC FrmOSAcao;
 
         ControleOrdemDeServico ControlOS;
-
+        private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly IntegradorDBContext context;
         private readonly CobrancasNaSegundaModel cobrancas;
+        ControleBoletos ControlBoleto;
 
         List<OSAcoesCRMModel> modelList;
 
         public Frm_Tela_Principal()
         {
             InitializeComponent();
+            _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
+            List<DadosAPIModels> DadosAPI = (_dalDadosAPI.Listar()).ToList();
+            
 
             BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
 
             context =new IntegradorDBContext();
             ControlOS = new ControleOrdemDeServico(modelList);
-            //ControlBoleto = new ControleBoletos(BoletoAcoesCRM);
+            ControlBoleto = new ControleBoletos(new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext()));
 
             //Instanciando Variaveis dos Formularios
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
             cobrancas = new CobrancasNaSegundaModel();
 
-            //FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, FrmDadosAPIUUC, BoletoAcoesCRM);
+            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, DadosAPI.First(), BoletoAcoesCRM);
 
 
             AdicionarUserontrols();
@@ -151,8 +156,8 @@ namespace Integrador_Com_CRM
 
             TabPage TB1 = new TabPage
             {
-                Name = "Geral",
-                Text = "Geral"
+                Name = "geral",
+                Text = "geral"
             };
             TB1.Controls.Add(FrmGeralUC);
 
@@ -246,10 +251,7 @@ namespace Integrador_Com_CRM
                 ConexaoDB conexao = LeituraFrmConexaoDB();
                 DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
 
-                DAL<DadosAPIModels> dal = new DAL<DadosAPIModels>(context);
-                await dal.AdicionarAsync(dadosAPI);
-                //dadosAPI.InserirCodigoInTable();
-
+                await CriarAtualDadosAPI(dadosAPI);
 
 
                 // Cria uma string com o caminho e nome do diretorio do arquivo de conexao
@@ -264,6 +266,31 @@ namespace Integrador_Com_CRM
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private async Task CriarAtualDadosAPI(DadosAPIModels dadosAPI)
+        {
+            DAL<DadosAPIModels> dal = new DAL<DadosAPIModels>(context);
+            List<DadosAPIModels> ListDadosAPI = (await dal.ListarAsync()).ToList();
+
+            if (ListDadosAPI.Count == 0)
+            {
+                // Se não existir nenhum dado, adiciona o novo
+                await dal.AdicionarAsync(dadosAPI);
+            }
+            else
+            {
+                // Atualiza apenas o primeiro dado da lista
+                DadosAPIModels primeiroDado = ListDadosAPI.First();
+                primeiroDado.Token = dadosAPI.Token;
+                primeiroDado.Cod_API_OrdemServico = dadosAPI.Cod_API_OrdemServico;
+                primeiroDado.Cod_Jornada_OrdemServico = dadosAPI.Cod_Jornada_OrdemServico;
+                primeiroDado.Cod_API_Boleto = dadosAPI.Cod_API_Boleto;
+                primeiroDado.Cod_Jornada_Boleto = dadosAPI.Cod_Jornada_Boleto;
+
+                // Atualiza o dado existente no banco
+                await dal.AtualizarAsync(primeiroDado);
             }
         }
 
@@ -302,15 +329,13 @@ namespace Integrador_Com_CRM
         {
             try
             {
-                // Caso algum dado seja nulo ele retorna uma mensagem
-                if (string.IsNullOrEmpty(FrmDadosAPIUUC.Token))
-                {
-                    throw new ArgumentException("Todos os campos são obrigatórios.");
-                }
-
                 return new DadosAPIModels
                 {
-                    Token = FrmDadosAPIUUC.Token
+                    Token = FrmDadosAPIUUC.Token,
+                    Cod_API_OrdemServico = FrmDadosAPIUUC.CodAPI_OS,
+                    Cod_Jornada_OrdemServico = FrmDadosAPIUUC.CodJornada_OS,
+                    Cod_API_Boleto = FrmDadosAPIUUC.CodAPI_Boleto,
+                    Cod_Jornada_Boleto = FrmDadosAPIUUC.CodJornada_Boleto
                 };
             }
             catch (Exception ex)

@@ -18,13 +18,34 @@ namespace Integrador_Com_CRM.Formularios
                 return Txt_Token.Text;
             }
         }
-        //internal string CodigoAPI
-        //{
-        //    get
-        //    {
-        //        return Txt_CodigoAPI.Text;
-        //    }
-        //}
+        internal string CodAPI_OS
+        {
+            get
+            {
+                return Txt_CodAPIOS.Text;
+            }
+        }
+        internal string CodJornada_OS
+        {
+            get
+            {
+                return Txt_CodJornadaOS.Text;
+            }
+        }
+        internal string CodAPI_Boleto
+        {
+            get
+            {
+                return Txt_CodAPIBoleto.Text;
+            }
+        }
+        internal string CodJornada_Boleto
+        {
+            get
+            {
+                return Txt_CodJornadaBoleto.Text;
+            }
+        }
 
         public Frm_DadosAPIUC()
         {
@@ -43,26 +64,17 @@ namespace Integrador_Com_CRM.Formularios
             {
 
                 // Obter lista de dados da API de forma assíncrona e converter para lista
-                List<DadosAPIModels> listaDadosAPI = (await dal.ListarAsync()).ToList();
+                DadosAPIModels? DadosAPI = await dal.BuscarPorAsync(x => x.Id.Equals(1));
 
-                if (listaDadosAPI != null && listaDadosAPI.Count > 0)
-                {
-                    // Considerando que você quer o primeiro item da lista
-                    var DadosApi = listaDadosAPI[0];
-
-                    if (!string.IsNullOrEmpty(DadosApi.Token))
-                    {
-                        Txt_Token.Text = DadosApi.Token;
-                    }
-                    else
-                    {
-                        MetodosGerais.RegistrarLog("OS", "ERROR: Token é nulo");
-                    }
-                }
-                else
+                if (DadosAPI is null)
                 {
                     MetodosGerais.RegistrarLog("OS", "ERROR: Token é nulo");
+                    return;
                 }
+
+                CarregarTxts(DadosAPI);
+
+              
             }
             catch (Exception ex)
             {
@@ -70,6 +82,58 @@ namespace Integrador_Com_CRM.Formularios
                 MessageBox.Show("Erro ao carregar dados da API de conexão: " + ex.Message);
             }
         }
+
+
+        private void CarregarTxts(DadosAPIModels DadosAPI)
+        {
+            if (!string.IsNullOrEmpty(DadosAPI.Token))
+            {
+                Txt_Token.Text = DadosAPI.Token;
+            }
+            else
+            {
+                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Token é nulo");
+            }
+
+            if (!string.IsNullOrEmpty(DadosAPI.Cod_API_OrdemServico))
+            {
+                Txt_CodAPIOS.Text = DadosAPI.Cod_API_OrdemServico;
+            }
+            else
+            {
+                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_API_OrdemServico é nulo");
+            }
+
+            if (!string.IsNullOrEmpty(DadosAPI.Cod_Jornada_OrdemServico))
+            {
+                Txt_CodJornadaOS.Text = DadosAPI.Cod_Jornada_OrdemServico;
+            }
+            else
+            {
+                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_Jornada_OrdemServico é nulo");
+            }
+
+            if (!string.IsNullOrEmpty(DadosAPI.Cod_API_Boleto))
+            {
+                Txt_CodAPIBoleto.Text = DadosAPI.Token;
+            }
+            else
+            {
+                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_API_Boleto é nulo");
+            }
+
+            if (!string.IsNullOrEmpty(DadosAPI.Cod_Jornada_Boleto))
+            {
+                Txt_CodJornadaBoleto.Text = DadosAPI.Token;
+            }
+            else
+            {
+                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_Jornada_Boleto é nulo");
+            }
+
+           
+        }
+
         private void Frm_DadosAPIUC_Load(object sender, EventArgs e)
         {
            

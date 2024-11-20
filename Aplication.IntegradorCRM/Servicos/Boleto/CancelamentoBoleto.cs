@@ -10,73 +10,39 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class CancelamentoBoleto
     {
-        public async Task Cancelar(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList, int diasAtraso, string codigoJornada, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalBoleto, RelacaoBoletoCRMModel BoletoRelacao, bool foiQuitado, bool naTableRelacao)
+        public async static Task Cancelar(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList, RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels dadosAPI)
         {
             try
             {
                 AcaoSituacao_Boleto_CRM? AcaoSituacaoBuscada = ObterAcaoCancelamento(acoesSituacoesList);
                 if (AcaoSituacaoBuscada is null)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: Ação de quitação não encontrada para o boleto: {boletoRelacao.Id_DocumentoReceber}!");
+                    MetodosGerais.RegistrarLog("ENV_BOLETO", $"[ERROR]: Ação de cancelamento não encontrada para o boleto: {boletoRelacao.Id_DocumentoReceber}!");
                     return;
                 }
 
-                if (AcaoSituacaoBuscada is not null)
+                var atualizacaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, AcaoSituacaoBuscada);
+
+                try
                 {
-
-                    string codAcao = AcaoSituacaoBuscada.Codigo_Acao;
-                    string textoFollowup = AcaoSituacaoBuscada.Mensagem_Atualizacao;
-
-                    AtualizarAcaoRequest AtualizarAcao = new AtualizarAcaoRequest
-                    {
-                        codigoOportunidade = BoletoRelacao.Cod_Oportunidade,
-                        codigoAcao = codAcao,
-                        codigoJornada = codigoJornada,
-                        textoFollowup = textoFollowup
-                    };
-
-                    /*
-                        Verifica se o boleto já esta na tabela relação,caso já esteja, significa que não precisa fazer
-                        uma consuta no banco para descobrir o Id, visto que a instancia que veio no parametro já tem o Id
-
-                    */
-                    if (foiQuitado)
-                    {
-                        BoletoRelacao.Quitado = 1;
-                    }
-                    if (naTableRelacao == true)
-                    {
-                        BoletoRelacao.Situacao = 2;
-                        await EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoRelacao, foiQuitado);
-                    }
-                    else
-                    {
-                        RelacaoBoletoCRMModel BoletoInTableRElacao = dalBoleto.BuscarPor(x => x.Id_DocumentoReceber == BoletoRelacao.Id_DocumentoReceber);
-                        BoletoInTableRElacao.Situacao = BoletoRelacao.Situacao;
-                        BoletoInTableRElacao.DiasEmAtraso = BoletoRelacao.DiasEmAtraso;
-                        await EnviarBoletoParaCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, dalBoleto, BoletoInTableRElacao, foiQuitado);
-                    }
-
-
-
-                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {BoletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{textoFollowup}'. CodOp: {BoletoRelacao.Cod_Oportunidade}");
+                    await CancelarBoletoNoCRM(boletoRelacao, atualizacaoRequest, dadosAPI);
+                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{AcaoSituacaoBuscada.Mensagem_Acao}'. CodOp: {boletoRelacao.Cod_Oportunidade}");
                 }
-                else
+                catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: Ao consultar Dados da Ação para o boleto: {BoletoRelacao.Id_DocumentoReceber}!");
-                    Message = $"[ERROR]: Ao consultar Dados da Ação para o boleto: {BoletoRelacao.Id_DocumentoReceber}!";
-                    Status = false;
+                    MetodosGerais.RegistrarLog("ENV_BOLETO", $"[ERROR]: Falha ao atualizar boleto {boletoRelacao.Id_DocumentoReceber} para etapa Cancelado - {ex.Message}");
                 }
+
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}.Para o boleto: {BoletoRelacao.Id_DocumentoReceber}");
-                Message = $"[ERROR]: {ex.Message}";
-                Status = false;
+                MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: {ex.Message}.Erro ao tentar atualizar boleto para etapa cancelado: {boletoRelacao.Id_DocumentoReceber}");
+                //Message = $"[ERROR]: {ex.Message}";
+                //Status = false;
             }
         }
 
-        private AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao)
+        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao)
         {
             return new AtualizarAcaoRequest
             {
@@ -87,9 +53,20 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             };
         }
 
-        private AcaoSituacao_Boleto_CRM? ObterAcaoCancelamento(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList)
+        private static AcaoSituacao_Boleto_CRM? ObterAcaoCancelamento(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList)
         {
-            return acoesSituacoesList.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado));
+            return acoesSituacoesList.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado));
+        }
+
+
+        private async static Task CancelarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels dadosAPI)
+        {
+            using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
+
+            boletoRelacao.Situacao = 3;
+            // É passado o parametro "foiQuitado" como true para remover qualquer registro de aviso que esteja aguardando para envio
+            await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true);
+         
         }
     }
 }

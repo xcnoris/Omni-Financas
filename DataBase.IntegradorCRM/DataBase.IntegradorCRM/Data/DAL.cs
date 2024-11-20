@@ -32,6 +32,20 @@ namespace DataBase.IntegradorCRM.Data
             }
         }
 
+        public IEnumerable<T> Listar()
+        {
+            try
+            {
+                return context.Set<T>().ToList();
+
+            }
+            catch (Exception Exception)
+            {
+                MetodosGerais.RegistrarLog("Conexao", Exception.Message);
+                throw new Exception(Exception.Message);
+            }
+        }
+
         public async Task AdicionarAsync(T objeto)
         {
             try

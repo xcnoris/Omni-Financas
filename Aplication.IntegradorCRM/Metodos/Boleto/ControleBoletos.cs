@@ -24,7 +24,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
-        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto)
+        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM)
         {
             try
             {
@@ -41,7 +41,6 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 foreach (var linha in boletoList)
                 {
                     string id_DocReceber = linha.Id_DocReceber;
-                    string dataFormatada = linha.Data_Vencimento.ToString("dd/MM/yyyy");
                     int situacao = Convert.ToInt32(linha.Situacao);
 
                     using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
@@ -88,7 +87,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             int diasAtraso = (DateTime.Now - linha.Data_Vencimento).Days;
                             int situacaTBRelacao = BoletoRelacao.Situacao;
 
-                            await BoletoServices.VerificarBoletosCriadosNoCRM(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, codigoJornada, DadosAPI, dalBoletoUsing);
+                            await BoletoServices.VerificarBoletosCriadosNoCRM(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM);
                         }
                     }
                 }

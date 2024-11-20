@@ -16,6 +16,7 @@ namespace Metodos.IntegradorCRM.Metodos
             logger.Info(mensagem);
         }
 
+
         public static void RegistrarFinalLog(string logType)
         {
             logger.Info($"\n======================================>   Fim do Log  <======================================\n");

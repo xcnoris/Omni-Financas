@@ -1,7 +1,7 @@
 ﻿
+using Aplication.IntegradorCRM.Metodos.Boleto;
+using Aplication.IntegradorCRM.Metodos.OS;
 using DataBase.IntegradorCRM.Data;
-using Integrador_Com_CRM.Metodos.Boleto;
-using Integrador_Com_CRM.Metodos.OS;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 
@@ -51,7 +51,7 @@ namespace Integrador_Com_CRM.Formularios
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"=======>>> Boletos consultados manualmente <<<=======\n");
 
-                await controlBoletos.VerificarNovosBoletos(DadosAPI);
+                //await controlBoletos.VerificarNovosBoletos(DadosAPI);
 
                 MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

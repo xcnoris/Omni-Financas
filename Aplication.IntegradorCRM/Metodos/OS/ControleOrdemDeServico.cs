@@ -3,7 +3,6 @@ using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
-using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Metodos.OS
@@ -11,7 +10,6 @@ namespace Aplication.IntegradorCRM.Metodos.OS
     public class ControleOrdemDeServico
     {
         private readonly CrudOS _crudOS;
-        private readonly OS_Services _OSservices;
         private readonly DAL<RelacaoOrdemServicoModels> dalOrdemServico;
         private readonly DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS;
         private List<OSAcoesCRMModel> _oSAcoesCRM;
@@ -21,7 +19,6 @@ namespace Aplication.IntegradorCRM.Metodos.OS
             dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
             _dalAcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
             _oSAcoesCRM = OSAcaoesCRM;
-            _OSservices = new OS_Services();
         }
 
         public async Task VerificarNovosServicos(DadosAPIModels DadosAPI)
@@ -74,14 +71,14 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             if (situacao is not 1)
                             {
                                 // Instancia a classe para a Ordem de Serviço que não foi encontrada na tabela Relacao_OrdemServico_CRM
-                                ModeloOportunidadeRequest oportunidade = _OSservices.InstanciarModelOportunidadeReq(DadosAPI, OS);
+                                ModeloOportunidadeRequest oportunidade = OS_Services.InstanciarModelOportunidadeReq(DadosAPI, OS);
 
                                 // tenta criar a oportunidade no CRM
                                 OportunidadeResponse response = await EnviarOrdemServiçoForCRM.EnviarOportunidade(oportunidade, DadosAPI.Token, OrdemServicoRelacao, dalOrdemServicoUsing);
 
                                 // Verifica se a Ordem de Serviço esta entrando com aguardando analise, caso nao esteja altera no CRM
 
-                                await _OSservices.VerificarOSEntrada(Convert.ToInt32(OS.Id_CategoriaOS), response, _oSAcoesCRM, DadosAPI, OrdemServicoRelacao, dalOrdemServicoUsing);
+                                OS_Services.VerificarOSEntrada(Convert.ToInt32(OS.Id_CategoriaOS), response, _oSAcoesCRM, DadosAPI, OrdemServicoRelacao, dalOrdemServicoUsing);
 
                                 MetodosGerais.RegistrarLog("OS", $"Oportunidade criada para OS {id_ordemServico} com código: {response.CodigoOportunidade}");
                             }
@@ -105,38 +102,38 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             if (situacaoExistente is not 1)
                             {
                                 // Busca a Ação correspondente a situacao ou a categoria na OS
-                                OSAcoesCRMModel? OSModel = await _OSservices.InstanciarOSAcoes(situacao,id_ordemServico, id_Categoria, _oSAcoesCRM);
+                                OSAcoesCRMModel? OSModel = await OS_Services.InstanciarOSAcoes(situacao,id_ordemServico, id_Categoria, _oSAcoesCRM);
 
                                 // Verifica se foi encontrado alguma Acão para a categoria ou situacao correspondente
                                 if (OSModel is null)
                                 {
                                     MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {id_Categoria} ou -1 não cadastrada!");
+                                    return;
+                                }
+                              
+                                AtualizarAcaoRequest AtualizarAcao = OS_Services.InstanciarAcaoRequest(OSModel, cod_oportunidade, codigoJornada);
+
+                                OSInTableRelacao.Id_CategoriaOS = idCategoria;
+                                OSInTableRelacao.Situacao = situacao;
+
+                                if (situacao is 1)
+                                {
+                                    EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao, dalOrdemServicoUsing);
                                 }
                                 else
                                 {
-                                    AtualizarAcaoRequest AtualizarAcao = _OSservices.InstanciarAcaoRequest(OSModel, cod_oportunidade, codigoJornada);
-
-                                    OSInTableRelacao.Id_CategoriaOS = idCategoria;
-                                    OSInTableRelacao.Situacao = situacao;
-
-                                    if (situacao is 1)
+                                    if (idCategoria != IdcategoriaExiste)
                                     {
+                                        // Atualize a categoria na tabela de relação se necessário
                                         EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao, dalOrdemServicoUsing);
+                                        MetodosGerais.RegistrarLog("OS", $"A categoria da ordem de serviço {id_ordemServico} mudou de {IdcategoriaExiste} para {id_Categoria}.");
                                     }
                                     else
                                     {
-                                        if (idCategoria != IdcategoriaExiste)
-                                        {
-                                            // Atualize a categoria na tabela de relação se necessário
-                                            EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao, dalOrdemServicoUsing);
-                                            MetodosGerais.RegistrarLog("OS", $"A categoria da ordem de serviço {id_ordemServico} mudou de {IdcategoriaExiste} para {id_Categoria}.");
-                                        }
-                                        else
-                                        {
-                                            MetodosGerais.RegistrarLog("OS", $"Ordem de serviço {id_ordemServico} já existe na tabela com a mesma categoria.");
-                                        }
+                                        MetodosGerais.RegistrarLog("OS", $"Ordem de serviço {id_ordemServico} já existe na tabela com a mesma categoria.");
                                     }
                                 }
+                             
                             }
                             else
                             {

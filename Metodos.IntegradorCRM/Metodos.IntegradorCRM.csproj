@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="NLog" Version="5.3.4" />
+    <PackageReference Include="NLog.Config" Version="4.7.15" />
   </ItemGroup>
 
 </Project>

@@ -9,12 +9,12 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class QuitacaoBoleto
     {
-        public async Task Quitar(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList, RelacaoBoletoCRMModel boletoRelacao, bool boletoJaEmTabela, DadosAPIModels dadosAPI)
+        public async static Task Quitar(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList, RelacaoBoletoCRMModel boletoRelacao, bool boletoJaEmTabela, DadosAPIModels dadosAPI)
         {
             var acaoSituacaoQuitacao = ObterAcaoQuitacao(acoesSituacoesList);
             if (acaoSituacaoQuitacao is null)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: Ação de quitação não encontrada para o boleto: {boletoRelacao.Id_DocumentoReceber}!");
+                MetodosGerais.RegistrarLog("ENV_BOLETO", $"[ERROR]: Ação de quitação não encontrada para o boleto: {boletoRelacao.Id_DocumentoReceber}!");
                 return;
             }
 
@@ -23,21 +23,21 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             try
             {
                 await AtualizarBoletoNoCRM(boletoRelacao, atualizarAcaoRequest, dadosAPI, boletoJaEmTabela);
-                MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{acaoSituacaoQuitacao.Mensagem_Acao}'. CodOp: {boletoRelacao.Cod_Oportunidade}");
+                MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} já existe na tabela relação. Foi atualizado para etapa Pago!");
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"[ERROR]: Falha ao atualizar boleto {boletoRelacao.Id_DocumentoReceber} - {ex.Message}");
+                MetodosGerais.RegistrarLog("ENV_BOLETO", $"[ERROR]: Falha ao atualizar boleto {boletoRelacao.Id_DocumentoReceber} - {ex.Message}");
             }
         }
 
 
-        private AcaoSituacao_Boleto_CRM? ObterAcaoQuitacao(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList)
+        private static AcaoSituacao_Boleto_CRM? ObterAcaoQuitacao(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList)
         {
             return acoesSituacoesList.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado));
         }
 
-        private AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao)
+        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao)
         {
             return new AtualizarAcaoRequest
             {
@@ -48,23 +48,23 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             };
         }
 
-        private async Task AtualizarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels dadosAPI, bool boletoJaEmTabela)
+        private async static Task AtualizarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels dadosAPI, bool boletoJaEmTabela)
         {
             using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-
+            
             if (boletoJaEmTabela)
             {
-                boletoRelacao.Situacao = 2;
+               
                 await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true);
             }
             else
             {
                 var boletoInTableRelacao = dalBoleto.BuscarPor(x => x.Id_DocumentoReceber == boletoRelacao.Id_DocumentoReceber);
-                boletoInTableRelacao.Situacao = boletoRelacao.Situacao;
+                boletoInTableRelacao.Situacao = 2;
                 boletoInTableRelacao.DiasEmAtraso = boletoRelacao.DiasEmAtraso;
+                boletoInTableRelacao.Quitado = 1;
                 await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoInTableRelacao, true);
             }
         }
-
     }
 }
