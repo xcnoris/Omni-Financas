@@ -29,7 +29,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     }
                     else
                     {
-                        OS_Services.RegistrarErroResposta(response, responseBody);
+                        OS_Services.RegistrarErroResposta(response, $"Id OS: {tableRelacaoOS.Id_OrdemServico} -  {responseBody}");
                     }
                 }
                 catch (Exception ex)
@@ -42,35 +42,35 @@ namespace Aplication.IntegradorCRM.Metodos.OS
             }
         }
 
-        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string token, RelacaoOrdemServicoModels TableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string token, RelacaoOrdemServicoModels TableRelacaoOS)
         {
-            using (HttpClient client = OS_Services.ConfigurarHttpClient(token))
+            using var dalRelacaoOS = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
+            using HttpClient client = OS_Services.ConfigurarHttpClient(token);
+            
+            string url = "https://api.leadfinder.com.br/integracao/movimentarOportunidade";
+            HttpContent content = OS_Services.CriarConteudoJson(request);
+
+            try
             {
-                string url = "https://api.leadfinder.com.br/integracao/movimentarOportunidade";
-                HttpContent content = OS_Services.CriarConteudoJson(request);
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-                try
+                if (response.IsSuccessStatusCode)
                 {
-                    HttpResponseMessage response = await client.PostAsync(url, content);
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return await OS_Services.ProcessarRespostaAtualizacao(responseBody, TableRelacaoOS, dalRelacaoOS);
-                    }
-                    else
-                    {
-                        OS_Services.RegistrarErroResposta(response, responseBody);
-                    }
+                    return await OS_Services.ProcessarRespostaAtualizacao(responseBody, TableRelacaoOS, dalRelacaoOS);
                 }
-                catch (Exception ex)
+                else
                 {
-                    MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
-                    throw;
+                    OS_Services.RegistrarErroResposta(response, $"Id OS: {TableRelacaoOS.Id_OrdemServico} - {responseBody}");
                 }
-
-                return null;
             }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
+                throw;
+            }
+
+            return null;
         }
     }
 }

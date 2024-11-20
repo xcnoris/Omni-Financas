@@ -79,7 +79,7 @@ namespace Aplication.IntegradorCRM.Servicos
                 // Atualize a categoria na tabela de relação se necessário
                 RelacaoOrdemServicoModels TableRelacao = await dalRelOSModel.BuscarPorAsync(x => x.Id_OrdemServico == RelOSModel.Id_OrdemServico);
 
-                await EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, TableRelacao, dalRelOSModel);
+                await EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, TableRelacao);
                
 
             }
@@ -118,13 +118,14 @@ namespace Aplication.IntegradorCRM.Servicos
         {
             // Verifica se a Situacao é 1, caso seja, signica que esta cancelado a OS, e busca pelo ação -1
             OSAcoesCRMModel? OSModel;
+
             if (Situacao is 1)
             {
                 return OSModel = await BuscarAcaoSituacao(Situacao_OS.Cancelada, Id_OS);
             }
             else
             {
-                return OSModel = osAcoesCRM.FirstOrDefault(x => x.IdCategoria.Equals(IdCategoria));
+                return OSModel = osAcoesCRM.FirstOrDefault(x => x.IdCategoria == Convert.ToInt32(IdCategoria));
             }
         }
 
@@ -169,11 +170,11 @@ namespace Aplication.IntegradorCRM.Servicos
             return resposta;
         }
 
-        internal static void RegistrarErroResposta(HttpResponseMessage response, string responseBody)
+        internal static void RegistrarErroResposta(HttpResponseMessage response, string mensagem)
         {
             MetodosGerais.RegistrarLog("OS", "Erro na resposta da API:");
             MetodosGerais.RegistrarLog("OS", $"Status Code: {response.StatusCode}");
-            MetodosGerais.RegistrarLog("OS", responseBody);
+            MetodosGerais.RegistrarLog("OS", mensagem);
         }
 
         internal static async Task<OportunidadeResponse> ProcessarRespostaAtualizacao(string responseBody, RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)

@@ -12,19 +12,21 @@ namespace Aplication.IntegradorCRM.Metodos.OS
         private readonly CrudOS _crudOS;
         private readonly DAL<RelacaoOrdemServicoModels> dalOrdemServico;
         private readonly DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS;
+        private readonly DAL<OSAcoesCRMModel> _dalOSAcao = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
         private List<OSAcoesCRMModel> _oSAcoesCRM;
-        public ControleOrdemDeServico(List<OSAcoesCRMModel> OSAcaoesCRM)
+        public ControleOrdemDeServico()
         {
             _crudOS = new CrudOS();
             dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
             _dalAcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-            _oSAcoesCRM = OSAcaoesCRM;
+          
         }
 
         public async Task VerificarNovosServicos(DadosAPIModels DadosAPI)
         {
             try
             {
+                _oSAcoesCRM = (await _dalOSAcao.ListarAsync()).ToList();
                 MetodosGerais.RegistrarInicioLog("OS");
                 // Busca serviços no DB
                 List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB();
@@ -118,14 +120,14 @@ namespace Aplication.IntegradorCRM.Metodos.OS
 
                                 if (situacao is 1)
                                 {
-                                    EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao, dalOrdemServicoUsing);
+                                    EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao);
                                 }
                                 else
                                 {
                                     if (idCategoria != IdcategoriaExiste)
                                     {
                                         // Atualize a categoria na tabela de relação se necessário
-                                        EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao, dalOrdemServicoUsing);
+                                        EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao);
                                         MetodosGerais.RegistrarLog("OS", $"A categoria da ordem de serviço {id_ordemServico} mudou de {IdcategoriaExiste} para {id_Categoria}.");
                                     }
                                     else

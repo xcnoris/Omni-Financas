@@ -29,6 +29,7 @@ namespace Integrador_Com_CRM
         private readonly CobrancasNaSegundaModel cobrancas;
         ControleBoletos ControlBoleto;
 
+        DAL<OSAcoesCRMModel> dalOSACoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
         List<OSAcoesCRMModel> modelList;
 
         public Frm_Tela_Principal()
@@ -42,7 +43,8 @@ namespace Integrador_Com_CRM
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
 
             context =new IntegradorDBContext();
-            ControlOS = new ControleOrdemDeServico(modelList);
+            
+            ControlOS = new ControleOrdemDeServico();
             ControlBoleto = new ControleBoletos(new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext()));
 
             //Instanciando Variaveis dos Formularios

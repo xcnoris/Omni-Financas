@@ -1,25 +1,35 @@
 ﻿using NLog;
+using System.Reflection.Emit;
 
 namespace Metodos.IntegradorCRM.Metodos
 {
     public class MetodosGerais
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger(); // Configura o NLog
+        private static readonly ILogger logger = LogManager.GetCurrentClassLogger(); // Configura o NLog
 
-        public static void RegistrarInicioLog(string logType)
+        public static void RegistrarInicioLog(string nomeBaseLog)
         {
-            logger.Info($"======================================> Inicio do Log <======================================");
+            var logEvent = new LogEventInfo(LogLevel.Info, logger.Name, $"======================================> Inicio do Log <======================================");
+            logEvent.Properties["NomeLog"] = nomeBaseLog;
+            logger.Log(logEvent);
+            
         }
 
-        public static void RegistrarLog(string logType, string mensagem)
+        public static void RegistrarLog(string nomeBaseLog, string mensagem)
         {
-            logger.Info(mensagem);
+            string nomeLog = $"{nomeBaseLog}";
+            var logEvent = new LogEventInfo(LogLevel.Info, logger.Name, $"{DateTime.Now} - {mensagem}");
+            logEvent.Properties["NomeLog"] = nomeLog;
+            logger.Log(logEvent);
         }
 
 
-        public static void RegistrarFinalLog(string logType)
+        public static void RegistrarFinalLog(string nomeBaseLog)
         {
-            logger.Info($"\n======================================>   Fim do Log  <======================================\n");
+            string nomeLog = $"{nomeBaseLog}";
+            var logEvent = new LogEventInfo(LogLevel.Info, logger.Name, $"\n======================================>   Fim do Log  <======================================\n");
+            logEvent.Properties["NomeLog"] = nomeLog;
+            logger.Log(logEvent);
         }
 
         public static void RegistrarErroExcecao(string NomeLog, string MensagemLog,Exception ex)
