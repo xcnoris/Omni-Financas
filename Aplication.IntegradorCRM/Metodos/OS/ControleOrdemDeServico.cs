@@ -3,6 +3,7 @@ using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Metodos.OS
@@ -110,7 +111,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                                 if (OSModel is null)
                                 {
                                     MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {id_Categoria} ou -1 não cadastrada!");
-                                    return;
+                                    continue ;
                                 }
                               
                                 AtualizarAcaoRequest AtualizarAcao = OS_Services.InstanciarAcaoRequest(OSModel, cod_oportunidade, codigoJornada);
@@ -121,6 +122,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                                 if (situacao is 1)
                                 {
                                     EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao);
+                                    MetodosGerais.RegistrarLog("OS", $"OS {id_ordemServico} mudou para a etapa Cancelada no CRM!");
                                 }
                                 else
                                 {

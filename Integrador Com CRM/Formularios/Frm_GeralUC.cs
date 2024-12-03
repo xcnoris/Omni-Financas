@@ -31,11 +31,10 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                MetodosGerais.RegistrarLog("OS", $"=======>>> Ordens de serviço consultadas manualmente <<<=======\n");
+                MetodosGerais.RegistrarLog("OS", $"\n---------- Ordens de serviço consultadas manualmente ------------\n");
                 await controlOrdemServico.VerificarNovosServicos(DadosAPI);
 
                 MessageBox.Show("Consulta de Ordem de Serviço Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
 
             }
             catch (Exception ex)
@@ -49,7 +48,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"=======>>> Boletos consultados manualmente <<<=======\n");
+                MetodosGerais.RegistrarLog("BOLETO", $"\n----------------> Boletos consultados manualmente <-----------------\n");
 
                 //await controlBoletos.VerificarNovosBoletos(DadosAPI);
 
@@ -68,7 +67,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                MetodosGerais.RegistrarLog("COBRANCA", $"=======>>> Cobrança consultadas manualmente <<<=======\n");
+                MetodosGerais.RegistrarLog("COBRANCA", $"\n------------------> Cobrança consultadas manualmente <-------------------\n");
                 //await cobrancas(DadosAPI);
 
                 MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);

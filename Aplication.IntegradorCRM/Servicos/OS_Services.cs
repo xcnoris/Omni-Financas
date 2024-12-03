@@ -64,7 +64,7 @@ namespace Aplication.IntegradorCRM.Servicos
             if (!(idCategoria is 1))
             {
                 string cod_oportunidade = OptnResponse.CodigoOportunidade;
-                OSAcoesCRMModel? OSModel = OSAcoes.FirstOrDefault(a => a.Id == idCategoria);
+                OSAcoesCRMModel? OSModel = OSAcoes.FirstOrDefault(a => a.IdCategoria == idCategoria);
 
                 if (OSModel is null)
                 {
@@ -96,7 +96,7 @@ namespace Aplication.IntegradorCRM.Servicos
 
                 if (acaoBuscada == null)
                 {
-                    MetodosGerais.RegistrarLog("OS", $"Nenhuma Ação de Situação encontrada para a situação {situacaoOS}. OS: {Id_OS}");
+                    MetodosGerais.RegistrarLog("OS", $"[ERROR] Nenhuma Ação de Situação encontrada para a situação {situacaoOS}. OS: {Id_OS}");
                     return null; // Retorna null caso a ação não seja encontrada
                 }
 
@@ -192,7 +192,10 @@ namespace Aplication.IntegradorCRM.Servicos
                 // Atualizar a entrada no banco
                 await dalRelacaoOS.AtualizarAsync(tableRelacaoOS);
 
-                MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {tableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {tableRelacaoOS.Id_OrdemServico}.");
+                if(tableRelacaoOS.Situacao is not 1)
+                {
+                    MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {tableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {tableRelacaoOS.Id_OrdemServico}.");
+                }
             }
             else
             {
