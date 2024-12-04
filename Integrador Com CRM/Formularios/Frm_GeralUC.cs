@@ -13,8 +13,9 @@ namespace Integrador_Com_CRM.Formularios
         private readonly ControleBoletos controlBoletos;
         private readonly CobrancasNaSegundaModel cobrancas;
         private readonly DadosAPIModels DadosAPI;
+        private readonly DAL<AcaoSituacao_Boleto_CRM> _dalAcaoSitBoleto;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
-        DAL<BoletoAcoesCRMModel> osList;
+        DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
 
         public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, DadosAPIModels dadosAPI, Frm_BoletoAcoesCRM_UC BoletosAcoes)
         {
@@ -22,7 +23,9 @@ namespace Integrador_Com_CRM.Formularios
 
             controlOrdemServico = controlOS;
             BoletoAcoes = BoletosAcoes;
-            controlBoletos = new ControleBoletos(osList);
+            _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            _dalAcaoSitBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
+            controlBoletos = new ControleBoletos();
             cobrancas = new CobrancasNaSegundaModel();
             DadosAPI = dadosAPI;
         }
@@ -31,6 +34,8 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
+
                 MetodosGerais.RegistrarLog("OS", $"\n---------- Ordens de serviço consultadas manualmente ------------\n");
                 await controlOrdemServico.VerificarNovosServicos(DadosAPI);
 
@@ -42,15 +47,25 @@ namespace Integrador_Com_CRM.Formularios
                 MessageBox.Show($"Não foi possivel fazer a consulta. Mensagem: {ex.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MetodosGerais.RegistrarLog("OS", $"Error :{ex.Message}");
             }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private async void Btn_BuscarBoletos_Click(object sender, EventArgs e)
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
+
                 MetodosGerais.RegistrarLog("BOLETO", $"\n----------------> Boletos consultados manualmente <-----------------\n");
 
-                //await controlBoletos.VerificarNovosBoletos(DadosAPI);
+                
+                List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
+                List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
+
+                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM);
 
                 MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -61,12 +76,19 @@ namespace Integrador_Com_CRM.Formularios
                 MessageBox.Show($"Não foi possivel fazer a consulta. Mensagem: {ex.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 MetodosGerais.RegistrarLog("BOLETO", $"Error :{ex.Message}");
             }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private async void Btn_RealizarCobrancas_Click(object sender, EventArgs e)
         {
             try
             {
+
+                Cursor = Cursors.WaitCursor;
+
                 MetodosGerais.RegistrarLog("COBRANCA", $"\n------------------> Cobrança consultadas manualmente <-------------------\n");
                 //await cobrancas(DadosAPI);
 
@@ -82,6 +104,7 @@ namespace Integrador_Com_CRM.Formularios
             finally
             {
                 MetodosGerais.RegistrarFinalLog("COBRANCA");
+                Cursor = Cursors.Default;
             }
         }
     }

@@ -16,11 +16,11 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly Situacao_Boleto SituacaoBoleto = new Situacao_Boleto();
 
-        public ControleBoletos(DAL<BoletoAcoesCRMModel> dalBoletoAcoes)
+        public ControleBoletos()
         {
             dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
             _CrudBoleto = new CrudBoleto();
-            _dalBoletoAcoes = dalBoletoAcoes;
+            _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 

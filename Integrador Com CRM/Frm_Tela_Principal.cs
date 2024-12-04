@@ -22,6 +22,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_DadosAPIUC FrmDadosAPIUUC;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoesCRM;
         private readonly Frm_OSAcoesCRM_UC FrmOSAcao;
+        private readonly Frm_AcoesSituacoes FrmAcoesSit;
 
         ControleOrdemDeServico ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
@@ -41,11 +42,12 @@ namespace Integrador_Com_CRM
 
             BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
+            FrmAcoesSit = new Frm_AcoesSituacoes();
 
             context =new IntegradorDBContext();
             
             ControlOS = new ControleOrdemDeServico();
-            ControlBoleto = new ControleBoletos(new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext()));
+            ControlBoleto = new ControleBoletos();
 
             //Instanciando Variaveis dos Formularios
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
@@ -155,6 +157,7 @@ namespace Integrador_Com_CRM
             FrmConexaoUC.Dock = DockStyle.Fill;
             BoletoAcoesCRM.Dock = DockStyle.Fill;
             FrmOSAcao.Dock = DockStyle .Fill;
+            FrmAcoesSit.Dock = DockStyle.Fill;
 
             TabPage TB1 = new TabPage
             {
@@ -192,6 +195,13 @@ namespace Integrador_Com_CRM
             };
             TB5.Controls.Add(FrmOSAcao);
 
+            TabPage TB6 = new TabPage
+            {   
+                Name = "",
+                Text = ""
+            };
+            TB6.Controls.Add(FrmAcoesSit);
+
 
 
             TBC_Dados.TabPages.Add(TB1);
@@ -199,6 +209,7 @@ namespace Integrador_Com_CRM
             TBC_Dados.TabPages.Add(TB3);
             TBC_Dados.TabPages.Add(TB4);
             TBC_Dados.TabPages.Add(TB5);
+            TBC_Dados.TabPages.Add(TB6);
         }
 
         private void Btn_Sair_Click(object sender, EventArgs e)
