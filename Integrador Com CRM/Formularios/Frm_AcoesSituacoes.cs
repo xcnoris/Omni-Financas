@@ -114,43 +114,50 @@ namespace Integrador_Com_CRM.Formularios
         {
             
 
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is null)
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is not null)
             {
-                Txt_BolAtivo.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).CodAcaoCRM;
+                Txt_BolAtivo.Text = (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).CodAcaoCRM).ToString();
             }
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is null)
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is not null)
             {
                 Txt_MenBOLAberto.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).Mensagem_Acao;
             }
             //----------------------------
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is null)
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
             {
                 Txt_BolQuitado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)).CodAcaoCRM;
             }
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is null)
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
             {
                 Txt_MenBOLQuitado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)).Mensagem_Acao;
             }
             //----------------------------
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is null)
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is not null)
             {
                 Txt_BolCanEst.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)).CodAcaoCRM;
             }
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is null)
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is not null)
             {
                 Txt_MenBOLCancelado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)).Mensagem_Acao;
             }
             //----------------------------
-            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is null)
+            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is not null)
             {
                 Txt_OSCancelada.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).CodAcaoCRM;
             }
-            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is null)
+            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is not null)
             {
                 Txt_MenOSCancelado.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).Mensagem_Acao;
             }
 
         }
 
+
+        internal List<AcaoSituacao_Boleto_CRM> RetornarListAcoesSitBoleto()
+        {
+            List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = new List<AcaoSituacao_Boleto_CRM>();
+            AcoesSitBoleto.Add(Situaca)
+
+        }
     }
 }

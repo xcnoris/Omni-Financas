@@ -197,8 +197,8 @@ namespace Integrador_Com_CRM
 
             TabPage TB6 = new TabPage
             {   
-                Name = "",
-                Text = ""
+                Name = "Ações Situações",
+                Text = "Ações Situações"
             };
             TB6.Controls.Add(FrmAcoesSit);
 
