@@ -33,7 +33,6 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 // Atualizar a tabela de relação com o código da oportunidade e a data de criação
                 await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel, apiResponse.CodigoOportunidade);
 
-                MetodosGerais.RegistrarLog("BOLETO", $"Oportunidade criada com sucesso.");
                 return apiResponse;
             }
 

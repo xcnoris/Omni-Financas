@@ -21,6 +21,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
             _CrudBoleto = new CrudBoleto();
             _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            BoletoServices = new Boleto_Services();
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
@@ -70,7 +71,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                 if (response is null)
                                 {
                                     MetodosGerais.RegistrarLog("ERRO", "Falha ao criar Oportunidade");
-                                    return;
+                                    continue;
                                 }
 
                                 // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação

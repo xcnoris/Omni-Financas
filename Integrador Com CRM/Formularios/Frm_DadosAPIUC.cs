@@ -115,7 +115,7 @@ namespace Integrador_Com_CRM.Formularios
 
             if (!string.IsNullOrEmpty(DadosAPI.Cod_API_Boleto))
             {
-                Txt_CodAPIBoleto.Text = DadosAPI.Token;
+                Txt_CodAPIBoleto.Text = DadosAPI.Cod_API_Boleto;
             }
             else
             {
@@ -124,7 +124,7 @@ namespace Integrador_Com_CRM.Formularios
 
             if (!string.IsNullOrEmpty(DadosAPI.Cod_Jornada_Boleto))
             {
-                Txt_CodJornadaBoleto.Text = DadosAPI.Token;
+                Txt_CodJornadaBoleto.Text = DadosAPI.Cod_Jornada_Boleto;
             }
             else
             {

@@ -263,9 +263,13 @@ namespace Integrador_Com_CRM
                 // Instancia as class 
                 ConexaoDB conexao = LeituraFrmConexaoDB();
                 DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
+                List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = FrmAcoesSit.RetornarListAcoesSitBoleto();
+                List<AcaoSituacao_OS_CRM> AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
+
 
                 await CriarAtualDadosAPI(dadosAPI);
-
+                await SalvarSitBoleto(AcoesSitBoleto);
+                await SalvarSitOS(AcoesSitOS);
 
                 // Cria uma string com o caminho e nome do diretorio do arquivo de conexao
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
@@ -282,9 +286,27 @@ namespace Integrador_Com_CRM
             }
         }
 
+        private async Task SalvarSitBoleto(List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto)
+        {
+            DAL<AcaoSituacao_Boleto_CRM> dalAcaoSItBol = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
+            foreach (var item in AcoesSitBoleto)
+            {
+                await dalAcaoSItBol.AtualizarAsync(item);
+            }
+        }
+
+        private async Task SalvarSitOS(List<AcaoSituacao_OS_CRM> AcoesSitOS)
+        {
+            DAL<AcaoSituacao_OS_CRM> dalSitOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
+            foreach (var item in AcoesSitOS)
+            {
+                await dalSitOS.AtualizarAsync(item);
+            }
+        }
+
         private async Task CriarAtualDadosAPI(DadosAPIModels dadosAPI)
         {
-            DAL<DadosAPIModels> dal = new DAL<DadosAPIModels>(context);
+            DAL<DadosAPIModels> dal = new DAL<DadosAPIModels>(new IntegradorDBContext());
             List<DadosAPIModels> ListDadosAPI = (await dal.ListarAsync()).ToList();
 
             if (ListDadosAPI.Count == 0)

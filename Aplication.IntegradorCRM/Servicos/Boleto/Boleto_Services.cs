@@ -146,15 +146,15 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                 try
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", "Enviando requisição para criar oportunidade no CRM...");
 
                     var response = await client.PostAsync("https://api.leadfinder.com.br/integracao/v2/inserirOportunidade", content);
                     var responseBody = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", "Resposta OK - Oportunidade criada no CRM");
-                        return JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
+                        OportunidadeResponse opt = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
+                        MetodosGerais.RegistrarLog("BOLETO", " Resposta OK - Oportunidade criada no CRM" + responseBody);
+                        return opt;
                     }
 
                     MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody}");
