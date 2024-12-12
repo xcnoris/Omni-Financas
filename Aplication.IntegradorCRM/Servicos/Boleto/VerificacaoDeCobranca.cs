@@ -15,7 +15,6 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
             if (boletoAcaoBuscado is null)
             {
-                MetodosGerais.RegistrarLog("ENV_BOLETO", $"[ERROR]: Ação de cobrança não encontrada para o boleto: {boletoRelacao.Id_DocumentoReceber}!");
                 MetodosGerais.RegistrarLog("BOLETO", $"Não existe cobrança para o atraso do documento a receber: {boletoRelacao.Id_DocumentoReceber}. Atraso: {diasAtraso}!");
 
                 return;

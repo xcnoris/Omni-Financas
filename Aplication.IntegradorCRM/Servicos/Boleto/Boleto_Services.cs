@@ -204,7 +204,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", "Resposta OK - Oportunidade Atualizada no CRM");
+                        MetodosGerais.RegistrarLog("BOLETO", $"Resposta OK - Oportunidade Atualizada no CRM {responseBody}");
                         return JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
                     }
 

@@ -21,7 +21,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     return;
                 }
 
-                var atualizacaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, AcaoSituacaoBuscada);
+                var atualizacaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, AcaoSituacaoBuscada, dadosAPI);
 
                 try
                 {
@@ -42,13 +42,13 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao)
+        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao, DadosAPIModels dadosAPI)
         {
             return new AtualizarAcaoRequest
             {
                 codigoOportunidade = boletoRelacao.Cod_Oportunidade,
                 codigoAcao = acaoSituacao.CodAcaoCRM,
-                codigoJornada = acaoSituacao.CodAcaoCRM,
+                codigoJornada = dadosAPI.Cod_Jornada_Boleto,
                 textoFollowup = acaoSituacao.Mensagem_Acao
             };
         }

@@ -18,12 +18,15 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 return;
             }
 
-            var atualizarAcaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, acaoSituacaoQuitacao);
+            var atualizarAcaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, acaoSituacaoQuitacao, dadosAPI);
+            boletoRelacao.Situacao = 2;
+            boletoRelacao.Quitado = 1;
 
             try
             {
+
                 await AtualizarBoletoNoCRM(boletoRelacao, atualizarAcaoRequest, dadosAPI, boletoJaEmTabela);
-                MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} já existe na tabela relação. Foi atualizado para etapa Pago!");
+                //MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} já existe na tabela relação. Foi atualizado para etapa Pago!");
             }
             catch (Exception ex)
             {
@@ -37,13 +40,13 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             return acoesSituacoesList.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado));
         }
 
-        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao)
+        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao, DadosAPIModels dadosAPI)
         {
             return new AtualizarAcaoRequest
             {
                 codigoOportunidade = boletoRelacao.Cod_Oportunidade,
                 codigoAcao = acaoSituacao.CodAcaoCRM,
-                codigoJornada = acaoSituacao.CodAcaoCRM,
+                codigoJornada = dadosAPI.Cod_Jornada_Boleto,
                 textoFollowup = acaoSituacao.Mensagem_Acao
             };
         }
