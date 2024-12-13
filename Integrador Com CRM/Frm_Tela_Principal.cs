@@ -37,7 +37,7 @@ namespace Integrador_Com_CRM
         {
             InitializeComponent();
             _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
-            List<DadosAPIModels> DadosAPI = (_dalDadosAPI.Listar()).ToList();
+            List<DadosAPIModels?> DadosAPI = (_dalDadosAPI.Listar()).ToList();
             
 
             BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
@@ -54,7 +54,7 @@ namespace Integrador_Com_CRM
             FrmConexaoUC = new Frm_ConexaoUC();
             cobrancas = new CobrancasNaSegundaModel();
 
-            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, DadosAPI.First(), BoletoAcoesCRM);
+            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM);
 
 
             AdicionarUserontrols();

@@ -13,13 +13,13 @@ namespace Integrador_Com_CRM.Formularios
         private readonly ControleOrdemDeServico controlOrdemServico;
         private readonly ControleBoletos controlBoletos;
         private readonly CobrancasNaSegundaModel cobrancas;
-        private readonly DadosAPIModels DadosAPI;
+        private readonly DadosAPIModels? DadosAPI;
         private readonly DAL<AcaoSituacao_Boleto_CRM> _dalAcaoSitBoleto;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
         DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
 
-        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, DadosAPIModels dadosAPI, Frm_BoletoAcoesCRM_UC BoletosAcoes)
+        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes)
         {
             InitializeComponent();
 
@@ -30,7 +30,7 @@ namespace Integrador_Com_CRM.Formularios
             _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
             controlBoletos = new ControleBoletos();
             cobrancas = new CobrancasNaSegundaModel();
-            DadosAPI = dadosAPI;
+            DadosAPI = (_dalDadosAPI.Listar()).FirstOrDefault();
         }
 
         public async Task ExecutarBuscaOSAsync()
@@ -92,9 +92,10 @@ namespace Integrador_Com_CRM.Formularios
                 List<DadosAPIModels?> DadosAPI = (await _dalDadosAPI.ListarAsync()).ToList();
 
                 Cursor = Cursors.WaitCursor;
-
+                CobrancaServicos CB = new CobrancaServicos();
                 MetodosGerais.RegistrarLog("COBRANCA", $"\n------------------> Cobrança consultadas manualmente <-------------------\n");
-                await CobrancaServicos.RealizarCobrancas(acoesCobrancaList, DadosAPI.First());
+
+                await CB.RealizarCobrancas(acoesCobrancaList, DadosAPI.First());
 
                 MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

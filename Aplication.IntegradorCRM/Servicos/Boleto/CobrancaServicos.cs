@@ -2,10 +2,8 @@
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
-using Microsoft.Identity.Client;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
-using Modelos.IntegradorCRM.Models.Enuns;
 
 namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
@@ -41,7 +39,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        public static async Task RealizarCobrancas(List<BoletoAcoesCRMModel> acoesCobrancaList, DadosAPIModels DadosAPI)
+        public  async Task RealizarCobrancas(List<BoletoAcoesCRMModel> acoesCobrancaList, DadosAPIModels DadosAPI)
         {
             try
             {
