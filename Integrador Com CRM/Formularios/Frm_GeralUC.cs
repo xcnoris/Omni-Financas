@@ -40,7 +40,8 @@ namespace Integrador_Com_CRM.Formularios
                 Cursor = Cursors.WaitCursor;
 
                 MetodosGerais.RegistrarLog("OS", $"\n---------- Ordens de serviço consultadas manualmente ------------\n");
-                await controlOrdemServico.VerificarNovosServicos(DadosAPI);
+
+                await VerificarOrdensDeServicos();
 
                 MessageBox.Show("Consulta de Ordem de Serviço Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -55,6 +56,27 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
+        public async Task VerificarOrdensDeServicos()
+        {
+            await controlOrdemServico.VerificarNovosServicos(DadosAPI);
+        }
+
+        public async Task VerificarBoletos()
+        {
+            List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
+            List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
+
+            await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM);
+        }
+        public async Task VerificarCobrancas()
+        {
+            List<BoletoAcoesCRMModel?> acoesCobrancaList = (await _dalBoletoAcoes.ListarAsync()).ToList();
+            List<DadosAPIModels?> DadosAPI = (await _dalDadosAPI.ListarAsync()).ToList();
+            CobrancaServicos CB = new CobrancaServicos();
+            await CB.RealizarCobrancas(acoesCobrancaList, DadosAPI.First());
+        }
+
+
         public async Task ExecutarBuscarBoletoAsync()
         {
             try
@@ -63,12 +85,7 @@ namespace Integrador_Com_CRM.Formularios
 
                 MetodosGerais.RegistrarLog("BOLETO", $"\n----------------> Boletos consultados manualmente <-----------------\n");
 
-
-                List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
-                List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
-
-                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM);
-
+                await VerificarBoletos();
                 MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
@@ -88,18 +105,12 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                List<BoletoAcoesCRMModel?> acoesCobrancaList = (await _dalBoletoAcoes.ListarAsync()).ToList();
-                List<DadosAPIModels?> DadosAPI = (await _dalDadosAPI.ListarAsync()).ToList();
-
                 Cursor = Cursors.WaitCursor;
-                CobrancaServicos CB = new CobrancaServicos();
                 MetodosGerais.RegistrarLog("COBRANCA", $"\n------------------> Cobrança consultadas manualmente <-------------------\n");
 
-                await CB.RealizarCobrancas(acoesCobrancaList, DadosAPI.First());
+                await VerificarCobrancas();
 
                 MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
             }
             catch (Exception ex)
             {

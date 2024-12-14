@@ -65,7 +65,7 @@ namespace Integrador_Com_CRM
             {
                 try
                 {
-                    await FrmGeralUC.ExecutarBuscaOSAsync();
+                    await FrmGeralUC.VerificarOrdensDeServicos();
 
                 }
                 catch (Exception ex)
@@ -82,7 +82,7 @@ namespace Integrador_Com_CRM
             {
                 try
                 {
-                    await FrmGeralUC.ExecutarBuscarBoletoAsync();
+                    await FrmGeralUC.VerificarBoletos();
                 }
                 catch (Exception ex)
                 {
@@ -100,7 +100,7 @@ namespace Integrador_Com_CRM
             {
                 try
                 {
-                    await FrmGeralUC.RealizarCobrancasBoletoAsync();
+                    await FrmGeralUC.VerificarCobrancas();
                 }
                 catch (Exception ex)
                 {

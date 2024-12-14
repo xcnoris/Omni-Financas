@@ -4,6 +4,7 @@ using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
+using System.Runtime.InteropServices;
 
 namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
@@ -29,13 +30,33 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         {
             try
             {
-                await dalCobrancas.AdicionarAsync(cobrancasNaSegundaModel);
-                MetodosGerais.RegistrarLog("COBRANCA", $"Ação {cobrancasNaSegundaModel.NovoAtrasoBoleto} marcada para ser cobrado na segunda para o boletoBoleto {cobrancasNaSegundaModel.BoletoId}. CodOp: {cobrancasNaSegundaModel.Cod_Oportunidade}");
+                if (await VerificarDuplicidadeCobranca(cobrancasNaSegundaModel))
+                {
+                    await dalCobrancas.AdicionarAsync(cobrancasNaSegundaModel);
+                    MetodosGerais.RegistrarLog("COBRANCA", $"Ação {cobrancasNaSegundaModel.NovoAtrasoBoleto} marcada para ser cobrado na segunda para o boletoBoleto {cobrancasNaSegundaModel.BoletoId}. CodOp: {cobrancasNaSegundaModel.Cod_Oportunidade}");
+                }
+               
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("COBRANCA", $"[ERROR]: {ex.Message}");
                 throw;
+            }
+        }
+
+        private async  Task<bool> VerificarDuplicidadeCobranca(CobrancasNaSegundaModel cobrancasNaSegundaModel)
+        {
+            try
+            {
+                CobrancasNaSegundaModel? cobrancaExistente = await dalCobrancas.BuscarPorAsync(x => x.Cod_Oportunidade.Equals(cobrancasNaSegundaModel.Cod_Oportunidade) && x.NovoAtrasoBoleto.Equals(cobrancasNaSegundaModel.NovoAtrasoBoleto));
+
+                if (cobrancaExistente is null) return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("COBRANCA", $"[ERROR]: {ex.Message}");
+                return false;
             }
         }
 

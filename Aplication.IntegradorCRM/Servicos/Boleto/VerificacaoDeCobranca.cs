@@ -1,6 +1,7 @@
 ﻿using Aplication.IntegradorCRM.Metodos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
+using Microsoft.EntityFrameworkCore;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 
@@ -51,11 +52,12 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                          Cria um registro na tabela Cobrancas_Na_Segunda_CRM. Toda Segunda os registro que estao nessa tabela são
                          Lidos e enviado a mensagem de cobraça. No final e removido o registro
                     */
+                    //// Anexe o boletoRelacao ao contexto como uma entidade existente
+                    //IntegradorDBContext.Entry(boletoRelacao).State = EntityState.Unchanged;
                     CobrancaServicos CobrancasSegunda = new CobrancaServicos();
                     await CobrancasSegunda.SalvarDadosEmTableEspera(new CobrancasNaSegundaModel(){
                         CodigoJornada = DadosAPI.Cod_Jornada_Boleto,
                         BoletoId = boletoRelacao.Id,
-                        Boleto = boletoRelacao,
                         NovoAtrasoBoleto = diasAtraso,
                         Cod_Oportunidade = boletoRelacao.Cod_Oportunidade
                     });

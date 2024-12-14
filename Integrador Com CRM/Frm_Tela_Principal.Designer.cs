@@ -34,6 +34,7 @@
             Btn_Salvar = new Button();
             Btn_Sair = new Button();
             notifyIcon1 = new NotifyIcon(components);
+            label7 = new Label();
             SuspendLayout();
             // 
             // TBC_Dados
@@ -72,12 +73,23 @@
             notifyIcon1.Visible = true;
             notifyIcon1.MouseDoubleClick += notifyIcon1_MouseDoubleClick;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.ForeColor = SystemColors.Desktop;
+            label7.Location = new Point(770, 463);
+            label7.Name = "label7";
+            label7.Size = new Size(52, 15);
+            label7.TabIndex = 9;
+            label7.Text = "2.24.12.1";
+            // 
             // Frm_Tela_Principal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveBorder;
             ClientSize = new Size(834, 487);
+            Controls.Add(label7);
             Controls.Add(Btn_Sair);
             Controls.Add(Btn_Salvar);
             Controls.Add(TBC_Dados);
@@ -87,6 +99,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Frm_Tela_Principal";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -95,5 +108,6 @@
         private Button Btn_Salvar;
         private Button Btn_Sair;
         private NotifyIcon notifyIcon1;
+        private Label label7;
     }
 }

@@ -47,11 +47,9 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     LEFT JOIN 
                         pessoa_fisica pf ON ent.id_entidade = pf.id_entidade AND ent.tipo_entidade = 1
                     WHERE 
-                        DR.data_vencimento >= '01/12/2024'
+                         DR.data_vencimento >= '15/11/2024'
                     AND 
 	                    DR.tem_boleto = 1
-                    AND 
-	                	ent.id_entidade = 1383
                 ";
 
                 // Converte o resultado do select em DataTable
