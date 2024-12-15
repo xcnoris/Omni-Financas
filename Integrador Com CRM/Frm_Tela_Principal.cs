@@ -23,6 +23,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoesCRM;
         private readonly Frm_OSAcoesCRM_UC FrmOSAcao;
         private readonly Frm_AcoesSituacoes FrmAcoesSit;
+        private readonly Frm_ConfigUC FrmConfigUC;
 
         ControleOrdemDeServico ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
@@ -43,6 +44,7 @@ namespace Integrador_Com_CRM
             BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
             FrmAcoesSit = new Frm_AcoesSituacoes();
+            FrmConfigUC = new Frm_ConfigUC();
 
             context =new IntegradorDBContext();
             
@@ -60,7 +62,7 @@ namespace Integrador_Com_CRM
             AdicionarUserontrols();
 
             // Timer para executar a função periodicamente a cada 5 minutos
-            timer5Min = new System.Timers.Timer(300000); // 5 min
+            timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
             timer5Min.Elapsed += async (s, e) =>
             {
                 try
@@ -112,13 +114,21 @@ namespace Integrador_Com_CRM
             };
             SetDailyTimerSegunda();
         }
+     
+
 
 
         private void SetDailyTimer()
         {
             DateTime now = DateTime.Now;
-            DateTime nextRun = new DateTime(now.Year, now.Month, now.Day, 10, 30, 0, 0);
 
+            // Pega o horário do campo HoraCobDiariaBoleto (ajuste conforme necessário)
+            DateTime selectedTime = FrmConfigUC.HoraCobDiariaBoleto;
+
+            // Define o próximo horário de execução para hoje, usando o horário do campo
+            DateTime nextRun = new DateTime(now.Year, now.Month, now.Day, selectedTime.Hour, selectedTime.Minute, 0);
+
+            // Se já passou do horário de execução hoje, agenda para amanhã
             if (now > nextRun)
             {
                 nextRun = nextRun.AddDays(1);
@@ -129,6 +139,9 @@ namespace Integrador_Com_CRM
             timerDaily.Start();
         }
 
+
+
+
         private void SetDailyTimerSegunda()
         {
             DateTime now = DateTime.Now;
@@ -136,8 +149,11 @@ namespace Integrador_Com_CRM
             // Calcula o próximo dia de segunda-feira
             int daysUntilMonday = ((int)DayOfWeek.Monday - (int)now.DayOfWeek + 7) % 7;
 
-            // Define o horário de execução na próxima segunda-feira às 10:45 AM
-            DateTime nextRun = now.AddDays(daysUntilMonday).Date.AddHours(10).AddMinutes(45);
+            // Pega o horário do campo DTP_CobSegundaBoleto (ajuste conforme necessário)
+            DateTime selectedTime = FrmConfigUC.HoraCobSegundaBoleto;
+
+            // Define o horário de execução na próxima segunda-feira, usando o horário do campo
+            DateTime nextRun = now.AddDays(daysUntilMonday).Date.AddHours(selectedTime.Hour).AddMinutes(selectedTime.Minute);
 
             // Se já passou do horário de execução hoje, pula para a próxima segunda-feira
             if (now > nextRun)
@@ -151,6 +167,7 @@ namespace Integrador_Com_CRM
         }
 
 
+
         private void AdicionarUserontrols()
         {
             FrmGeralUC.Dock = DockStyle.Fill;
@@ -158,11 +175,12 @@ namespace Integrador_Com_CRM
             BoletoAcoesCRM.Dock = DockStyle.Fill;
             FrmOSAcao.Dock = DockStyle .Fill;
             FrmAcoesSit.Dock = DockStyle.Fill;
+            FrmConfigUC.Dock =  DockStyle.Fill;
 
             TabPage TB1 = new TabPage
             {
                 Name = "geral",
-                Text = "geral"
+                Text = "Geral"
             };
             TB1.Controls.Add(FrmGeralUC);
 
@@ -202,6 +220,12 @@ namespace Integrador_Com_CRM
             };
             TB6.Controls.Add(FrmAcoesSit);
 
+            TabPage TB7 = new TabPage
+            {
+                Name = "Configuração",
+                Text = "Configuração"
+            };
+            TB7.Controls.Add(FrmConfigUC);
 
 
             TBC_Dados.TabPages.Add(TB1);
@@ -210,6 +234,7 @@ namespace Integrador_Com_CRM
             TBC_Dados.TabPages.Add(TB4);
             TBC_Dados.TabPages.Add(TB5);
             TBC_Dados.TabPages.Add(TB6);
+            TBC_Dados.TabPages.Add(TB7);
         }
 
         private void Btn_Sair_Click(object sender, EventArgs e)
@@ -265,7 +290,7 @@ namespace Integrador_Com_CRM
                 DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
                 List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = FrmAcoesSit.RetornarListAcoesSitBoleto();
                 List<AcaoSituacao_OS_CRM> AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
-
+                FrmConfigUC.SalvarConfiguracoes();
 
                 await CriarAtualDadosAPI(dadosAPI);
                 await SalvarSitBoleto(AcoesSitBoleto);

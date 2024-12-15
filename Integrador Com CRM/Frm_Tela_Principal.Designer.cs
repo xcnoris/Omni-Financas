@@ -81,7 +81,7 @@
             label7.Name = "label7";
             label7.Size = new Size(52, 15);
             label7.TabIndex = 9;
-            label7.Text = "2.24.12.1";
+            label7.Text = "2.24.12.2";
             // 
             // Frm_Tela_Principal
             // 
