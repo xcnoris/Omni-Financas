@@ -67,7 +67,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.BackColor = Color.Transparent;
+            groupBox3.BackColor = Color.White;
             groupBox3.Controls.Add(Txt_MenOSCancelado);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(Txt_OSCancelada);
@@ -175,6 +175,7 @@
             // 
             Txt_MenBOLAberto.Location = new Point(387, 40);
             Txt_MenBOLAberto.Name = "Txt_MenBOLAberto";
+            Txt_MenBOLAberto.ReadOnly = true;
             Txt_MenBOLAberto.Size = new Size(264, 23);
             Txt_MenBOLAberto.TabIndex = 7;
             // 
@@ -226,6 +227,7 @@
             // 
             Txt_BolAtivo.Location = new Point(113, 40);
             Txt_BolAtivo.Name = "Txt_BolAtivo";
+            Txt_BolAtivo.ReadOnly = true;
             Txt_BolAtivo.Size = new Size(158, 23);
             Txt_BolAtivo.TabIndex = 0;
             // 

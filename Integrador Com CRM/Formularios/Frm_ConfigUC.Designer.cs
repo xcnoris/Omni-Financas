@@ -89,7 +89,7 @@
             // 
             // groupBox6
             // 
-            groupBox6.BackColor = Color.Transparent;
+            groupBox6.BackColor = Color.White;
             groupBox6.Controls.Add(DTP_CobSegundaBoleto);
             groupBox6.Controls.Add(DTP_CobDiariaBoleto);
             groupBox6.Controls.Add(label2);
@@ -230,7 +230,7 @@
             // 
             // groupBox2
             // 
-            groupBox2.BackColor = Color.Transparent;
+            groupBox2.BackColor = Color.White;
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(Txt_TimerOS);
             groupBox2.Controls.Add(label6);

@@ -373,12 +373,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Txt_DiasCobrancas_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Verifica se o caractere digitado não é um número e não é a tecla de backspace
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                // Cancela o evento se o caractere não for válido (não numérico)
-                e.Handled = true;
-            }
+           
         }
  
     }
