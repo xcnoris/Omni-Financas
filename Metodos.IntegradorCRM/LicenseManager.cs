@@ -6,7 +6,7 @@ namespace Metodos.IntegradorCRM
 {
     public class LicenseManager
     {
-        private static readonly string SecretKey = "casadainformaticacdisoftware2005123654789JeovaDeusPorTodaEternizada@#$%";
+        private static readonly string SecretKey = "casadainformaticacdisoftware2005123654789JeovaDeusPorTodaEternidade@#$%";
 
         public static bool ValidateToken(string token, string macAddress, string macAddressVM)
         {

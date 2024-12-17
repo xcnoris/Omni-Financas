@@ -8,7 +8,7 @@ namespace Gerador_de_Linceça
 {
     public partial class Form1 : Form
     {
-        private static string SecretKey = "casadainformaticacdisoftware2005123654789JeovaDeusPorTodaEternizada@#$%";
+        private static string SecretKey = "casadainformaticacdisoftware2005123654789JeovaDeusPorTodaEternidade@#$%";
 
         public Form1()
         {
@@ -20,7 +20,6 @@ namespace Gerador_de_Linceça
             using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(SecretKey));
             var tokenBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(macAddress));
             return Convert.ToBase64String(tokenBytes);
-
         }
 
         private void Btn_Gerar_Click(object sender, EventArgs e)
