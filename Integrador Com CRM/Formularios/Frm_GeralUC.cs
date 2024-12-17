@@ -5,6 +5,11 @@ using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
+using Metodos.IntegradorCRM;
+using Modelos.IntegradorCRM.Models;
+using Modelos.IntegradorCRM;
+using Aplication.IntegradorCRM.Metodos.Envio__Email;
+using System.Net;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -18,8 +23,8 @@ namespace Integrador_Com_CRM.Formularios
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
         DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
-
-        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes)
+        private readonly Frm_ConfigUC FrmConfigUC;
+        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
         {
             InitializeComponent();
 
@@ -31,6 +36,86 @@ namespace Integrador_Com_CRM.Formularios
             controlBoletos = new ControleBoletos();
             cobrancas = new CobrancasNaSegundaModel();
             DadosAPI = (_dalDadosAPI.Listar()).FirstOrDefault();
+            FrmConfigUC = FrmConfig;
+        }
+
+        private bool verificarLicenca(Frm_ConfigUC FrmConfigUC)
+        {
+            // Obter o MAC local
+            string macAddress = HardwareInfo.GetMacAddress();
+            string macAddressVM = HardwareInfo.GetMacAddressVM();
+
+            // Obter o token fornecido pelo cliente
+            string token = FrmConfigUC.Token;
+
+            if (!LicenseManager.ValidateToken(token, macAddress, macAddressVM))
+            {
+                MessageBox.Show("Licença inválida. Entre em contato com o suporte.", "Erro de Licença",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetodosGerais.RegistrarLog("Geral", $"Licença inválida. Entre em contato com o suporte. Token = {token} | MAC: {macAddress}");
+                EnviarEmail(macAddress, token);
+                return false;
+            }
+            return true;
+        }
+
+        public async Task EnviarEmail(string macAddress, string token)
+        {
+            // Obter endereço IP local
+            string localIpAddress = ObterEnderecoIpLocal();
+            string hostname = Dns.GetHostName();
+            string sistemaOperacional = Environment.OSVersion.ToString();
+            string usuarioLogado = Environment.UserName;
+            string ipExterno;
+            using (HttpClient client = new HttpClient())
+            {
+               ipExterno = await client.GetStringAsync("https://api.ipify.org");
+            }
+
+            var emailRequest = new EmailRequest
+            {
+                TextoEmail = @$"Data: {DateTime.Now} - Verificação de Token inválida! 
+                        Mac: {macAddress} - 
+                        Token: {token} - 
+                        IP: {localIpAddress} -
+                        Host: {hostname}
+                        Sistema Operacional - {sistemaOperacional}
+                        Usuario Logado: {usuarioLogado}
+                        IP Externo: {ipExterno}",
+                TituloEmail = "Validação de Token Inválida",
+                Destinatarios = new List<Destinatario>
+                {
+                    new Destinatario
+                    {
+                        NomeDestinatario = "CDI Software",
+                        EmailDestinatario = "casainfosc@gmail.com"
+                    }
+                }
+            };
+
+            string tokenCDI = "F65F9082EE9DB13A464B5DC0A9F2B8D56840CA3A1178826B0DF17DA2CE7DD621";
+
+            bool enviadoComSucesso = await EnvioEmail.EnviarEmail(emailRequest, tokenCDI);
+
+        }
+
+        // Método para obter o endereço IP local
+        private string ObterEnderecoIpLocal()
+        {
+            try
+            {
+                // Obter todos os endereços IP associados ao host
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                var ip = host.AddressList.FirstOrDefault(a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+
+                return ip?.ToString() ?? "IP não encontrado";
+            }
+            catch (Exception ex)
+            {
+                // Logar ou tratar exceção, se necessário
+                Console.WriteLine("Erro ao obter o IP local: " + ex.Message);
+                return "Erro ao obter IP";
+            }
         }
 
         public async Task ExecutarBuscaOSAsync()
@@ -41,9 +126,9 @@ namespace Integrador_Com_CRM.Formularios
 
                 MetodosGerais.RegistrarLog("OS", $"\n---------- Ordens de serviço consultadas manualmente ------------\n");
 
-                await VerificarOrdensDeServicos();
+                bool deucerto = await VerificarOrdensDeServicos(FrmConfigUC);
 
-                MessageBox.Show("Consulta de Ordem de Serviço Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (deucerto) MessageBox.Show("Consulta de Ordem de Serviço Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -56,24 +141,40 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        public async Task VerificarOrdensDeServicos()
+        public async Task<bool> VerificarOrdensDeServicos(Frm_ConfigUC FrmConfigUC)
         {
-            await controlOrdemServico.VerificarNovosServicos(DadosAPI);
+            if (verificarLicenca(FrmConfigUC))
+            {
+                await controlOrdemServico.VerificarNovosServicos(DadosAPI, FrmConfigUC.DataSelectOS);
+                return true;
+            }
+            return false;
         }
 
-        public async Task VerificarBoletos()
+        public async Task<bool> VerificarBoletos(Frm_ConfigUC FrmConfigUC)
         {
-            List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
-            List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
+          
+            if (verificarLicenca(FrmConfigUC))
+            {
+                List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
+                List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
 
-            await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM);
+                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, FrmConfigUC.DataSelectBoleto);
+                return true;
+            }
+            return false;
         }
-        public async Task VerificarCobrancas()
+        public async Task<bool> VerificarCobrancas(Frm_ConfigUC FrmConfigUC)
         {
-            List<BoletoAcoesCRMModel?> acoesCobrancaList = (await _dalBoletoAcoes.ListarAsync()).ToList();
-            List<DadosAPIModels?> DadosAPI = (await _dalDadosAPI.ListarAsync()).ToList();
-            CobrancaServicos CB = new CobrancaServicos();
-            await CB.RealizarCobrancas(acoesCobrancaList, DadosAPI.First());
+            if (verificarLicenca(FrmConfigUC))
+            {
+                List<BoletoAcoesCRMModel?> acoesCobrancaList = (await _dalBoletoAcoes.ListarAsync()).ToList();
+                List<DadosAPIModels?> DadosAPI = (await _dalDadosAPI.ListarAsync()).ToList();
+                CobrancaServicos CB = new CobrancaServicos();
+                await CB.RealizarCobrancas(acoesCobrancaList, DadosAPI.First());
+                return true;
+            }
+            return false;
         }
 
 
@@ -85,8 +186,8 @@ namespace Integrador_Com_CRM.Formularios
 
                 MetodosGerais.RegistrarLog("BOLETO", $"\n----------------> Boletos consultados manualmente <-----------------\n");
 
-                await VerificarBoletos();
-                MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                bool deucerto = await VerificarBoletos(FrmConfigUC);
+                if (deucerto) MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
             }
@@ -108,9 +209,9 @@ namespace Integrador_Com_CRM.Formularios
                 Cursor = Cursors.WaitCursor;
                 MetodosGerais.RegistrarLog("COBRANCA", $"\n------------------> Cobrança consultadas manualmente <-------------------\n");
 
-                await VerificarCobrancas();
+                bool deucerto = await VerificarCobrancas(FrmConfigUC);
 
-                MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (deucerto)  MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

@@ -19,13 +19,13 @@ namespace Aplication.IntegradorCRM.Metodos.OS
             _comandosDB = new ComandosDB(_conexaoDB);
         }
 
-        internal List<RetornoOrdemServico> BuscarOrdemDeServiçoInDB()
+        internal List<RetornoOrdemServico> BuscarOrdemDeServiçoInDB(DateTime DateTime)
         {
             try
             {
 
                 // Buscar serviços no banco de dados a partir de uma data ou parâmetro definido
-                string query = @"SELECT 
+                string query = @$"SELECT 
                         os.id_ordem_servico, 
                         CASE 
                             WHEN e.tipo_entidade = 1 THEN pf.cpf 
@@ -46,7 +46,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     LEFT JOIN 
                         pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
                     WHERE 
-                         OS.data_hora_cadastro >= '01/10/2024'
+                         OS.data_hora_cadastro >= '{DateTime}'
                         
                 ";
                 //string query = "SELECT id_ordem_servico, nome_cliente, fone_ddd_cliente + fone_numero_cliente AS telefone, email_cliente, id_categoria_ordem_servico FROM ordem_servico WHERE id_ordem_servico = 8674";

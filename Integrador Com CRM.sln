@@ -7,13 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integrador Com CRM", "Integ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MigratorDB", "MigratorDB\MigratorDB\MigratorDB.csproj", "{27B34D60-2DCD-4CEA-B3CE-C7DF4F85DE07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBase.IntegradorCRM", "DataBase.IntegradorCRM\DataBase.IntegradorCRM\DataBase.IntegradorCRM.csproj", "{E19B12A1-64CE-4C69-91EC-55A2566FF81B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBase.IntegradorCRM", "DataBase.IntegradorCRM\DataBase.IntegradorCRM\DataBase.IntegradorCRM.csproj", "{E19B12A1-64CE-4C69-91EC-55A2566FF81B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modelos.IntegradorCRM", "Modelos.IntegradorCRM\Modelos.IntegradorCRM\Modelos.IntegradorCRM.csproj", "{BE2A24FF-4462-4638-83FB-D25E2F7E8CC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modelos.IntegradorCRM", "Modelos.IntegradorCRM\Modelos.IntegradorCRM\Modelos.IntegradorCRM.csproj", "{BE2A24FF-4462-4638-83FB-D25E2F7E8CC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aplication.IntegradorCRM", "Aplication.IntegradorCRM\Aplication.IntegradorCRM.csproj", "{E05143E8-D86D-4917-BAD3-22308D731E02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aplication.IntegradorCRM", "Aplication.IntegradorCRM\Aplication.IntegradorCRM.csproj", "{E05143E8-D86D-4917-BAD3-22308D731E02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metodos.IntegradorCRM", "Metodos.IntegradorCRM\Metodos.IntegradorCRM.csproj", "{907B6399-DDC8-4A17-8583-D36BCE107F51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metodos.IntegradorCRM", "Metodos.IntegradorCRM\Metodos.IntegradorCRM.csproj", "{907B6399-DDC8-4A17-8583-D36BCE107F51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gerador de Linceça", "Gerador de Linceça\Gerador de Linceça.csproj", "{1D656AC2-D761-4A40-A861-C74958B5CB0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuscarEnderecoMAc", "BuscarEnderecoMAc\BuscarEnderecoMAc.csproj", "{93A9E313-E971-4D7E-9A0F-218771950E48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{907B6399-DDC8-4A17-8583-D36BCE107F51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{907B6399-DDC8-4A17-8583-D36BCE107F51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{907B6399-DDC8-4A17-8583-D36BCE107F51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D656AC2-D761-4A40-A861-C74958B5CB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D656AC2-D761-4A40-A861-C74958B5CB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D656AC2-D761-4A40-A861-C74958B5CB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D656AC2-D761-4A40-A861-C74958B5CB0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93A9E313-E971-4D7E-9A0F-218771950E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93A9E313-E971-4D7E-9A0F-218771950E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93A9E313-E971-4D7E-9A0F-218771950E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93A9E313-E971-4D7E-9A0F-218771950E48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

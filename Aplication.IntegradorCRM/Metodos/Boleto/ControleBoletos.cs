@@ -25,13 +25,13 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
-        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM)
+        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM, DateTime DateTime)
         {
             try
             {
                 MetodosGerais.RegistrarInicioLog("BOLETO");
                 // Busca Novos boletos no DB
-                List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB();
+                List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB(DateTime);
                 List<RelacaoBoletoCRMModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoCRMModel>()).ToList();
 
                 string codigoJornada = DadosAPI.Cod_Jornada_Boleto;

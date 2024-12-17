@@ -63,12 +63,12 @@ namespace Integrador_Com_CRM.Formularios
         internal void SalvarConfiguracoes()
         {
                 string caminhoArquivo = "config_timers.txt";
-                string conteudo = $"Token={Txt_Token.Text}\n" +
-                  $"Txt_TimerOS={Txt_TimerOS.Text}\n" +
-                  $"DTP_SelectOS={DTP_SelectOS.Value.ToString("dd/MM/yyyy")}\n" +
-                  $"DTP_CobDiariaBoleto={DTP_CobDiariaBoleto.Value.ToString("HH:mm")}\n" +
-                  $"DTP_CobSegundaBoleto={DTP_CobSegundaBoleto.Value.ToString("HH:mm")}\n" +
-                  $"DTP_SelectBoleto={DTP_SelectBoleto.Value.ToString("dd/MM/yyyy")}";
+                string conteudo = $"Token|{Txt_Token.Text}\n" +
+                  $"Txt_TimerOS|{Txt_TimerOS.Text}\n" +
+                  $"DTP_SelectOS|{DTP_SelectOS.Value.ToString("dd/MM/yyyy")}\n" +
+                  $"DTP_CobDiariaBoleto|{DTP_CobDiariaBoleto.Value.ToString("HH:mm")}\n" +
+                  $"DTP_CobSegundaBoleto|{DTP_CobSegundaBoleto.Value.ToString("HH:mm")}\n" +
+                  $"DTP_SelectBoleto|{DTP_SelectBoleto.Value.ToString("dd/MM/yyyy")}";
 
 
                 File.WriteAllText(caminhoArquivo, conteudo);
@@ -84,7 +84,7 @@ namespace Integrador_Com_CRM.Formularios
                 string[] linhas = File.ReadAllLines(caminhoArquivo);
                 foreach (string linha in linhas)
                 {
-                    string[] partes = linha.Split('=');
+                    string[] partes = linha.Split('|');
                     if (partes.Length == 2)
                     {
                         string chave = partes[0];
@@ -143,12 +143,12 @@ namespace Integrador_Com_CRM.Formularios
         {
             string caminhoArquivo = "config_timers.txt";
 
-            string conteudo = $"Token=\n" +
-                   $"Txt_TimerOS=5\n" +
-                   $"DTP_SelectOS={DateTime.Now.ToString("dd/MM/yyyy")}\n" +
-                   $"DTP_CobDiariaBoleto=10:30\n" +
-                   $"DTP_CobSegundaBoleto=10:45\n" +
-                   $"DTP_SelectBoleto={DateTime.Now.ToString("dd/MM/yyyy")}";
+            string conteudo = $"Token|\n" +
+                   $"Txt_TimerOS|5\n" +
+                   $"DTP_SelectOS|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
+                   $"DTP_CobDiariaBoleto|10:30\n" +
+                   $"DTP_CobSegundaBoleto|10:45\n" +
+                   $"DTP_SelectBoleto|{DateTime.Now.ToString("dd/MM/yyyy")}";
 
             File.WriteAllText(caminhoArquivo, conteudo);
         }

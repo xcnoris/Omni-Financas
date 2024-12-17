@@ -23,14 +23,14 @@ namespace Aplication.IntegradorCRM.Metodos.OS
           
         }
 
-        public async Task VerificarNovosServicos(DadosAPIModels DadosAPI)
+        public async Task VerificarNovosServicos(DadosAPIModels DadosAPI, DateTime Datetime)
         {
             try
             {
                 _oSAcoesCRM = (await _dalOSAcao.ListarAsync()).ToList();
                 MetodosGerais.RegistrarInicioLog("OS");
                 // Busca serviços no DB
-                List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB();
+                List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(Datetime);
                 List<RelacaoOrdemServicoModels> TableRelacaoOS = (await dalOrdemServico.ListarAsync()).ToList();
 
                 // Passa por cada OS que retornar no select

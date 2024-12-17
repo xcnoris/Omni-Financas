@@ -5,6 +5,7 @@ using DataBase.IntegradorCRM.Data.DataBase;
 using Integrador_Com_CRM.Formularios;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
+using Metodos.IntegradorCRM;
 
 namespace Integrador_Com_CRM
 {
@@ -37,17 +38,26 @@ namespace Integrador_Com_CRM
         public Frm_Tela_Principal()
         {
             InitializeComponent();
+
+            FrmConfigUC = new Frm_ConfigUC();
+
+            // Obter o MAC local
+            string macAddress = HardwareInfo.GetMacAddress();
+            string macAddressVM = HardwareInfo.GetMacAddressVM();
+
+            // Obter o token fornecido pelo cliente
+            string token = FrmConfigUC.Token;
+
             _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
             List<DadosAPIModels?> DadosAPI = (_dalDadosAPI.Listar()).ToList();
-            
+
 
             BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
             FrmAcoesSit = new Frm_AcoesSituacoes();
-            FrmConfigUC = new Frm_ConfigUC();
 
-            context =new IntegradorDBContext();
-            
+            context = new IntegradorDBContext();
+
             ControlOS = new ControleOrdemDeServico();
             ControlBoleto = new ControleBoletos();
 
@@ -56,63 +66,82 @@ namespace Integrador_Com_CRM
             FrmConexaoUC = new Frm_ConexaoUC();
             cobrancas = new CobrancasNaSegundaModel();
 
-            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM);
+            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM, FrmConfigUC);
 
 
             AdicionarUserontrols();
 
-            // Timer para executar a função periodicamente a cada 5 minutos
-            timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
-            timer5Min.Elapsed += async (s, e) =>
+            // Validar o token
+            if (!LicenseManager.ValidateToken(token, macAddress, macAddressVM))
             {
-                try
+                if (!(string.IsNullOrEmpty(FrmConfigUC.Token)))
                 {
-                    await FrmGeralUC.VerificarOrdensDeServicos();
-
+                    FrmGeralUC.EnviarEmail(macAddress, token);
+                    MetodosGerais.RegistrarLog("Geral", "Licença inválida. Entre em contato com o suporte.");
+                    MessageBox.Show("Licença inválida. Entre em contato com o suporte.", "Erro de Licença",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                catch (Exception ex)
-                {
-                    // Log de erro
-                    MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
-                }
-            };
-            timer5Min.Start();
-
-            // Timer para execulta a função periodica todo dia as 10:30h Brasília
-            timerDaily = new System.Timers.Timer();
-            timerDaily.Elapsed += async (s, e) =>
+                
+            }
+            else
             {
-                try
+              
+
+                // Timer para executar a função periodicamente a cada 5 minutos
+                timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
+                timer5Min.Elapsed += async (s, e) =>
                 {
-                    await FrmGeralUC.VerificarBoletos();
-                }
-                catch (Exception ex)
+                    try
+                    {
+                        await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log de erro
+                        MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
+                    }
+                };
+                timer5Min.Start();
+
+                // Timer para execulta a função periodica todo dia as 10:30h Brasília
+                timerDaily = new System.Timers.Timer();
+                timerDaily.Elapsed += async (s, e) =>
                 {
-                    // Log de erro
-                    MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
-                }
-                // Reconfigurar o timer para o próximo dia às 10:30 AM
+                    try
+                    {
+                        await FrmGeralUC.VerificarBoletos(FrmConfigUC);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log de erro
+                        MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
+                    }
+                    // Reconfigurar o timer para o próximo dia às 10:30 AM
+                    SetDailyTimer();
+                };
                 SetDailyTimer();
-            };
-            SetDailyTimer();
 
-            // Timer para execulta a função periodica toda segunda as 10:45h brasilia
-            timerMonday = new System.Timers.Timer();
-            timerMonday.Elapsed += async (s, e) =>
-            {
-                try
+                // Timer para execulta a função periodica toda segunda as 10:45h brasilia
+                timerMonday = new System.Timers.Timer();
+                timerMonday.Elapsed += async (s, e) =>
                 {
-                    await FrmGeralUC.VerificarCobrancas();
-                }
-                catch (Exception ex)
-                {
-                    // Log de erro
-                    MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
-                }
-                // Reconfigurar o timer para a próxima segunda às 10:30 AM
+                    try
+                    {
+                        await FrmGeralUC.VerificarCobrancas(FrmConfigUC);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log de erro
+                        MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
+                    }
+                    // Reconfigurar o timer para a próxima segunda às 10:30 AM
+                    SetDailyTimerSegunda();
+                };
                 SetDailyTimerSegunda();
-            };
-            SetDailyTimerSegunda();
+            }
+
+           
         }
      
 
@@ -288,20 +317,30 @@ namespace Integrador_Com_CRM
                 // Instancia as class 
                 ConexaoDB conexao = LeituraFrmConexaoDB();
                 DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
-                List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = FrmAcoesSit.RetornarListAcoesSitBoleto();
-                List<AcaoSituacao_OS_CRM> AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
+
+                List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = new List<AcaoSituacao_Boleto_CRM>();
+                List<AcaoSituacao_OS_CRM> AcoesSitOS = new List<AcaoSituacao_OS_CRM>();
+                if (conexao is not null && dadosAPI is not null)
+                {
+                    AcoesSitBoleto = FrmAcoesSit.RetornarListAcoesSitBoleto();
+
+                    AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
+                }
+               
                 FrmConfigUC.SalvarConfiguracoes();
 
-                await CriarAtualDadosAPI(dadosAPI);
-                await SalvarSitBoleto(AcoesSitBoleto);
-                await SalvarSitOS(AcoesSitOS);
-
+                if(conexao is not null)
+                {
+                    await CriarAtualDadosAPI(dadosAPI);
+                    await SalvarSitBoleto(AcoesSitBoleto);
+                    await SalvarSitOS(AcoesSitOS);
+                }
                 // Cria uma string com o caminho e nome do diretorio do arquivo de conexao
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 string filePath = Path.Combine(basePath, "conexao.json");
 
                 // Salva um arquivo Json com os dados da conexão
-                conexao.SaveConnectionData(filePath);
+                if (conexao is not null) conexao.SaveConnectionData(filePath);
 
                 MessageBox.Show("Valores Salvos", "Envio de Ordem de Serviço", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -365,7 +404,7 @@ namespace Integrador_Com_CRM
                     string.IsNullOrEmpty(FrmConexaoUC.Usuario) ||
                     string.IsNullOrEmpty(FrmConexaoUC.Senha))
                 {
-                    throw new ArgumentException("Todos os campos de conexão são obrigatórios.");
+                    return null;
                 }
 
                 return new ConexaoDB
@@ -389,6 +428,7 @@ namespace Integrador_Com_CRM
         {
             try
             {
+               
                 return new DadosAPIModels
                 {
                     Token = FrmDadosAPIUUC.Token,
@@ -397,6 +437,7 @@ namespace Integrador_Com_CRM
                     Cod_API_Boleto = FrmDadosAPIUUC.CodAPI_Boleto,
                     Cod_Jornada_Boleto = FrmDadosAPIUUC.CodJornada_Boleto
                 };
+           
             }
             catch (Exception ex)
             {

@@ -17,13 +17,13 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             _comandosDB = new ComandosDB(_conexaoDB);
         }
 
-        internal List<RetornoBoleto> BuscarBoletosInDB()
+        internal List<RetornoBoleto> BuscarBoletosInDB(DateTime DataCriacao)
         {
             try
             {
 
                 // Buscar serviços no banco de dados a partir de uma data ou parâmetro definido
-                string query = @"
+                string query = @$"
                      SELECT 
                         DR.numero_documento_receber,
                         DR.id_documento_receber,
@@ -47,7 +47,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     LEFT JOIN 
                         pessoa_fisica pf ON ent.id_entidade = pf.id_entidade AND ent.tipo_entidade = 1
                     WHERE 
-                         DR.data_vencimento >= '15/11/2024'
+                         DR.data_vencimento >= '{DataCriacao}'
                     AND 
 	                    DR.tem_boleto = 1
                 ";
