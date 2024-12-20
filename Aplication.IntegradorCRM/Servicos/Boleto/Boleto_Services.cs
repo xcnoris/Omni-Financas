@@ -45,73 +45,38 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             {
                 using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
                 {
-                    // Verifica se o boleto está em atraso
-                    if (diasAtraso > 0)
+                    // Verifica a situação do boleto (3 = cancelado/estornado, 2 = quitado)
+                    switch ((Situacao_Boleto)situacao)
                     {
-                        // Verifica a situação do boleto (3 = cancelado/estornado, 2 = quitado)
-                        switch ((Situacao_Boleto)situacao)
-                        {
-                            // Verifica se esta cancelado
-                            case Situacao_Boleto.Cancelada_Ou_Estornado:
-                                if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
-                                {
-                                    await CancelarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
-                                }
-                                else
-                                {
-                                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
-                                }
-                                break;
-                            // Verifica se esta quitado
-                            case Situacao_Boleto.Quitado:
-                                if (BoletoRelacao.Quitado == 0)
-                                {
-                                    await QuitarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
-                                }
-                                else
-                                {
-                                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
-                                }
-                                break;
+                        // Verifica se esta cancelado
+                        case Situacao_Boleto.Cancelada_Ou_Estornado:
+                            if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
+                            {
+                                await CancelarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
+                            }
+                            else
+                            {
+                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
+                            }
+                            break;
+                        // Verifica se esta quitado
+                        case Situacao_Boleto.Quitado:
+                            if (BoletoRelacao.Quitado == 0)
+                            {
+                                await QuitarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
+                            }
+                            else
+                            {
+                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
+                            }
+                            break;
 
-                            // Caso não seja quitado nem cancelado, faz a cobrança
-                            default:
-                                await RealizarCobrancas(AcoesBoletoList, diasAtraso, BoletoRelacao.DiasEmAtraso, BoletoRelacao, DadosAPI);
-                                break;
-                        }
+                        // Caso não seja quitado nem cancelado, faz a cobrança
+                        default:
+                            await RealizarCobrancas(AcoesBoletoList, diasAtraso, BoletoRelacao.DiasEmAtraso, BoletoRelacao, DadosAPI);
+                            break;
                     }
-                    // Caso o boleto não esteja em atraso
-                    else
-                    {
-                        switch ((Situacao_Boleto)situacao)
-                        {
-                            case Situacao_Boleto.Quitado:
-                                if (BoletoRelacao.Quitado == 0)
-                                {
-                                    await QuitarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
-                                }
-                                else
-                                {
-                                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
-                                }
-                                break;
-
-                            case Situacao_Boleto.Cancelada_Ou_Estornado:
-                                if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
-                                {
-                                    await CancelarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
-                                }
-                                else
-                                {
-                                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
-                                }
-                                break;
-
-                            default:
-                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Não está em atraso!");
-                                break;
-                        }
-                    }
+                   
                 }
             }
         }

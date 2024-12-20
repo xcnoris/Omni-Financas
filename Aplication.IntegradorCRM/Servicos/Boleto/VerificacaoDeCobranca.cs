@@ -16,7 +16,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
             if (boletoAcaoBuscado is null)
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Não existe cobrança para o atraso do documento a receber: {boletoRelacao.Id_DocumentoReceber}. Atraso: {diasAtraso}!");
+                MetodosGerais.RegistrarLog("BOLETO", $"Não existe cobrança nem lembretes para data de vencimento do documento a receber: {boletoRelacao.Id_DocumentoReceber}. Atraso: {diasAtraso}!");
 
                 return;
             }
