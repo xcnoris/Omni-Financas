@@ -41,6 +41,12 @@ namespace Aplication.IntegradorCRM.Servicos
                         }
                     },
                 },
+                contato = new Contato
+                {
+                    nomeContato = RetornoOS.Nome_Cliente,
+                    telefoneContato = RetornoOS.Telefone,
+                    emailContato = RetornoOS.Email_Cliente
+                },
                 followups = new List<Followup>
                 {
                     new Followup { textoFollowup = "Essa oportunidade foi criada a partir da API de integração da LeadFinder" }
