@@ -58,7 +58,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             if (boletoJaEmTabela)
             {
                
-                await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true);
+                await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true, false);
             }
             else
             {
@@ -66,7 +66,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 boletoInTableRelacao.Situacao = 2;
                 boletoInTableRelacao.DiasEmAtraso = boletoRelacao.DiasEmAtraso;
                 boletoInTableRelacao.Quitado = 1;
-                await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoInTableRelacao, true);
+                await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoInTableRelacao, true, false);
             }
         }
     }

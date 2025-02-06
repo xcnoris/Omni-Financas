@@ -46,7 +46,9 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 boletoRelacao.DiasEmAtraso = diasAtraso;
 
                 // Verifica se hoje é final de semana, caso seja, não faz a cobrança dos boleto.
-                if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
+                //if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
+                if (false)
+  
                 {
                     /*
                          Cria um registro na tabela Cobrancas_Na_Segunda_CRM. Toda Segunda os registro que estao nessa tabela são
@@ -65,7 +67,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 else
                 {
                     using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-                    await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, false);
+                    await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, false, true);
                     MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está com {diasAtraso} dias em atraso.");
                 }
             }

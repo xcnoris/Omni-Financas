@@ -65,7 +65,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
             boletoRelacao.Situacao = 3;
             // É passado o parametro "foiQuitado" como true para remover qualquer registro de aviso que esteja aguardando para envio
-            await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true);
+            await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true, false);
          
         }
     }

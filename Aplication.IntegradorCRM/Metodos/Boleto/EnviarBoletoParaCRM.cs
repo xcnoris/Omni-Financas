@@ -40,7 +40,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return null;
         }
 
-        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel BoletoRElacao, bool foiQuitado)
+        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel BoletoRElacao, bool foiQuitado, bool EnviarPDF)
         {
             // Validar dados de entrada
             if (request == null || string.IsNullOrEmpty(token) || BoletoRElacao == null)
@@ -53,6 +53,12 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
                 if (foiQuitado)
                     await Boleto_Services.ProcessarBoletoQuitado(BoletoRElacao);
+                if (EnviarPDF)
+                {
+                    string[] destinatarios = { $"+55{BoletoRElacao.Celular_Entidade}" };
+                    await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios);
+
+                }
 
                 return apiResponse;
             }
@@ -61,6 +67,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return null;
         }
 
+     
 
     }
 }
