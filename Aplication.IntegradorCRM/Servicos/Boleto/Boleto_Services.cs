@@ -111,7 +111,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                 try
                 {
-
+                    
                     var response = await client.PostAsync("https://api.leadfinder.com.br/integracao/v2/inserirOportunidade", content);
                     var responseBody = await response.Content.ReadAsStringAsync();
 
@@ -134,7 +134,6 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}");
                     throw;
                 }
-
                 return null;
             }
         }
