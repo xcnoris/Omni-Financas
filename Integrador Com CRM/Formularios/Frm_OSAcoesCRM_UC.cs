@@ -94,9 +94,19 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     DGV_Dados.Columns.Add("ID", "ID");
                     DGV_Dados.Columns["ID"].ReadOnly = true;
+                    DGV_Dados.Columns["ID"].Width=30;
+
                     DGV_Dados.Columns.Add("IdCategoria", "ID Categoria");
+                    DGV_Dados.Columns["IdCategoria"].Width = 350;
+
                     DGV_Dados.Columns.Add("Codigo_Acao", "Codigo Ação");
+                    DGV_Dados.Columns["Codigo_Acao"].Width = 350;
+
                     DGV_Dados.Columns.Add("Mensagem", "Mensagem Ação");
+                    DGV_Dados.Columns["Mensagem"].Width = 450;
+
+                    // Impede que a última coluna ocupe todo o espaço
+                    DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
                 }
             }
             catch (Exception ex)

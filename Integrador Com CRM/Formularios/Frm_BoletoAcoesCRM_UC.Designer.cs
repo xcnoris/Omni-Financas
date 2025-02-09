@@ -44,6 +44,7 @@
             Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
             Btn_Remover = new ComponentesPerson.BotaoArredond(components);
             flecha2 = new ComponentesPerson.Flecha();
+            CheckBox = new DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -54,6 +55,7 @@
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGV_Dados.BackgroundColor = SystemColors.ControlLightLight;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Dados.Columns.AddRange(new DataGridViewColumn[] { CheckBox });
             DGV_Dados.Location = new Point(21, 133);
             DGV_Dados.Name = "DGV_Dados";
             DGV_Dados.Size = new Size(790, 252);
@@ -209,6 +211,13 @@
             flecha2.TabIndex = 12;
             flecha2.Text = "flecha2";
             // 
+            // CheckBox
+            // 
+            CheckBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            CheckBox.HeaderText = "Enviar PDF";
+            CheckBox.Name = "CheckBox";
+            CheckBox.Width = 69;
+            // 
             // Frm_BoletoAcoesCRM_UC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -250,5 +259,6 @@
         private ComponentesPerson.BotaoArredond Btn_Remover;
         private ComponentesPerson.Flecha flecha1;
         private ComponentesPerson.Flecha flecha2;
+        private DataGridViewCheckBoxColumn CheckBox;
     }
 }

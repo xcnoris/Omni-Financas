@@ -88,7 +88,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     var acaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, acaoCobranca, DadosAPI);
 
                     boletoRelacao.DiasEmAtraso = conbranca.NovoAtrasoBoleto;
-                    await EnviarBoletoParaCRM.AtualizarAcao(acaoRequest, DadosAPI.Token, dalRelBoletos, boletoRelacao, false, true);
+                    await EnviarBoletoParaCRM.AtualizarAcao(acaoRequest, DadosAPI.Token, dalRelBoletos, boletoRelacao, false, acaoCobranca.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
 
                     await RemoverRegistro(conbranca.Id, false);
                     MetodosGerais.RegistrarLog("COBRANCA", $"Boleto {boletoRelacao.Id_DocumentoReceber} removido da lista de cobrança. CodOp: {conbranca.Cod_Oportunidade}");
@@ -130,14 +130,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             return acoesCobrancaList.FirstOrDefault(x => x.Dias_Cobrancas.Equals(DiaCobranca));
         }
 
-        //private async static Task AtualizarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels dadosAPI)
-        //{
-        //    using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-
-        //    // É passado o parametro "foiQuitado" como true para remover qualquer registro de aviso que esteja aguardando para envio
-        //    await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true);
-
-        //}
+      
 
         internal async Task RemoverRegistro(int cobrancaId, bool apagarTodos)
         {

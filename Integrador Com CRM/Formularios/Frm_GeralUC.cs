@@ -159,7 +159,7 @@ namespace Integrador_Com_CRM.Formularios
                 List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
                 List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
 
-                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, FrmConfigUC.DataSelectBoleto);
+                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, FrmConfigUC.DataSelectBoleto, FrmConfigUC.ChBox_EnviarPDFa);
                 return true;
             }
             return false;

@@ -30,6 +30,10 @@
         {
             groupBox1 = new GroupBox();
             groupBox5 = new GroupBox();
+            groupBox9 = new GroupBox();
+            ChBox_EnviarPDF = new CheckBox();
+            label9 = new Label();
+            label10 = new Label();
             groupBox6 = new GroupBox();
             DTP_CobSegundaBoleto = new DateTimePicker();
             DTP_CobDiariaBoleto = new DateTimePicker();
@@ -52,6 +56,7 @@
             label1 = new Label();
             groupBox1.SuspendLayout();
             groupBox5.SuspendLayout();
+            groupBox9.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox8.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -69,7 +74,7 @@
             groupBox1.ForeColor = SystemColors.HotTrack;
             groupBox1.Location = new Point(19, 14);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(785, 385);
+            groupBox1.Size = new Size(785, 404);
             groupBox1.TabIndex = 13;
             groupBox1.TabStop = false;
             groupBox1.Text = "Configurações";
@@ -77,15 +82,56 @@
             // groupBox5
             // 
             groupBox5.BackColor = Color.Transparent;
+            groupBox5.Controls.Add(groupBox9);
             groupBox5.Controls.Add(groupBox6);
             groupBox5.Controls.Add(groupBox8);
             groupBox5.ForeColor = SystemColors.HotTrack;
             groupBox5.Location = new Point(18, 215);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(745, 113);
+            groupBox5.Size = new Size(745, 183);
             groupBox5.TabIndex = 17;
             groupBox5.TabStop = false;
             groupBox5.Text = "Boletos";
+            // 
+            // groupBox9
+            // 
+            groupBox9.BackColor = Color.Transparent;
+            groupBox9.Controls.Add(ChBox_EnviarPDF);
+            groupBox9.Controls.Add(label9);
+            groupBox9.Controls.Add(label10);
+            groupBox9.ForeColor = SystemColors.HotTrack;
+            groupBox9.Location = new Point(309, 101);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new Size(419, 58);
+            groupBox9.TabIndex = 18;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Config Select";
+            // 
+            // ChBox_EnviarPDF
+            // 
+            ChBox_EnviarPDF.AutoSize = true;
+            ChBox_EnviarPDF.Location = new Point(207, 26);
+            ChBox_EnviarPDF.Name = "ChBox_EnviarPDF";
+            ChBox_EnviarPDF.Size = new Size(15, 14);
+            ChBox_EnviarPDF.TabIndex = 18;
+            ChBox_EnviarPDF.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(14, 25);
+            label9.Name = "label9";
+            label9.Size = new Size(187, 15);
+            label9.TabIndex = 8;
+            label9.Text = "Enviar PDF ao Criar Oportunidade:";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(8, 25);
+            label10.Name = "label10";
+            label10.Size = new Size(0, 15);
+            label10.TabIndex = 1;
             // 
             // groupBox6
             // 
@@ -95,7 +141,7 @@
             groupBox6.Controls.Add(label2);
             groupBox6.Controls.Add(label3);
             groupBox6.ForeColor = SystemColors.HotTrack;
-            groupBox6.Location = new Point(16, 22);
+            groupBox6.Location = new Point(16, 17);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(281, 78);
             groupBox6.TabIndex = 17;
@@ -149,7 +195,7 @@
             groupBox8.Controls.Add(label8);
             groupBox8.Controls.Add(label4);
             groupBox8.ForeColor = SystemColors.HotTrack;
-            groupBox8.Location = new Point(309, 22);
+            groupBox8.Location = new Point(309, 17);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(419, 78);
             groupBox8.TabIndex = 16;
@@ -311,6 +357,8 @@
             Size = new Size(829, 421);
             groupBox1.ResumeLayout(false);
             groupBox5.ResumeLayout(false);
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox8.ResumeLayout(false);
@@ -349,5 +397,9 @@
         private Label label7;
         private DateTimePicker DTP_SelectBoleto;
         private Label label8;
+        private GroupBox groupBox9;
+        private CheckBox ChBox_EnviarPDF;
+        private Label label9;
+        private Label label10;
     }
 }

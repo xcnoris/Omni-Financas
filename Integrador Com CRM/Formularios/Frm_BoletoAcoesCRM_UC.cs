@@ -89,14 +89,29 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                // Se o DataGridView não tiver colunas, adicione-as
-                if (DGV_Dados.Columns.Count == 0)
+                if (DGV_Dados.Columns.Count == 1)
                 {
+
                     DGV_Dados.Columns.Add("ID", "ID");
+                    DGV_Dados.Columns["ID"].Width = 30;
                     DGV_Dados.Columns["ID"].ReadOnly = true;
+
                     DGV_Dados.Columns.Add("Dia_Cobranca", "Dia Cobrança");
+                    DGV_Dados.Columns["Dia_Cobranca"].Width = 300;
+
                     DGV_Dados.Columns.Add("Codigo_Acao", "Codigo Ação");
+                    DGV_Dados.Columns["Codigo_Acao"].Width = 350;
+
                     DGV_Dados.Columns.Add("Mensagem", "Mensagem Ação");
+                    DGV_Dados.Columns["Mensagem"].Width = 350;
+
+                    DGV_Dados.Columns["CheckBox"].DisplayIndex = 3;
+
+
+
+                    // Impede que a última coluna ocupe todo o espaço
+                    DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
                 }
             }
             catch (Exception ex)
@@ -202,6 +217,7 @@ namespace Integrador_Com_CRM.Formularios
 
                 // Adicionar a linha ao DataGridView
                 DGV_Dados.Rows.Add(
+                    BoletoAcao.EnviarPDF,
                     BoletoAcao.Id,
                     BoletoAcao.Dias_Cobrancas,
                     BoletoAcao.Codigo_Acao,
@@ -232,6 +248,7 @@ namespace Integrador_Com_CRM.Formularios
                     int diasCobrancas = Convert.ToInt32(row.Cells["Dia_Cobranca"].Value);
                     string codigoAcao = row.Cells["Codigo_Acao"].Value.ToString();
                     string Mensagem = row.Cells["Mensagem"].Value.ToString();
+                    bool EnviarPDF = Convert.ToBoolean(row.Cells["CheckBox"].Value);
 
                     // Criar um objeto para representar o registro da linha
                     var boletoAcao = new BoletoAcoesCRMModel
@@ -240,7 +257,7 @@ namespace Integrador_Com_CRM.Formularios
                         Dias_Cobrancas = diasCobrancas,
                         Codigo_Acao = codigoAcao,
                         Mensagem_Atualizacao = Mensagem,
-                      
+                        EnviarPDF=EnviarPDF,
                     };
 
                     if (id.HasValue && id.Value > 0)
@@ -253,6 +270,7 @@ namespace Integrador_Com_CRM.Formularios
                             // Atualiza os dados do registro existente
                             registroExistente.Dias_Cobrancas = diasCobrancas;
                             registroExistente.Codigo_Acao = codigoAcao;
+                            registroExistente.EnviarPDF = EnviarPDF;
 
                             await dalBoletoAcoes.AtualizarAsync(registroExistente);
                         }

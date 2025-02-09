@@ -59,13 +59,13 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
 
-        private async static Task CancelarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels dadosAPI)
+        private async static Task CancelarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels DadosAPI)
         {
             using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
 
             boletoRelacao.Situacao = 3;
             // É passado o parametro "foiQuitado" como true para remover qualquer registro de aviso que esteja aguardando para envio
-            await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, dadosAPI.Token, dalBoleto, boletoRelacao, true, false);
+            await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, true, false, DadosAPI.CodAPI_EnvioPDF);
          
         }
     }

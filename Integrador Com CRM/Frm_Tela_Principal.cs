@@ -387,6 +387,7 @@ namespace Integrador_Com_CRM
                 primeiroDado.Cod_Jornada_OrdemServico = dadosAPI.Cod_Jornada_OrdemServico;
                 primeiroDado.Cod_API_Boleto = dadosAPI.Cod_API_Boleto;
                 primeiroDado.Cod_Jornada_Boleto = dadosAPI.Cod_Jornada_Boleto;
+                primeiroDado.CodAPI_EnvioPDF = dadosAPI.CodAPI_EnvioPDF;
 
                 // Atualiza o dado existente no banco
                 await dal.AtualizarAsync(primeiroDado);
@@ -435,7 +436,8 @@ namespace Integrador_Com_CRM
                     Cod_API_OrdemServico = FrmDadosAPIUUC.CodAPI_OS,
                     Cod_Jornada_OrdemServico = FrmDadosAPIUUC.CodJornada_OS,
                     Cod_API_Boleto = FrmDadosAPIUUC.CodAPI_Boleto,
-                    Cod_Jornada_Boleto = FrmDadosAPIUUC.CodJornada_Boleto
+                    Cod_Jornada_Boleto = FrmDadosAPIUUC.CodJornada_Boleto,
+                    CodAPI_EnvioPDF = FrmDadosAPIUUC.CodAPI_EnvioPDF
                 };
            
             }

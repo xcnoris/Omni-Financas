@@ -25,7 +25,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
-        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM, DateTime DateTime)
+        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM, DateTime DateTime, bool EnviarPDFaoCriarOPT)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                 BoletoRelacao = BoletoRelacao.InstanciaDados(linha);
 
                                 // tenta criar a oportunidade no CRM
-                                OportunidadeResponse response = await EnviarBoletoParaCRM.CriarOportunidade(oportunidade, DadosAPI.Token, dalBoletoUsing, BoletoRelacao);
+                                OportunidadeResponse response = await EnviarBoletoParaCRM.CriarOportunidade(oportunidade, DadosAPI.Token, dalBoletoUsing, BoletoRelacao, EnviarPDFaoCriarOPT, DadosAPI.CodAPI_EnvioPDF);
                                 if (response is null)
                                 {
                                     MetodosGerais.RegistrarLog("ERRO", "Falha ao criar Oportunidade");

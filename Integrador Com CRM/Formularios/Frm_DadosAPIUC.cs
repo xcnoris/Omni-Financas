@@ -47,6 +47,14 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
+        internal string CodAPI_EnvioPDF
+        {
+            get
+            {
+                return Txt_CodAPIPDF.Text;
+            }
+        }
+
         public Frm_DadosAPIUC()
         {
             InitializeComponent();
@@ -68,17 +76,17 @@ namespace Integrador_Com_CRM.Formularios
 
                 if (DadosAPI is null)
                 {
-                    MetodosGerais.RegistrarLog("OS", "ERROR: Token é nulo");
+                    MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Token é nulo");
                     return;
                 }
 
                 CarregarTxts(DadosAPI);
 
-              
+
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("OS", $"ERROR: {ex.Message}");
+                MetodosGerais.RegistrarLog("DadosAPI", $"ERROR: {ex.Message}");
                 MessageBox.Show("Erro ao carregar dados da API de conexão: " + ex.Message);
             }
         }
@@ -131,12 +139,14 @@ namespace Integrador_Com_CRM.Formularios
                 MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_Jornada_Boleto é nulo");
             }
 
-           
-        }
-
-        private void Frm_DadosAPIUC_Load(object sender, EventArgs e)
-        {
-           
+            if (!string.IsNullOrEmpty(DadosAPI.CodAPI_EnvioPDF))
+            {
+                Txt_CodAPIPDF.Text = DadosAPI.CodAPI_EnvioPDF;
+            }
+            else
+            {
+                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: CodAPI_EnvioPDF é nulo");
+            }
         }
     }
 }

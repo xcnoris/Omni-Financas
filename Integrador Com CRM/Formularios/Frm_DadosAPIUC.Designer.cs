@@ -31,19 +31,21 @@
             Txt_Token = new TextBox();
             label1 = new Label();
             groupBox1 = new GroupBox();
-            groupBox2 = new GroupBox();
-            Txt_CodJornadaOS = new TextBox();
-            label3 = new Label();
-            Txt_CodAPIOS = new TextBox();
-            label4 = new Label();
             groupBox3 = new GroupBox();
             Txt_CodJornadaBoleto = new TextBox();
             label2 = new Label();
             Txt_CodAPIBoleto = new TextBox();
             label5 = new Label();
+            groupBox2 = new GroupBox();
+            Txt_CodJornadaOS = new TextBox();
+            label3 = new Label();
+            Txt_CodAPIOS = new TextBox();
+            label4 = new Label();
+            Txt_CodAPIPDF = new TextBox();
+            label6 = new Label();
             groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // Txt_Token
@@ -77,6 +79,57 @@
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Dados API";
+            // 
+            // groupBox3
+            // 
+            groupBox3.BackColor = Color.Transparent;
+            groupBox3.Controls.Add(Txt_CodAPIPDF);
+            groupBox3.Controls.Add(label6);
+            groupBox3.Controls.Add(Txt_CodJornadaBoleto);
+            groupBox3.Controls.Add(label2);
+            groupBox3.Controls.Add(Txt_CodAPIBoleto);
+            groupBox3.Controls.Add(label5);
+            groupBox3.ForeColor = SystemColors.HotTrack;
+            groupBox3.Location = new Point(12, 184);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(537, 118);
+            groupBox3.TabIndex = 5;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Config. Boleto";
+            // 
+            // Txt_CodJornadaBoleto
+            // 
+            Txt_CodJornadaBoleto.Location = new Point(360, 42);
+            Txt_CodJornadaBoleto.Name = "Txt_CodJornadaBoleto";
+            Txt_CodJornadaBoleto.Size = new Size(158, 23);
+            Txt_CodJornadaBoleto.TabIndex = 2;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.ForeColor = SystemColors.Desktop;
+            label2.Location = new Point(261, 50);
+            label2.Name = "label2";
+            label2.Size = new Size(93, 15);
+            label2.TabIndex = 3;
+            label2.Text = "Codigo Jornada:";
+            // 
+            // Txt_CodAPIBoleto
+            // 
+            Txt_CodAPIBoleto.Location = new Point(84, 42);
+            Txt_CodAPIBoleto.Name = "Txt_CodAPIBoleto";
+            Txt_CodAPIBoleto.Size = new Size(158, 23);
+            Txt_CodAPIBoleto.TabIndex = 0;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.ForeColor = SystemColors.Desktop;
+            label5.Location = new Point(8, 45);
+            label5.Name = "label5";
+            label5.Size = new Size(70, 15);
+            label5.TabIndex = 1;
+            label5.Text = "Codigo API:";
             // 
             // groupBox2
             // 
@@ -127,54 +180,22 @@
             label4.TabIndex = 1;
             label4.Text = "Codigo API:";
             // 
-            // groupBox3
+            // Txt_CodAPIPDF
             // 
-            groupBox3.BackColor = Color.Transparent;
-            groupBox3.Controls.Add(Txt_CodJornadaBoleto);
-            groupBox3.Controls.Add(label2);
-            groupBox3.Controls.Add(Txt_CodAPIBoleto);
-            groupBox3.Controls.Add(label5);
-            groupBox3.ForeColor = SystemColors.HotTrack;
-            groupBox3.Location = new Point(12, 184);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(537, 87);
-            groupBox3.TabIndex = 5;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Config. Boleto";
+            Txt_CodAPIPDF.Location = new Point(183, 71);
+            Txt_CodAPIPDF.Name = "Txt_CodAPIPDF";
+            Txt_CodAPIPDF.Size = new Size(113, 23);
+            Txt_CodAPIPDF.TabIndex = 4;
             // 
-            // Txt_CodJornadaBoleto
+            // label6
             // 
-            Txt_CodJornadaBoleto.Location = new Point(360, 42);
-            Txt_CodJornadaBoleto.Name = "Txt_CodJornadaBoleto";
-            Txt_CodJornadaBoleto.Size = new Size(158, 23);
-            Txt_CodJornadaBoleto.TabIndex = 2;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.ForeColor = SystemColors.Desktop;
-            label2.Location = new Point(261, 50);
-            label2.Name = "label2";
-            label2.Size = new Size(93, 15);
-            label2.TabIndex = 3;
-            label2.Text = "Codigo Jornada:";
-            // 
-            // Txt_CodAPIBoleto
-            // 
-            Txt_CodAPIBoleto.Location = new Point(84, 42);
-            Txt_CodAPIBoleto.Name = "Txt_CodAPIBoleto";
-            Txt_CodAPIBoleto.Size = new Size(158, 23);
-            Txt_CodAPIBoleto.TabIndex = 0;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.ForeColor = SystemColors.Desktop;
-            label5.Location = new Point(8, 45);
-            label5.Name = "label5";
-            label5.Size = new Size(70, 15);
-            label5.TabIndex = 1;
-            label5.Text = "Codigo API:";
+            label6.AutoSize = true;
+            label6.ForeColor = SystemColors.Desktop;
+            label6.Location = new Point(8, 74);
+            label6.Name = "label6";
+            label6.Size = new Size(169, 15);
+            label6.TabIndex = 5;
+            label6.Text = "Codigo API para envio do PDF:";
             // 
             // Frm_DadosAPIUC
             // 
@@ -186,13 +207,12 @@
             DoubleBuffered = true;
             Name = "Frm_DadosAPIUC";
             Size = new Size(829, 421);
-            Load += Frm_DadosAPIUC_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -211,5 +231,7 @@
         private Label label2;
         private TextBox Txt_CodAPIBoleto;
         private Label label5;
+        private TextBox Txt_CodAPIPDF;
+        private Label label6;
     }
 }

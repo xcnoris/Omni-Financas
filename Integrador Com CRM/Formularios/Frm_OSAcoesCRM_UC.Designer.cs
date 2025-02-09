@@ -32,6 +32,7 @@
             DGV_Dados = new DataGridView();
             label1 = new Label();
             groupBox1 = new GroupBox();
+            Btn_Adda = new ComponentesPerson.BotaoArredond(components);
             Txt_Mensagem = new TextBox();
             label5 = new Label();
             Txt_CodAcao = new TextBox();
@@ -39,7 +40,6 @@
             Txt_IdCategoria = new TextBox();
             label2 = new Label();
             label4 = new Label();
-            Btn_Adda = new ComponentesPerson.BotaoArredond(components);
             Btn_Remover = new ComponentesPerson.BotaoArredond(components);
             Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
             flecha1 = new ComponentesPerson.Flecha();
@@ -87,6 +87,20 @@
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Adicionar Dados";
+            // 
+            // Btn_Adda
+            // 
+            Btn_Adda.BackColor = Color.MediumPurple;
+            Btn_Adda.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Adda.ForeColor = SystemColors.Window;
+            Btn_Adda.Location = new Point(678, 39);
+            Btn_Adda.Name = "Btn_Adda";
+            Btn_Adda.RaioCanto = 20;
+            Btn_Adda.Size = new Size(97, 32);
+            Btn_Adda.TabIndex = 12;
+            Btn_Adda.Text = "Adicionar";
+            Btn_Adda.UseVisualStyleBackColor = false;
+            Btn_Adda.Click += Btn_Add_Click;
             // 
             // Txt_Mensagem
             // 
@@ -153,20 +167,6 @@
             label4.Size = new Size(182, 21);
             label4.TabIndex = 9;
             label4.Text = "Não Esqueça de Salvar";
-            // 
-            // Btn_Adda
-            // 
-            Btn_Adda.BackColor = Color.MediumPurple;
-            Btn_Adda.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Adda.ForeColor = SystemColors.Window;
-            Btn_Adda.Location = new Point(678, 39);
-            Btn_Adda.Name = "Btn_Add";
-            Btn_Adda.RaioCanto = 20;
-            Btn_Adda.Size = new Size(97, 32);
-            Btn_Adda.TabIndex = 12;
-            Btn_Adda.Text = "Adicionar";
-            Btn_Adda.UseVisualStyleBackColor = false;
-            Btn_Adda.Click += this.Btn_Add_Click;
             // 
             // Btn_Remover
             // 

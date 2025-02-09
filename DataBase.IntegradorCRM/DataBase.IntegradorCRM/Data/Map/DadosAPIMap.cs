@@ -14,8 +14,7 @@ namespace DataBase.IntegradorCRM.Data.Map
             builder.Property(x => x.Cod_Jornada_Boleto).HasMaxLength(100);
             builder.Property(x => x.Cod_API_OrdemServico).HasMaxLength(100);
             builder.Property(x => x.Cod_Jornada_OrdemServico).HasMaxLength(51000);
-
-
+            builder.Property(x => x.CodAPI_EnvioPDF).HasMaxLength(100);
         }
     }
 }

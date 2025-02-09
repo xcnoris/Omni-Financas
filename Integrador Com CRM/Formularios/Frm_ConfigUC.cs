@@ -51,7 +51,14 @@ namespace Integrador_Com_CRM.Formularios
                 return DTP_SelectBoleto.Value.Date;
             }
         }
-
+        internal bool ChBox_EnviarPDFa
+        {
+            get
+            {
+                return ChBox_EnviarPDF.Checked;
+            }
+        }
+      
 
         public Frm_ConfigUC()
         {
@@ -60,15 +67,17 @@ namespace Integrador_Com_CRM.Formularios
             CarregarConfiguracoes();
         }
 
+       
         internal void SalvarConfiguracoes()
         {
                 string caminhoArquivo = "config_timers.txt";
-                string conteudo = $"Token|{Txt_Token.Text}\n" +
-                  $"Txt_TimerOS|{Txt_TimerOS.Text}\n" +
-                  $"DTP_SelectOS|{DTP_SelectOS.Value.ToString("dd/MM/yyyy")}\n" +
-                  $"DTP_CobDiariaBoleto|{DTP_CobDiariaBoleto.Value.ToString("HH:mm")}\n" +
-                  $"DTP_CobSegundaBoleto|{DTP_CobSegundaBoleto.Value.ToString("HH:mm")}\n" +
-                  $"DTP_SelectBoleto|{DTP_SelectBoleto.Value.ToString("dd/MM/yyyy")}";
+            string conteudo = $"Token|{Txt_Token.Text}\n" +
+              $"Txt_TimerOS|{Txt_TimerOS.Text}\n" +
+              $"DTP_SelectOS|{DTP_SelectOS.Value.ToString("dd/MM/yyyy")}\n" +
+              $"DTP_CobDiariaBoleto|{DTP_CobDiariaBoleto.Value.ToString("HH:mm")}\n" +
+              $"DTP_CobSegundaBoleto|{DTP_CobSegundaBoleto.Value.ToString("HH:mm")}\n" +
+              $"DTP_SelectBoleto|{DTP_SelectBoleto.Value.ToString("dd/MM/yyyy")}\n" +
+              $"ChBox_EnviarPDF|{ChBox_EnviarPDF.Checked}";
 
 
                 File.WriteAllText(caminhoArquivo, conteudo);
@@ -127,6 +136,10 @@ namespace Integrador_Com_CRM.Formularios
                                     DTP_SelectBoleto.Value = dataSelectBoleto;
                                 }
                                 break;
+
+                            case "ChBox_EnviarPDF":
+                                ChBox_EnviarPDF.Checked = Convert.ToBoolean(valor);
+                                break;
                         }
                     }
                 }
@@ -148,7 +161,8 @@ namespace Integrador_Com_CRM.Formularios
                    $"DTP_SelectOS|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
                    $"DTP_CobDiariaBoleto|10:30\n" +
                    $"DTP_CobSegundaBoleto|10:45\n" +
-                   $"DTP_SelectBoleto|{DateTime.Now.ToString("dd/MM/yyyy")}";
+                   $"DTP_SelectBoleto|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
+                   $"ChBox_EnviarPDF|False";
 
             File.WriteAllText(caminhoArquivo, conteudo);
         }

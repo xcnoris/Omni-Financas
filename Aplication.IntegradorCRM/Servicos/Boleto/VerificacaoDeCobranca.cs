@@ -22,7 +22,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
             var atualizacaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, boletoAcaoBuscado, DadosAPI);
 
-            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI);
+            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado);
         }
         private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, BoletoAcoesCRMModel acaoSituacao, DadosAPIModels DadosAPI)
         {
@@ -35,7 +35,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             };
         }
 
-        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels DadosAPI)
+        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesCRMModel boletoAcaoBuscado)
         {
             /*
                 Verifica se o dia de atraso é igual ao registrado
@@ -67,7 +67,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 else
                 {
                     using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-                    await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, false, true);
+                    await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
                     MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está com {diasAtraso} dias em atraso.");
                 }
             }

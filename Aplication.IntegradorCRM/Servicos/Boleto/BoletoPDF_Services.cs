@@ -1,15 +1,24 @@
-﻿
+﻿using DataBase.IntegradorCRM.Data.DataBase;
 using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
-
+using System.Data;
 namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class BoletoPDF_Services : IDisposable
     {
-        private readonly string _connectionString;
+     
+
+        private ConexaoDB _conexaoDB;
+        private ComandosDB _comandosDB;
+
+  
 
         public BoletoPDF_Services()
         {
+            string Validacao = "";
+            _conexaoDB = new ConexaoDB(Validacao);
+            _comandosDB = new ComandosDB(_conexaoDB);
+           
         }
 
         /// <summary>
@@ -19,33 +28,37 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         /// <returns>Caminho do arquivo PDF</returns>
         public string ConsultarCaminhoBoleto(int idDocumentoReceber)
         {
-            string? caminhoArquivoBoleto = null;
+            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Iniciando consulta do boleto para ID: {idDocumentoReceber}");
 
+            string? caminhoArquivoBoleto = string.Empty; 
             string query = "SELECT caminho_arquivo_boleto FROM boleto WHERE id_documento_receber = @IdDocumentoReceber";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            try
             {
-                connection.Open();
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@IdDocumentoReceber", idDocumentoReceber);
+                string queryComID = query.Replace("@IdDocumentoReceber", idDocumentoReceber.ToString());
 
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            caminhoArquivoBoleto = reader["caminho_arquivo_boleto"]?.ToString();
-                        }
-                    }
-                }
+                DataTable retornoOS = _comandosDB.ExecuteQuery(queryComID);
+                caminhoArquivoBoleto = retornoOS.Rows.Count > 0 ? retornoOS.Rows[0][0].ToString() : string.Empty;
+
+            }
+            catch (SqlException ex)
+            {
+                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao acessar o banco de dados: {ex.Message}");
+                throw new Exception("Erro ao acessar o banco de dados.", ex);
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro inesperado: {ex.Message}");
+                throw;
             }
 
             if (string.IsNullOrEmpty(caminhoArquivoBoleto))
             {
+                MetodosGerais.RegistrarLog("BOLETO_PDF", "Caminho do arquivo não encontrado para o ID especificado.");
                 throw new Exception("Caminho do arquivo não encontrado para o ID especificado.");
             }
 
-            return caminhoArquivoBoleto;     
+            return caminhoArquivoBoleto;
         }
 
         /// <summary>
@@ -55,27 +68,37 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         /// <returns>Arquivo em Base64</returns>
         public string ConverterPDFParaBase64(string caminhoArquivo)
         {
+            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Iniciando conversão para Base64 do arquivo: {caminhoArquivo}");
+
             try
             {
-
                 if (!File.Exists(caminhoArquivo))
                 {
-                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"O arquivo especificado não foi encontrado: {caminhoArquivo}");
+                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Arquivo não encontrado: {caminhoArquivo}");
                     throw new FileNotFoundException("O arquivo especificado não foi encontrado.", caminhoArquivo);
                 }
 
                 byte[] fileBytes = File.ReadAllBytes(caminhoArquivo);
-                return Convert.ToBase64String(fileBytes);
+                string base64String = Convert.ToBase64String(fileBytes);
+
+                MetodosGerais.RegistrarLog("BOLETO_PDF", "Conversão para Base64 realizada com sucesso.");
+                return base64String;
+            }
+            catch (FileNotFoundException ex)
+            {
+                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro: {ex.Message}");
+                throw;
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro: {ex.Message}");
+                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro inesperado ao converter para Base64: {ex.Message}");
                 throw;
             }
         }
 
         public void Dispose()
         {
+            // Nada a liberar, mas mantendo para boas práticas
         }
     }
 }

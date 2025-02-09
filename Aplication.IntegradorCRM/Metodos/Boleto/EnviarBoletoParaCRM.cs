@@ -4,6 +4,7 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
@@ -11,7 +12,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
     {
 
 
-        public static async Task<OportunidadeResponse> CriarOportunidade(ModeloOportunidadeRequest request, string token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel)
+        public static async Task<OportunidadeResponse> CriarOportunidade(ModeloOportunidadeRequest request, string token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel, bool EnviarPDF, string CodigoAPI_EnvioPDF)
         {
             // Validar entrada
             if (request == null || string.IsNullOrEmpty(token) || boletoInTabRel == null)
@@ -33,6 +34,8 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 // Atualizar a tabela de relação com o código da oportunidade e a data de criação
                 await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel, apiResponse.CodigoOportunidade);
 
+                // Verifica se esta marcado para enviar o PDF do boleto ao criar a oportunidade no CRM
+                await VerificarEnvioPDF(EnviarPDF, boletoInTabRel, token, CodigoAPI_EnvioPDF);
                 return apiResponse;
             }
 
@@ -40,7 +43,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return null;
         }
 
-        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel BoletoRElacao, bool foiQuitado, bool EnviarPDF)
+        public static async Task<OportunidadeResponse> AtualizarAcao(AtualizarAcaoRequest request, string token, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel BoletoRElacao, bool foiQuitado, bool EnviarPDF, string CodigoAPI_EnvioPDF)
         {
             // Validar dados de entrada
             if (request == null || string.IsNullOrEmpty(token) || BoletoRElacao == null)
@@ -53,12 +56,8 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
                 if (foiQuitado)
                     await Boleto_Services.ProcessarBoletoQuitado(BoletoRElacao);
-                if (EnviarPDF)
-                {
-                    string[] destinatarios = { $"+55{BoletoRElacao.Celular_Entidade}" };
-                    await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios);
 
-                }
+                await VerificarEnvioPDF(EnviarPDF, BoletoRElacao, token, CodigoAPI_EnvioPDF);
 
                 return apiResponse;
             }
@@ -67,7 +66,15 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return null;
         }
 
-     
+        private static async Task VerificarEnvioPDF(bool EnviarPDF,RelacaoBoletoCRMModel BoletoRElacao,string token, string CodigoAPI_EnvioPDF)
+        {
+            if (EnviarPDF)
+            {
+                string[] destinatarios = { $"+55{BoletoRElacao.Celular_Entidade}" };
+                await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd/MM/yyyy"), CodigoAPI_EnvioPDF);
+
+            }
+        }
 
     }
 }

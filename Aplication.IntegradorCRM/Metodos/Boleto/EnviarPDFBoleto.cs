@@ -1,25 +1,23 @@
-﻿using System;
-using System.Net.Http;
+﻿
 using System.Text;
-using System.Threading.Tasks;
 using Aplication.IntegradorCRM.Servicos.Boleto;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM.Models.EF;
 using Newtonsoft.Json;
 
 namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
     internal class EnviarPDFBoleto
     {
-        public static async Task<bool> ProcessarEnvioPDFBoleto(int idDocumentoReceber, string Token, string[] destinatarios)
+        public static async Task<bool> ProcessarEnvioPDFBoleto(int idDocumentoReceber, string Token, string[] destinatarios,string dataVencimentoBoleto, string CodigoAPI_EnvioPDF)
         {
-            string linkBoleto = await GerarLinkDoPDFReposOnline(idDocumentoReceber, Token);
+            string linkBoleto = await GerarLinkDoPDFReposOnline(idDocumentoReceber, Token, dataVencimentoBoleto);
+
             if (string.IsNullOrEmpty(linkBoleto))
                 return false;
-            return await EnviarPDFBoletoNoWhatsapp(linkBoleto, destinatarios, Token, idDocumentoReceber);
+            return await EnviarPDFBoletoNoWhatsapp(linkBoleto, destinatarios, Token, idDocumentoReceber, dataVencimentoBoleto, CodigoAPI_EnvioPDF);
 
         }
-        public static async Task<string> GerarLinkDoPDFReposOnline(int idDocumentoReceber, string Token)
+        public static async Task<string> GerarLinkDoPDFReposOnline(int idDocumentoReceber, string Token, string dataVencimentoBoleto)
         {
             // Validar dados de entrada
             if (idDocumentoReceber <= 0)
@@ -55,7 +53,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             var payload = new
             {
                 nome = "Boleto",
-                nomeArquivo = "Boleto.pdf",
+                nomeArquivo = $"Boleto.pdf_{dataVencimentoBoleto}",
                 tipoArquivo = "application/pdf",
                 base64Arquivo = boletoBase64
             };
@@ -81,19 +79,11 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         // Ler a resposta da API
                         string responseContent = await response.Content.ReadAsStringAsync();
 
-                        // Deserializar a resposta para capturar o link
-                        var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseContent);
-
-                        if (apiResponse != null && !string.IsNullOrEmpty(apiResponse.Link))
-                        {
-                            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Caminho DR {idDocumentoReceber}: {apiResponse.Link.Trim()} ");
-                            return apiResponse.Link.Trim(); // Retorna o link do PDF
-                        }
-                        else
-                        {
-                            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Resposta da API não contém um link válido. DR {idDocumentoReceber}.");
-                            throw new InvalidOperationException("Resposta da API não contém um link válido.");
-                        }
+              
+                        
+                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Caminho DR {idDocumentoReceber}: {responseContent.Trim()} ");
+                        return responseContent.Trim(); // Retorna o link do PDF
+                    
                     }
                     else
                     {
@@ -105,13 +95,13 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 catch (Exception ex)
                 {
                     // Tratar e registrar erros
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro ao enviar PDF do boleto: {ex.Message}.  DR {idDocumentoReceber}.");
+                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar PDF do boleto: {ex.Message}.  DR {idDocumentoReceber}.");
                     throw;
                 }
             }
         }
 
-        public static async Task<bool> EnviarPDFBoletoNoWhatsapp( string linkBoleto,  string[] destinatarios, string Token, int idDocumentoReceber)
+        public static async Task<bool> EnviarPDFBoletoNoWhatsapp( string linkBoleto,  string[] destinatarios, string Token, int idDocumentoReceber,string dataVencimentoBoleto, string CodigoAPI_EnvioPDF)
         {
             // Validar entrada
             if (string.IsNullOrEmpty(linkBoleto) || destinatarios == null || destinatarios.Length == 0)
@@ -122,7 +112,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             {
                 mensagem = "",
                 arquivo = linkBoleto,
-                nomeArquivo = "BOLETO.pdf",
+                nomeArquivo = $"BOLETO_{dataVencimentoBoleto}.pdf",
                 destinatarios = destinatarios
             };
 
@@ -133,7 +123,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 try
                 {
                     // Configurar o endpoint da API
-                    string url = "https://api.leadfinder.com.br/integracao/enviarMensagem/C55D6BB1A4/ARQUIVO";
+                    string url = $"https://api.leadfinder.com.br/integracao/enviarMensagem/{CodigoAPI_EnvioPDF}/ARQUIVO";
 
                     // Configurar o cabeçalho da requisição
                     httpClient.DefaultRequestHeaders.Add("Authorization", Token);
@@ -145,20 +135,20 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     if (response.IsSuccessStatusCode)
                     {
                         // Log de sucesso
-                        MetodosGerais.RegistrarLog("BOLETO", $"Boleto em PDF enviado com Sucesso!. DR: {idDocumentoReceber}");
+                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Boleto em PDF enviado com Sucesso por whatsapp!. DR: {idDocumentoReceber}");
                         return true;
                     }
                     else
                     {
                         // Log de erro
-                        MetodosGerais.RegistrarLog("BOLETO", $"Erro ao enviar Boleto em PDF do documento a receber: {idDocumentoReceber}. Codigo Error: {response.StatusCode}");
+                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar Boleto em PDF do documento a receber: {idDocumentoReceber}. Codigo Error: {response.StatusCode}");
                         return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     // Tratar erros e registrar log
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro ao enviar mensagem: {ex.Message}");
+                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar mensagem: {ex.Message}");
                     throw;
                 }
             }
