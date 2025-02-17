@@ -4,7 +4,6 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;
-using Newtonsoft.Json.Linq;
 
 namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
@@ -49,8 +48,9 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             if (request == null || string.IsNullOrEmpty(token) || BoletoRElacao == null)
                 throw new ArgumentException("Parâmetros inválidos para AtualizarAcao.");
 
-            var apiResponse = await Boleto_Services.AtualizarOportunidadeNaApi(request, token);
+            var apiResponse = await Boleto_Services.AtualizarOportunidadeNaApi(request, token, BoletoRElacao.Id_DocumentoReceber.ToString());
 
+            
             if (apiResponse != null)
             {
                 await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
@@ -62,7 +62,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 return apiResponse;
             }
 
-            MetodosGerais.RegistrarLog("BOLETO", "Erro: API retornou uma resposta nula ou inválida.");
+            MetodosGerais.RegistrarLog("BOLETO", $"Erro: API retornou uma resposta nula ou inválida. | DR: {BoletoRElacao.Id_DocumentoReceber}");
             return null;
         }
 
@@ -70,6 +70,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
         {
             if (EnviarPDF)
             {
+                await Task.Delay(30000);
                 string[] destinatarios = { $"+55{BoletoRElacao.Celular_Entidade}" };
                 await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd/MM/yyyy"), CodigoAPI_EnvioPDF);
 

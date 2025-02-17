@@ -50,8 +50,6 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                          DR.data_vencimento >= '{DataCriacao}'
                     AND 
 	                    DR.tem_boleto = 1
-                    AND 
-	                    id_documento_receber =18837
                 ";
 
                 // Converte o resultado do select em DataTable

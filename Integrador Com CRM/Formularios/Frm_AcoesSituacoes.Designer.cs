@@ -39,14 +39,10 @@
             label8 = new Label();
             Txt_MenBOLQuitado = new TextBox();
             label7 = new Label();
-            Txt_MenBOLAberto = new TextBox();
-            label6 = new Label();
             Txt_BolCanEst = new TextBox();
             label3 = new Label();
             Txt_BolQuitado = new TextBox();
             label1 = new Label();
-            Txt_BolAtivo = new TextBox();
-            label4 = new Label();
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -73,7 +69,7 @@
             groupBox3.Controls.Add(Txt_OSCancelada);
             groupBox3.Controls.Add(label5);
             groupBox3.ForeColor = SystemColors.HotTrack;
-            groupBox3.Location = new Point(58, 225);
+            groupBox3.Location = new Point(58, 191);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(668, 117);
             groupBox3.TabIndex = 5;
@@ -121,25 +117,21 @@
             groupBox2.Controls.Add(label8);
             groupBox2.Controls.Add(Txt_MenBOLQuitado);
             groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(Txt_MenBOLAberto);
-            groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(Txt_BolCanEst);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(Txt_BolQuitado);
             groupBox2.Controls.Add(label1);
-            groupBox2.Controls.Add(Txt_BolAtivo);
-            groupBox2.Controls.Add(label4);
             groupBox2.ForeColor = SystemColors.HotTrack;
-            groupBox2.Location = new Point(58, 33);
+            groupBox2.Location = new Point(58, 50);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(668, 169);
+            groupBox2.Size = new Size(668, 124);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Boletos";
             // 
             // Txt_MenBOLCancelado
             // 
-            Txt_MenBOLCancelado.Location = new Point(425, 123);
+            Txt_MenBOLCancelado.Location = new Point(429, 74);
             Txt_MenBOLCancelado.Name = "Txt_MenBOLCancelado";
             Txt_MenBOLCancelado.Size = new Size(226, 23);
             Txt_MenBOLCancelado.TabIndex = 11;
@@ -148,7 +140,7 @@
             // 
             label8.AutoSize = true;
             label8.ForeColor = SystemColors.Desktop;
-            label8.Location = new Point(329, 126);
+            label8.Location = new Point(333, 77);
             label8.Name = "label8";
             label8.Size = new Size(90, 15);
             label8.TabIndex = 10;
@@ -156,7 +148,7 @@
             // 
             // Txt_MenBOLQuitado
             // 
-            Txt_MenBOLQuitado.Location = new Point(387, 82);
+            Txt_MenBOLQuitado.Location = new Point(391, 33);
             Txt_MenBOLQuitado.Name = "Txt_MenBOLQuitado";
             Txt_MenBOLQuitado.Size = new Size(264, 23);
             Txt_MenBOLQuitado.TabIndex = 9;
@@ -165,33 +157,15 @@
             // 
             label7.AutoSize = true;
             label7.ForeColor = SystemColors.Desktop;
-            label7.Location = new Point(291, 85);
+            label7.Location = new Point(295, 36);
             label7.Name = "label7";
             label7.Size = new Size(90, 15);
             label7.TabIndex = 8;
             label7.Text = "Mens TimeLine:";
             // 
-            // Txt_MenBOLAberto
-            // 
-            Txt_MenBOLAberto.Location = new Point(387, 40);
-            Txt_MenBOLAberto.Name = "Txt_MenBOLAberto";
-            Txt_MenBOLAberto.ReadOnly = true;
-            Txt_MenBOLAberto.Size = new Size(264, 23);
-            Txt_MenBOLAberto.TabIndex = 7;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.ForeColor = SystemColors.Desktop;
-            label6.Location = new Point(291, 43);
-            label6.Name = "label6";
-            label6.Size = new Size(90, 15);
-            label6.TabIndex = 6;
-            label6.Text = "Mens TimeLine:";
-            // 
             // Txt_BolCanEst
             // 
-            Txt_BolCanEst.Location = new Point(159, 123);
+            Txt_BolCanEst.Location = new Point(163, 74);
             Txt_BolCanEst.Name = "Txt_BolCanEst";
             Txt_BolCanEst.Size = new Size(158, 23);
             Txt_BolCanEst.TabIndex = 4;
@@ -200,7 +174,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = SystemColors.Desktop;
-            label3.Location = new Point(13, 126);
+            label3.Location = new Point(17, 77);
             label3.Name = "label3";
             label3.Size = new Size(140, 15);
             label3.TabIndex = 5;
@@ -208,7 +182,7 @@
             // 
             // Txt_BolQuitado
             // 
-            Txt_BolQuitado.Location = new Point(113, 82);
+            Txt_BolQuitado.Location = new Point(117, 33);
             Txt_BolQuitado.Name = "Txt_BolQuitado";
             Txt_BolQuitado.Size = new Size(158, 23);
             Txt_BolQuitado.TabIndex = 2;
@@ -217,29 +191,11 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.Desktop;
-            label1.Location = new Point(13, 85);
+            label1.Location = new Point(17, 36);
             label1.Name = "label1";
             label1.Size = new Size(70, 15);
             label1.TabIndex = 3;
             label1.Text = "2 - Quitado:";
-            // 
-            // Txt_BolAtivo
-            // 
-            Txt_BolAtivo.Location = new Point(113, 40);
-            Txt_BolAtivo.Name = "Txt_BolAtivo";
-            Txt_BolAtivo.ReadOnly = true;
-            Txt_BolAtivo.Size = new Size(158, 23);
-            Txt_BolAtivo.TabIndex = 0;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.ForeColor = SystemColors.Desktop;
-            label4.Location = new Point(8, 43);
-            label4.Name = "label4";
-            label4.Size = new Size(55, 15);
-            label4.TabIndex = 1;
-            label4.Text = "1 - Ativo:";
             // 
             // Frm_AcoesSituacoes
             // 
@@ -267,19 +223,15 @@
         private TextBox Txt_OSCancelada;
         private Label label5;
         private GroupBox groupBox2;
-        private TextBox Txt_BolAtivo;
-        private Label label4;
         private TextBox Txt_BolCanEst;
         private Label label3;
         private TextBox Txt_BolQuitado;
         private Label label1;
         private TextBox Txt_MenOSCancelado;
         private Label label2;
-        private Label label6;
         private TextBox Txt_MenBOLCancelado;
         private Label label8;
         private TextBox Txt_MenBOLQuitado;
         private Label label7;
-        private TextBox Txt_MenBOLAberto;
     }
 }

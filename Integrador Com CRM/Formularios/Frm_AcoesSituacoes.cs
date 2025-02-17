@@ -11,20 +11,7 @@ namespace Integrador_Com_CRM.Formularios
         private DAL<AcaoSituacao_OS_CRM> dalOS;
         List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto;
         List<AcaoSituacao_OS_CRM> AcoesSitOS;
-        internal string BoletoAtivo
-        {
-            get
-            {
-                return Txt_BolAtivo.Text;
-            }
-        }
-        internal string Mensagem_BoletoAtivo
-        {
-            get
-            {
-                return Txt_MenBOLAberto.Text;
-            }
-        }
+     
         internal string BoletoQuitado
         {
             get
@@ -113,16 +100,6 @@ namespace Integrador_Com_CRM.Formularios
 
         private void CarregarTxts(List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto, List<AcaoSituacao_OS_CRM> AcoesSitOS)
         {
-            
-
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is not null)
-            {
-                Txt_BolAtivo.Text = (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).CodAcaoCRM).ToString();
-            }
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is not null)
-            {
-                Txt_MenBOLAberto.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).Mensagem_Acao;
-            }
             //----------------------------
             if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
             {
@@ -156,8 +133,6 @@ namespace Integrador_Com_CRM.Formularios
 
         internal List<AcaoSituacao_Boleto_CRM> RetornarListAcoesSitBoleto()
         {
-            // Atualizar ou adicionar elemento para 'Aberto'
-            AtualizarOuAdicionarAcao(Situacao_Boleto.Aberto, Txt_BolAtivo.Text, Txt_MenBOLAberto.Text);
 
             // Atualizar ou adicionar elemento para 'Quitado'
             AtualizarOuAdicionarAcao(Situacao_Boleto.Quitado, Txt_BolQuitado.Text, Txt_MenBOLQuitado.Text);

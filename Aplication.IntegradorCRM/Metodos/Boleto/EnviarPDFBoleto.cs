@@ -36,7 +36,6 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             {
                 MetodosGerais.RegistrarLog("BOLETO_PDF", $"Caminho do boleto não encontrado. DR: {idDocumentoReceber}");
                 throw new InvalidOperationException("Caminho do boleto não encontrado.");
-
             }
 
             // Converter o boleto para Base64
@@ -48,12 +47,11 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 throw new InvalidOperationException("Erro ao converter o boleto para Base64.");
             }
 
-
             // Construir o corpo da requisição
             var payload = new
             {
-                nome = "Boleto",
-                nomeArquivo = $"Boleto.pdf_{dataVencimentoBoleto}",
+                nome = $"Boleto_{idDocumentoReceber}_{DateTime.Now.ToString("dd/MM/yyyy")}",
+                nomeArquivo = $"Boleto_{dataVencimentoBoleto}_{idDocumentoReceber}_{DateTime.Now.ToString("dd/MM/yyyy")}.pdf",
                 tipoArquivo = "application/pdf",
                 base64Arquivo = boletoBase64
             };
@@ -79,8 +77,6 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         // Ler a resposta da API
                         string responseContent = await response.Content.ReadAsStringAsync();
 
-              
-                        
                         MetodosGerais.RegistrarLog("BOLETO_PDF", $"Caminho DR {idDocumentoReceber}: {responseContent.Trim()} ");
                         return responseContent.Trim(); // Retorna o link do PDF
                     
@@ -110,7 +106,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             // Construir o corpo da requisição
             var payload = new
             {
-                mensagem = "",
+                mensagem = "Segue o boleto!",
                 arquivo = linkBoleto,
                 nomeArquivo = $"BOLETO_{dataVencimentoBoleto}.pdf",
                 destinatarios = destinatarios

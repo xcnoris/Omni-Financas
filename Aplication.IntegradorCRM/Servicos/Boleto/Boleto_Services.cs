@@ -150,7 +150,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        internal static async Task<OportunidadeResponse> AtualizarOportunidadeNaApi(AtualizarAcaoRequest request, string token)
+        internal static async Task<OportunidadeResponse> AtualizarOportunidadeNaApi(AtualizarAcaoRequest request, string token, string IdDocReceber)
         {
             // configurar o cabeçalho de autorização 
             using (HttpClient client = new HttpClient())
@@ -168,20 +168,20 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", $"Resposta OK - Oportunidade Atualizada no CRM {responseBody}");
+                        MetodosGerais.RegistrarLog("BOLETO", $"Resposta OK - Oportunidade Atualizada no CRM {responseBody}  | DocReceber: {IdDocReceber} | Json: {json}");
                         return JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
                     }
 
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody} | DocReceber: {IdDocReceber}  | Json: {json}");
                 }
                 catch (HttpRequestException ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {json}");
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {json}");
                     throw;
                 }
 
@@ -197,6 +197,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
             {
                 await dalBoletoUsing.AtualizarAsync(boletoRelacao);
+                MetodosGerais.RegistrarLog("CrudBoleto", $"DocReceber {boletoRelacao.Id_DocumentoReceber} atualizado no banco de dados!");
             }
         }
 

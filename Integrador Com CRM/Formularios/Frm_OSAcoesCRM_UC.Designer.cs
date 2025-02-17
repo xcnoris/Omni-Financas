@@ -91,8 +91,8 @@
             // Btn_Adda
             // 
             Btn_Adda.BackColor = Color.MediumPurple;
-            Btn_Adda.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Adda.ForeColor = SystemColors.Window;
+            Btn_Adda.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_Adda.ForeColor = Color.White;
             Btn_Adda.Location = new Point(678, 39);
             Btn_Adda.Name = "Btn_Adda";
             Btn_Adda.RaioCanto = 20;
@@ -171,8 +171,8 @@
             // Btn_Remover
             // 
             Btn_Remover.BackColor = Color.Tomato;
-            Btn_Remover.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Remover.ForeColor = SystemColors.Window;
+            Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_Remover.ForeColor = Color.White;
             Btn_Remover.Location = new Point(736, 392);
             Btn_Remover.Name = "Btn_Remover";
             Btn_Remover.RaioCanto = 20;
@@ -184,8 +184,9 @@
             // 
             // Btn_Salvar
             // 
-            Btn_Salvar.BackColor = Color.PaleGreen;
-            Btn_Salvar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Salvar.BackColor = Color.LimeGreen;
+            Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_Salvar.ForeColor = Color.White;
             Btn_Salvar.Location = new Point(655, 391);
             Btn_Salvar.Name = "Btn_Salvar";
             Btn_Salvar.RaioCanto = 20;

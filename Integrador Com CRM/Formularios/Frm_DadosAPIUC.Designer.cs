@@ -32,6 +32,8 @@
             label1 = new Label();
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
+            Txt_CodAPIPDF = new TextBox();
+            label6 = new Label();
             Txt_CodJornadaBoleto = new TextBox();
             label2 = new Label();
             Txt_CodAPIBoleto = new TextBox();
@@ -41,8 +43,6 @@
             label3 = new Label();
             Txt_CodAPIOS = new TextBox();
             label4 = new Label();
-            Txt_CodAPIPDF = new TextBox();
-            label6 = new Label();
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -82,7 +82,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.BackColor = Color.Transparent;
+            groupBox3.BackColor = Color.White;
             groupBox3.Controls.Add(Txt_CodAPIPDF);
             groupBox3.Controls.Add(label6);
             groupBox3.Controls.Add(Txt_CodJornadaBoleto);
@@ -96,6 +96,23 @@
             groupBox3.TabIndex = 5;
             groupBox3.TabStop = false;
             groupBox3.Text = "Config. Boleto";
+            // 
+            // Txt_CodAPIPDF
+            // 
+            Txt_CodAPIPDF.Location = new Point(183, 71);
+            Txt_CodAPIPDF.Name = "Txt_CodAPIPDF";
+            Txt_CodAPIPDF.Size = new Size(113, 23);
+            Txt_CodAPIPDF.TabIndex = 4;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.ForeColor = SystemColors.Desktop;
+            label6.Location = new Point(8, 74);
+            label6.Name = "label6";
+            label6.Size = new Size(169, 15);
+            label6.TabIndex = 5;
+            label6.Text = "Codigo API para envio do PDF:";
             // 
             // Txt_CodJornadaBoleto
             // 
@@ -179,23 +196,6 @@
             label4.Size = new Size(70, 15);
             label4.TabIndex = 1;
             label4.Text = "Codigo API:";
-            // 
-            // Txt_CodAPIPDF
-            // 
-            Txt_CodAPIPDF.Location = new Point(183, 71);
-            Txt_CodAPIPDF.Name = "Txt_CodAPIPDF";
-            Txt_CodAPIPDF.Size = new Size(113, 23);
-            Txt_CodAPIPDF.TabIndex = 4;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.ForeColor = SystemColors.Desktop;
-            label6.Location = new Point(8, 74);
-            label6.Name = "label6";
-            label6.Size = new Size(169, 15);
-            label6.TabIndex = 5;
-            label6.Text = "Codigo API para envio do PDF:";
             // 
             // Frm_DadosAPIUC
             // 

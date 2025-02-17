@@ -37,7 +37,7 @@
             // Btn_BuscarOS
             // 
             Btn_BuscarOS.BackColor = Color.MediumPurple;
-            Btn_BuscarOS.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            Btn_BuscarOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarOS.ForeColor = SystemColors.Control;
             Btn_BuscarOS.Location = new Point(291, 83);
             Btn_BuscarOS.Name = "Btn_BuscarOS";
@@ -51,7 +51,7 @@
             // Btn_BuscarBoletos
             // 
             Btn_BuscarBoletos.BackColor = Color.MediumPurple;
-            Btn_BuscarBoletos.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            Btn_BuscarBoletos.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarBoletos.ForeColor = SystemColors.Control;
             Btn_BuscarBoletos.Location = new Point(291, 168);
             Btn_BuscarBoletos.Name = "Btn_BuscarBoletos";
@@ -65,7 +65,7 @@
             // Btn_RealizarCobrancas
             // 
             Btn_RealizarCobrancas.BackColor = Color.MediumPurple;
-            Btn_RealizarCobrancas.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            Btn_RealizarCobrancas.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_RealizarCobrancas.ForeColor = SystemColors.Control;
             Btn_RealizarCobrancas.Location = new Point(291, 256);
             Btn_RealizarCobrancas.Name = "Btn_RealizarCobrancas";

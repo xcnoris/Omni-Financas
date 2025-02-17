@@ -81,11 +81,11 @@ namespace Integrador_Com_CRM
                     MessageBox.Show("Licença inválida. Entre em contato com o suporte.", "Erro de Licença",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
+
             }
             else
             {
-              
+
 
                 // Timer para executar a função periodicamente a cada 5 minutos
                 timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
@@ -141,9 +141,9 @@ namespace Integrador_Com_CRM
                 SetDailyTimerSegunda();
             }
 
-           
+
         }
-     
+
 
 
 
@@ -202,9 +202,9 @@ namespace Integrador_Com_CRM
             FrmGeralUC.Dock = DockStyle.Fill;
             FrmConexaoUC.Dock = DockStyle.Fill;
             BoletoAcoesCRM.Dock = DockStyle.Fill;
-            FrmOSAcao.Dock = DockStyle .Fill;
+            FrmOSAcao.Dock = DockStyle.Fill;
             FrmAcoesSit.Dock = DockStyle.Fill;
-            FrmConfigUC.Dock =  DockStyle.Fill;
+            FrmConfigUC.Dock = DockStyle.Fill;
 
             TabPage TB1 = new TabPage
             {
@@ -243,7 +243,7 @@ namespace Integrador_Com_CRM
             TB5.Controls.Add(FrmOSAcao);
 
             TabPage TB6 = new TabPage
-            {   
+            {
                 Name = "Ações Situações",
                 Text = "Ações Situações"
             };
@@ -266,12 +266,7 @@ namespace Integrador_Com_CRM
             TBC_Dados.TabPages.Add(TB7);
         }
 
-        private void Btn_Sair_Click(object sender, EventArgs e)
-        {
-            // Minimiza a janela
-            this.WindowState = FormWindowState.Minimized;
-            MinimizarParaBandeja();
-        }
+       
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -290,7 +285,7 @@ namespace Integrador_Com_CRM
 
             if (MousePointerNotOnTaskBar)
             {
-                notifyIcon1.Icon = SystemIcons.Application;
+                //notifyIcon1.Icon = SystemIcons.Application;
                 notifyIcon1.BalloonTipText = "Seu programa está sendo minimizado para a bandeja do Windows";
                 notifyIcon1.ShowBalloonTip(1000);
                 this.ShowInTaskbar = false;
@@ -298,17 +293,7 @@ namespace Integrador_Com_CRM
             }
         }
 
-        private void Btn_Salvar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SalvarDados();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
-        }
+        
 
         private async void SalvarDados()
         {
@@ -326,10 +311,10 @@ namespace Integrador_Com_CRM
 
                     AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
                 }
-               
+
                 FrmConfigUC.SalvarConfiguracoes();
 
-                if(conexao is not null)
+                if (conexao is not null)
                 {
                     await CriarAtualDadosAPI(dadosAPI);
                     await SalvarSitBoleto(AcoesSitBoleto);
@@ -429,7 +414,7 @@ namespace Integrador_Com_CRM
         {
             try
             {
-               
+
                 return new DadosAPIModels
                 {
                     Token = FrmDadosAPIUUC.Token,
@@ -439,7 +424,7 @@ namespace Integrador_Com_CRM
                     Cod_Jornada_Boleto = FrmDadosAPIUUC.CodJornada_Boleto,
                     CodAPI_EnvioPDF = FrmDadosAPIUUC.CodAPI_EnvioPDF
                 };
-           
+
             }
             catch (Exception ex)
             {
@@ -447,6 +432,25 @@ namespace Integrador_Com_CRM
                 MetodosGerais.RegistrarLog("OS", $"Erro: {ex.Message}");
                 throw;
             }
+        }
+
+        private void botaoArredond2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SalvarDados();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private void botaoArredond1_Click(object sender, EventArgs e)
+        {
+            // Minimiza a janela
+            this.WindowState = FormWindowState.Minimized;
+            MinimizarParaBandeja();
         }
     }
 }

@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_BoletoAcoesCRM_UC));
             DGV_Dados = new DataGridView();
+            CheckBox = new DataGridViewCheckBoxColumn();
             label1 = new Label();
             groupBox1 = new GroupBox();
             Btn_Add = new ComponentesPerson.BotaoArredond(components);
@@ -44,7 +45,6 @@
             Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
             Btn_Remover = new ComponentesPerson.BotaoArredond(components);
             flecha2 = new ComponentesPerson.Flecha();
-            CheckBox = new DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -60,6 +60,13 @@
             DGV_Dados.Name = "DGV_Dados";
             DGV_Dados.Size = new Size(790, 252);
             DGV_Dados.TabIndex = 0;
+            // 
+            // CheckBox
+            // 
+            CheckBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            CheckBox.HeaderText = "Enviar PDF";
+            CheckBox.Name = "CheckBox";
+            CheckBox.Width = 69;
             // 
             // label1
             // 
@@ -95,7 +102,7 @@
             // 
             Btn_Add.BackColor = Color.MediumPurple;
             Btn_Add.FlatAppearance.BorderColor = Color.Black;
-            Btn_Add.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Add.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Add.ForeColor = SystemColors.ButtonFace;
             Btn_Add.Location = new Point(675, 39);
             Btn_Add.Name = "Btn_Add";
@@ -176,9 +183,9 @@
             // 
             // Btn_Salvar
             // 
-            Btn_Salvar.BackColor = Color.PaleGreen;
-            Btn_Salvar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Btn_Salvar.ForeColor = SystemColors.MenuText;
+            Btn_Salvar.BackColor = Color.LimeGreen;
+            Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_Salvar.ForeColor = Color.White;
             Btn_Salvar.Location = new Point(655, 391);
             Btn_Salvar.Name = "Btn_Salvar";
             Btn_Salvar.RaioCanto = 20;
@@ -191,7 +198,7 @@
             // Btn_Remover
             // 
             Btn_Remover.BackColor = Color.Tomato;
-            Btn_Remover.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Remover.ForeColor = Color.White;
             Btn_Remover.Location = new Point(736, 391);
             Btn_Remover.Name = "Btn_Remover";
@@ -210,13 +217,6 @@
             flecha2.Size = new Size(50, 22);
             flecha2.TabIndex = 12;
             flecha2.Text = "flecha2";
-            // 
-            // CheckBox
-            // 
-            CheckBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            CheckBox.HeaderText = "Enviar PDF";
-            CheckBox.Name = "CheckBox";
-            CheckBox.Width = 69;
             // 
             // Frm_BoletoAcoesCRM_UC
             // 

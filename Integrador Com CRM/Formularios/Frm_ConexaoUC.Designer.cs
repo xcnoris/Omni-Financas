@@ -150,7 +150,7 @@
             // Btn_TestarConexao
             // 
             Btn_TestarConexao.BackColor = Color.MediumPurple;
-            Btn_TestarConexao.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            Btn_TestarConexao.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_TestarConexao.ForeColor = SystemColors.ControlLightLight;
             Btn_TestarConexao.Location = new Point(154, 248);
             Btn_TestarConexao.Name = "Btn_TestarConexao";

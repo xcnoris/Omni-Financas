@@ -75,7 +75,9 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 if (!File.Exists(caminhoArquivo))
                 {
                     MetodosGerais.RegistrarLog("BOLETO_PDF", $"Arquivo não encontrado: {caminhoArquivo}");
-                    throw new FileNotFoundException("O arquivo especificado não foi encontrado.", caminhoArquivo);
+                    //throw new FileNotFoundException("O arquivo especificado não foi encontrado.", caminhoArquivo);
+                    return "";
+
                 }
 
                 byte[] fileBytes = File.ReadAllBytes(caminhoArquivo);
@@ -83,11 +85,6 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                 MetodosGerais.RegistrarLog("BOLETO_PDF", "Conversão para Base64 realizada com sucesso.");
                 return base64String;
-            }
-            catch (FileNotFoundException ex)
-            {
-                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro: {ex.Message}");
-                throw;
             }
             catch (Exception ex)
             {
