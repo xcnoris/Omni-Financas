@@ -1,18 +1,18 @@
 ﻿using DataBase.IntegradorCRM.Data.DataBase;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRMRM.Models;
+using Modelos.IntegradorCRM.Models.Retornos;
 using System.Data;
 
 namespace Aplication.IntegradorCRM.Metodos.OS
 {
-    internal class CrudOS
+    internal class CrudComissao
     {
 
 
         private ConexaoDB _conexaoDB;
         private ComandosDB _comandosDB;
 
-        public CrudOS()
+        public CrudComissao()
         {
             string Validacao = "";
             _conexaoDB = new ConexaoDB(Validacao);

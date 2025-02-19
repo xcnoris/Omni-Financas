@@ -1,6 +1,6 @@
 ﻿using DataBase.IntegradorCRM.Data.DataBase;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRMRM.Models;
+using Modelos.IntegradorCRM.Models.Retornos;
 using System.Data;
 
 namespace Aplication.IntegradorCRM.Metodos.Boleto

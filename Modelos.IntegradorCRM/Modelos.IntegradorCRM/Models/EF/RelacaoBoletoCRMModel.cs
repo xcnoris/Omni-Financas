@@ -1,4 +1,4 @@
-﻿using Modelos.IntegradorCRMRM.Models;
+﻿using Modelos.IntegradorCRM.Models.Retornos;
 
 namespace Modelos.IntegradorCRM.Models.EF
 {

@@ -4,18 +4,19 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
+using Modelos.IntegradorCRM.Models.Retornos;
 using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Metodos.OS
 {
-    public class ControleOrdemDeServico
+    public class ControleComissoes
     {
-        private readonly CrudOS _crudOS;
+        private readonly CrudComissao _crudOS;
         private readonly DAL<RelacaoOrdemServicoModels> dalOrdemServico;
         private readonly DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS;
         private readonly DAL<OSAcoesCRMModel> _dalOSAcao = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
         private List<OSAcoesCRMModel> _oSAcoesCRM;
-        public ControleOrdemDeServico()
+        public ControleComissoes()
         {
             _crudOS = new CrudOS();
             dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());

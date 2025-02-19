@@ -5,6 +5,7 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
+using Modelos.IntegradorCRM.Models.Retornos;
 using Modelos.IntegradorCRMRM.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;

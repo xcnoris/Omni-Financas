@@ -15,7 +15,7 @@ namespace Integrador_Com_CRM.Formularios
 {
     public partial class Frm_GeralUC : UserControl
     {
-        private readonly ControleOrdemDeServico controlOrdemServico;
+        private readonly ControleComissoes controlOrdemServico;
         private readonly ControleBoletos controlBoletos;
         private readonly CobrancasNaSegundaModel cobrancas;
         private readonly DadosAPIModels? DadosAPI;
@@ -24,7 +24,7 @@ namespace Integrador_Com_CRM.Formularios
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
         DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
         private readonly Frm_ConfigUC FrmConfigUC;
-        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
+        public Frm_GeralUC(ControleComissoes controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
         {
             InitializeComponent();
 

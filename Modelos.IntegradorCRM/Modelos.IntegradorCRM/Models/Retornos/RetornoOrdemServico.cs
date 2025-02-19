@@ -1,4 +1,4 @@
-﻿namespace Modelos.IntegradorCRMRM.Models
+﻿namespace Modelos.IntegradorCRM.Models.Retornos
 {
     public class RetornoOrdemServico
     {

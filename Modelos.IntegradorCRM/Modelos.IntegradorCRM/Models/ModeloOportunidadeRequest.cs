@@ -1,5 +1,6 @@
 ﻿using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRM.Models.Retornos;
 
 namespace Modelos.IntegradorCRMRM.Models
 {

@@ -26,7 +26,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_AcoesSituacoes FrmAcoesSit;
         private readonly Frm_ConfigUC FrmConfigUC;
 
-        ControleOrdemDeServico ControlOS;
+        ControleComissoes ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly IntegradorDBContext context;
         private readonly CobrancasNaSegundaModel cobrancas;
