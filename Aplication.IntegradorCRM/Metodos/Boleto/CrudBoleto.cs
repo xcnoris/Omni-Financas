@@ -61,7 +61,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message} - {_comandosDB.Mensagem}");
+                MetodosGerais.RegistrarLog("BOLETO_CRUD", $"[ERROR]: {ex.Message} - {_comandosDB.Mensagem}");
 
                 return null;
             }
@@ -94,7 +94,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("OS", ex.Message);
+                MetodosGerais.RegistrarLog("BOLETO_CRUD", ex.Message);
                 
                 return null;
             }

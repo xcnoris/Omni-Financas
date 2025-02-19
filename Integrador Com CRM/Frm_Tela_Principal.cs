@@ -140,8 +140,6 @@ namespace Integrador_Com_CRM
                 };
                 SetDailyTimerSegunda();
             }
-
-
         }
 
 
