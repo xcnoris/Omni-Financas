@@ -17,7 +17,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             _comandosDB = new ComandosDB(_conexaoDB);
         }
 
-        internal List<RetornoBoleto> BuscarBoletosInDB(DateTime DataCriacao)
+        internal async Task<List<RetornoBoleto>> BuscarBoletosInDB(DateTime DataCriacao)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 ";
 
                 // Converte o resultado do select em DataTable
-                DataTable retornoOS = _comandosDB.ExecuteQuery(query);
+                DataTable retornoOS = await _comandosDB.ExecuteQuery(query);
 
                 List<RetornoBoleto> retornoBoletos = DataTableToList(retornoOS);
 

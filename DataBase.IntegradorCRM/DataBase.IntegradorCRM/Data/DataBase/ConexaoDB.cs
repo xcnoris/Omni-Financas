@@ -101,7 +101,7 @@ namespace DataBase.IntegradorCRM.Data.DataBase
             return _connection;
         }
 
-        public void OpenConnection()
+        public async Task OpenConnection()
         {
             if (_connection.State == ConnectionState.Closed)
             {

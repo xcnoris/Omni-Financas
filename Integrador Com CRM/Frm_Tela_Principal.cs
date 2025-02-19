@@ -66,7 +66,7 @@ namespace Integrador_Com_CRM
             FrmConexaoUC = new Frm_ConexaoUC();
             cobrancas = new CobrancasNaSegundaModel();
 
-            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM, FrmConfigUC);
+            FrmGeralUC = new Frm_GeralUC(ControlOS, BoletoAcoesCRM, FrmConfigUC);
 
 
             AdicionarUserontrols();

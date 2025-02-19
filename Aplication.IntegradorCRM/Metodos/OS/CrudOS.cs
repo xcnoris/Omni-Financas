@@ -5,21 +5,21 @@ using System.Data;
 
 namespace Aplication.IntegradorCRM.Metodos.OS
 {
-    internal class CrudComissao
+    internal class CrudOS
     {
 
 
         private ConexaoDB _conexaoDB;
         private ComandosDB _comandosDB;
 
-        public CrudComissao()
+        public CrudOS()
         {
             string Validacao = "";
             _conexaoDB = new ConexaoDB(Validacao);
             _comandosDB = new ComandosDB(_conexaoDB);
         }
 
-        internal List<RetornoOrdemServico> BuscarOrdemDeServiçoInDB(DateTime DateTime)
+        internal async Task<List<RetornoOrdemServico>> BuscarOrdemDeServiçoInDB(DateTime DateTime)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 //string query = "SELECT id_ordem_servico, nome_cliente, fone_ddd_cliente + fone_numero_cliente AS telefone, email_cliente, id_categoria_ordem_servico FROM ordem_servico WHERE id_ordem_servico = 8674";
 
                 // Converte o resultado do select em DataTable
-                DataTable retornoOS = _comandosDB.ExecuteQuery(query);
+                DataTable retornoOS =  await _comandosDB.ExecuteQuery(query);
 
                 List<RetornoOrdemServico> retornoOSs = DataTableToList(retornoOS);
 

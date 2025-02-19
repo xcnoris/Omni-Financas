@@ -1,10 +1,7 @@
-﻿using Aplication.IntegradorCRM.Servicos;
-using DataBase.IntegradorCRM.Data;
+﻿using Aplication.IntegradorCRM.Servicos.Controle_Comissao;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Retornos;
-using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Metodos.ControleComissao
 {
@@ -12,14 +9,15 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
     {
         private readonly CrudPedidoSit _crudPedidoSit;
         private readonly CrudComissao _crudComissao;
-
+        private readonly ComissaoService ComissaoService;
         public ControleComissoes()
         {
             _crudPedidoSit = new CrudPedidoSit();
             _crudComissao = new CrudComissao();
+            ComissaoService =new ComissaoService();
         }
 
-        public async Task VerificarNovosServicos(DadosAPIModels DadosAPI, DateTime Datetime)
+        public async Task VerificarComissoes(DadosAPIModels DadosAPI)
         {
             try
             {
@@ -30,33 +28,35 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
                 List<RetornoComissao> RetComissaoList = _crudComissao.BuscarComissoesInDB();
 
                 // Passa por cada Pedido que retornar no select
-                foreach ( var Pedido in RetPedidoSit)
+                foreach (var Pedido in RetPedidoSit)
                 {
                     // Log para verificação
                     MetodosGerais.RegistrarLog("Comissao", $"Verificando Pedido {Pedido.id_pedido_venda}...");
-                 
 
+                    RetornoComissao? Comissao = RetComissaoList.FirstOrDefault(x => x.Codigo_Pedido == Pedido.id_pedido_venda);
 
-
-                 
-                    if (Pedido.situacao != RetComissaoList.Equals(x => x.)
+                    if (Comissao is null)
                     {
-                        // Atualize a categoria na tabela de relação se necessário
-                        EnviarOrdemServiçoForCRM.AtualizarAcao(AtualizarAcao, DadosAPI.Token, OSInTableRelacao);
-                        MetodosGerais.RegistrarLog("OS", $"A categoria da ordem de serviço {id_ordemServico} mudou de {IdcategoriaExiste} para {id_Categoria}.");
+                        MetodosGerais.RegistrarLog("Comissao", $"Nenhum registro de comissao registrado para o pedido: {Pedido.id_pedido_venda}");
+                        continue;
+                    }
+
+                    if (Pedido.situacao != Comissao.Situacao_Pedido)
+                    {
+                        Comissao.Situacao_Pedido = Pedido.situacao;
+                        await ComissaoService.AtualizarSituacaoComissao(Comissao);
+                        MetodosGerais.RegistrarLog("Comissao", $"A situacao da comissao {Comissao.Codigo_Pedido} mudou de {Comissao.Situacao_Pedido} para {Pedido.situacao}.");
                     }
                     else
                     {
-                        MetodosGerais.RegistrarLog("OS", $"Ordem de serviço {id_ordemServico} já existe na tabela com a mesma categoria.");
+                        MetodosGerais.RegistrarLog("Comissao", $"Comissao {Comissao.Codigo_Pedido} com a mesma situacao;");
                     }
+                }
                    
-                 
-                    
-                
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarErroExcecao("Comissao", "Erro durante consulta das OS:", ex);
+                MetodosGerais.RegistrarErroExcecao("Comissao", "Erro durante consulta das comissoes:", ex);
                 throw;
             }
             finally

@@ -26,7 +26,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         /// </summary>
         /// <param name="idDocumentoReceber">ID do documento a ser pesquisado</param>
         /// <returns>Caminho do arquivo PDF</returns>
-        public string ConsultarCaminhoBoleto(int idDocumentoReceber)
+        public async Task<string> ConsultarCaminhoBoleto(int idDocumentoReceber)
         {
             MetodosGerais.RegistrarLog("BOLETO_PDF", $"Iniciando consulta do boleto para ID: {idDocumentoReceber}");
 
@@ -37,7 +37,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             {
                 string queryComID = query.Replace("@IdDocumentoReceber", idDocumentoReceber.ToString());
 
-                DataTable retornoOS = _comandosDB.ExecuteQuery(queryComID);
+                DataTable retornoOS = await _comandosDB.ExecuteQuery(queryComID);
                 caminhoArquivoBoleto = retornoOS.Rows.Count > 0 ? retornoOS.Rows[0][0].ToString() : string.Empty;
 
             }

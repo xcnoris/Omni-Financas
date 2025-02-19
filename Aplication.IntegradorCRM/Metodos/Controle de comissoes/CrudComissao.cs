@@ -19,7 +19,7 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
             _comandosDB = new ComandosDB(_conexaoDB);
         }
 
-        internal List<RetornoComissao> BuscarComissoesInDB()
+        internal async Task<List<RetornoComissao>> BuscarComissoesInDB()
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
                 ";
 
                 // Converte o resultado do select em DataTable
-                DataTable retornoOS = _comandosDB.ExecuteQuery(query);
+                DataTable retornoOS = await _comandosDB.ExecuteQuery(query);
 
                 List<RetornoComissao> retornoComissoes = DataTableToList(retornoOS);
 

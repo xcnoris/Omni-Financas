@@ -9,14 +9,14 @@ using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Metodos.OS
 {
-    public class ControleComissoes
+    public class ControleOrdemServico
     {
-        private readonly CrudComissao _crudOS;
+        private readonly CrudOS _crudOS;
         private readonly DAL<RelacaoOrdemServicoModels> dalOrdemServico;
         private readonly DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS;
         private readonly DAL<OSAcoesCRMModel> _dalOSAcao = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
         private List<OSAcoesCRMModel> _oSAcoesCRM;
-        public ControleComissoes()
+        public ControleOrdemServico()
         {
             _crudOS = new CrudOS();
             dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
@@ -31,7 +31,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 _oSAcoesCRM = (await _dalOSAcao.ListarAsync()).ToList();
                 MetodosGerais.RegistrarInicioLog("OS");
                 // Busca serviços no DB
-                List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(Datetime);
+                List<RetornoOrdemServico> OsList = await _crudOS.BuscarOrdemDeServiçoInDB(Datetime);
                 List<RelacaoOrdemServicoModels> TableRelacaoOS = (await dalOrdemServico.ListarAsync()).ToList();
 
                 // Passa por cada OS que retornar no select

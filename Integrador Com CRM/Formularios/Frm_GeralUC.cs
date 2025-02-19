@@ -10,13 +10,15 @@ using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM;
 using Aplication.IntegradorCRM.Metodos.Envio__Email;
 using System.Net;
+using Aplication.IntegradorCRM.Metodos.ControleComissao;
 
 namespace Integrador_Com_CRM.Formularios
 {
     public partial class Frm_GeralUC : UserControl
     {
-        private readonly ControleComissoes controlOrdemServico;
+        private readonly ControleOrdemServico controlOrdemServico;
         private readonly ControleBoletos controlBoletos;
+        private readonly ControleComissoes controleComissoes;
         private readonly CobrancasNaSegundaModel cobrancas;
         private readonly DadosAPIModels? DadosAPI;
         private readonly DAL<AcaoSituacao_Boleto_CRM> _dalAcaoSitBoleto;
@@ -24,7 +26,8 @@ namespace Integrador_Com_CRM.Formularios
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
         DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
         private readonly Frm_ConfigUC FrmConfigUC;
-        public Frm_GeralUC(ControleComissoes controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
+
+        public Frm_GeralUC(ControleOrdemServico controlOS,  Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
         {
             InitializeComponent();
 
@@ -34,6 +37,7 @@ namespace Integrador_Com_CRM.Formularios
             _dalAcaoSitBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
             _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
             controlBoletos = new ControleBoletos();
+            controleComissoes = new ControleComissoes();
             cobrancas = new CobrancasNaSegundaModel();
             DadosAPI = (_dalDadosAPI.Listar()).FirstOrDefault();
             FrmConfigUC = FrmConfig;
@@ -177,6 +181,17 @@ namespace Integrador_Com_CRM.Formularios
             return false;
         }
 
+        public async Task<bool> VerificarComissoes(Frm_ConfigUC FrmConfigUC)
+        {
+
+            if (verificarLicenca(FrmConfigUC))
+            {
+                await controleComissoes.VerificarComissoes(DadosAPI);
+                return true;
+            }
+            return false;
+        }
+
 
         public async Task ExecutarBuscarBoletoAsync()
         {
@@ -221,6 +236,29 @@ namespace Integrador_Com_CRM.Formularios
             finally
             {
                 MetodosGerais.RegistrarFinalLog("COBRANCA");
+                Cursor = Cursors.Default;
+            }
+        }
+
+        public async Task ConsultarComissoesAsync()
+        {
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                MetodosGerais.RegistrarLog("Comissao", $"\n------------------> Comissao consultadas manualmente <-------------------\n");
+
+                bool deucerto = await VerificarComissoes(FrmConfigUC);
+
+                if (deucerto) MessageBox.Show("Consulta a Comissao realizada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Não foi possivel fazer a consulta. Mensagem: {ex.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MetodosGerais.RegistrarLog("Comissao", $"Error :{ex.Message}");
+            }
+            finally
+            {
+                MetodosGerais.RegistrarFinalLog("Comissao");
                 Cursor = Cursors.Default;
             }
         }

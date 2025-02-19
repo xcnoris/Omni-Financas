@@ -30,7 +30,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             BoletoPDF_Services boletoPDFService = new BoletoPDF_Services();
 
             // Consultar o caminho do boleto
-            string caminhoBoleto = boletoPDFService.ConsultarCaminhoBoleto(idDocumentoReceber);
+            string caminhoBoleto = await boletoPDFService.ConsultarCaminhoBoleto(idDocumentoReceber);
 
             if (string.IsNullOrEmpty(caminhoBoleto))
             {
