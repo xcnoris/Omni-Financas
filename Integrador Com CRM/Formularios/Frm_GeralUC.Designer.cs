@@ -40,13 +40,14 @@
             Btn_BuscarOS.BackColor = Color.MediumPurple;
             Btn_BuscarOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarOS.ForeColor = SystemColors.Control;
-            Btn_BuscarOS.Location = new Point(291, 83);
+            Btn_BuscarOS.Location = new Point(550, 65);
             Btn_BuscarOS.Name = "Btn_BuscarOS";
             Btn_BuscarOS.RaioCanto = 20;
             Btn_BuscarOS.Size = new Size(247, 64);
             Btn_BuscarOS.TabIndex = 3;
             Btn_BuscarOS.Text = "Consultar Ordem de Serviço";
             Btn_BuscarOS.UseVisualStyleBackColor = false;
+            Btn_BuscarOS.Visible = false;
             Btn_BuscarOS.Click += Btn_BuscarOS_Click;
             // 
             // Btn_BuscarBoletos
@@ -54,13 +55,14 @@
             Btn_BuscarBoletos.BackColor = Color.MediumPurple;
             Btn_BuscarBoletos.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarBoletos.ForeColor = SystemColors.Control;
-            Btn_BuscarBoletos.Location = new Point(291, 168);
+            Btn_BuscarBoletos.Location = new Point(550, 160);
             Btn_BuscarBoletos.Name = "Btn_BuscarBoletos";
             Btn_BuscarBoletos.RaioCanto = 20;
             Btn_BuscarBoletos.Size = new Size(247, 64);
             Btn_BuscarBoletos.TabIndex = 4;
             Btn_BuscarBoletos.Text = "Consultar Boletos";
             Btn_BuscarBoletos.UseVisualStyleBackColor = false;
+            Btn_BuscarBoletos.Visible = false;
             Btn_BuscarBoletos.Click += Btn_BuscarBoletos_Click;
             // 
             // Btn_RealizarCobrancas
@@ -68,13 +70,14 @@
             Btn_RealizarCobrancas.BackColor = Color.MediumPurple;
             Btn_RealizarCobrancas.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_RealizarCobrancas.ForeColor = SystemColors.Control;
-            Btn_RealizarCobrancas.Location = new Point(291, 256);
+            Btn_RealizarCobrancas.Location = new Point(550, 249);
             Btn_RealizarCobrancas.Name = "Btn_RealizarCobrancas";
             Btn_RealizarCobrancas.RaioCanto = 20;
             Btn_RealizarCobrancas.Size = new Size(247, 64);
             Btn_RealizarCobrancas.TabIndex = 5;
             Btn_RealizarCobrancas.Text = "Realizar Cobranças";
             Btn_RealizarCobrancas.UseVisualStyleBackColor = false;
+            Btn_RealizarCobrancas.Visible = false;
             Btn_RealizarCobrancas.Click += Btn_RealizarCobrancas_Click;
             // 
             // botaoArredond1
@@ -82,12 +85,12 @@
             botaoArredond1.BackColor = Color.MediumPurple;
             botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             botaoArredond1.ForeColor = SystemColors.Control;
-            botaoArredond1.Location = new Point(291, 342);
+            botaoArredond1.Location = new Point(297, 160);
             botaoArredond1.Name = "botaoArredond1";
             botaoArredond1.RaioCanto = 20;
             botaoArredond1.Size = new Size(247, 64);
             botaoArredond1.TabIndex = 6;
-            botaoArredond1.Text = "Realizar Cobranças";
+            botaoArredond1.Text = "Verificar Comissoes";
             botaoArredond1.UseVisualStyleBackColor = false;
             botaoArredond1.Click += botaoArredond1_Click;
             // 

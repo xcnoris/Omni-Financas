@@ -8,11 +8,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Logo-com-fundo-branco-_40-x-40-px_.ico</ApplicationIcon>
+    <ApplicationIcon>CDI OiniService Logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Logo-com-fundo-branco-_40-x-40-px_.ico" />
+    <Content Include="CDI OiniService Logo.ico" />
   </ItemGroup>
 
   <ItemGroup>

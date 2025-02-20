@@ -50,22 +50,22 @@ namespace Integrador_Com_CRM
             string token = FrmConfigUC.Token;
 
             _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
-            List<DadosAPIModels?> DadosAPI = (_dalDadosAPI.Listar()).ToList();
+            //List<DadosAPIModels?> DadosAPI = (_dalDadosAPI.Listar()).ToList();
 
 
-            BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
-            FrmOSAcao = new Frm_OSAcoesCRM_UC();
-            FrmAcoesSit = new Frm_AcoesSituacoes();
+            //BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
+            //FrmOSAcao = new Frm_OSAcoesCRM_UC();
+            //FrmAcoesSit = new Frm_AcoesSituacoes();
 
             context = new IntegradorDBContext();
 
-            ControlOS = new ControleOrdemServico();
-            ControlBoleto = new ControleBoletos();
+            //ControlOS = new ControleOrdemServico();
+            //ControlBoleto = new ControleBoletos();
 
             //Instanciando Variaveis dos Formularios
-            FrmDadosAPIUUC = new Frm_DadosAPIUC();
+            //FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
-            cobrancas = new CobrancasNaSegundaModel();
+            //cobrancas = new CobrancasNaSegundaModel();
 
             FrmGeralUC = new Frm_GeralUC(ControlOS, BoletoAcoesCRM, FrmConfigUC);
 
@@ -87,7 +87,7 @@ namespace Integrador_Com_CRM
             else
             {
                 // Timer para executar a função periodicamente a cada 10 minutos
-                timer10Min = new System.Timers.Timer(1 * 10000); // 10 min
+                timer10Min = new System.Timers.Timer(10 * 60 * 1000); // 10 min
                 timer10Min.Elapsed += async (s, e) =>
                 {
                     try
@@ -219,9 +219,9 @@ namespace Integrador_Com_CRM
         {
             FrmGeralUC.Dock = DockStyle.Fill;
             FrmConexaoUC.Dock = DockStyle.Fill;
-            BoletoAcoesCRM.Dock = DockStyle.Fill;
-            FrmOSAcao.Dock = DockStyle.Fill;
-            FrmAcoesSit.Dock = DockStyle.Fill;
+            //BoletoAcoesCRM.Dock = DockStyle.Fill;
+            //FrmOSAcao.Dock = DockStyle.Fill;
+            //FrmAcoesSit.Dock = DockStyle.Fill;
             FrmConfigUC.Dock = DockStyle.Fill;
 
             TabPage TB1 = new TabPage
@@ -238,34 +238,34 @@ namespace Integrador_Com_CRM
             };
             TB2.Controls.Add(FrmConexaoUC);
 
-            TabPage TB3 = new TabPage
-            {
-                Name = "Dados API",
-                Text = "Dados API"
-            };
-            TB3.Controls.Add(FrmDadosAPIUUC);
+            //TabPage TB3 = new TabPage
+            //{
+            //    Name = "Dados API",
+            //    Text = "Dados API"
+            //};
+            //TB3.Controls.Add(FrmDadosAPIUUC);
 
-            TabPage TB4 = new TabPage
-            {
-                Name = "Ações Boleto API",
-                Text = "Ações Boleto API"
-            };
-            TB4.Controls.Add(BoletoAcoesCRM);
+            //TabPage TB4 = new TabPage
+            //{
+            //    Name = "Ações Boleto API",
+            //    Text = "Ações Boleto API"
+            //};
+            //TB4.Controls.Add(BoletoAcoesCRM);
 
 
-            TabPage TB5 = new TabPage
-            {
-                Name = "Ações Ordem de Serviço API",
-                Text = "Ações Ordem de Serviço API"
-            };
-            TB5.Controls.Add(FrmOSAcao);
+            //TabPage TB5 = new TabPage
+            //{
+            //    Name = "Ações Ordem de Serviço API",
+            //    Text = "Ações Ordem de Serviço API"
+            //};
+            //TB5.Controls.Add(FrmOSAcao);
 
-            TabPage TB6 = new TabPage
-            {
-                Name = "Ações Situações",
-                Text = "Ações Situações"
-            };
-            TB6.Controls.Add(FrmAcoesSit);
+            //TabPage TB6 = new TabPage
+            //{
+            //    Name = "Ações Situações",
+            //    Text = "Ações Situações"
+            //};
+            //TB6.Controls.Add(FrmAcoesSit);
 
             TabPage TB7 = new TabPage
             {
@@ -277,10 +277,10 @@ namespace Integrador_Com_CRM
 
             TBC_Dados.TabPages.Add(TB1);
             TBC_Dados.TabPages.Add(TB2);
-            TBC_Dados.TabPages.Add(TB3);
-            TBC_Dados.TabPages.Add(TB4);
-            TBC_Dados.TabPages.Add(TB5);
-            TBC_Dados.TabPages.Add(TB6);
+            //TBC_Dados.TabPages.Add(TB3);
+            //TBC_Dados.TabPages.Add(TB4);
+            //TBC_Dados.TabPages.Add(TB5);
+            //TBC_Dados.TabPages.Add(TB6);
             TBC_Dados.TabPages.Add(TB7);
         }
 
@@ -319,25 +319,25 @@ namespace Integrador_Com_CRM
             {
                 // Instancia as class 
                 ConexaoDB conexao = LeituraFrmConexaoDB();
-                DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
+                //DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
 
-                List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = new List<AcaoSituacao_Boleto_CRM>();
-                List<AcaoSituacao_OS_CRM> AcoesSitOS = new List<AcaoSituacao_OS_CRM>();
-                if (conexao is not null && dadosAPI is not null)
-                {
-                    AcoesSitBoleto = FrmAcoesSit.RetornarListAcoesSitBoleto();
+                //List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = new List<AcaoSituacao_Boleto_CRM>();
+                //List<AcaoSituacao_OS_CRM> AcoesSitOS = new List<AcaoSituacao_OS_CRM>();
+                //if (conexao is not null && dadosAPI is not null)
+                //{
+                //    AcoesSitBoleto = FrmAcoesSit.RetornarListAcoesSitBoleto();
 
-                    AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
-                }
+                //    AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
+                //}
 
                 FrmConfigUC.SalvarConfiguracoes();
 
-                if (conexao is not null)
-                {
-                    await CriarAtualDadosAPI(dadosAPI);
-                    await SalvarSitBoleto(AcoesSitBoleto);
-                    await SalvarSitOS(AcoesSitOS);
-                }
+                //if (conexao is not null)
+                //{
+                //    await CriarAtualDadosAPI(dadosAPI);
+                //    await SalvarSitBoleto(AcoesSitBoleto);
+                //    await SalvarSitOS(AcoesSitOS);
+                //}
                 // Cria uma string com o caminho e nome do diretorio do arquivo de conexao
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 string filePath = Path.Combine(basePath, "conexao.json");

@@ -41,21 +41,15 @@ namespace Aplication.IntegradorCRM.Metodos.Envio__Email
                     // Verificar o sucesso da resposta
                     if (response.IsSuccessStatusCode)
                     {
-                        // Logar sucesso
-                        MetodosGerais.RegistrarLog("EMAIL", "E-mail enviado com sucesso: " + responseBody);
                         return true;
                     }
                     else
                     {
-                        // Logar erro no envio
-                        MetodosGerais.RegistrarLog("EMAIL", $"Erro ao enviar e-mail. Status: {response.StatusCode}, Resposta: {responseBody}");
                         return false;
                     }
                 }
                 catch (Exception ex)
                 {
-                    // Capturar e logar exceções
-                    MetodosGerais.RegistrarLog("EMAIL", "Erro ao enviar e-mail: " + ex.Message);
                     return false;
                 }
             }
