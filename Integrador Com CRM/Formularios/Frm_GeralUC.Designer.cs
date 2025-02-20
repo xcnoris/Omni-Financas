@@ -32,6 +32,7 @@
             Btn_BuscarOS = new ComponentesPerson.BotaoArredond(components);
             Btn_BuscarBoletos = new ComponentesPerson.BotaoArredond(components);
             Btn_RealizarCobrancas = new ComponentesPerson.BotaoArredond(components);
+            botaoArredond1 = new ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // Btn_BuscarOS
@@ -76,12 +77,27 @@
             Btn_RealizarCobrancas.UseVisualStyleBackColor = false;
             Btn_RealizarCobrancas.Click += Btn_RealizarCobrancas_Click;
             // 
+            // botaoArredond1
+            // 
+            botaoArredond1.BackColor = Color.MediumPurple;
+            botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond1.ForeColor = SystemColors.Control;
+            botaoArredond1.Location = new Point(291, 342);
+            botaoArredond1.Name = "botaoArredond1";
+            botaoArredond1.RaioCanto = 20;
+            botaoArredond1.Size = new Size(247, 64);
+            botaoArredond1.TabIndex = 6;
+            botaoArredond1.Text = "Realizar Cobranças";
+            botaoArredond1.UseVisualStyleBackColor = false;
+            botaoArredond1.Click += botaoArredond1_Click;
+            // 
             // Frm_GeralUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.fundo_crm;
             BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(botaoArredond1);
             Controls.Add(Btn_RealizarCobrancas);
             Controls.Add(Btn_BuscarBoletos);
             Controls.Add(Btn_BuscarOS);
@@ -95,5 +111,6 @@
         private ComponentesPerson.BotaoArredond Btn_BuscarOS;
         private ComponentesPerson.BotaoArredond Btn_BuscarBoletos;
         private ComponentesPerson.BotaoArredond Btn_RealizarCobrancas;
+        private ComponentesPerson.BotaoArredond botaoArredond1;
     }
 }

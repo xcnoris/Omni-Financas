@@ -27,7 +27,7 @@ namespace Integrador_Com_CRM.Formularios
         DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
         private readonly Frm_ConfigUC FrmConfigUC;
 
-        public Frm_GeralUC(ControleOrdemServico controlOS,  Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
+        public Frm_GeralUC(ControleOrdemServico controlOS, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
         {
             InitializeComponent();
 
@@ -73,7 +73,7 @@ namespace Integrador_Com_CRM.Formularios
             string ipExterno;
             using (HttpClient client = new HttpClient())
             {
-               ipExterno = await client.GetStringAsync("https://api.ipify.org");
+                ipExterno = await client.GetStringAsync("https://api.ipify.org");
             }
 
             var emailRequest = new EmailRequest
@@ -157,7 +157,7 @@ namespace Integrador_Com_CRM.Formularios
 
         public async Task<bool> VerificarBoletos(Frm_ConfigUC FrmConfigUC)
         {
-          
+
             if (verificarLicenca(FrmConfigUC))
             {
                 List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
@@ -186,7 +186,7 @@ namespace Integrador_Com_CRM.Formularios
 
             if (verificarLicenca(FrmConfigUC))
             {
-                await controleComissoes.VerificarComissoes(DadosAPI);
+                await controleComissoes.VerificarComissoes();
                 return true;
             }
             return false;
@@ -226,7 +226,7 @@ namespace Integrador_Com_CRM.Formularios
 
                 bool deucerto = await VerificarCobrancas(FrmConfigUC);
 
-                if (deucerto)  MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (deucerto) MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -258,7 +258,6 @@ namespace Integrador_Com_CRM.Formularios
             }
             finally
             {
-                MetodosGerais.RegistrarFinalLog("Comissao");
                 Cursor = Cursors.Default;
             }
         }
@@ -276,6 +275,11 @@ namespace Integrador_Com_CRM.Formularios
         private async void Btn_RealizarCobrancas_Click(object sender, EventArgs e)
         {
             await RealizarCobrancasBoletoAsync();
+        }
+
+        private async void botaoArredond1_Click(object sender, EventArgs e)
+        {
+            await ConsultarComissoesAsync();
         }
     }
 }

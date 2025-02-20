@@ -14,6 +14,7 @@ namespace Integrador_Com_CRM
         public string Mensagem;
 
         private System.Timers.Timer timer5Min;
+        private System.Timers.Timer timer10Min;
         private System.Timers.Timer timerDaily;
         private System.Timers.Timer timerMonday;
 
@@ -26,7 +27,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_AcoesSituacoes FrmAcoesSit;
         private readonly Frm_ConfigUC FrmConfigUC;
 
-        ControleComissoes ControlOS;
+        ControleOrdemServico ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly IntegradorDBContext context;
         private readonly CobrancasNaSegundaModel cobrancas;
@@ -58,7 +59,7 @@ namespace Integrador_Com_CRM
 
             context = new IntegradorDBContext();
 
-            ControlOS = new ControleOrdemDeServico();
+            ControlOS = new ControleOrdemServico();
             ControlBoleto = new ControleBoletos();
 
             //Instanciando Variaveis dos Formularios
@@ -85,7 +86,24 @@ namespace Integrador_Com_CRM
             }
             else
             {
+                // Timer para executar a função periodicamente a cada 10 minutos
+                timer10Min = new System.Timers.Timer(1 * 10000); // 10 min
+                timer10Min.Elapsed += async (s, e) =>
+                {
+                    try
+                    {
+                        await FrmGeralUC.VerificarComissoes(FrmConfigUC);
+                        
 
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log de erro
+                        MetodosGerais.RegistrarLog("Comissao", $"[ERROR]: {ex.Message}");
+                    }
+                };
+                timer10Min.Start();
+             
 
                 // Timer para executar a função periodicamente a cada 5 minutos
                 timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
@@ -93,7 +111,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
+                        //await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
 
                     }
                     catch (Exception ex)
@@ -104,13 +122,15 @@ namespace Integrador_Com_CRM
                 };
                 timer5Min.Start();
 
+
+
                 // Timer para execulta a função periodica todo dia as 10:30h Brasília
                 timerDaily = new System.Timers.Timer();
                 timerDaily.Elapsed += async (s, e) =>
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarBoletos(FrmConfigUC);
+                        //await FrmGeralUC.VerificarBoletos(FrmConfigUC);
                     }
                     catch (Exception ex)
                     {
@@ -128,7 +148,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarCobrancas(FrmConfigUC);
+                        //await FrmGeralUC.VerificarCobrancas(FrmConfigUC);
                     }
                     catch (Exception ex)
                     {

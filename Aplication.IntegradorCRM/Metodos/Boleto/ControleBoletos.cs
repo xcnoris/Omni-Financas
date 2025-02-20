@@ -32,7 +32,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             {
                 MetodosGerais.RegistrarInicioLog("BOLETO");
                 // Busca Novos boletos no DB
-                List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB(DateTime);
+                List<RetornoBoleto> boletoList = await _CrudBoleto.BuscarBoletosInDB(DateTime);
                 List<RelacaoBoletoCRMModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoCRMModel>()).ToList();
 
                 string codigoJornada = DadosAPI.Cod_Jornada_Boleto;

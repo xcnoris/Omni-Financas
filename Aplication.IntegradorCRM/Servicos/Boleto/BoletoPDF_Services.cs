@@ -6,18 +6,11 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class BoletoPDF_Services : IDisposable
     {
-     
-
-        private ConexaoDB _conexaoDB;
         private ComandosDB _comandosDB;
-
-  
 
         public BoletoPDF_Services()
         {
-            string Validacao = "";
-            _conexaoDB = new ConexaoDB(Validacao);
-            _comandosDB = new ComandosDB(_conexaoDB);
+            _comandosDB = new ComandosDB();
            
         }
 

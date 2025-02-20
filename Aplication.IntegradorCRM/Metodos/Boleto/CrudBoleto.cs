@@ -7,14 +7,11 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
     internal class CrudBoleto
     {
-        private ConexaoDB _conexaoDB;
         private ComandosDB _comandosDB;
 
         public CrudBoleto()
         {
-            string Validacao = "";
-            _conexaoDB = new ConexaoDB(Validacao);
-            _comandosDB = new ComandosDB(_conexaoDB);
+            _comandosDB = new ComandosDB();
         }
 
         internal async Task<List<RetornoBoleto>> BuscarBoletosInDB(DateTime DataCriacao)

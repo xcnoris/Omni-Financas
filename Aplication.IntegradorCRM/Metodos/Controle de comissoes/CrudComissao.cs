@@ -7,20 +7,12 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
 {
     internal class CrudComissao
     {
-
-
-        private ConexaoDB _conexaoDB;
         private ComandosDB _comandosDB;
-
-        public CrudComissao()
-        {
-            string Validacao = "";
-            _conexaoDB = new ConexaoDB(Validacao);
-            _comandosDB = new ComandosDB(_conexaoDB);
-        }
 
         internal async Task<List<RetornoComissao>> BuscarComissoesInDB()
         {
+            _comandosDB = new ComandosDB();
+
             try
             {
                 string query = @$"

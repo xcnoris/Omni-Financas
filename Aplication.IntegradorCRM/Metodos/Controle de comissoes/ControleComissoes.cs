@@ -1,6 +1,5 @@
 ﻿using Aplication.IntegradorCRM.Servicos.Controle_Comissao;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Retornos;
 
 namespace Aplication.IntegradorCRM.Metodos.ControleComissao
@@ -17,16 +16,23 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
             ComissaoService =new ComissaoService();
         }
 
-        public async Task VerificarComissoes(DadosAPIModels DadosAPI)
+        public async Task VerificarComissoes( )
         {
             try
             {
                 MetodosGerais.RegistrarInicioLog("Comissao");
 
                 // Busca serviços no DB
-                List<RetornoPedidoSit> RetPedidoSit = _crudPedidoSit.BuscarPedidosSitInDB();
-                List<RetornoComissao> RetComissaoList = _crudComissao.BuscarComissoesInDB();
+                List<RetornoPedidoSit> RetPedidoSit = await _crudPedidoSit.BuscarPedidosSitInDB();
+                List<RetornoComissao> RetComissaoList = await _crudComissao.BuscarComissoesInDB();
 
+                if (RetPedidoSit is null | RetComissaoList is null)
+                {
+                    MetodosGerais.RegistrarLog("Comissao", $"Error: Listas nulas...");
+                    return;
+                }
+
+                MetodosGerais.RegistrarLog("Comissao", $"Foram encontrados {RetPedidoSit.Count} pedidos!\n");
                 // Passa por cada Pedido que retornar no select
                 foreach (var Pedido in RetPedidoSit)
                 {
@@ -43,13 +49,13 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
 
                     if (Pedido.situacao != Comissao.Situacao_Pedido)
                     {
+                        MetodosGerais.RegistrarLog("Comissao", $"A situacao da comissao {Comissao.Codigo_Pedido} mudou de {Comissao.Situacao_Pedido} para {Pedido.situacao}.");
                         Comissao.Situacao_Pedido = Pedido.situacao;
                         await ComissaoService.AtualizarSituacaoComissao(Comissao);
-                        MetodosGerais.RegistrarLog("Comissao", $"A situacao da comissao {Comissao.Codigo_Pedido} mudou de {Comissao.Situacao_Pedido} para {Pedido.situacao}.");
                     }
                     else
                     {
-                        MetodosGerais.RegistrarLog("Comissao", $"Comissao {Comissao.Codigo_Pedido} com a mesma situacao;");
+                        MetodosGerais.RegistrarLog("Comissao", $"Comissao {Comissao.Codigo_Pedido} com a mesma situacao. Situacao {Comissao.Situacao_Pedido}");
                     }
                 }
                    

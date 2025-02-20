@@ -7,15 +7,11 @@ namespace Aplication.IntegradorCRM.Servicos.Controle_Comissao
 {
     internal class ComissaoService
     {
-
-        private ConexaoDB _conexaoDB;
         private ComandosDB _comandosDB;
 
         public ComissaoService()
         {
-            string Validacao = "";
-            _conexaoDB = new ConexaoDB(Validacao);
-            _comandosDB = new ComandosDB(_conexaoDB);
+            _comandosDB = new ComandosDB();
         }
 
         internal async Task AtualizarSituacaoComissao(RetornoComissao comissao)
@@ -24,13 +20,15 @@ namespace Aplication.IntegradorCRM.Servicos.Controle_Comissao
             {
                 string query = @"
                     UPDATE Controle_Comissao_Item_Demander
-                    SET Situacao_Pedido = @Situacao_Pedido
+                    SET Situacao_Pedido = @Situacao_Pedido,
+                        data_liberacao = @data_liberacao
                     WHERE Codigo_Pedido = @Codigo_Pedido";
 
                 var parametros = new Dictionary<string, object>
                 {
                     {"@Situacao_Pedido", comissao.Situacao_Pedido},
-                    {"@Codigo_Pedido",comissao.Codigo_Pedido }
+                    {"@Codigo_Pedido",comissao.Codigo_Pedido },
+                    {"@data_liberacao",  DateTime.Now}
                 };
 
                 int linhasAfetadas = await _comandosDB.ExecuteNonQueryAsync(query, parametros);

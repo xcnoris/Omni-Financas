@@ -6,16 +6,14 @@ namespace DataBase.IntegradorCRM.Data.DataBase
 {
     public class ComandosDB
     {
-        private readonly ConexaoDB _conexaoDB;
+        private ConexaoDB _conexaoDB;
         public string Mensagem { get; private set; }
 
-        public ComandosDB(ConexaoDB conexao)
-        {
-            _conexaoDB = conexao;
-        }
 
         public async Task<DataTable> ExecuteQuery(string query, SqlParameter[] parametros = null)
         {
+            _conexaoDB = new ConexaoDB("String para evitar loop");
+
             DataTable dt = new DataTable();
             try
             {
@@ -51,6 +49,9 @@ namespace DataBase.IntegradorCRM.Data.DataBase
 
         public async Task<int> ExecuteNonQueryAsync(string query, Dictionary<string, object> parametros = null)
         {
+
+            _conexaoDB = new ConexaoDB("String para evitar loop");
+
             int linhasAfetadas = 0;
             try
             {

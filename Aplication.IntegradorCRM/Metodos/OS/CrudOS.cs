@@ -7,16 +7,11 @@ namespace Aplication.IntegradorCRM.Metodos.OS
 {
     internal class CrudOS
     {
-
-
-        private ConexaoDB _conexaoDB;
         private ComandosDB _comandosDB;
 
         public CrudOS()
         {
-            string Validacao = "";
-            _conexaoDB = new ConexaoDB(Validacao);
-            _comandosDB = new ComandosDB(_conexaoDB);
+            _comandosDB = new ComandosDB();
         }
 
         internal async Task<List<RetornoOrdemServico>> BuscarOrdemDeServiçoInDB(DateTime DateTime)
