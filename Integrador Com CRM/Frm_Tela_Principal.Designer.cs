@@ -58,11 +58,11 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = SystemColors.Desktop;
-            label7.Location = new Point(770, 463);
+            label7.Location = new Point(762, 460);
             label7.Name = "label7";
-            label7.Size = new Size(51, 15);
+            label7.Size = new Size(60, 15);
             label7.TabIndex = 9;
-            label7.Text = "2.25.2.1";
+            label7.Text = "2.25.2.1.E";
             // 
             // botaoArredond1
             // 
@@ -107,7 +107,7 @@
             MinimumSize = new Size(850, 526);
             Name = "Frm_Tela_Principal";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Integrador Com CRM";
+            Text = "CDI OminiService";
             ResumeLayout(false);
             PerformLayout();
         }
