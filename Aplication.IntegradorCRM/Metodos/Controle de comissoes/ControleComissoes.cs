@@ -1,19 +1,20 @@
 ﻿using Aplication.IntegradorCRM.Servicos.Controle_Comissao;
+using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM.Models.Retornos;
+using Modelos.IntegradorCRM.Models.EF;
 
 namespace Aplication.IntegradorCRM.Metodos.ControleComissao
 {
     public class ControleComissoes
     {
-        private readonly CrudPedidoSit _crudPedidoSit;
-        private readonly CrudComissao _crudComissao;
-        private readonly ComissaoService ComissaoService;
+        private readonly CrudControlComissao _crudControleComissao;
+        private readonly DAL<Controle_Liberacao_ComissaoModel> dalComissao;
+        private readonly ComissaoService comissaoService;
         public ControleComissoes()
         {
-            _crudPedidoSit = new CrudPedidoSit();
-            _crudComissao = new CrudComissao();
-            ComissaoService =new ComissaoService();
+            _crudControleComissao = new CrudControlComissao();
+            comissaoService = new ComissaoService();
+            dalComissao = new DAL<Controle_Liberacao_ComissaoModel>(new IntegradorDBContext());
         }
 
         public async Task VerificarComissoes( )
@@ -23,42 +24,23 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
                 MetodosGerais.RegistrarInicioLog("Comissao");
 
                 // Busca serviços no DB
-                List<RetornoPedidoSit> RetPedidoSit = await _crudPedidoSit.BuscarPedidosSitInDB();
-                List<RetornoComissao> RetComissaoList = await _crudComissao.BuscarComissoesInDB();
+                List<Controle_Liberacao_ComissaoModel> RetControleCoissao = await _crudControleComissao.BuscarPedidosSitInDB();
+                List<Controle_Liberacao_ComissaoModel> controleComissaoList = (await dalComissao.ListarAsync()).ToList();
 
-                if (RetPedidoSit is null | RetComissaoList is null)
+                using DAL<Controle_Liberacao_ComissaoModel> _dalComissao = new DAL<Controle_Liberacao_ComissaoModel>(new IntegradorDBContext());
+                foreach (var retComissao in RetControleCoissao)
                 {
-                    MetodosGerais.RegistrarLog("Comissao", $"Error: Listas nulas...");
-                    return;
-                }
-
-                MetodosGerais.RegistrarLog("Comissao", $"Foram encontrados {RetPedidoSit.Count} pedidos!\n");
-                // Passa por cada Pedido que retornar no select
-                foreach (var Pedido in RetPedidoSit)
-                {
-                    // Log para verificação
-                    MetodosGerais.RegistrarLog("Comissao", $"Verificando Pedido {Pedido.id_pedido_venda}...");
-
-                    RetornoComissao? Comissao = RetComissaoList.FirstOrDefault(x => x.Codigo_Pedido == Pedido.id_pedido_venda);
-
-                    if (Comissao is null)
+                    MetodosGerais.RegistrarLog("Comissao", $"Verificando PV {retComissao.Id_Pedido_Venda}...");
+                    // Verifica se existe documento criado, caso não exista significa que o cliente pagou avista.
+                    if (retComissao.Id_Documento_Receber == 0)
                     {
-                        MetodosGerais.RegistrarLog("Comissao", $"Nenhum registro de comissao registrado para o pedido: {Pedido.id_pedido_venda}");
-                        continue;
-                    }
-
-                    if (Pedido.situacao != Comissao.Situacao_Pedido)
-                    {
-                        MetodosGerais.RegistrarLog("Comissao", $"A situacao da comissao {Comissao.Codigo_Pedido} mudou de {Comissao.Situacao_Pedido} para {Pedido.situacao}.");
-                        Comissao.Situacao_Pedido = Pedido.situacao;
-                        await ComissaoService.AtualizarSituacaoComissao(Comissao);
+                         comissaoService.VerificarPedidoSemDR(retComissao, controleComissaoList, dalComissao);
                     }
                     else
                     {
-                        MetodosGerais.RegistrarLog("Comissao", $"Comissao {Comissao.Codigo_Pedido} com a mesma situacao. Situacao {Comissao.Situacao_Pedido}");
+                         comissaoService.VerificarPedidoComDR(retComissao, controleComissaoList, dalComissao);
                     }
                 }
-                   
             }
             catch (Exception ex)
             {

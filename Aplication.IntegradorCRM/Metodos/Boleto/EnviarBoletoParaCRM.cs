@@ -34,7 +34,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel, apiResponse.CodigoOportunidade);
 
                 // Verifica se esta marcado para enviar o PDF do boleto ao criar a oportunidade no CRM
-                await VerificarEnvioPDF(EnviarPDF, boletoInTabRel, token, CodigoAPI_EnvioPDF);
+                VerificarEnvioPDF(EnviarPDF, boletoInTabRel, token, CodigoAPI_EnvioPDF);
                 return apiResponse;
             }
 
@@ -57,7 +57,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 if (foiQuitado)
                     await Boleto_Services.ProcessarBoletoQuitado(BoletoRElacao);
 
-                await VerificarEnvioPDF(EnviarPDF, BoletoRElacao, token, CodigoAPI_EnvioPDF);
+                VerificarEnvioPDF(EnviarPDF, BoletoRElacao, token, CodigoAPI_EnvioPDF);
 
                 return apiResponse;
             }
@@ -70,12 +70,10 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
         {
             if (EnviarPDF)
             {
-                await Task.Delay(30000);
+                await Task.Delay(90000);
                 string[] destinatarios = { $"+55{BoletoRElacao.Celular_Entidade}" };
                 await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd/MM/yyyy"), CodigoAPI_EnvioPDF);
-
             }
         }
-
     }
 }

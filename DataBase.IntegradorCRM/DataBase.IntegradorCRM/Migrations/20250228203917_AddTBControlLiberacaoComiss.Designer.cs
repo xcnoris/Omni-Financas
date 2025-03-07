@@ -4,6 +4,7 @@ using DataBase.IntegradorCRM.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Integrador_Com_CRM.Migrations
 {
     [DbContext(typeof(IntegradorDBContext))]
-    partial class IntegradorDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250228203917_AddTBControlLiberacaoComiss")]
+    partial class AddTBControlLiberacaoComiss
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,9 +166,6 @@ namespace Integrador_Com_CRM.Migrations
                     b.Property<int?>("Id_Documento_Receber")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Id_Pedido_Venda")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id_Usuario_Vendedor")
                         .HasColumnType("int");
 
@@ -187,7 +187,7 @@ namespace Integrador_Com_CRM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Controle_Liberacao_Comissao_OminiService");
+                    b.ToTable("Controle_Liberacao_Comissao");
                 });
 
             modelBuilder.Entity("Modelos.IntegradorCRM.Models.EF.DadosAPIModels", b =>

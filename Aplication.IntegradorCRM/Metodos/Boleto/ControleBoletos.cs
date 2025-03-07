@@ -49,7 +49,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     {
                         // Verifica se a BOLETO já esta na tabela de relação, caso ele esteja, significa que já existe um cady/oportunidade criada no CRM
                         RelacaoBoletoCRMModel BoletoRelacao = TableRelacaoBoleto.FirstOrDefault(x => x.Id_DocumentoReceber == Convert.ToInt32(id_DocReceber));
-
+                        
                         // Log para verificação
                         MetodosGerais.RegistrarLog("BOLETO", $"Verificando Documento a receber {id_DocReceber}...");
 
@@ -85,6 +85,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         }
                         else
                         {
+                            BoletoRelacao.Celular_Entidade = linha.Celular;
                             int DiasEmAtrasoBoleto = BoletoRelacao.DiasEmAtraso;
                             int diasAtraso = (DateTime.Now - linha.Data_Vencimento).Days;
                             int situacaTBRelacao = BoletoRelacao.Situacao;
