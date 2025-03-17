@@ -19,46 +19,52 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
             try
             {
                 string query = @$"
-                                   SELECT 
-                    pv.id_pedido_venda,
-	                pv.id_usuario_vendedor,
-	                usu.nome,
-                    dr.id_documento_receber,
-                    dr.numero_documento_receber,
-                    dr.data_vencimento,
-	                CASE 
-		                WHEN  dr.data_quitacao IS NULL AND dr.situacao is null
-			                THEN nf.data_hora_emissao
-		                ELSE dr.data_quitacao
-	                END AS DATA_QUITACAO,
-                    dr.situacao,
-                    COUNT(dr.id_documento_receber) OVER (PARTITION BY pv.id_pedido_venda) AS DR_TOTAL,
-	                CASE 
-		                WHEN COUNT(dr.id_documento_receber) OVER (PARTITION BY pv.id_pedido_venda) = 0 
-		                THEN SUM(cci.valor_comissao)
-	                ELSE
-		                (SUM(cci.valor_comissao)/ COUNT(dr.id_documento_receber) OVER (PARTITION BY pv.id_pedido_venda)) 
-	                END AS Valor_Comissao_Por_DR,
-	                0 AS Pago_Para_Vendedor
+                                             SELECT 
+    pv.id_pedido_venda,
+    pv.id_usuario_vendedor,
+    usu.nome,
+	nf.numero_documento_fiscal,
+	nf.data_hora_emissao,
+	nf.id_situacao_documento_fiscal,
+    dr.id_documento_receber,
+    dr.numero_documento_receber,
+    dr.data_vencimento,
+    CASE 
+        WHEN  dr.data_quitacao IS NULL AND dr.situacao is null
+            THEN nf.data_hora_emissao
+        ELSE dr.data_quitacao
+    END AS DATA_QUITACAO,
+    dr.situacao,
+    COUNT(dr.id_documento_receber) OVER (PARTITION BY pv.id_pedido_venda) AS DR_TOTAL,
+    CASE 
+        WHEN COUNT(dr.id_documento_receber) OVER (PARTITION BY pv.id_pedido_venda) = 0 
+        THEN SUM(cci.valor_comissao)
+    ELSE
+        (SUM(cci.valor_comissao)/ COUNT(dr.id_documento_receber) OVER (PARTITION BY pv.id_pedido_venda)) 
+    END AS Valor_Comissao_Por_DR,
+    0 AS Pago_Para_Vendedor
     
-                FROM pedido_venda pv
-                INNER JOIN Controle_Comissao_Item_Demander cci ON cci.codigo_pedido = pv.id_pedido_venda
-                INNER JOIN pedido_venda_nota_fiscal pvn ON pvn.id_pedido_venda = pv.id_pedido_venda
-                INNER JOIN usuario usu on usu.id_usuario = pv.id_usuario_vendedor
-                INNER JOIN nota_fiscal nf ON nf.id_nota_fiscal = pvn.id_nota_fiscal
-                LEFT JOIN fatura_nota_fiscal fnf ON fnf.id_nota_fiscal = nf.id_nota_fiscal
-                LEFT JOIN documento_receber dr ON dr.numero_documento_receber = fnf.numero_fatura
-                WHERE pv.situacao = 5
-                GROUP BY 
-                    pv.id_pedido_venda,
-	                pv.id_usuario_vendedor,
-	                usu.nome,
-                    dr.id_documento_receber, 
-                    dr.numero_documento_receber, 
-                    dr.data_vencimento,
-	                nf.data_hora_emissao,
-                    dr.data_quitacao,  
-                    dr.situacao;
+FROM pedido_venda pv
+INNER JOIN Controle_Comissao_Item_Demander cci ON cci.codigo_pedido = pv.id_pedido_venda
+INNER JOIN pedido_venda_nota_fiscal pvn ON pvn.id_pedido_venda = pv.id_pedido_venda
+INNER JOIN usuario usu on usu.id_usuario = pv.id_usuario_vendedor
+INNER JOIN nota_fiscal nf ON nf.id_nota_fiscal = pvn.id_nota_fiscal
+LEFT JOIN fatura_nota_fiscal fnf ON fnf.id_nota_fiscal = nf.id_nota_fiscal
+LEFT JOIN documento_receber dr ON dr.numero_documento_receber = fnf.numero_fatura
+WHERE pv.situacao = 5 AND nf.id_situacao_documento_fiscal = 1
+GROUP BY 
+    pv.id_pedido_venda,
+    pv.id_usuario_vendedor,
+    usu.nome,
+    dr.id_documento_receber, 
+    dr.numero_documento_receber, 
+    dr.data_vencimento,
+    nf.data_hora_emissao,
+    dr.data_quitacao,  
+    dr.situacao,
+	nf.numero_documento_fiscal,
+	nf.data_hora_emissao,
+	nf.id_situacao_documento_fiscal;
                 ";
                
                 // Converte o resultado do select em DataTable
@@ -97,6 +103,9 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
                         DR_Total_Gerados = DbHelper.GetInt(linha["DR_TOTAL"]),
                         Valor_Comissao_Por_Parcela = DbHelper.GetDecimal(linha["Valor_Comissao_Por_DR"]),
                         Pago_para_Vendedor = DbHelper.GetInt(linha["Pago_Para_Vendedor"]),
+                        numero_documento_fiscal = DbHelper.GetInt(linha["numero_documento_fiscal"]),
+                        data_hora_emissao_nota = DbHelper.GetDateTime(linha["data_hora_emissao"]),
+                        id_situacao_documento_fiscal = DbHelper.GetInt(linha["id_situacao_documento_fiscal"]),
                     };
 
                     listaRetornodeComissoes.Add(RComissoes);

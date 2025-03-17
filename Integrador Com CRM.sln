@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gerador de Linceça", "Gera
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuscarEnderecoMAc", "BuscarEnderecoMAc\BuscarEnderecoMAc.csproj", "{93A9E313-E971-4D7E-9A0F-218771950E48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geração de Relatorio", "..\..\Geração de Relatorio\Geração de Relatorio\Geração de Relatorio\Geração de Relatorio.csproj", "{AB46EE07-E51F-4715-B486-ABC21E057AB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{93A9E313-E971-4D7E-9A0F-218771950E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A9E313-E971-4D7E-9A0F-218771950E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A9E313-E971-4D7E-9A0F-218771950E48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB46EE07-E51F-4715-B486-ABC21E057AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB46EE07-E51F-4715-B486-ABC21E057AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB46EE07-E51F-4715-B486-ABC21E057AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB46EE07-E51F-4715-B486-ABC21E057AB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
