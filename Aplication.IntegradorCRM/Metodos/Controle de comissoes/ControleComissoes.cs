@@ -34,11 +34,11 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
                     // Verifica se existe documento criado, caso não exista significa que o cliente pagou avista.
                     if (retComissao.Id_Documento_Receber == 0)
                     {
-                         comissaoService.VerificarPedidoSemDR(retComissao, controleComissaoList, dalComissao);
+                         await comissaoService.VerificarPedidoSemDR(retComissao, controleComissaoList, dalComissao);
                     }
                     else
                     {
-                         comissaoService.VerificarPedidoComDR(retComissao, controleComissaoList, dalComissao);
+                         await comissaoService.VerificarPedidoComDR(retComissao, controleComissaoList, dalComissao);
                     }
                 }
             }

@@ -26,6 +26,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_OSAcoesCRM_UC FrmOSAcao;
         private readonly Frm_AcoesSituacoes FrmAcoesSit;
         private readonly Frm_ConfigUC FrmConfigUC;
+        private readonly Frm_RelatorioComissaoUC FrmRelatorioComissao;
 
         ControleOrdemServico ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
@@ -65,6 +66,7 @@ namespace Integrador_Com_CRM
             //Instanciando Variaveis dos Formularios
             //FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
+            FrmRelatorioComissao = new Frm_RelatorioComissaoUC();
             //cobrancas = new CobrancasNaSegundaModel();
 
             FrmGeralUC = new Frm_GeralUC(ControlOS, BoletoAcoesCRM, FrmConfigUC);
@@ -223,6 +225,7 @@ namespace Integrador_Com_CRM
             //FrmOSAcao.Dock = DockStyle.Fill;
             //FrmAcoesSit.Dock = DockStyle.Fill;
             FrmConfigUC.Dock = DockStyle.Fill;
+            FrmGeralUC.Dock = DockStyle.Fill;
 
             TabPage TB1 = new TabPage
             {
@@ -275,7 +278,17 @@ namespace Integrador_Com_CRM
             TB7.Controls.Add(FrmConfigUC);
 
 
+            TabPage TB8 = new TabPage
+            {
+                Name = "Comissão",
+                Text = "Comissão"
+            };
+            TB8.Controls.Add(FrmRelatorioComissao);
+
+
             TBC_Dados.TabPages.Add(TB1);
+
+            TBC_Dados.TabPages.Add(TB8);
             TBC_Dados.TabPages.Add(TB2);
             //TBC_Dados.TabPages.Add(TB3);
             //TBC_Dados.TabPages.Add(TB4);

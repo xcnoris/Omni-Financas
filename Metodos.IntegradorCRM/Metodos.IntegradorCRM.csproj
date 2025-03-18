@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="NLog.Config" Version="4.7.15" />
+    <PackageReference Include="QuestPDF" Version="2025.1.6" />
   </ItemGroup>
 
 </Project>

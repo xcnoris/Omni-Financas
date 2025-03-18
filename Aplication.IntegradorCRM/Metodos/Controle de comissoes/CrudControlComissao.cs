@@ -24,7 +24,7 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
     pv.id_usuario_vendedor,
     usu.nome,
 	nf.numero_documento_fiscal,
-	nf.data_hora_emissao,
+	nf.data_hora_emissao as emissaoNF,
 	nf.id_situacao_documento_fiscal,
     dr.id_documento_receber,
     dr.numero_documento_receber,
@@ -104,7 +104,7 @@ GROUP BY
                         Valor_Comissao_Por_Parcela = DbHelper.GetDecimal(linha["Valor_Comissao_Por_DR"]),
                         Pago_para_Vendedor = DbHelper.GetInt(linha["Pago_Para_Vendedor"]),
                         numero_documento_fiscal = DbHelper.GetInt(linha["numero_documento_fiscal"]),
-                        data_hora_emissao_nota = DbHelper.GetDateTime(linha["data_hora_emissao"]),
+                        data_hora_emissao_nota = DbHelper.GetDateTime(linha["emissaoNF"]),
                         id_situacao_documento_fiscal = DbHelper.GetInt(linha["id_situacao_documento_fiscal"]),
                     };
 

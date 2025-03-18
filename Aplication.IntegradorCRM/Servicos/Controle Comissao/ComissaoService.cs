@@ -45,7 +45,8 @@ namespace Aplication.IntegradorCRM.Servicos.Controle_Comissao
             try
             {
                 Controle_Liberacao_ComissaoModel? ComissaoExistente = controleComissaoList.FirstOrDefault(x => x.Id_Documento_Receber.Equals(retComissao.Id_Documento_Receber));
-                if (ComissaoExistente is null)
+                //if (ComissaoExistente is null)
+                if (true)
                 {
                     await dalComissao.AdicionarAsync(retComissao);
                     MetodosGerais.RegistrarLog("Comissao", $"Parcela/DR {retComissao.Id_Documento_Receber} do PV {retComissao.Id_Pedido_Venda} foi add a TB de controle!");
