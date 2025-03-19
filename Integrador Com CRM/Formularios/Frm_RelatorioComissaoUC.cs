@@ -1,6 +1,7 @@
 ﻿using Aplication.IntegradorCRM.Metodos.ControleComissao;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
+using Microsoft.VisualBasic.Devices;
 using Modelos.IntegradorCRM;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Retornos;
@@ -12,7 +13,7 @@ namespace Integrador_Com_CRM.Formularios
     public partial class Frm_RelatorioComissaoUC : UserControl
     {
         private readonly DAL<Controle_Liberacao_ComissaoModel> _dalControle_Liberacao;
-
+        private readonly ControleComissoes _ControleComissao;
 
         public string DataInicio
         {
@@ -86,6 +87,8 @@ namespace Integrador_Com_CRM.Formularios
             InitializeComponent();
 
             _dalControle_Liberacao = new DAL<Controle_Liberacao_ComissaoModel>(new IntegradorDBContext());
+            _ControleComissao = new ControleComissoes();
+
             CarregarVendedores();
             CarregarSituacoes();
         }
@@ -110,13 +113,28 @@ namespace Integrador_Com_CRM.Formularios
                 return;
             }
 
+            
             VisualizarPDF();
         }
 
 
         private async Task VisualizarPDF()
         {
-            await GerarRelatorioEmPDF();
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+                await _ControleComissao.VerificarComissoes();
+                await GerarRelatorioEmPDF();
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("GeracaoPDF", $"Ocorreu um erro ao gerar o relatorio pdf. ERROR: {ex.Message}");
+                MessageBox.Show($"Ocorreu um erro ao gerar o relatorio. ERROR:  {ex.Message}", "Erro na geração", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
         private async Task GerarRelatorioEmPDF()
@@ -310,11 +328,14 @@ namespace Integrador_Com_CRM.Formularios
 
         private void botaoArredond1_Click(object sender, EventArgs e)
         {
+
             QuitarComissoes();
         }
 
         private async Task QuitarComissoes()
         {
+          
+
             if (Index_Id_CboxVendedor == -1)
             {
                 MessageBox.Show($"Selecione um vendedor!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -329,17 +350,32 @@ namespace Integrador_Com_CRM.Formularios
             var resposta = MessageBox.Show("Você Realmente quer marcar como QUITADO as comissões?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (resposta == DialogResult.Yes)
             {
-
-                List<Controle_Liberacao_ComissaoModel?> listaComissao = await ListarComissoesGeradas();
-
-                decimal grandTotal = 0;
-                foreach (var product in listaComissao)
+                try
                 {
-                    grandTotal += product.Valor_Comissao_Por_Parcela;
-                }
+                    Cursor = Cursors.WaitCursor;
+                    await _ControleComissao.VerificarComissoes();
 
-                Frm_QuitacaoComissao FrmQuitarComissao = new Frm_QuitacaoComissao(NomeVendedor, DataInicio, DataFim, $"R$ {grandTotal}");
-                FrmQuitarComissao.ShowDialog();
+
+                    List<Controle_Liberacao_ComissaoModel?> listaComissao = await ListarComissoesGeradas();
+
+                    decimal grandTotal = 0;
+                    foreach (var product in listaComissao)
+                    {
+                        grandTotal += product.Valor_Comissao_Por_Parcela;
+                    }
+
+                    Frm_QuitacaoComissao FrmQuitarComissao = new Frm_QuitacaoComissao(NomeVendedor, DataInicio, DataFim, $"R$ {grandTotal}");
+                    FrmQuitarComissao.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    MetodosGerais.RegistrarLog("GeracaoPDF", $"Ocorreu um erro ao gerar o relatorio pdf. ERROR: {ex.Message}");
+                    MessageBox.Show($"Ocorreu um erro ao gerar o relatorio. ERROR:  {ex.Message}", "Erro na geração", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    Cursor = Cursors.Default;
+                }
             }
         }
     }
