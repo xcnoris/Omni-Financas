@@ -1,5 +1,6 @@
 ﻿using Metodos.IntegradorCRM.Metodos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace DataBase.IntegradorCRM.Data
@@ -75,6 +76,27 @@ namespace DataBase.IntegradorCRM.Data
                 throw new Exception(Exception.Message);
             }
         }
+        public async Task AtualizarPorCondicaoAsync(Expression<Func<T, bool>> filtro, Expression<Func<SetPropertyCalls<T>, SetPropertyCalls<T>>> updateExpression)
+        {
+            try
+            {
+                int rowsAffected = await context.Set<T>()
+                    .Where(filtro)
+                    .ExecuteUpdateAsync(updateExpression);
+
+                if (rowsAffected == 0)
+                {
+                    MetodosGerais.RegistrarLog("Conexao", "Nenhum objeto encontrado para atualizar.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarLog("Conexao", ex.Message);
+                throw;
+            }
+        }
+
+
 
 
         public async Task DeletarAsync(T objeto)

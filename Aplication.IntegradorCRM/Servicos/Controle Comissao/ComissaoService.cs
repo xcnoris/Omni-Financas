@@ -54,7 +54,9 @@ namespace Aplication.IntegradorCRM.Servicos.Controle_Comissao
                 {
                     if (retComissao.Data_Quitacao is not null && ComissaoExistente.Data_Quitacao is  null)
                     {
-                        await dalComissao.AtualizarAsync(retComissao);
+                        ComissaoExistente.Data_Quitacao = retComissao.Data_Quitacao;
+
+                        await dalComissao.AtualizarAsync(ComissaoExistente);
                         MetodosGerais.RegistrarLog("Comissao", $"Parcela/DR {retComissao.Id_Documento_Receber} do PV {retComissao.Id_Pedido_Venda} foi atualizada para quitada na TB de controle!");
                     }
                 }

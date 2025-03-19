@@ -20,7 +20,7 @@ public class QuestPDFService
         StartDate = startDate;
         EndDate = endDate;
     }
-    public void GerarPDF(string filePath, bool GerarPDFComAssinatura)
+    public void GerarPDF(string filePath, bool GerarPDFComAssinatura, string TipoRelatorio)
     {
        
         Document.Create(document =>
@@ -48,7 +48,7 @@ public class QuestPDFService
                             .Height(100)
                             .Column(column =>
                             {
-                                column.Item().Text("Relatorio de Comissão").FontSize(25).FontColor(Colors.Blue.Medium).SemiBold();
+                                column.Item().Text($"Relatorio de Comissão {TipoRelatorio}").FontSize(20).FontColor(Colors.Blue.Medium).SemiBold();
                                 column.Item().Text($"Vendedor : {vendedor}").FontSize(10);
                                 column.Item().Text($"Periodo: {StartDate} - {EndDate}").FontSize(10);
                                 column.Item().Text($"Geração: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(10);

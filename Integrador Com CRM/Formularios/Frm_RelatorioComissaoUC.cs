@@ -1,21 +1,11 @@
 ﻿using Aplication.IntegradorCRM.Metodos.ControleComissao;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Modelos.IntegradorCRM;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Retornos;
 using QuestPDF.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -69,6 +59,24 @@ namespace Integrador_Com_CRM.Formularios
                     return sit.Id;
                 else
                     return Cbox_SituacaoComissao.SelectedIndex;
+            }
+        }
+
+        public string NomeSituacaoSelecionada
+        {
+            get
+            {
+                if (Cbox_SituacaoComissao.SelectedItem is SituacaoComissao sit)
+                {
+
+                    if (sit.Id == 2)
+                    {
+                        return "";
+                    }
+                    return sit.Nome;
+                }
+                return "";
+
             }
         }
 
@@ -141,7 +149,7 @@ namespace Integrador_Com_CRM.Formularios
                     modeloPDF = true;
                 }
 
-                reportGenerator.GerarPDF(caminhoPDF, modeloPDF);
+                reportGenerator.GerarPDF(caminhoPDF, modeloPDF, $"- {NomeSituacaoSelecionada}");
                 VisualizarPDF(caminhoPDF);
             }
 
@@ -155,54 +163,68 @@ namespace Integrador_Com_CRM.Formularios
 
         private async Task<List<Controle_Liberacao_ComissaoModel?>> ListarComissoesGeradas()
         {
-            DateTime dataInicio = Convert.ToDateTime(DataInicio).Date; // Garante que começa no início do dia
-            DateTime dataFim = Convert.ToDateTime(DataFim).Date.AddDays(1).AddTicks(-1); // Último milissegundo do dia
+            try
+            {
 
-            // TODAS AS COMISSOES GERADAS
-            if (IndexSituacaoComissao == 1)
-            {
-                return (await _dalControle_Liberacao.
-                RecuperarTodosPorAsync(
-                    x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                    x.Data_Quitacao >= dataInicio &&
-                    x.Data_Quitacao <= dataFim
-                )).ToList();
-            }
-            // TODAS AS COMISSOES LIBERADAS NAO PAGAS
-            else if (IndexSituacaoComissao == 2)
-            {
-                return (await _dalControle_Liberacao.
-                RecuperarTodosPorAsync(
-                    x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                    x.Data_Quitacao >= dataInicio &&
-                    x.Data_Quitacao <= dataFim &&
-                    x.Pago_para_Vendedor == 0
-                )).ToList();
-            }
-            // TODAS AS COMISSOES LIBERADAS  PAGAS
-            else if (IndexSituacaoComissao == 3)
-            {
-                return (await _dalControle_Liberacao.
-                RecuperarTodosPorAsync(
-                    x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                    x.Data_Quitacao >= dataInicio &&
-                    x.Data_Quitacao <= dataFim &&
-                    x.Pago_para_Vendedor == 1
-                )).ToList();
-            }
-            // TODAS AS COMISSOES LIBERADAS  PAGAS
-            else if (IndexSituacaoComissao == 4)
-            {
-                return (await _dalControle_Liberacao.
-                RecuperarTodosPorAsync(
-                    x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                    x.Data_Vencimento >= dataInicio &&
-                    x.Data_Vencimento <= dataFim &&
-                    x.Pago_para_Vendedor == 0
-                )).ToList();
-            }
+                DateTime dataInicio = Convert.ToDateTime(DataInicio).Date; // Garante que começa no início do dia
+                DateTime dataFim = Convert.ToDateTime(DataFim).Date.AddDays(1).AddTicks(-1); // Último milissegundo do dia
 
-            return null;
+                // TODAS AS COMISSOES GERADAS
+                if (IndexSituacaoComissao == 1)
+                {
+                    return (await _dalControle_Liberacao.
+                    RecuperarTodosPorAsync(
+                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                        x.data_hora_emissao_nota >= dataInicio &&
+                        x.data_hora_emissao_nota <= dataFim
+                    )).ToList();
+                }
+                // TODAS AS COMISSOES LIBERADAS NAO PAGAS
+                else if (IndexSituacaoComissao == 2)
+                {
+                    return (await _dalControle_Liberacao.
+                    RecuperarTodosPorAsync(
+                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                        x.Data_Quitacao >= dataInicio &&
+                        x.Data_Quitacao <= dataFim &&
+                        x.Pago_para_Vendedor == 0
+                    )).ToList();
+                }
+                // TODAS AS COMISSOES LIBERADAS  PAGAS
+                else if (IndexSituacaoComissao == 3)
+                {
+                    return (await _dalControle_Liberacao.
+                    RecuperarTodosPorAsync(
+                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                        x.Data_Quitacao >= dataInicio &&
+                        x.Data_Quitacao <= dataFim &&
+                        x.Pago_para_Vendedor == 1
+                    )).ToList();
+                }
+                // TODAS AS COMISSOES LIBERADAS  PAGAS
+                else if (IndexSituacaoComissao == 4)
+                {
+                    return (await _dalControle_Liberacao.
+                    RecuperarTodosPorAsync(
+                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                        x.Data_Vencimento >= dataInicio &&
+                        x.Data_Vencimento <= dataFim &&
+                        x.Data_Quitacao == null &&
+                        x.Pago_para_Vendedor == 0
+                    )).ToList();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MetodosGerais.RegistrarErroExcecao("Comissao", $"Erro ao listar comissoes geradas:", ex);
+                throw;
+            }
+            finally
+            {
+                MetodosGerais.RegistrarFinalLog("Comissao");
+            }
 
         }
 
@@ -216,6 +238,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             else
             {
+                MetodosGerais.RegistrarLog("ComissaoOperacoes", $"Arquivo não encontrado! Caminho PDF {caminhoPDF}");
                 MessageBox.Show("Arquivo não encontrado!", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -227,7 +250,8 @@ namespace Integrador_Com_CRM.Formularios
 
             if (vendedoresList == null || vendedoresList.Count == 0)
             {
-                MessageBox.Show("Nenhum vendedor encontrado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MetodosGerais.RegistrarLog("ComissaoOperacoes", $"Nenhum vendedor encontrado");
+                //MessageBox.Show("Nenhum vendedor encontrado.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -245,7 +269,7 @@ namespace Integrador_Com_CRM.Formularios
             SituacaoComissao sit1 = new SituacaoComissao()
             {
                 Id = 1,
-                Nome = "Gerados"
+                Nome = "Geradas"
             };
 
             SituacaoComissao sit2 = new SituacaoComissao()
