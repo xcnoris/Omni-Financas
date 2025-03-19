@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             groupBox4 = new GroupBox();
-            Btn_QuotarComis = new ComponentesPerson.BotaoArredond(components);
             Cbox_SituacaoComissao = new ComboBox();
             label2 = new Label();
             Btn_GerarPDF = new ComponentesPerson.BotaoArredond(components);
@@ -43,13 +42,16 @@
             DTP_DTInicio = new DateTimePicker();
             label7 = new Label();
             label8 = new Label();
+            fileSystemWatcher1 = new FileSystemWatcher();
+            botaoArredond1 = new ComponentesPerson.BotaoArredond(components);
             groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             SuspendLayout();
             // 
             // groupBox4
             // 
             groupBox4.BackColor = Color.White;
-            groupBox4.Controls.Add(Btn_QuotarComis);
+            groupBox4.Controls.Add(botaoArredond1);
             groupBox4.Controls.Add(Cbox_SituacaoComissao);
             groupBox4.Controls.Add(label2);
             groupBox4.Controls.Add(Btn_GerarPDF);
@@ -69,20 +71,6 @@
             groupBox4.TabIndex = 5;
             groupBox4.TabStop = false;
             groupBox4.Text = "Gerar Relatorio de Comissão";
-            // 
-            // Btn_QuotarComis
-            // 
-            Btn_QuotarComis.BackColor = Color.Green;
-            Btn_QuotarComis.FlatAppearance.BorderColor = Color.Black;
-            Btn_QuotarComis.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
-            Btn_QuotarComis.ForeColor = Color.White;
-            Btn_QuotarComis.Location = new Point(541, 193);
-            Btn_QuotarComis.Name = "Btn_QuotarComis";
-            Btn_QuotarComis.RaioCanto = 20;
-            Btn_QuotarComis.Size = new Size(221, 32);
-            Btn_QuotarComis.TabIndex = 37;
-            Btn_QuotarComis.Text = "Quitar Comissões";
-            Btn_QuotarComis.UseVisualStyleBackColor = false;
             // 
             // Cbox_SituacaoComissao
             // 
@@ -210,6 +198,26 @@
             label8.TabIndex = 1;
             label8.Text = "Vendedores:";
             // 
+            // fileSystemWatcher1
+            // 
+            fileSystemWatcher1.EnableRaisingEvents = true;
+            fileSystemWatcher1.SynchronizingObject = this;
+            // 
+            // botaoArredond1
+            // 
+            botaoArredond1.BackColor = Color.LightSalmon;
+            botaoArredond1.FlatAppearance.BorderColor = Color.Black;
+            botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond1.ForeColor = Color.White;
+            botaoArredond1.Location = new Point(541, 193);
+            botaoArredond1.Name = "botaoArredond1";
+            botaoArredond1.RaioCanto = 20;
+            botaoArredond1.Size = new Size(221, 32);
+            botaoArredond1.TabIndex = 38;
+            botaoArredond1.Text = "Quitar Comissões";
+            botaoArredond1.UseVisualStyleBackColor = false;
+            botaoArredond1.Click += botaoArredond1_Click;
+            // 
             // Frm_RelatorioComissaoUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -222,6 +230,7 @@
             Size = new Size(829, 421);
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             ResumeLayout(false);
         }
 
@@ -239,6 +248,7 @@
         private ComponentesPerson.BotaoArredond Btn_GerarPDF;
         private ComboBox Cbox_SituacaoComissao;
         private Label label2;
-        private ComponentesPerson.BotaoArredond Btn_QuotarComis;
+        private FileSystemWatcher fileSystemWatcher1;
+        private ComponentesPerson.BotaoArredond botaoArredond1;
     }
 }

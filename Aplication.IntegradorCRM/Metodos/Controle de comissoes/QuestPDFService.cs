@@ -20,7 +20,7 @@ public class QuestPDFService
         StartDate = startDate;
         EndDate = endDate;
     }
-    public void GerarPDF(string filePath)
+    public void GerarPDF(string filePath, bool GerarPDFComAssinatura)
     {
        
         Document.Create(document =>
@@ -35,6 +35,13 @@ public class QuestPDFService
                 page.Header()
                     .Row(row =>
                     {
+
+
+                        row.RelativeItem(2)
+                          .BorderBottom(1)
+                          .Height(70)
+                          .Image("logo.png");
+
                         row.RelativeItem(3)
                             .BorderBottom(1)
                             .PaddingLeft(10)
@@ -46,12 +53,7 @@ public class QuestPDFService
                                 column.Item().Text($"Periodo: {StartDate} - {EndDate}").FontSize(10);
                                 column.Item().Text($"Geração: {DateTime.Now.ToString("dd/MM/yyyy")}").FontSize(10);
                             });
-                            
-                        row.RelativeItem(1)
-                          .BorderBottom(1)
-                          .Height(100)
-                          .Image("4.png")
-                          ;
+                    
                     });
                  
 
@@ -70,20 +72,23 @@ public class QuestPDFService
                                 columns.RelativeColumn(90);
                                 columns.ConstantColumn(70);
                                 columns.ConstantColumn(90);
-                                columns.RelativeColumn(60);
-                                columns.ConstantColumn(100);
+                                columns.RelativeColumn(100);
+                                columns.ConstantColumn(80);
                             });
 
                             table.Header(header =>
                             {
+                                int sizefonte = 10;
                                 int borderbottom = 3;
-                                header.Cell().BorderBottom(borderbottom).Text("Ped. Venda").Bold().FontColor(Colors.Orange.Accent3);
-                                header.Cell().BorderBottom(borderbottom).Text("Nr Nota").Bold().FontColor(Colors.Blue.Accent2);
-                                header.Cell().BorderBottom(borderbottom).Text("Emis. NFe").Bold().FontColor(Colors.Blue.Accent2);
-                                header.Cell().BorderBottom(borderbottom).Text("Doc. Receber").Bold().FontColor(Colors.Green.Accent2);
-                                header.Cell().BorderBottom(borderbottom).Text("Quitação").Bold().FontColor(Colors.Green.Accent2);
-                                header.Cell().BorderBottom(borderbottom).Text("Nr. Gerados").Bold().FontColor(Colors.Green.Accent2);
-                                header.Cell().BorderBottom(borderbottom).Text("Comissão").Bold().FontColor(Colors.Red.Accent2);
+                                int tamanhobottom = 5;
+
+                                header.Cell().BorderBottom(borderbottom).PaddingBottom(tamanhobottom).Text("Ped. Venda").Bold().FontColor(Colors.Orange.Accent3).FontSize(sizefonte);
+                                header.Cell().BorderBottom(borderbottom).PaddingBottom(tamanhobottom).Text("Nr Nota").Bold().FontColor(Colors.Blue.Accent2).FontSize(sizefonte);
+                                header.Cell().BorderBottom(borderbottom).PaddingBottom(tamanhobottom).Text("Emis. NFe").Bold().FontColor(Colors.Blue.Accent2).FontSize(sizefonte);
+                                header.Cell().BorderBottom(borderbottom).PaddingBottom(tamanhobottom).Text("Doc. Receber").Bold().FontColor("#033d58").FontSize(sizefonte);
+                                header.Cell().BorderBottom(borderbottom).PaddingBottom(tamanhobottom).Text("Quitação").Bold().FontColor("#033d58").FontSize(sizefonte);
+                                header.Cell().BorderBottom(borderbottom).PaddingBottom(tamanhobottom).Text("Nr. Gerados").Bold().FontColor("#033d58").FontSize(sizefonte);
+                                header.Cell().BorderBottom(borderbottom).PaddingBottom(tamanhobottom).Text("Comissão").Bold().FontColor(Colors.Red.Accent2).FontSize(sizefonte);
                             });
 
 
@@ -91,14 +96,15 @@ public class QuestPDFService
                             foreach (var comissaoItem in Controle_Liberacao_ComissaoList)
                             {
                                 string? docreceber = comissaoItem.Id_Documento_Receber == 0 ? "Avista" : comissaoItem.Id_Documento_Receber.ToString();
+                                string? NrDRGerados = comissaoItem.DR_Total_Gerados == 0 ? "Sem DR" : comissaoItem.DR_Total_Gerados.ToString();
                                 int sizefonte = 9;
 
                                 table.Cell().Element(CellStyle).Text(comissaoItem.Id_Pedido_Venda.ToString()).FontSize(sizefonte);
                                 table.Cell().Element(CellStyle).Text(comissaoItem.numero_documento_fiscal.ToString()).FontSize(sizefonte);
                                 table.Cell().Element(CellStyle).Text(comissaoItem.data_hora_emissao_nota.Value.ToString("dd/MM/yyyy")).FontSize(sizefonte);
-                                table.Cell().Element(CellStyle).Text(docreceber).FontSize(sizefonte);
+                                table.Cell().Element(CellStyle).Text(docreceber).FontSize(sizefonte).AlignCenter();
                                 table.Cell().Element(CellStyle).Text(comissaoItem.Data_Quitacao.HasValue ? comissaoItem.Data_Quitacao.Value.ToString("dd/MM/yyyy") : "ABERTO").FontSize(sizefonte);
-                                table.Cell().Element(CellStyle).AlignCenter().Text(comissaoItem.DR_Total_Gerados.ToString()).FontSize(sizefonte);
+                                table.Cell().Element(CellStyle).AlignLeft().Text(NrDRGerados).FontSize(sizefonte);
                                 table.Cell().Element(CellStyle).PaddingLeft(5).Text("R$ " + comissaoItem.Valor_Comissao_Por_Parcela.ToString("F2")).AlignRight().AlignLeft().FontSize(sizefonte);
 
                                 IContainer CellStyle(IContainer container)
@@ -135,12 +141,16 @@ public class QuestPDFService
 
 
                         // Rodapé manual na última página
-                        col.Item().PaddingVertical(5).AlignCenter().Text("Assinatura do vendedor: _______________________, data do pagamento __/__/____ ").FontSize(14);
+                        if (GerarPDFComAssinatura)
+                        {
+                            col.Item().PaddingVertical(5).AlignCenter().Text("Assinatura do vendedor: _______________________, data do pagamento __/__/____ ").FontSize(14);
+                        }
 
                         page.Footer()
                             .Column(col =>
                             {
-                                
+
+                                col.Item().PaddingVertical(5).AlignCenter().Text("Relatorío Gerado Pelo Sistema CDI OminiService by CDI Software ₢").FontSize(8);
                                 col.Item().AlignCenter().Text(text =>
                                 {
                                     text.CurrentPageNumber();

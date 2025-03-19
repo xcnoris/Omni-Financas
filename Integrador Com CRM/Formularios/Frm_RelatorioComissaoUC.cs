@@ -24,8 +24,8 @@ namespace Integrador_Com_CRM.Formularios
         private readonly DAL<Controle_Liberacao_ComissaoModel> _dalControle_Liberacao;
 
 
-        public string DataInicio 
-        { 
+        public string DataInicio
+        {
             get
             {
                 return DTP_DTInicio.Value.ToString("dd/MM/yyyy");
@@ -40,7 +40,7 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        public int Index_Id_CboxVendedor 
+        public int Index_Id_CboxVendedor
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        public string NomeVendedor 
+        public string NomeVendedor
         {
             get
             {
@@ -96,7 +96,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Btn_GerarPDF_Click(object sender, EventArgs e)
         {
-            if(Index_Id_CboxVendedor == -1)
+            if (Index_Id_CboxVendedor == -1)
             {
                 MessageBox.Show($"Selecione um vendedor!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -116,7 +116,7 @@ namespace Integrador_Com_CRM.Formularios
             try
             {
                 QuestPDF.Settings.License = LicenseType.Community;
-                
+
                 List<Controle_Liberacao_ComissaoModel?> comissaoList = await ListarComissoesGeradas();
 
                 if (comissaoList == null || comissaoList.Count == 0)
@@ -124,14 +124,24 @@ namespace Integrador_Com_CRM.Formularios
                     MessageBox.Show($"Nenhuma comissão gerada para esse vendedor no perido selecionado!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                    
+
 
 
                 var reportGenerator = new QuestPDFService(comissaoList, Cbox_Vendedores.Text, DataInicio, DataFim);
 
                 string caminhoPDF = $"{Txt_Diretorio.Text}\\Relatorio_Comissao_{NomeVendedor}_{DateTime.Now:dd-MM-yyyy}.pdf";
 
-                reportGenerator.GerarPDF(caminhoPDF);
+                bool modeloPDF = false;
+                if (IndexSituacaoComissao == 1 || IndexSituacaoComissao == 3 || IndexSituacaoComissao == 4)
+                {
+                    modeloPDF = false;
+                }
+                else if (IndexSituacaoComissao == 2)
+                {
+                    modeloPDF = true;
+                }
+
+                reportGenerator.GerarPDF(caminhoPDF, modeloPDF);
                 VisualizarPDF(caminhoPDF);
             }
 
@@ -149,17 +159,17 @@ namespace Integrador_Com_CRM.Formularios
             DateTime dataFim = Convert.ToDateTime(DataFim).Date.AddDays(1).AddTicks(-1); // Último milissegundo do dia
 
             // TODAS AS COMISSOES GERADAS
-            if(IndexSituacaoComissao == 1)
+            if (IndexSituacaoComissao == 1)
             {
                 return (await _dalControle_Liberacao.
                 RecuperarTodosPorAsync(
                     x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
                     x.Data_Quitacao >= dataInicio &&
-                    x.Data_Quitacao <= dataFim 
+                    x.Data_Quitacao <= dataFim
                 )).ToList();
             }
             // TODAS AS COMISSOES LIBERADAS NAO PAGAS
-            else if (IndexSituacaoComissao ==2)
+            else if (IndexSituacaoComissao == 2)
             {
                 return (await _dalControle_Liberacao.
                 RecuperarTodosPorAsync(
@@ -170,7 +180,7 @@ namespace Integrador_Com_CRM.Formularios
                 )).ToList();
             }
             // TODAS AS COMISSOES LIBERADAS  PAGAS
-            else if(IndexSituacaoComissao == 3)
+            else if (IndexSituacaoComissao == 3)
             {
                 return (await _dalControle_Liberacao.
                 RecuperarTodosPorAsync(
@@ -180,6 +190,18 @@ namespace Integrador_Com_CRM.Formularios
                     x.Pago_para_Vendedor == 1
                 )).ToList();
             }
+            // TODAS AS COMISSOES LIBERADAS  PAGAS
+            else if (IndexSituacaoComissao == 4)
+            {
+                return (await _dalControle_Liberacao.
+                RecuperarTodosPorAsync(
+                    x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                    x.Data_Vencimento >= dataInicio &&
+                    x.Data_Vencimento <= dataFim &&
+                    x.Pago_para_Vendedor == 0
+                )).ToList();
+            }
+
             return null;
 
         }
@@ -229,19 +251,26 @@ namespace Integrador_Com_CRM.Formularios
             SituacaoComissao sit2 = new SituacaoComissao()
             {
                 Id = 2,
-                Nome = "Não pagas"
+                Nome = "Não Quitadas"
             };
 
             SituacaoComissao sit3 = new SituacaoComissao()
             {
                 Id = 3,
-                Nome = "Pagos"
+                Nome = "Quitadas"
+            };
+
+            SituacaoComissao sit4 = new SituacaoComissao()
+            {
+                Id = 4,
+                Nome = "Futuras"
             };
 
             List<SituacaoComissao> sitcomissaolist = new List<SituacaoComissao>();
             sitcomissaolist.Add(sit1);
             sitcomissaolist.Add(sit2);
             sitcomissaolist.Add(sit3);
+            sitcomissaolist.Add(sit4);
 
 
 
@@ -251,6 +280,43 @@ namespace Integrador_Com_CRM.Formularios
             Cbox_SituacaoComissao.DataSource = sitcomissaolist; // Atribui os dados
 
             Cbox_SituacaoComissao.SelectedIndex = -1; // Garante que nenhum item esteja pré-selecionado
+        }
+
+      
+
+        private void botaoArredond1_Click(object sender, EventArgs e)
+        {
+            QuitarComissoes();
+        }
+
+        private async Task QuitarComissoes()
+        {
+            if (Index_Id_CboxVendedor == -1)
+            {
+                MessageBox.Show($"Selecione um vendedor!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            if (IndexSituacaoComissao !=2)
+            {
+                MessageBox.Show($"Situacao Incorreta!", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            var resposta = MessageBox.Show("Você Realmente quer marcar como QUITADO as comissões?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (resposta == DialogResult.Yes)
+            {
+
+                List<Controle_Liberacao_ComissaoModel?> listaComissao = await ListarComissoesGeradas();
+
+                decimal grandTotal = 0;
+                foreach (var product in listaComissao)
+                {
+                    grandTotal += product.Valor_Comissao_Por_Parcela;
+                }
+
+                Frm_QuitacaoComissao FrmQuitarComissao = new Frm_QuitacaoComissao(NomeVendedor, DataInicio, DataFim, $"R$ {grandTotal}");
+                FrmQuitarComissao.ShowDialog();
+            }
         }
     }
 }
