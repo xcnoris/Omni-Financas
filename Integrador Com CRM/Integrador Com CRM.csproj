@@ -8,11 +8,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Logo-com-fundo-branco-_40-x-40-px_.ico</ApplicationIcon>
+    <ApplicationIcon>Sem-nome-_1920-x-1080-px_ (1).ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Logo-com-fundo-branco-_40-x-40-px_.ico" />
+    <Content Include="Sem-nome-_1920-x-1080-px_ (1).ico" />
   </ItemGroup>
 
   <ItemGroup>

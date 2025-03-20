@@ -5,6 +5,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>Sem-nome-_1920-x-1080-px_ (1).ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Sem-nome-_1920-x-1080-px_ (1).ico" />
+  </ItemGroup>
 
 </Project>
