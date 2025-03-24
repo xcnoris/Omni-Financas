@@ -47,7 +47,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 codigoOportunidade = boletoRelacao.Cod_Oportunidade,
                 codigoAcao = acaoSituacao.CodAcaoCRM,
                 codigoJornada = dadosAPI.Cod_Jornada_Boleto,
-                textoFollowup = acaoSituacao.Mensagem_Acao
+                textoFollowup = acaoSituacao.Mensagem
             };
         }
 

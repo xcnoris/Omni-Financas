@@ -1,6 +1,7 @@
 ﻿using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Modelos.IntegradorCRM.Models.EF;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,7 +21,7 @@ namespace Integrador_Com_CRM.Formularios
             dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
 
             AddColumnDataGridView();
-            CarregarListaDeBoletoAcao();
+            CarregarListaDeOSAcao();
 
         }
 
@@ -37,7 +38,7 @@ namespace Integrador_Com_CRM.Formularios
                 return null;
             }
         }
-        private async Task CarregarListaDeBoletoAcao()
+        internal async Task CarregarListaDeOSAcao()
         {
             try
             {
@@ -45,7 +46,8 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     OSAcaoList.Clear();
                 }
-                OSAcaoList = (await dalOSAcoes.ListarAsync()).ToList();
+                DAL<OSAcoesCRMModel> _dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+                OSAcaoList = (await _dalOSAcoes.ListarAsync()).ToList();
                 CarregarDados();
             }
             catch (ValidationException ex)
@@ -94,13 +96,11 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     DGV_Dados.Columns.Add("ID", "ID");
                     DGV_Dados.Columns["ID"].ReadOnly = true;
-                    DGV_Dados.Columns["ID"].Width=30;
+                    DGV_Dados.Columns["ID"].Width = 30;
 
                     DGV_Dados.Columns.Add("IdCategoria", "ID Categoria");
                     DGV_Dados.Columns["IdCategoria"].Width = 350;
 
-                    DGV_Dados.Columns.Add("Codigo_Acao", "Codigo Ação");
-                    DGV_Dados.Columns["Codigo_Acao"].Width = 350;
 
                     DGV_Dados.Columns.Add("Mensagem", "Mensagem Ação");
                     DGV_Dados.Columns["Mensagem"].Width = 450;
@@ -115,93 +115,12 @@ namespace Integrador_Com_CRM.Formularios
                 MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
             }
         }
-        private void LimparTXT()
-        {
-            Txt_IdCategoria.Text = string.Empty;
-            Txt_CodAcao.Text = string.Empty;
-            Txt_Mensagem.Text = string.Empty;
+      
+       
 
-        }
-        private void Btn_Add_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                bool verificar = VerificaCamposNulos();
-                if (verificar)
-                {
-                    if (VerificaValoresRepetidos())
-                    {
-                        OSAcoesCRMModel OSAcao = new OSAcoesCRMModel() { IdCategoria = Convert.ToInt32(Txt_IdCategoria.Text), Codigo_Acao = Txt_CodAcao.Text, Mensagem_Atualizacao = Txt_Mensagem.Text, Data_Criacao = DateTime.Now };
-                        AddAcaoToDataGridView(OSAcao);
-                        OSAcaoList.Add(OSAcao);
-                        LimparTXT();
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Id de Categoria repetidos Não são  Permitidos!", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show($"Todos os Campos devem ser preenchidos!", $"App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("Geral", $"Erro de Sql: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
-            }
-        }
+      
 
-        private bool VerificaValoresRepetidos()
-        {
-            try
-            {
-                OSAcoesCRMModel BAM = OSAcaoList.FirstOrDefault(x => x.IdCategoria == Convert.ToInt32(Txt_IdCategoria.Text));
-                if (BAM is null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
-                return false;
-            }
-        }
-
-        private bool VerificaCamposNulos()
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(Txt_IdCategoria.Text)
-                    || string.IsNullOrWhiteSpace(Txt_CodAcao.Text)
-                    || string.IsNullOrWhiteSpace(Txt_Mensagem.Text))
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
-                return false;
-            }
-        }
+       
 
         // Recebe um object e convert para uma linha do DataGridView
         private void AddAcaoToDataGridView(OSAcoesCRMModel OSAcao)
@@ -214,7 +133,6 @@ namespace Integrador_Com_CRM.Formularios
                 DGV_Dados.Rows.Add(
                     OSAcao.Id,
                     OSAcao.IdCategoria,
-                    OSAcao.Codigo_Acao,
                     OSAcao.Mensagem_Atualizacao
                 );
             }
@@ -231,7 +149,7 @@ namespace Integrador_Com_CRM.Formularios
             {
                 foreach (DataGridViewRow row in DGV_Dados.Rows)
                 {
-                    
+
 
                     // Obter o ID da linha
                     var idValue = row.Cells["ID"].Value;
@@ -242,7 +160,7 @@ namespace Integrador_Com_CRM.Formularios
                     string codigoAcao = row.Cells["Codigo_Acao"].Value.ToString();
                     string Mensagem = row.Cells["Mensagem"].Value.ToString();
 
-               
+
                     // Criar um objeto para representar o registro da linha
                     var osAcao = new OSAcoesCRMModel
                     {
@@ -286,11 +204,11 @@ namespace Integrador_Com_CRM.Formularios
             }
             finally
             {
-                CarregarListaDeBoletoAcao();
+                CarregarListaDeOSAcao();
             }
         }
 
-        private async Task CarregarDados()
+        internal async Task CarregarDados()
         {
             try
             {
@@ -321,5 +239,38 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
+        private void DGV_Dados_DoubleClick(object sender, EventArgs e)
+        {
+            DoubleCliclGrid();
+        }
+        private async Task DoubleCliclGrid()
+        {
+            var selectedRow = DGV_Dados.CurrentRow;
+
+
+            OSAcoesCRMModel oSAcoes = new OSAcoesCRMModel()
+            {
+                Id = Convert.ToInt32(selectedRow.Cells["ID"].Value),
+                IdCategoria = Convert.ToInt32(selectedRow.Cells["IdCategoria"].Value),
+                Mensagem_Atualizacao = selectedRow.Cells["Mensagem"].Value.ToString()
+            };
+
+            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(false, oSAcoes, "Atualizar");
+            await FrmCadastroOS.MostrarFormulario();
+            await CarregarListaDeOSAcao();
+        }
+
+        private async Task Incluir()
+        {
+
+            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(true, new OSAcoesCRMModel(), "Incluir");
+            await FrmCadastroOS.MostrarFormulario();
+            await CarregarListaDeOSAcao();
+        }
+
+        private void Btn_Incluir_Click(object sender, EventArgs e)
+        {
+            Incluir();
+        }
     }
 }

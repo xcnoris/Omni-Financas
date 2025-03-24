@@ -18,42 +18,14 @@ namespace Integrador_Com_CRM.Formularios
                 return Txt_Token.Text;
             }
         }
-        internal string CodAPI_OS
+        internal string Nome_Instancia
         {
             get
             {
-                return Txt_CodAPIOS.Text;
+                return Txt_NomeInstancia.Text;
             }
         }
-        internal string CodJornada_OS
-        {
-            get
-            {
-                return Txt_CodJornadaOS.Text;
-            }
-        }
-        internal string CodAPI_Boleto
-        {
-            get
-            {
-                return Txt_CodAPIBoleto.Text;
-            }
-        }
-        internal string CodJornada_Boleto
-        {
-            get
-            {
-                return Txt_CodJornadaBoleto.Text;
-            }
-        }
-
-        internal string CodAPI_EnvioPDF
-        {
-            get
-            {
-                return Txt_CodAPIPDF.Text;
-            }
-        }
+      
 
         public Frm_DadosAPIUC()
         {
@@ -103,50 +75,16 @@ namespace Integrador_Com_CRM.Formularios
                 MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Token é nulo");
             }
 
-            if (!string.IsNullOrEmpty(DadosAPI.Cod_API_OrdemServico))
+            if (!string.IsNullOrEmpty(DadosAPI.Instancia))
             {
-                Txt_CodAPIOS.Text = DadosAPI.Cod_API_OrdemServico;
+                Txt_NomeInstancia.Text = DadosAPI.Instancia;
             }
             else
             {
-                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_API_OrdemServico é nulo");
+                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Instancia é nulo");
             }
 
-            if (!string.IsNullOrEmpty(DadosAPI.Cod_Jornada_OrdemServico))
-            {
-                Txt_CodJornadaOS.Text = DadosAPI.Cod_Jornada_OrdemServico;
-            }
-            else
-            {
-                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_Jornada_OrdemServico é nulo");
-            }
-
-            if (!string.IsNullOrEmpty(DadosAPI.Cod_API_Boleto))
-            {
-                Txt_CodAPIBoleto.Text = DadosAPI.Cod_API_Boleto;
-            }
-            else
-            {
-                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_API_Boleto é nulo");
-            }
-
-            if (!string.IsNullOrEmpty(DadosAPI.Cod_Jornada_Boleto))
-            {
-                Txt_CodJornadaBoleto.Text = DadosAPI.Cod_Jornada_Boleto;
-            }
-            else
-            {
-                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: Cod_Jornada_Boleto é nulo");
-            }
-
-            if (!string.IsNullOrEmpty(DadosAPI.CodAPI_EnvioPDF))
-            {
-                Txt_CodAPIPDF.Text = DadosAPI.CodAPI_EnvioPDF;
-            }
-            else
-            {
-                MetodosGerais.RegistrarLog("DadosAPI", "ERROR: CodAPI_EnvioPDF é nulo");
-            }
+         
         }
     }
 }

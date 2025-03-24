@@ -305,9 +305,6 @@ namespace Integrador_Com_CRM
                 List<AcaoSituacao_OS_CRM> AcoesSitOS = new List<AcaoSituacao_OS_CRM>();
                 if (conexao is not null && dadosAPI is not null)
                 {
-                    AcoesSitBoleto = FrmAcoesSit.RetornarListAcoesSitBoleto();
-
-                    AcoesSitOS = FrmAcoesSit.RetornarListAcoesSitOS();
                 }
 
                 FrmConfigUC.SalvarConfiguracoes();
@@ -366,11 +363,6 @@ namespace Integrador_Com_CRM
                 // Atualiza apenas o primeiro dado da lista
                 DadosAPIModels primeiroDado = ListDadosAPI.First();
                 primeiroDado.Token = dadosAPI.Token;
-                primeiroDado.Cod_API_OrdemServico = dadosAPI.Cod_API_OrdemServico;
-                primeiroDado.Cod_Jornada_OrdemServico = dadosAPI.Cod_Jornada_OrdemServico;
-                primeiroDado.Cod_API_Boleto = dadosAPI.Cod_API_Boleto;
-                primeiroDado.Cod_Jornada_Boleto = dadosAPI.Cod_Jornada_Boleto;
-                primeiroDado.CodAPI_EnvioPDF = dadosAPI.CodAPI_EnvioPDF;
 
                 // Atualiza o dado existente no banco
                 await dal.AtualizarAsync(primeiroDado);
@@ -416,11 +408,7 @@ namespace Integrador_Com_CRM
                 return new DadosAPIModels
                 {
                     Token = FrmDadosAPIUUC.Token,
-                    Cod_API_OrdemServico = FrmDadosAPIUUC.CodAPI_OS,
-                    Cod_Jornada_OrdemServico = FrmDadosAPIUUC.CodJornada_OS,
-                    Cod_API_Boleto = FrmDadosAPIUUC.CodAPI_Boleto,
-                    Cod_Jornada_Boleto = FrmDadosAPIUUC.CodJornada_Boleto,
-                    CodAPI_EnvioPDF = FrmDadosAPIUUC.CodAPI_EnvioPDF
+                    Instancia = FrmDadosAPIUUC.Nome_Instancia
                 };
 
             }

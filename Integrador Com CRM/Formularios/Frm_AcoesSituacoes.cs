@@ -11,7 +11,7 @@ namespace Integrador_Com_CRM.Formularios
         private DAL<AcaoSituacao_OS_CRM> dalOS;
         List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto;
         List<AcaoSituacao_OS_CRM> AcoesSitOS;
-     
+
         internal string BoletoQuitado
         {
             get
@@ -47,11 +47,19 @@ namespace Integrador_Com_CRM.Formularios
                 return Txt_OSCancelada.Text;
             }
         }
-        internal string Mensagem_OSCancelada
+        internal string OSCanceladaNome
         {
             get
             {
-                return Txt_MenOSCancelado.Text;
+                return Txt_OSCancelada.Text;
+            }
+        }
+
+        internal string OSCriacaoNome
+        {
+            get
+            {
+                return Txt_OSCriacao.Text;
             }
         }
 
@@ -63,7 +71,7 @@ namespace Integrador_Com_CRM.Formularios
             var context = new IntegradorDBContext();
 
             dalBoleto = new DAL<AcaoSituacao_Boleto_CRM>(context);
-            dalOS = new DAL<AcaoSituacao_OS_CRM>(context); 
+            dalOS = new DAL<AcaoSituacao_OS_CRM>(context);
 
             CarregarDadosAPI();
         }
@@ -103,98 +111,66 @@ namespace Integrador_Com_CRM.Formularios
             //----------------------------
             if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
             {
-                Txt_BolQuitado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)).CodAcaoCRM;
+                Txt_BolCriacao.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).CodAcaoCRM;
             }
+
             if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
             {
-                Txt_MenBOLQuitado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)).Mensagem_Acao;
+                Txt_BolQuitado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)).CodAcaoCRM;
             }
             //----------------------------
             if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is not null)
             {
                 Txt_BolCanEst.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)).CodAcaoCRM;
             }
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is not null)
-            {
-                Txt_MenBOLCancelado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)).Mensagem_Acao;
-            }
+          
             //----------------------------
             if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is not null)
             {
-                Txt_OSCancelada.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).CodAcaoCRM;
+                Txt_OSCancelada.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).Nome;
             }
-            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is not null)
+            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Criacao)) is not null)
             {
-                Txt_MenOSCancelado.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).Mensagem_Acao;
+                Txt_OSCriacao.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Criacao)).Nome;
             }
 
         }
 
 
-        internal List<AcaoSituacao_Boleto_CRM> RetornarListAcoesSitBoleto()
+
+        private void Btn_EditarMenCricaoOS_Click(object sender, EventArgs e)
         {
-
-            // Atualizar ou adicionar elemento para 'Quitado'
-            AtualizarOuAdicionarAcao(Situacao_Boleto.Quitado, Txt_BolQuitado.Text, Txt_MenBOLQuitado.Text);
-
-            // Atualizar ou adicionar elemento para 'Cancelada_Ou_Estornado'
-            AtualizarOuAdicionarAcao(Situacao_Boleto.Cancelada_Ou_Estornado, Txt_BolCanEst.Text, Txt_MenBOLCancelado.Text);
-
-            return AcoesSitBoleto;
+            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Criacao);
+            FrmCadastroSit.MostrarFormulario();
+            CarregarDadosAPI();
         }
 
-        private void AtualizarOuAdicionarAcao(Situacao_Boleto situacao, string codAcao, string mensagemAcao)
+        private void Btn_EditarMenCacelarOS_Click(object sender, EventArgs e)
         {
-            // Localiza o elemento na lista baseado na situação
-            var acaoExistente = AcoesSitBoleto.FirstOrDefault(a => a.Situacao == situacao);
-
-            if (acaoExistente != null)
-            {
-                // Atualiza os valores se o elemento já existe
-                acaoExistente.CodAcaoCRM = codAcao;
-                acaoExistente.Mensagem_Acao = mensagemAcao;
-                acaoExistente.Data_Atualizacao = DateTime.Now;
-            }
-            else
-            {
-                // Adiciona um novo elemento se não encontrado
-                AcoesSitBoleto.Add(new AcaoSituacao_Boleto_CRM
-                {
-                    Situacao = situacao,
-                    CodAcaoCRM = codAcao,
-                    Mensagem_Acao = mensagemAcao,
-                    Data_Cricao = DateTime.Now 
-                });
-            }
+            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Cancelamento);
+            FrmCadastroSit.MostrarFormulario();
+            CarregarDadosAPI();
         }
 
-
-        internal List<AcaoSituacao_OS_CRM> RetornarListAcoesSitOS()
+        private void botaoArredond2_Click(object sender, EventArgs e)
         {
+            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Criacao);
+            FrmCadastroSit.MostrarFormulario();
+            CarregarDadosAPI();
+        }
 
-            // Localiza o elemento que você quer alterar
-            var acaoExistente = AcoesSitOS.FirstOrDefault(a => a.Situacao == Situacao_OS.Cancelada);
+        private void botaoArredond1_Click(object sender, EventArgs e)
+        {
+            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Quitado);
+            FrmCadastroSit.MostrarFormulario();
+            CarregarDadosAPI();
+        }
 
-            if (acaoExistente != null)
-            {
-                // Alterar os valores do elemento encontrado
-                acaoExistente.CodAcaoCRM = Txt_OSCancelada.Text;
-                acaoExistente.Mensagem_Acao = Txt_MenOSCancelado.Text;
-                acaoExistente.Data_Atualizacao = DateTime.Now;
-            }
-            else
-            {
-                // Caso não exista, adiciona um novo elemento
-                AcoesSitOS.Add(new AcaoSituacao_OS_CRM()
-                {
-                    Situacao = Situacao_OS.Cancelada,
-                    CodAcaoCRM = Txt_OSCancelada.Text,
-                    Mensagem_Acao = Txt_MenOSCancelado.Text,
-                    Data_Cricao = DateTime.Now
-                });
-            }
-
-            return AcoesSitOS;
+        private void botaoArredond3_Click(object sender, EventArgs e)
+        {
+            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Quitado);
+            FrmCadastroSit.MostrarFormulario();
+            CarregarDadosAPI();
         }
     }
 }

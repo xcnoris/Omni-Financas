@@ -26,7 +26,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 try
                 {
                     await CancelarBoletoNoCRM(boletoRelacao, atualizacaoRequest, dadosAPI);
-                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{AcaoSituacaoBuscada.Mensagem_Acao}'. CodOp: {boletoRelacao.Cod_Oportunidade}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{AcaoSituacaoBuscada.Mensagem}'. CodOp: {boletoRelacao.Cod_Oportunidade}");
                 }
                 catch (Exception ex)
                 {
@@ -49,7 +49,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 codigoOportunidade = boletoRelacao.Cod_Oportunidade,
                 codigoAcao = acaoSituacao.CodAcaoCRM,
                 codigoJornada = dadosAPI.Cod_Jornada_Boleto,
-                textoFollowup = acaoSituacao.Mensagem_Acao
+                textoFollowup = acaoSituacao.Mensagem
             };
         }
 

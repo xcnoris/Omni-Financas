@@ -28,24 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
-            Txt_MenOSCancelado = new TextBox();
+            Btn_EditarMenCacelarOS = new ComponentesPerson.BotaoArredond(components);
+            Btn_EditarMenCricaoOS = new ComponentesPerson.BotaoArredond(components);
+            Txt_OSCriacao = new TextBox();
             label2 = new Label();
             Txt_OSCancelada = new TextBox();
             label5 = new Label();
             groupBox2 = new GroupBox();
-            Txt_MenBOLCancelado = new TextBox();
-            label8 = new Label();
-            Txt_MenBOLQuitado = new TextBox();
-            label7 = new Label();
+            botaoArredond3 = new ComponentesPerson.BotaoArredond(components);
+            botaoArredond1 = new ComponentesPerson.BotaoArredond(components);
+            botaoArredond2 = new ComponentesPerson.BotaoArredond(components);
+            Txt_BolCriacao = new TextBox();
+            label4 = new Label();
             Txt_BolCanEst = new TextBox();
             label3 = new Label();
             Txt_BolQuitado = new TextBox();
             label1 = new Label();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            bindingSource1 = new BindingSource(components);
             groupBox1.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -64,39 +71,71 @@
             // groupBox3
             // 
             groupBox3.BackColor = Color.White;
-            groupBox3.Controls.Add(Txt_MenOSCancelado);
+            groupBox3.Controls.Add(Btn_EditarMenCacelarOS);
+            groupBox3.Controls.Add(Btn_EditarMenCricaoOS);
+            groupBox3.Controls.Add(Txt_OSCriacao);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(Txt_OSCancelada);
             groupBox3.Controls.Add(label5);
             groupBox3.ForeColor = SystemColors.HotTrack;
-            groupBox3.Location = new Point(58, 191);
+            groupBox3.Location = new Point(58, 217);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(668, 117);
+            groupBox3.Size = new Size(668, 124);
             groupBox3.TabIndex = 5;
             groupBox3.TabStop = false;
             groupBox3.Text = "Ordem de Serviço";
             // 
-            // Txt_MenOSCancelado
+            // Btn_EditarMenCacelarOS
             // 
-            Txt_MenOSCancelado.Location = new Point(113, 68);
-            Txt_MenOSCancelado.Name = "Txt_MenOSCancelado";
-            Txt_MenOSCancelado.Size = new Size(370, 23);
-            Txt_MenOSCancelado.TabIndex = 2;
+            Btn_EditarMenCacelarOS.BackColor = Color.LimeGreen;
+            Btn_EditarMenCacelarOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_EditarMenCacelarOS.ForeColor = Color.White;
+            Btn_EditarMenCacelarOS.Location = new Point(266, 76);
+            Btn_EditarMenCacelarOS.Name = "Btn_EditarMenCacelarOS";
+            Btn_EditarMenCacelarOS.RaioCanto = 20;
+            Btn_EditarMenCacelarOS.Size = new Size(70, 23);
+            Btn_EditarMenCacelarOS.TabIndex = 28;
+            Btn_EditarMenCacelarOS.Text = "Editar";
+            Btn_EditarMenCacelarOS.UseVisualStyleBackColor = false;
+            Btn_EditarMenCacelarOS.Click += Btn_EditarMenCacelarOS_Click;
+            // 
+            // Btn_EditarMenCricaoOS
+            // 
+            Btn_EditarMenCricaoOS.BackColor = Color.LimeGreen;
+            Btn_EditarMenCricaoOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_EditarMenCricaoOS.ForeColor = Color.White;
+            Btn_EditarMenCricaoOS.Location = new Point(266, 42);
+            Btn_EditarMenCricaoOS.Name = "Btn_EditarMenCricaoOS";
+            Btn_EditarMenCricaoOS.RaioCanto = 20;
+            Btn_EditarMenCricaoOS.Size = new Size(70, 23);
+            Btn_EditarMenCricaoOS.TabIndex = 27;
+            Btn_EditarMenCricaoOS.Text = "Editar";
+            Btn_EditarMenCricaoOS.UseVisualStyleBackColor = false;
+            Btn_EditarMenCricaoOS.Click += Btn_EditarMenCricaoOS_Click;
+            // 
+            // Txt_OSCriacao
+            // 
+            Txt_OSCriacao.Location = new Point(102, 42);
+            Txt_OSCriacao.Name = "Txt_OSCriacao";
+            Txt_OSCriacao.ReadOnly = true;
+            Txt_OSCriacao.Size = new Size(158, 23);
+            Txt_OSCriacao.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.Desktop;
-            label2.Location = new Point(14, 71);
+            label2.Location = new Point(14, 45);
             label2.Name = "label2";
-            label2.Size = new Size(90, 15);
+            label2.Size = new Size(50, 15);
             label2.TabIndex = 3;
-            label2.Text = "Mens TimeLine:";
+            label2.Text = "Criação:";
             // 
             // Txt_OSCancelada
             // 
-            Txt_OSCancelada.Location = new Point(113, 39);
+            Txt_OSCancelada.Location = new Point(102, 75);
             Txt_OSCancelada.Name = "Txt_OSCancelada";
+            Txt_OSCancelada.ReadOnly = true;
             Txt_OSCancelada.Size = new Size(158, 23);
             Txt_OSCancelada.TabIndex = 0;
             // 
@@ -104,7 +143,7 @@
             // 
             label5.AutoSize = true;
             label5.ForeColor = SystemColors.Desktop;
-            label5.Location = new Point(14, 42);
+            label5.Location = new Point(14, 81);
             label5.Name = "label5";
             label5.Size = new Size(82, 15);
             label5.TabIndex = 1;
@@ -113,60 +152,88 @@
             // groupBox2
             // 
             groupBox2.BackColor = Color.Transparent;
-            groupBox2.Controls.Add(Txt_MenBOLCancelado);
-            groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(Txt_MenBOLQuitado);
-            groupBox2.Controls.Add(label7);
+            groupBox2.Controls.Add(botaoArredond3);
+            groupBox2.Controls.Add(botaoArredond1);
+            groupBox2.Controls.Add(botaoArredond2);
+            groupBox2.Controls.Add(Txt_BolCriacao);
+            groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(Txt_BolCanEst);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(Txt_BolQuitado);
             groupBox2.Controls.Add(label1);
             groupBox2.ForeColor = SystemColors.HotTrack;
-            groupBox2.Location = new Point(58, 50);
+            groupBox2.Location = new Point(58, 22);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(668, 124);
+            groupBox2.Size = new Size(668, 178);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Boletos";
             // 
-            // Txt_MenBOLCancelado
+            // botaoArredond3
             // 
-            Txt_MenBOLCancelado.Location = new Point(429, 74);
-            Txt_MenBOLCancelado.Name = "Txt_MenBOLCancelado";
-            Txt_MenBOLCancelado.Size = new Size(226, 23);
-            Txt_MenBOLCancelado.TabIndex = 11;
+            botaoArredond3.BackColor = Color.LimeGreen;
+            botaoArredond3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond3.ForeColor = Color.White;
+            botaoArredond3.Location = new Point(323, 122);
+            botaoArredond3.Name = "botaoArredond3";
+            botaoArredond3.RaioCanto = 20;
+            botaoArredond3.Size = new Size(70, 23);
+            botaoArredond3.TabIndex = 31;
+            botaoArredond3.Text = "Editar";
+            botaoArredond3.UseVisualStyleBackColor = false;
+            botaoArredond3.Click += botaoArredond3_Click;
             // 
-            // label8
+            // botaoArredond1
             // 
-            label8.AutoSize = true;
-            label8.ForeColor = SystemColors.Desktop;
-            label8.Location = new Point(333, 77);
-            label8.Name = "label8";
-            label8.Size = new Size(90, 15);
-            label8.TabIndex = 10;
-            label8.Text = "Mens TimeLine:";
+            botaoArredond1.BackColor = Color.LimeGreen;
+            botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond1.ForeColor = Color.White;
+            botaoArredond1.Location = new Point(323, 83);
+            botaoArredond1.Name = "botaoArredond1";
+            botaoArredond1.RaioCanto = 20;
+            botaoArredond1.Size = new Size(70, 23);
+            botaoArredond1.TabIndex = 30;
+            botaoArredond1.Text = "Editar";
+            botaoArredond1.UseVisualStyleBackColor = false;
+            botaoArredond1.Click += botaoArredond1_Click;
             // 
-            // Txt_MenBOLQuitado
+            // botaoArredond2
             // 
-            Txt_MenBOLQuitado.Location = new Point(391, 33);
-            Txt_MenBOLQuitado.Name = "Txt_MenBOLQuitado";
-            Txt_MenBOLQuitado.Size = new Size(264, 23);
-            Txt_MenBOLQuitado.TabIndex = 9;
+            botaoArredond2.BackColor = Color.LimeGreen;
+            botaoArredond2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond2.ForeColor = Color.White;
+            botaoArredond2.Location = new Point(323, 47);
+            botaoArredond2.Name = "botaoArredond2";
+            botaoArredond2.RaioCanto = 20;
+            botaoArredond2.Size = new Size(70, 23);
+            botaoArredond2.TabIndex = 29;
+            botaoArredond2.Text = "Editar";
+            botaoArredond2.UseVisualStyleBackColor = false;
+            botaoArredond2.Click += botaoArredond2_Click;
             // 
-            // label7
+            // Txt_BolCriacao
             // 
-            label7.AutoSize = true;
-            label7.ForeColor = SystemColors.Desktop;
-            label7.Location = new Point(295, 36);
-            label7.Name = "label7";
-            label7.Size = new Size(90, 15);
-            label7.TabIndex = 8;
-            label7.Text = "Mens TimeLine:";
+            Txt_BolCriacao.Location = new Point(159, 47);
+            Txt_BolCriacao.Name = "Txt_BolCriacao";
+            Txt_BolCriacao.ReadOnly = true;
+            Txt_BolCriacao.Size = new Size(158, 23);
+            Txt_BolCriacao.TabIndex = 6;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = SystemColors.Desktop;
+            label4.Location = new Point(15, 47);
+            label4.Name = "label4";
+            label4.Size = new Size(67, 15);
+            label4.TabIndex = 7;
+            label4.Text = "1 - Criação:";
             // 
             // Txt_BolCanEst
             // 
-            Txt_BolCanEst.Location = new Point(163, 74);
+            Txt_BolCanEst.Location = new Point(159, 124);
             Txt_BolCanEst.Name = "Txt_BolCanEst";
+            Txt_BolCanEst.ReadOnly = true;
             Txt_BolCanEst.Size = new Size(158, 23);
             Txt_BolCanEst.TabIndex = 4;
             // 
@@ -174,7 +241,7 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = SystemColors.Desktop;
-            label3.Location = new Point(17, 77);
+            label3.Location = new Point(15, 129);
             label3.Name = "label3";
             label3.Size = new Size(140, 15);
             label3.TabIndex = 5;
@@ -182,8 +249,9 @@
             // 
             // Txt_BolQuitado
             // 
-            Txt_BolQuitado.Location = new Point(117, 33);
+            Txt_BolQuitado.Location = new Point(159, 85);
             Txt_BolQuitado.Name = "Txt_BolQuitado";
+            Txt_BolQuitado.ReadOnly = true;
             Txt_BolQuitado.Size = new Size(158, 23);
             Txt_BolQuitado.TabIndex = 2;
             // 
@@ -191,7 +259,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.Desktop;
-            label1.Location = new Point(17, 36);
+            label1.Location = new Point(13, 91);
             label1.Name = "label1";
             label1.Size = new Size(70, 15);
             label1.TabIndex = 3;
@@ -213,6 +281,7 @@
             groupBox3.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
         }
 
@@ -227,11 +296,20 @@
         private Label label3;
         private TextBox Txt_BolQuitado;
         private Label label1;
-        private TextBox Txt_MenOSCancelado;
-        private Label label2;
         private TextBox Txt_MenBOLCancelado;
         private Label label8;
         private TextBox Txt_MenBOLQuitado;
         private Label label7;
+        private TextBox Txt_OSCriacao;
+        private Label label2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private ComponentesPerson.BotaoArredond Btn_EditarMenCricaoOS;
+        private BindingSource bindingSource1;
+        private ComponentesPerson.BotaoArredond Btn_EditarMenCacelarOS;
+        private TextBox Txt_BolCriacao;
+        private Label label4;
+        private ComponentesPerson.BotaoArredond botaoArredond3;
+        private ComponentesPerson.BotaoArredond botaoArredond1;
+        private ComponentesPerson.BotaoArredond botaoArredond2;
     }
 }

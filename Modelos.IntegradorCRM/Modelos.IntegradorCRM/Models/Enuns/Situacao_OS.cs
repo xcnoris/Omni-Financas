@@ -5,7 +5,10 @@ namespace Modelos.IntegradorCRM.Models.Enuns
     public enum Situacao_OS
     {
         [Description("Cancelada")]
-        Cancelada = 1
+        Cancelada = 1,
+
+        [Description("Criação")]
+        Criacao = -1
     }
 }
 

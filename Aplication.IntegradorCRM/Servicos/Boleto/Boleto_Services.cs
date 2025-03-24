@@ -37,7 +37,17 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-       
+        public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestSitucaoBoleto(int idCategoria, string CelularCliente)
+        {
+            using DAL<OSAcoesCRMModel> dalAcaoOS = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+            OSAcoesCRMModel? AcoesOS = await dalAcaoOS.BuscarPorAsync(x => x.IdCategoria == idCategoria);
+
+            return new ModeloOportunidadeRequest()
+            {
+                Numero = CelularCliente,
+                Mensagem = AcoesOS.Mensagem_Atualizacao
+            };
+        }
 
         internal async Task VerificarBoletosCriadosNoCRM(RelacaoBoletoCRMModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> AcoesBoletoList)
         {
