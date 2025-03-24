@@ -1,5 +1,7 @@
-﻿using NLog;
+﻿using Newtonsoft.Json;
+using NLog;
 using System.Reflection.Emit;
+using System.Text;
 
 namespace Metodos.IntegradorCRM.Metodos
 {
@@ -36,6 +38,12 @@ namespace Metodos.IntegradorCRM.Metodos
         {
             RegistrarLog($"{NomeLog}", $"{MensagemLog}");
             RegistrarLog($"{NomeLog}", ex.Message);
+        }
+
+        public static HttpContent CriarConteudoJson(object data)
+        {
+            string json = JsonConvert.SerializeObject(data);
+            return new StringContent(json, Encoding.UTF8, "application/json");
         }
     }
 }

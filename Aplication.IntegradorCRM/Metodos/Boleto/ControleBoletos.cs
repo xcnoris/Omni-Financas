@@ -34,6 +34,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB(DateTime);
                 List<RelacaoBoletoCRMModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoCRMModel>()).ToList();
 
+
                 string codigoJornada = DadosAPI.Cod_Jornada_Boleto;
 
                 MetodosGerais.RegistrarLog("BOLETO", $"Foram encontrados {boletoList.Count} Boletos.\n");
@@ -61,13 +62,13 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                 MetodosGerais.RegistrarLog("BOLETO", $"Documento a receber {id_DocReceber} não encontrada na tabela de relação.");
 
                                 ModeloOportunidadeRequest oportunidade = new ModeloOportunidadeRequest();
-                                oportunidade = oportunidade.CriarOportunidade(linha, DadosAPI);
+                                oportunidade = oportunidade.CriarOportunidade(linha.Celular, );
                                
                                 BoletoRelacao = new RelacaoBoletoCRMModel();
                                 BoletoRelacao = BoletoRelacao.InstanciaDados(linha);
 
                                 // tenta criar a oportunidade no CRM
-                                OportunidadeResponse response = await EnviarBoletoParaCRM.CriarOportunidade(oportunidade, DadosAPI.Token, dalBoletoUsing, BoletoRelacao, EnviarPDFaoCriarOPT, DadosAPI.CodAPI_EnvioPDF);
+                                OportunidadeResponse response = await EnviarMensagemBoleto.EnviarMensagemCriacao(oportunidade, DadosAPI, dalBoletoUsing, BoletoRelacao, EnviarPDFaoCriarOPT, DadosAPI.CodAPI_EnvioPDF);
                                 if (response is null)
                                 {
                                     MetodosGerais.RegistrarLog("ERRO", "Falha ao criar Oportunidade");

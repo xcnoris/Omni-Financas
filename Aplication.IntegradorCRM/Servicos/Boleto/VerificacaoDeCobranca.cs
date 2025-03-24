@@ -64,7 +64,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 else
                 {
                     using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-                    await EnviarBoletoParaCRM.AtualizarAcao(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
+                    await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
                     MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está com {diasAtraso} dias em atraso.");
                 }
             }

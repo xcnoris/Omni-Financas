@@ -109,49 +109,51 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         #region Metodo API
 
         // Método auxiliar para enviar requisição de criação de oportunidade para a API
-        internal static async Task<OportunidadeResponse> EnviarRequisicaoCriarOportunidade(ModeloOportunidadeRequest request, string token)
+        internal static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var json = JsonConvert.SerializeObject(request);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // Configurar o cabeçalho de autenticação
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", DadosAPI.Token);
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Definir URL do endpoint da Evolution API
+                string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
+
+                HttpContent content = MetodosGerais.CriarConteudoJson(request);
+               
+               
 
                 try
                 {
-                    
-                    var response = await client.PostAsync("https://api.leadfinder.com.br/integracao/v2/inserirOportunidade", content);
-                    var responseBody = await response.Content.ReadAsStringAsync();
+                    HttpResponseMessage response = await client.PostAsync(url, content);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        OportunidadeResponse opt = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
-                        MetodosGerais.RegistrarLog("BOLETO", " Resposta OK - Oportunidade criada no CRM" + responseBody);
-                        return opt;
+                        MetodosGerais.RegistrarLog("BOLETO", " Resposta OK - Mensagem Criação Enviada!");
+                        return true;
                     }
 
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {response}  | Json: {content}");
+                    return false;
                 }
                 catch (HttpRequestException ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | Json: {content}");
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | Json: {content}");
                     throw;
                 }
-                return null;
             }
         }
 
         // Método auxiliar para adicionar o boleto no banco de dados
-        internal static async Task AdicionarBoletoNoBanco(DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel, string codigoOportunidade)
+        internal static async Task AdicionarBoletoNoBanco(DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel)
         {
-            boletoInTabRel.Cod_Oportunidade = codigoOportunidade;
             boletoInTabRel.Data_Criacao = DateTime.Now;
 
             using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
@@ -160,42 +162,45 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        internal static async Task<OportunidadeResponse> AtualizarOportunidadeNaApi(AtualizarAcaoRequest request, string token, string IdDocReceber)
+        internal static async Task<bool> EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, string IdDocReceber)
         {
             // configurar o cabeçalho de autorização 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Authorization", token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                // Configurar o cabeçalho de autenticação
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", DadosAPI.Token);
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                var json = JsonConvert.SerializeObject(request);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                // Definir URL do endpoint da Evolution API
+                string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
+
+                HttpContent content = MetodosGerais.CriarConteudoJson(request);
 
                 try
                 {
-                    var response = await client.PostAsync("https://api.leadfinder.com.br/integracao/movimentarOportunidade", content);
+                    HttpResponseMessage response = await client.PostAsync(url, content);
                     var responseBody = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", $"Resposta OK - Oportunidade Atualizada no CRM {responseBody}  | DocReceber: {IdDocReceber} | Json: {json}");
-                        return JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
+                        MetodosGerais.RegistrarLog("BOLETO", $"Resposta OK - Mensagem Enviada com Sucesso! | DocReceber: {IdDocReceber}  | Json: {content}");
+                        return true;
                     }
 
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody} | DocReceber: {IdDocReceber}  | Json: {json}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody} | DocReceber: {IdDocReceber}  | Json: {content}");
+                    return false;
                 }
                 catch (HttpRequestException ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {json}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {content}");
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {json}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {content}");
                     throw;
                 }
 
-                return null;
             }
         }
 

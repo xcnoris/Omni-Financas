@@ -15,16 +15,7 @@ namespace Aplication.IntegradorCRM.Servicos
     internal class OS_Services
     {
         #region Metodos Gerais
-        internal static ModeloOportunidadeRequest InstanciarModelOportunidadeReq(DadosAPIModels DadosAPI, RetornoOrdemServico RetornoOS)
-        {
-            return new ModeloOportunidadeRequest
-            {
-                Numero = RetornoOS.Telefone,
-                
-            };
-
-
-        }
+      
         
         public static async Task EnviarMensagemCriacao(DadosAPIModels DadosAPI, string Celular, RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {
@@ -151,11 +142,7 @@ namespace Aplication.IntegradorCRM.Servicos
             return client;
         }
 
-        internal static HttpContent CriarConteudoJson(object data)
-        {
-            string json = JsonConvert.SerializeObject(data);
-            return new StringContent(json, Encoding.UTF8, "application/json");
-        }
+      
 
         internal static async Task ProcessarRespostaSucesso( RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {

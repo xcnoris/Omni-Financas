@@ -9,13 +9,13 @@ namespace Modelos.IntegradorCRMRM.Models
         public string Mensagem { get; set; }
       
 
-        public ModeloOportunidadeRequest CriarOportunidade(RetornoBoleto boleto, DadosAPIModels DadosAPI)
+        public ModeloOportunidadeRequest CriarOportunidade(string celular, string Mensagem)
         {
-            string dataFormatada = boleto.Data_Vencimento.ToString("dd/MM/yyyy");
 
             return new ModeloOportunidadeRequest 
             {
-            //
+                Numero = celular,
+                Mensagem = Mensagem
             };
         }
     }
