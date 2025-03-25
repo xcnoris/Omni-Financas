@@ -21,7 +21,7 @@ namespace Modelos.IntegradorCRM.Models.EF
         public DateTime Data_Atualizacao { get; set; }
 
 
-        public RelacaoBoletoCRMModel InstanciaDados(RetornoBoleto boleto)
+        public static RelacaoBoletoCRMModel InstanciaDados(RetornoBoleto boleto)
         {
             return new RelacaoBoletoCRMModel
             {

@@ -70,7 +70,7 @@ namespace Integrador_Com_CRM.Formularios
        
         internal void SalvarConfiguracoes()
         {
-                string caminhoArquivo = "config_timers.txt";
+            string caminhoArquivo = "config_timers.txt";
             string conteudo = $"Token|{Txt_Token.Text}\n" +
               $"Txt_TimerOS|{Txt_TimerOS.Text}\n" +
               $"DTP_SelectOS|{DTP_SelectOS.Value.ToString("dd/MM/yyyy")}\n" +

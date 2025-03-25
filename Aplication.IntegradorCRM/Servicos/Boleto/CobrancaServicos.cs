@@ -88,7 +88,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     var acaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, acaoCobranca, DadosAPI);
 
                     boletoRelacao.DiasEmAtraso = conbranca.NovoAtrasoBoleto;
-                    await EnviarMensagemBoleto.EnviarMensagem(acaoRequest, DadosAPI.Token, dalRelBoletos, boletoRelacao, false, acaoCobranca.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
+                    //await EnviarMensagemBoleto.EnviarMensagem(acaoRequest, DadosAPI.Token, dalRelBoletos, boletoRelacao, false, acaoCobranca.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
 
                     await RemoverRegistro(conbranca.Id, false);
                     MetodosGerais.RegistrarLog("COBRANCA", $"Boleto {boletoRelacao.Id_DocumentoReceber} removido da lista de cobrança. CodOp: {conbranca.Cod_Oportunidade}");

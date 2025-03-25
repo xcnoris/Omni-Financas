@@ -61,22 +61,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                 // Log para verificação
                                 MetodosGerais.RegistrarLog("BOLETO", $"Documento a receber {id_DocReceber} não encontrada na tabela de relação.");
 
-                                ModeloOportunidadeRequest oportunidade = new ModeloOportunidadeRequest();
-                                oportunidade = oportunidade.CriarOportunidade(linha.Celular, );
-                               
-                                BoletoRelacao = new RelacaoBoletoCRMModel();
-                                BoletoRelacao = BoletoRelacao.InstanciaDados(linha);
-
-                                // tenta criar a oportunidade no CRM
-                                OportunidadeResponse response = await EnviarMensagemBoleto.EnviarMensagemCriacao(oportunidade, DadosAPI, dalBoletoUsing, BoletoRelacao, EnviarPDFaoCriarOPT, DadosAPI.CodAPI_EnvioPDF);
-                                if (response is null)
-                                {
-                                    MetodosGerais.RegistrarLog("ERRO", "Falha ao criar Oportunidade");
-                                    continue;
-                                }
-
-                                // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
-                                BoletoServices.VerificarQuitacao(situacao, BoletoRelacao, AcoesSituacaoBoleto, codigoJornada, DadosAPI, true);
+                                CriacaoService.RealizarProcessoCriacaoBoleto(DadosAPI,linha, EnviarPDFaoCriarOPT);
                             }
                             else
                             {
@@ -88,9 +73,10 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             int DiasEmAtrasoBoleto = BoletoRelacao.DiasEmAtraso;
                             int diasAtraso = (DateTime.Now - linha.Data_Vencimento).Days;
                             int situacaTBRelacao = BoletoRelacao.Situacao;
+                            BoletoRelacao.Celular_Entidade = linha.Celular;
 
                             MetodosGerais.RegistrarLog("BOLETO", $"DR  {BoletoRelacao.Id_DocumentoReceber} esta com a relação do vencimento em {diasAtraso}. Verificação foi iniciada...");
-                            BoletoServices.VerificarBoletosCriadosNoCRM(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM);
+                            BoletoServices.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM);
                         }
                     }
                 }

@@ -22,25 +22,25 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 // Definir URL do endpoint da Evolution API
                 string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
 
-                HttpContent content = OS_Services.CriarConteudoJson(request);
+                //HttpContent content = OS_Services.CriarConteudoJson(request);
 
                
 
                 try
                 {
                     MetodosGerais.RegistrarLog("OS", "Criando Oportunidade no CRM....");
-                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    //HttpResponseMessage response = await client.PostAsync(url, content);
 
                     //string responseBody = await response.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        await OS_Services.ProcessarRespostaSucesso( tableRelacaoOS, dalRelacaoOS);
-                    }
-                    else
-                    {
-                        OS_Services.RegistrarErroResposta(response, $"Id OS: {tableRelacaoOS.Id_OrdemServico}");
-                    }
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    await OS_Services.ProcessarRespostaSucesso( tableRelacaoOS, dalRelacaoOS);
+                    //}
+                    //else
+                    //{
+                    //    OS_Services.RegistrarErroResposta(response, $"Id OS: {tableRelacaoOS.Id_OrdemServico}");
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -63,24 +63,24 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 // Definir URL do endpoint da Evolution API
                 string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
 
-                HttpContent content = OS_Services.CriarConteudoJson(request);
+                //HttpContent content = OS_Services.CriarConteudoJson(request);
 
                 using var dalRelacaoOS = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
 
 
                 try
                 {
-                    HttpResponseMessage response = await client.PostAsync(url, content);
-                    string responseBody = await response.Content.ReadAsStringAsync();
+                    //HttpResponseMessage response = await client.PostAsync(url);
+                    //string responseBody = await response.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        await OS_Services.ProcessarRespostaAtualizacao(responseBody, TableRelacaoOS, dalRelacaoOS);
-                    }
-                    else
-                    {
-                        OS_Services.RegistrarErroResposta(response, $"Id OS: {TableRelacaoOS.Id_OrdemServico} - {responseBody}");
-                    }
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    await OS_Services.ProcessarRespostaAtualizacao(responseBody, TableRelacaoOS, dalRelacaoOS);
+                    //}
+                    //else
+                    //{
+                    //    OS_Services.RegistrarErroResposta(response, $"Id OS: {TableRelacaoOS.Id_OrdemServico} - {responseBody}");
+                    //}
                 }
                 catch (Exception ex)
                 {

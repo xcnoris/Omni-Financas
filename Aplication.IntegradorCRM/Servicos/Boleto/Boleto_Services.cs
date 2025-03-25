@@ -18,16 +18,18 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
         #region Metodos Gerais
       
-        public async Task VerificarQuitacao(int situacao, RelacaoBoletoCRMModel BoletoRelacao, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, string codigoJornada, DadosAPIModels DadosAPI, bool InTBRelacao)
+        public async static Task VerificarQuitacao(Situacao_Boleto situacao, RelacaoBoletoCRMModel BoletoRelacao,  DadosAPIModels DadosAPI, bool InTBRelacao)
         {
             // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
-            if ((Situacao_Boleto)situacao == Situacao_Boleto.Quitado)
+            if (situacao == Situacao_Boleto.Quitado)
             {
+               
+
                 // Atualize para a etapa pago no CRM, e atualiza no banco
                 BoletoRelacao.Quitado = 1;
                 try
                 {
-                    await QuitacaoBoleto.Quitar(AcoesSituacaoBoleto, BoletoRelacao, InTBRelacao, DadosAPI);
+                    await QuitacaoBoleto.Quitar( BoletoRelacao, InTBRelacao, DadosAPI);
                 }
                 catch (Exception ex)
                 {
@@ -37,56 +39,64 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestSitucaoBoleto(int idCategoria, string CelularCliente)
+        public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestSitucaoBoleto(string CelularCliente, Situacao_Boleto SitBoleto)
         {
-            using DAL<OSAcoesCRMModel> dalAcaoOS = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
-            OSAcoesCRMModel? AcoesOS = await dalAcaoOS.BuscarPorAsync(x => x.IdCategoria == idCategoria);
+            using DAL<AcaoSituacao_Boleto_CRM> dalSitBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
+            AcaoSituacao_Boleto_CRM? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
 
             return new ModeloOportunidadeRequest()
             {
-                Numero = CelularCliente,
-                Mensagem = AcoesOS.Mensagem_Atualizacao
+                Numero = "55" + CelularCliente,
+                Mensagem = AcoesOS.Mensagem
             };
         }
 
-        internal async Task VerificarBoletosCriadosNoCRM(RelacaoBoletoCRMModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> AcoesBoletoList)
+        public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestBoleto(string CelularCliente, int DiasEmAtraso)
         {
-            if (!string.IsNullOrEmpty(BoletoRelacao.Cod_Oportunidade))
-            {
-                using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
-                {
-                    // Verifica a situação do boleto (3 = cancelado/estornado, 2 = quitado)
-                    switch ((Situacao_Boleto)situacao)
-                    {
-                        // Verifica se esta cancelado
-                        case Situacao_Boleto.Cancelada_Ou_Estornado:
-                            if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
-                            {
-                                await CancelarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
-                            }
-                            else
-                            {
-                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
-                            }
-                            break;
-                        // Verifica se esta quitado
-                        case Situacao_Boleto.Quitado:
-                            if (BoletoRelacao.Quitado == 0)
-                            {
-                                await QuitarBoleto(AcoesSituacaoBoleto, BoletoRelacao, DadosAPI);
-                            }
-                            else
-                            {
-                                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
-                            }
-                            break;
+            using DAL<BoletoAcoesCRMModel> dalSitBoleto = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            BoletoAcoesCRMModel? AcaoBoleto = await dalSitBoleto.BuscarPorAsync(x => x.Dias_Cobrancas == DiasEmAtraso);
 
-                        // Caso não seja quitado nem cancelado, faz a cobrança
-                        default:
-                            await RealizarCobrancas(AcoesBoletoList, diasAtraso, BoletoRelacao.DiasEmAtraso, BoletoRelacao, DadosAPI);
-                            break;
-                    }
-                   
+            return new ModeloOportunidadeRequest()
+            {
+                Numero = "55" + CelularCliente,
+                Mensagem = AcaoBoleto.Mensagem_Atualizacao
+            };
+        }
+
+        internal async Task VerificarBoletosCriados(RelacaoBoletoCRMModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<BoletoAcoesCRMModel> AcoesBoletoList)
+        {
+            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+            {
+                // Verifica a situação do boleto (3 = cancelado/estornado, 2 = quitado)
+                switch ((Situacao_Boleto)situacao)
+                {
+                    // Verifica se esta cancelado
+                    case Situacao_Boleto.Cancelada_Ou_Estornado:
+                        if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
+                        {
+                            await CancelarBoleto( BoletoRelacao, DadosAPI);
+                        }
+                        else
+                        {
+                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Já está ajustado como Cancelado/Estornado.");
+                        }
+                        break;
+                    // Verifica se esta quitado
+                    case Situacao_Boleto.Quitado:
+                        if (BoletoRelacao.Quitado == 0)
+                        {
+                            await QuitarBoleto( BoletoRelacao, DadosAPI);
+                        }
+                        else
+                        {
+                            MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está quitado!");
+                        }
+                        break;
+
+                    // Caso não seja quitado nem cancelado, faz a cobrança
+                    default:
+                        await RealizarCobrancas(AcoesBoletoList, diasAtraso, BoletoRelacao.DiasEmAtraso, BoletoRelacao, DadosAPI);
+                        break;
                 }
             }
         }
@@ -95,14 +105,14 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         {
             await VerificacaoDeCobranca.RealizarCobranca(AcoesBoletoList, diasAtraso, DiasAtrasoRelBoleto, boletoRelacao, DadosAPI);
         }
-        private async Task QuitarBoleto(List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, RelacaoBoletoCRMModel BoletoRelacao,DadosAPIModels DadosAPI)
+        private async Task QuitarBoleto( RelacaoBoletoCRMModel BoletoRelacao,DadosAPIModels DadosAPI)
         {
-            await QuitacaoBoleto.Quitar(AcoesSituacaoBoleto, BoletoRelacao, true, DadosAPI);
+            await QuitacaoBoleto.Quitar( BoletoRelacao, true, DadosAPI);
         }
 
-        private async Task CancelarBoleto(List<AcaoSituacao_Boleto_CRM> AcaoSituacaoBoleto, RelacaoBoletoCRMModel BoletoRelacao , DadosAPIModels DadosAPI)
+        private async Task CancelarBoleto( RelacaoBoletoCRMModel BoletoRelacao , DadosAPIModels DadosAPI)
         {
-            await CancelamentoBoleto.Cancelar(AcaoSituacaoBoleto, BoletoRelacao, DadosAPI);
+            await CancelamentoBoleto.Cancelar( BoletoRelacao, DadosAPI);
         }
         #endregion
 

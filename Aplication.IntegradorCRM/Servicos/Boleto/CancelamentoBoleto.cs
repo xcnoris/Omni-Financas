@@ -5,28 +5,30 @@ using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.Enuns;
+using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class CancelamentoBoleto
     {
-        public async static Task Cancelar(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList, RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels dadosAPI)
+        public async static Task Cancelar(RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels dadosAPI)
         {
             try
             {
-                AcaoSituacao_Boleto_CRM? AcaoSituacaoBuscada = ObterAcaoCancelamento(acoesSituacoesList);
-                if (AcaoSituacaoBuscada is null)
+                ModeloOportunidadeRequest? RequestQuitacao = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boletoRelacao.Celular_Entidade, Situacao_Boleto.Cancelada_Ou_Estornado);
+              
+
+                ModeloOportunidadeRequest? atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boletoRelacao.Celular_Entidade, Situacao_Boleto.Cancelada_Ou_Estornado);
+                if (atualizacaoRequest is null)
                 {
                     MetodosGerais.RegistrarLog("ENV_BOLETO", $"[ERROR]: Ação de cancelamento não encontrada para o boleto: {boletoRelacao.Id_DocumentoReceber}!");
                     return;
                 }
 
-                var atualizacaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, AcaoSituacaoBuscada, dadosAPI);
-
                 try
                 {
                     await CancelarBoletoNoCRM(boletoRelacao, atualizacaoRequest, dadosAPI);
-                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa '{AcaoSituacaoBuscada.Mensagem}'. CodOp: {boletoRelacao.Cod_Oportunidade}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa Cancelada.");
                 }
                 catch (Exception ex)
                 {
@@ -42,31 +44,14 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, AcaoSituacao_Boleto_CRM acaoSituacao, DadosAPIModels dadosAPI)
-        {
-            return new AtualizarAcaoRequest
-            {
-                codigoOportunidade = boletoRelacao.Cod_Oportunidade,
-                codigoAcao = acaoSituacao.CodAcaoCRM,
-                codigoJornada = dadosAPI.Cod_Jornada_Boleto,
-                textoFollowup = acaoSituacao.Mensagem
-            };
-        }
 
-        private static AcaoSituacao_Boleto_CRM? ObterAcaoCancelamento(List<AcaoSituacao_Boleto_CRM> acoesSituacoesList)
-        {
-            return acoesSituacoesList.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado));
-        }
-
-
-        private async static Task CancelarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, AtualizarAcaoRequest atualizarAcaoRequest, DadosAPIModels DadosAPI)
+        private async static Task CancelarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, ModeloOportunidadeRequest RequestCancelamento, DadosAPIModels DadosAPI)
         {
             using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
 
             boletoRelacao.Situacao = 3;
             // É passado o parametro "foiQuitado" como true para remover qualquer registro de aviso que esteja aguardando para envio
-            await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI.Token, dalBoleto, boletoRelacao, true, false, DadosAPI.CodAPI_EnvioPDF);
-         
+            await EnviarMensagemBoleto.EnviarMensagem(RequestCancelamento, DadosAPI, dalBoleto, boletoRelacao, true, false, DadosAPI.CodAPI_EnvioPDF);
         }
     }
 }

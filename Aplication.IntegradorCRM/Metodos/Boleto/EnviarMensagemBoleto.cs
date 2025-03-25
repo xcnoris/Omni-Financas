@@ -11,7 +11,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
     {
 
 
-        public static async Task EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel, bool EnviarPDF)
+        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel, bool EnviarPDF)
         {
             // Validar entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || boletoInTabRel == null)
@@ -32,36 +32,36 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             {
                 // Atualizar a tabela de relação com o código da oportunidade e a data de criação
                 await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel);
-
+                return true;
                 // Verifica se esta marcado para enviar o PDF do boleto ao criar a oportunidade no CRM
                 //wait VerificarEnvioPDF(EnviarPDF, boletoInTabRel, token, CodigoAPI_EnvioPDF);
                 
             }
 
             MetodosGerais.RegistrarLog("BOLETO", "Erro: A resposta da API foi nula ou inválida.");
-          
+            return false;
         }
 
         public static async Task EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel BoletoRElacao, bool foiQuitado, bool EnviarPDF, string CodigoAPI_EnvioPDF)
         {
             // Validar dados de entrada
-            if (request == null || string.IsNullOrEmpty(token) || BoletoRElacao == null)
-                throw new ArgumentException("Parâmetros inválidos para AtualizarAcao.");
+            //if (request == null || string.IsNullOrEmpty(token) || BoletoRElacao == null)
+            //    throw new ArgumentException("Parâmetros inválidos para AtualizarAcao.");
 
-            bool apiResponse = await Boleto_Services.EnviarMensagem(request, DadosAPI, BoletoRElacao.Id_DocumentoReceber.ToString());
+            //bool apiResponse = await Boleto_Services.EnviarMensagem(request, DadosAPI, BoletoRElacao.Id_DocumentoReceber.ToString());
 
             
-            if (apiResponse != false)
-            {
-                await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
-                if (foiQuitado)
-                    await Boleto_Services.ProcessarBoletoQuitado(BoletoRElacao);
+            //if (apiResponse != false)
+            //{
+            //    await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
+            //    if (foiQuitado)
+            //        await Boleto_Services.ProcessarBoletoQuitado(BoletoRElacao);
 
-                //await VerificarEnvioPDF(EnviarPDF, BoletoRElacao, token, CodigoAPI_EnvioPDF);
+            //    //await VerificarEnvioPDF(EnviarPDF, BoletoRElacao, token, CodigoAPI_EnvioPDF);
 
-            }
+            //}
 
-            MetodosGerais.RegistrarLog("BOLETO", $"Erro: API retornou uma resposta nula ou inválida. | DR: {BoletoRElacao.Id_DocumentoReceber}");
+            //MetodosGerais.RegistrarLog("BOLETO", $"Erro: API retornou uma resposta nula ou inválida. | DR: {BoletoRElacao.Id_DocumentoReceber}");
            
         }
 
