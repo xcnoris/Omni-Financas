@@ -43,7 +43,6 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     string nomecliente = OS.Nome_Cliente;
                     string telefone = OS.Telefone;
                     string IdENome = $"{id_ordemServico} - {nomecliente}";
-                    string codigoJornada = DadosAPI.Cod_Jornada_OrdemServico;
                     int situacao = Convert.ToInt32(OS.Situacao);
 
                     // Crie uma nova instância de DAL para cada operação

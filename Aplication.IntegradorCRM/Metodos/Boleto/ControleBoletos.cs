@@ -34,9 +34,6 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB(DateTime);
                 List<RelacaoBoletoCRMModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoCRMModel>()).ToList();
 
-
-                string codigoJornada = DadosAPI.Cod_Jornada_Boleto;
-
                 MetodosGerais.RegistrarLog("BOLETO", $"Foram encontrados {boletoList.Count} Boletos.\n");
 
                 // Passa por cada Boleto que retornar no select

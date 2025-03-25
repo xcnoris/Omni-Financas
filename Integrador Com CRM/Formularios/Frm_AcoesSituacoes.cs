@@ -108,21 +108,6 @@ namespace Integrador_Com_CRM.Formularios
 
         private void CarregarTxts(List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto, List<AcaoSituacao_OS_CRM> AcoesSitOS)
         {
-            //----------------------------
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
-            {
-                Txt_BolCriacao.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).CodAcaoCRM;
-            }
-
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
-            {
-                Txt_BolQuitado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)).CodAcaoCRM;
-            }
-            //----------------------------
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is not null)
-            {
-                Txt_BolCanEst.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)).CodAcaoCRM;
-            }
           
             //----------------------------
             if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is not null)

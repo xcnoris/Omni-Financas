@@ -11,7 +11,6 @@ namespace DataBase.IntegradorCRM.Data.Map
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id_OrdemServico).IsRequired();
-            builder.Property(x => x.Cod_Oportunidade).IsRequired();
             builder.Property(x => x.Id_CategoriaOS).IsRequired();
             builder.Property(x => x.Data_Criacao).IsRequired();
             builder.Property(x => x.Data_Alteracao);

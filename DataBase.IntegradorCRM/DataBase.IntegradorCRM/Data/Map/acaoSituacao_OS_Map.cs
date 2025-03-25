@@ -10,7 +10,6 @@ namespace DataBase.IntegradorCRM.Data.Map
         {
             bld.HasKey(x => x.Id);
             bld.Property(x => x.Situacao).IsRequired();
-            bld.Property(x => x.CodAcaoCRM).IsRequired();
             bld.Property(x => x.Mensagem).IsRequired();
             bld.Property(x => x.Data_Cricao).IsRequired();
             bld.Property(x => x.Data_Atualizacao);

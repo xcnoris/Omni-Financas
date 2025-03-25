@@ -5,10 +5,6 @@
         public int Id { get; set; }
         public string Token { get; set; }
         public string Instancia { get; set; }
-        public string Cod_API_OrdemServico { get; set; }
-        public string Cod_Jornada_OrdemServico { get; set; }
-        public string Cod_API_Boleto { get; set; }
-        public string Cod_Jornada_Boleto { get; set; }
         public string CodAPI_EnvioPDF { get; set; }
     }
 }

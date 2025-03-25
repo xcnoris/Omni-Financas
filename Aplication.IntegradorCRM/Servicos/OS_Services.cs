@@ -87,7 +87,7 @@ namespace Aplication.IntegradorCRM.Servicos
         }
 
 
-        public async static Task<ModeloOportunidadeRequest?> BuscarAcaoSituacao(Situacao_OS situacaoOS, string Id_OS)
+        public async static Task<ModeloOportunidadeRequest?> BuscarAcaoSituacao(Situacao_OS situacaoOS, string Id_OS, string Numero)
         {
             DAL<AcaoSituacao_OS_CRM> AcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
             ModeloOportunidadeRequest? oSAcoesCRMModel = null;
@@ -104,7 +104,7 @@ namespace Aplication.IntegradorCRM.Servicos
 
                 oSAcoesCRMModel = new ModeloOportunidadeRequest
                 {
-                    Numero = acaoBuscada.CodAcaoCRM,
+                    Numero = "55" + Numero,
                     Mensagem = acaoBuscada.Mensagem
                 };
             }
@@ -123,7 +123,7 @@ namespace Aplication.IntegradorCRM.Servicos
 
             if ((Situacao_OS)Situacao is Situacao_OS.Cancelada)
             {
-                return OSModel = await BuscarAcaoSituacao(Situacao_OS.Cancelada, RetornoOS.Id_Ordem_Servico);
+                return OSModel = await BuscarAcaoSituacao(Situacao_OS.Cancelada, RetornoOS.Id_Ordem_Servico, RetornoOS.Telefone);
             }
             else
             {

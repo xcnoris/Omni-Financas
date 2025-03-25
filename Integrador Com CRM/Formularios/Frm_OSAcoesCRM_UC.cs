@@ -166,7 +166,6 @@ namespace Integrador_Com_CRM.Formularios
                     {
                         Id = id ?? 0,  // Se o ID for nulo, inicialize com 0 para um novo registro
                         IdCategoria = IdCategoria,
-                        Codigo_Acao = codigoAcao,
                         Mensagem_Atualizacao = Mensagem,
 
                     };
@@ -180,7 +179,6 @@ namespace Integrador_Com_CRM.Formularios
                         {
                             // Atualiza os dados do registro existente
                             registroExistente.IdCategoria = IdCategoria;
-                            registroExistente.Codigo_Acao = codigoAcao;
                             registroExistente.Mensagem_Atualizacao = Mensagem;
                             registroExistente.Data_Criacao = registroExistente.Data_Criacao;
 

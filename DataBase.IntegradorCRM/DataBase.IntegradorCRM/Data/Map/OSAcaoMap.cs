@@ -10,7 +10,6 @@ namespace DataBase.IntegradorCRM.Data.Map
         {
             bld.HasKey(x => x.Id);
             bld.Property(x => x.IdCategoria);
-            bld.Property(x => x.Codigo_Acao).HasMaxLength(300);
             bld.Property(x => x.Mensagem_Atualizacao).IsRequired().HasMaxLength(300);
             bld.Property(x => x.Data_Criacao).IsRequired();
 

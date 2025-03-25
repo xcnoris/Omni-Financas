@@ -118,8 +118,6 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             return new AtualizarAcaoRequest
             {
                 codigoOportunidade = boletoRelacao.Cod_Oportunidade,
-                codigoAcao = acaoCobracaBoleto.Codigo_Acao,
-                codigoJornada = DadosAPI.Cod_Jornada_Boleto,
                 textoFollowup = acaoCobracaBoleto.Mensagem_Atualizacao
             };
         }

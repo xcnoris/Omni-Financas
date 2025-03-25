@@ -136,7 +136,7 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     if (VerificaValoresRepetidos())
                     {
-                        BoletoAcoesCRMModel boleto = new BoletoAcoesCRMModel() { Dias_Cobrancas = Convert.ToInt32(Txt_DiasCobrancas.Text), Codigo_Acao = Txt_CodAcao.Text, Mensagem_Atualizacao = Txt_Mensagem.Text, Data_Criacao = DateTime.Now };
+                        BoletoAcoesCRMModel boleto = new BoletoAcoesCRMModel() { Dias_Cobrancas = Convert.ToInt32(Txt_DiasCobrancas.Text), Mensagem_Atualizacao = Txt_Mensagem.Text, Data_Criacao = DateTime.Now };
                         AddAcaoToDataGridView(boleto);
                         BoletoAcaoList.Add(boleto);
                         LimparTXT();
@@ -220,7 +220,6 @@ namespace Integrador_Com_CRM.Formularios
                     BoletoAcao.EnviarPDF,
                     BoletoAcao.Id,
                     BoletoAcao.Dias_Cobrancas,
-                    BoletoAcao.Codigo_Acao,
                     BoletoAcao.Mensagem_Atualizacao
                 );
             }
@@ -255,7 +254,6 @@ namespace Integrador_Com_CRM.Formularios
                     {
                         Id = id ?? 0,  // Se o ID for nulo, inicialize com 0 para um novo registro
                         Dias_Cobrancas = diasCobrancas,
-                        Codigo_Acao = codigoAcao,
                         Mensagem_Atualizacao = Mensagem,
                         EnviarPDF=EnviarPDF,
                     };
@@ -269,7 +267,6 @@ namespace Integrador_Com_CRM.Formularios
                         {
                             // Atualiza os dados do registro existente
                             registroExistente.Dias_Cobrancas = diasCobrancas;
-                            registroExistente.Codigo_Acao = codigoAcao;
                             registroExistente.EnviarPDF = EnviarPDF;
 
                             await dalBoletoAcoes.AtualizarAsync(registroExistente);

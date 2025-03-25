@@ -47,7 +47,6 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     //IntegradorDBContext.Entry(boletoRelacao).State = EntityState.Unchanged;
                     CobrancaServicos CobrancasSegunda = new CobrancaServicos();
                     await CobrancasSegunda.SalvarDadosEmTableEspera(new CobrancasNaSegundaModel(){
-                        CodigoJornada = DadosAPI.Cod_Jornada_Boleto,
                         BoletoId = boletoRelacao.Id,
                         NovoAtrasoBoleto = diasAtraso,
                         Cod_Oportunidade = boletoRelacao.Cod_Oportunidade
