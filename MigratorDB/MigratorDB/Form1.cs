@@ -16,27 +16,6 @@ namespace MigratorDB
             CarregarDadosConexao();
         }
 
-        private void Btn_Salvar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ConexaoDB conexao = LeituraFrmConexaoDB();
-
-                string basePath = AppDomain.CurrentDomain.BaseDirectory;
-                string filePath = Path.Combine(basePath, "conexao.json");
-
-                // Salva um arquivo Json com os dados da conexão
-                conexao.SaveConnectionData(filePath);
-
-                MessageBox.Show("Valores Salvos", "Envio de Ordem de Serviço", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Erro: {ex.Message}", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
-                throw;
-            }
-        }
 
         private ConexaoDB LeituraFrmConexaoDB()
         {
@@ -92,7 +71,11 @@ namespace MigratorDB
             }
         }
 
-        private void Btn_TestarConexao_Click(object sender, EventArgs e)
+
+
+      
+
+        private void Btn_TEstar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -103,7 +86,7 @@ namespace MigratorDB
                     IpHost = Txt_IpHost.Text,
                     DataBase = Txt_DataBase.Text,
                     Usuario = Txt_Usuario.Text,
-             
+
                     Senha = Txt_Senha.Text
                 };
 
@@ -138,31 +121,26 @@ namespace MigratorDB
             }
         }
 
-        private void Btn_CriarDB_Click(object sender, EventArgs e)
+        private void Btn_SalvarConexao_Click(object sender, EventArgs e)
         {
             try
             {
-                var serviceProvider = new ServiceCollection()
-                .AddDbContext<IntegradorDBContext>(options =>
-                 options.UseSqlServer($"Server={Txt_IpHost.Text};Database={Txt_DataBase.Text};User Id={Txt_Usuario.Text};Password={Txt_Senha.Text}; TrustServerCertificate=True"))
-                .BuildServiceProvider();
+                ConexaoDB conexao = LeituraFrmConexaoDB();
 
-                using (var context = serviceProvider.GetService<IntegradorDBContext>())
-                {
-                    MessageBox.Show($"Aplicando migrações...", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    Console.WriteLine("Aplicando migrações...");
-                    context.Database.Migrate();
-                    MessageBox.Show($"Migrações aplicadas com sucesso.", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Console.WriteLine("Migrações aplicadas com sucesso.");
-                }
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+                string filePath = Path.Combine(basePath, "conexao.json");
+
+                // Salva um arquivo Json com os dados da conexão
+                conexao.SaveConnectionData(filePath);
+
+                MessageBox.Show("Valores Salvos", "Envio de Ordem de Serviço", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro: {ex.Message}", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("OS", $"Erro: {ex.Message}");
+                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
                 throw;
             }
-          
         }
     }
 }

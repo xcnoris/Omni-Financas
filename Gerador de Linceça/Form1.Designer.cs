@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             Txt_Token = new TextBox();
             label5 = new Label();
             Btn_Gerar = new Button();
@@ -38,18 +39,21 @@
             // 
             // Txt_Token
             // 
-            Txt_Token.Location = new Point(95, 26);
+            Txt_Token.Location = new Point(91, 91);
             Txt_Token.Name = "Txt_Token";
+            Txt_Token.ReadOnly = true;
             Txt_Token.Size = new Size(345, 23);
             Txt_Token.TabIndex = 2;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.ForeColor = SystemColors.Desktop;
-            label5.Location = new Point(12, 106);
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(17, 31);
             label5.Name = "label5";
-            label5.Size = new Size(188, 15);
+            label5.Size = new Size(220, 17);
             label5.TabIndex = 3;
             label5.Text = "Digite o endereço MAC do cliente:";
             // 
@@ -66,16 +70,16 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(156, 39);
+            label1.Location = new Point(156, 126);
             label1.Name = "label1";
             label1.Size = new Size(0, 15);
             label1.TabIndex = 5;
             // 
             // Txt_EndMac
             // 
-            Txt_EndMac.Location = new Point(206, 103);
+            Txt_EndMac.Location = new Point(243, 30);
             Txt_EndMac.Name = "Txt_EndMac";
-            Txt_EndMac.Size = new Size(229, 23);
+            Txt_EndMac.Size = new Size(193, 23);
             Txt_EndMac.TabIndex = 6;
             // 
             // label2
@@ -84,7 +88,7 @@
             label2.BackColor = Color.FromArgb(0, 192, 0);
             label2.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.Desktop;
-            label2.Location = new Point(25, 24);
+            label2.Location = new Point(21, 89);
             label2.Name = "label2";
             label2.Size = new Size(64, 25);
             label2.TabIndex = 7;
@@ -94,6 +98,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.Cdi_1;
+            BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(452, 187);
             Controls.Add(Txt_EndMac);
             Controls.Add(label2);
@@ -101,6 +107,7 @@
             Controls.Add(Btn_Gerar);
             Controls.Add(Txt_Token);
             Controls.Add(label5);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(468, 226);
             MinimumSize = new Size(468, 226);

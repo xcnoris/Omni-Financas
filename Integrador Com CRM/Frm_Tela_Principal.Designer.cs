@@ -107,7 +107,7 @@
             MinimumSize = new Size(850, 526);
             Name = "Frm_Tela_Principal";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Integrador Com CRM";
+            Text = "CDI OminiService";
             ResumeLayout(false);
             PerformLayout();
         }
