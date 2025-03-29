@@ -1,20 +1,23 @@
 ﻿
+using System;
 using System.Text;
 using Aplication.IntegradorCRM.Servicos.Boleto;
+using Azure.Core;
 using Metodos.IntegradorCRM.Metodos;
 using Newtonsoft.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
     internal class EnviarPDFBoleto
     {
-        public static async Task<bool> ProcessarEnvioPDFBoleto(int idDocumentoReceber, string Token, string[] destinatarios,string dataVencimentoBoleto, string CodigoAPI_EnvioPDF)
+        public static async Task<bool> ProcessarEnvioPDFBoleto(int idDocumentoReceber, string Token, string destinatario,string dataVencimentoBoleto, string InstanciaEnvoluctionAPI)
         {
             string linkBoleto = await GerarLinkDoPDFReposOnline(idDocumentoReceber, Token, dataVencimentoBoleto);
 
             if (string.IsNullOrEmpty(linkBoleto))
                 return false;
-            return await EnviarPDFBoletoNoWhatsapp(linkBoleto, destinatarios, Token, idDocumentoReceber, dataVencimentoBoleto, CodigoAPI_EnvioPDF);
+            return await EnviarPDFBoletoNoWhatsapp(linkBoleto, destinatario, Token, idDocumentoReceber, dataVencimentoBoleto, InstanciaEnvoluctionAPI);
 
         }
         public static async Task<string> GerarLinkDoPDFReposOnline(int idDocumentoReceber, string Token, string dataVencimentoBoleto)
@@ -50,10 +53,11 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             // Construir o corpo da requisição
             var payload = new
             {
-                nome = $"Boleto_{idDocumentoReceber}_{DateTime.Now.ToString("dd/MM/yyyy")}",
-                nomeArquivo = $"Boleto_{dataVencimentoBoleto}_{idDocumentoReceber}_{DateTime.Now.ToString("dd/MM/yyyy")}.pdf",
-                tipoArquivo = "application/pdf",
-                base64Arquivo = boletoBase64
+                cnpj = "07446072000106",
+                username = "admin",
+                password ="senha123",
+                fileName = $"Boleto_{dataVencimentoBoleto}_{idDocumentoReceber}.pdf",
+                base64 = boletoBase64
             };
 
             string jsonPayload = JsonConvert.SerializeObject(payload);
@@ -63,7 +67,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 try
                 {
                     // Configurar o endpoint da API
-                    string url = "https://api.leadfinder.com.br/integracao/inserirAnexo";
+                    string url = "http://localhost:5007/api/BoletoPDF/upload";
 
                     // Configurar o cabeçalho da requisição
                     httpClient.DefaultRequestHeaders.Add("Authorization", Token);
@@ -97,36 +101,39 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             }
         }
 
-        public static async Task<bool> EnviarPDFBoletoNoWhatsapp( string linkBoleto,  string[] destinatarios, string Token, int idDocumentoReceber,string dataVencimentoBoleto, string CodigoAPI_EnvioPDF)
+        public static async Task<bool> EnviarPDFBoletoNoWhatsapp( string linkBoleto,  string destinatario, string Token, int idDocumentoReceber,string dataVencimentoBoleto, string Instancia)
         {
             // Validar entrada
-            if (string.IsNullOrEmpty(linkBoleto) || destinatarios == null || destinatarios.Length == 0)
+            if (string.IsNullOrEmpty(linkBoleto) || destinatario == null || destinatario.Length == 0 || Instancia is null)
                 throw new ArgumentException("Parâmetros inválidos para o envio da mensagem.");
 
             // Construir o corpo da requisição
             var payload = new
             {
-                mensagem = "Segue o boleto!",
-                arquivo = linkBoleto,
-                nomeArquivo = $"BOLETO_{dataVencimentoBoleto}.pdf",
-                destinatarios = destinatarios
+                number = destinatario,
+                mediatype = "document",
+                mimetype = "image/png",
+                caption = "Segue o seu boleto!",
+                media = linkBoleto,
+                fileName = $"BOLETO_{dataVencimentoBoleto}.pdf"
             };
-
-            string jsonPayload = JsonConvert.SerializeObject(payload);
 
             using (HttpClient httpClient = new HttpClient())
             {
                 try
                 {
-                    // Configurar o endpoint da API
-                    string url = $"https://api.leadfinder.com.br/integracao/enviarMensagem/{CodigoAPI_EnvioPDF}/ARQUIVO";
 
-                    // Configurar o cabeçalho da requisição
-                    httpClient.DefaultRequestHeaders.Add("Authorization", Token);
 
-                    // Enviar a requisição POST
-                    HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                    // Configurar o cabeçalho de autenticação
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token);
+                    httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // Definir URL do endpoint da Evolution API
+                    string url = $"{{baseUrl}}/message/sendMedia/{Instancia}";
+                    HttpContent content = MetodosGerais.CriarConteudoJson(payload);
+
                     HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
 
                     if (response.IsSuccessStatusCode)
                     {

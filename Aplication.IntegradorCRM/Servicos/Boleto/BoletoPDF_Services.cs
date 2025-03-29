@@ -75,9 +75,14 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 if (!File.Exists(caminhoArquivo))
                 {
                     MetodosGerais.RegistrarLog("BOLETO_PDF", $"Arquivo não encontrado: {caminhoArquivo}");
-                    //throw new FileNotFoundException("O arquivo especificado não foi encontrado.", caminhoArquivo);
                     return "";
+                }
 
+                FileInfo fileInfo = new FileInfo(caminhoArquivo);
+                if (fileInfo.Length > 100 * 1024) // 100 KB em bytes
+                {
+                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Arquivo excede o limite de 100KB: {caminhoArquivo}");
+                    return "";
                 }
 
                 byte[] fileBytes = File.ReadAllBytes(caminhoArquivo);
