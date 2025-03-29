@@ -364,8 +364,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlLight;
-            BackgroundImage = Properties.Resources.Cdi_1;
+            BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
             DoubleBuffered = true;

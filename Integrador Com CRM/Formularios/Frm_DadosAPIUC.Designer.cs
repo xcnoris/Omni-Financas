@@ -92,7 +92,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.Cdi_1;
+            BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
             DoubleBuffered = true;

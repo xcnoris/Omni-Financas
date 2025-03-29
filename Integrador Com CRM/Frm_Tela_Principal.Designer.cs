@@ -103,6 +103,7 @@
             Controls.Add(label7);
             Controls.Add(TBC_Dados);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             MaximumSize = new Size(850, 526);
             MinimumSize = new Size(850, 526);
             Name = "Frm_Tela_Principal";
