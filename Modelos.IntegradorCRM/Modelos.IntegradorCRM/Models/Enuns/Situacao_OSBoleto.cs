@@ -8,7 +8,7 @@ namespace Modelos.IntegradorCRM.Models.Enuns
         Boleto = 1,
 
         [Description("Ordem Serviço")]
-        OS = 1
+        OS = 2
     }
 }
 

@@ -53,7 +53,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.MediumSlateBlue;
+            label1.ForeColor = Color.Azure;
             label1.Location = new Point(183, 12);
             label1.Name = "label1";
             label1.Size = new Size(415, 30);
@@ -93,7 +93,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLightLight;
-            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImage = Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(Btn_Incluir);
             Controls.Add(Btn_Remover);
@@ -102,6 +102,7 @@
             DoubleBuffered = true;
             Name = "Frm_OSAcoesCRM_UC";
             Size = new Size(829, 421);
+            Load += Frm_OSAcoesCRM_UC_Load;
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).EndInit();
             ResumeLayout(false);
             PerformLayout();

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_CadatroOSAcoes));
             label5 = new Label();
             label2 = new Label();
             Txt_Mensagem = new TextBox();
@@ -42,20 +43,24 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.ForeColor = SystemColors.ActiveCaptionText;
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label5.ForeColor = Color.White;
             label5.Location = new Point(33, 93);
             label5.Name = "label5";
-            label5.Size = new Size(99, 15);
+            label5.Size = new Size(112, 17);
             label5.TabIndex = 15;
             label5.Text = "Mensagem Ação:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = SystemColors.ActiveCaptionText;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
             label2.Location = new Point(33, 62);
             label2.Name = "label2";
-            label2.Size = new Size(74, 15);
+            label2.Size = new Size(85, 17);
             label2.TabIndex = 11;
             label2.Text = "Id Categoria:";
             // 
@@ -66,7 +71,7 @@
             Txt_Mensagem.Multiline = true;
             Txt_Mensagem.Name = "Txt_Mensagem";
             Txt_Mensagem.Size = new Size(394, 128);
-            Txt_Mensagem.TabIndex = 16;
+            Txt_Mensagem.TabIndex = 2;
             // 
             // Btn_Salvar
             // 
@@ -98,25 +103,27 @@
             // 
             // Txt_IdCategoria
             // 
-            Txt_IdCategoria.Location = new Point(113, 59);
+            Txt_IdCategoria.Location = new Point(127, 61);
             Txt_IdCategoria.MaxLength = 10;
             Txt_IdCategoria.Name = "Txt_IdCategoria";
             Txt_IdCategoria.Size = new Size(114, 23);
-            Txt_IdCategoria.TabIndex = 20;
+            Txt_IdCategoria.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.ForeColor = SystemColors.ActiveCaptionText;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
             label1.Location = new Point(33, 28);
             label1.Name = "label1";
-            label1.Size = new Size(21, 15);
+            label1.Size = new Size(24, 17);
             label1.TabIndex = 19;
             label1.Text = "ID:";
             // 
             // Txt_Id
             // 
-            Txt_Id.Location = new Point(113, 25);
+            Txt_Id.Location = new Point(127, 27);
             Txt_Id.MaxLength = 10;
             Txt_Id.Name = "Txt_Id";
             Txt_Id.ReadOnly = true;
@@ -127,7 +134,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImage = Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(461, 298);
             Controls.Add(Txt_Id);
@@ -139,13 +146,14 @@
             Controls.Add(label5);
             Controls.Add(label2);
             DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(477, 337);
             MinimizeBox = false;
             MinimumSize = new Size(477, 337);
             Name = "Frm_CadatroOSAcoes";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Frm_CadatroOSAcoes";
+            Text = "Cadastro Ações OS";
             ResumeLayout(false);
             PerformLayout();
         }

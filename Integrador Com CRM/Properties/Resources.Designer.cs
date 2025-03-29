@@ -63,6 +63,26 @@ namespace Integrador_Com_CRM.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Cdi_1 {
+            get {
+                object obj = ResourceManager.GetObject("Cdi 1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Cdi_2 {
+            get {
+                object obj = ResourceManager.GetObject("Cdi 2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fundo_crm {
             get {
                 object obj = ResourceManager.GetObject("fundo_crm", resourceCulture);

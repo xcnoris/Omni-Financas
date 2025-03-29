@@ -25,19 +25,7 @@ namespace Integrador_Com_CRM.Formularios
 
         }
 
-        internal OSAcoesCRMModel BuscarOSAcoes(int IdCategoria)
-        {
-            try
-            {
-                return OSAcaoList.FirstOrDefault(x => x.IdCategoria == IdCategoria);
-            }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
-                return null;
-            }
-        }
+
         internal async Task CarregarListaDeOSAcao()
         {
             try
@@ -52,7 +40,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             catch (ValidationException ex)
             {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($" {ex.Message}", $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
             }
 
@@ -82,7 +70,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             catch (ValidationException ex)
             {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{ex.Message}", $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
             }
         }
@@ -111,16 +99,13 @@ namespace Integrador_Com_CRM.Formularios
             }
             catch (Exception ex)
             {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($" {ex.Message}", $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
             }
         }
-      
-       
 
-      
 
-       
+
 
         // Recebe um object e convert para uma linha do DataGridView
         private void AddAcaoToDataGridView(OSAcoesCRMModel OSAcao)
@@ -138,73 +123,11 @@ namespace Integrador_Com_CRM.Formularios
             }
             catch (ValidationException ex)
             {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"{ex.Message}", $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
             }
         }
 
-        private async void Btn_Salvar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                foreach (DataGridViewRow row in DGV_Dados.Rows)
-                {
-
-
-                    // Obter o ID da linha
-                    var idValue = row.Cells["ID"].Value;
-                    int? id = idValue != null ? Convert.ToInt32(idValue) : (int?)null;
-
-                    // Obter os dados da linha
-                    int IdCategoria = Convert.ToInt32(row.Cells["IdCategoria"].Value);
-                    string codigoAcao = row.Cells["Codigo_Acao"].Value.ToString();
-                    string Mensagem = row.Cells["Mensagem"].Value.ToString();
-
-
-                    // Criar um objeto para representar o registro da linha
-                    var osAcao = new OSAcoesCRMModel
-                    {
-                        Id = id ?? 0,  // Se o ID for nulo, inicialize com 0 para um novo registro
-                        IdCategoria = IdCategoria,
-                        Mensagem_Atualizacao = Mensagem,
-
-                    };
-
-                    if (id.HasValue && id.Value > 0)
-                    {
-                        // Verifica se o registro já existe no banco
-                        OSAcoesCRMModel registroExistente = await dalOSAcoes.BuscarPorAsync(x => x.Id == id);
-
-                        if (registroExistente != null)
-                        {
-                            // Atualiza os dados do registro existente
-                            registroExistente.IdCategoria = IdCategoria;
-                            registroExistente.Mensagem_Atualizacao = Mensagem;
-                            registroExistente.Data_Criacao = registroExistente.Data_Criacao;
-
-                            await dalOSAcoes.AtualizarAsync(registroExistente);
-                        }
-                    }
-                    else
-                    {
-                        // Adiciona um novo registro se o ID for nulo ou 0
-                        osAcao.Data_Criacao = DateTime.Now;
-                        await dalOSAcoes.AdicionarAsync(osAcao);
-                    }
-                }
-
-                MessageBox.Show("Dados salvos com sucesso!", "App Carrinho", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
-            }
-            finally
-            {
-                CarregarListaDeOSAcao();
-            }
-        }
 
         internal async Task CarregarDados()
         {
@@ -222,18 +145,8 @@ namespace Integrador_Com_CRM.Formularios
             }
             catch (ValidationException ex)
             {
-                MessageBox.Show($" {ex.Message}", $"Integrador Com CRM", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($" {ex.Message}", $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
-            }
-        }
-
-        private void Txt_DiasCobrancas_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Verifica se o caractere digitado não é um número e não é a tecla de backspace
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                // Cancela o evento se o caractere não for válido (não numérico)
-                e.Handled = true;
             }
         }
 
@@ -269,6 +182,11 @@ namespace Integrador_Com_CRM.Formularios
         private void Btn_Incluir_Click(object sender, EventArgs e)
         {
             Incluir();
+        }
+
+        private void Frm_OSAcoesCRM_UC_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

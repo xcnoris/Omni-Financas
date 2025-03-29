@@ -60,7 +60,8 @@
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(groupBox3);
             groupBox1.Controls.Add(groupBox2);
-            groupBox1.ForeColor = SystemColors.HotTrack;
+            groupBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            groupBox1.ForeColor = Color.White;
             groupBox1.Location = new Point(33, 23);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(769, 363);
@@ -70,14 +71,15 @@
             // 
             // groupBox3
             // 
-            groupBox3.BackColor = Color.White;
+            groupBox3.BackColor = Color.Transparent;
             groupBox3.Controls.Add(Btn_EditarMenCacelarOS);
             groupBox3.Controls.Add(Btn_EditarMenCricaoOS);
             groupBox3.Controls.Add(Txt_OSCriacao);
             groupBox3.Controls.Add(label2);
             groupBox3.Controls.Add(Txt_OSCancelada);
             groupBox3.Controls.Add(label5);
-            groupBox3.ForeColor = SystemColors.HotTrack;
+            groupBox3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            groupBox3.ForeColor = Color.White;
             groupBox3.Location = new Point(58, 217);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(668, 124);
@@ -90,7 +92,7 @@
             Btn_EditarMenCacelarOS.BackColor = Color.LimeGreen;
             Btn_EditarMenCacelarOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_EditarMenCacelarOS.ForeColor = Color.White;
-            Btn_EditarMenCacelarOS.Location = new Point(266, 76);
+            Btn_EditarMenCacelarOS.Location = new Point(276, 76);
             Btn_EditarMenCacelarOS.Name = "Btn_EditarMenCacelarOS";
             Btn_EditarMenCacelarOS.RaioCanto = 20;
             Btn_EditarMenCacelarOS.Size = new Size(70, 23);
@@ -104,7 +106,7 @@
             Btn_EditarMenCricaoOS.BackColor = Color.LimeGreen;
             Btn_EditarMenCricaoOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_EditarMenCricaoOS.ForeColor = Color.White;
-            Btn_EditarMenCricaoOS.Location = new Point(266, 42);
+            Btn_EditarMenCricaoOS.Location = new Point(276, 42);
             Btn_EditarMenCricaoOS.Name = "Btn_EditarMenCricaoOS";
             Btn_EditarMenCricaoOS.RaioCanto = 20;
             Btn_EditarMenCricaoOS.Size = new Size(70, 23);
@@ -115,37 +117,39 @@
             // 
             // Txt_OSCriacao
             // 
-            Txt_OSCriacao.Location = new Point(102, 42);
+            Txt_OSCriacao.Location = new Point(112, 42);
             Txt_OSCriacao.Name = "Txt_OSCriacao";
             Txt_OSCriacao.ReadOnly = true;
-            Txt_OSCriacao.Size = new Size(158, 23);
-            Txt_OSCriacao.TabIndex = 2;
+            Txt_OSCriacao.Size = new Size(158, 25);
+            Txt_OSCriacao.TabIndex = 4;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = SystemColors.Desktop;
+            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
             label2.Location = new Point(14, 45);
             label2.Name = "label2";
-            label2.Size = new Size(50, 15);
+            label2.Size = new Size(55, 17);
             label2.TabIndex = 3;
             label2.Text = "Criação:";
             // 
             // Txt_OSCancelada
             // 
-            Txt_OSCancelada.Location = new Point(102, 75);
+            Txt_OSCancelada.Location = new Point(112, 75);
             Txt_OSCancelada.Name = "Txt_OSCancelada";
             Txt_OSCancelada.ReadOnly = true;
-            Txt_OSCancelada.Size = new Size(158, 23);
-            Txt_OSCancelada.TabIndex = 0;
+            Txt_OSCancelada.Size = new Size(158, 25);
+            Txt_OSCancelada.TabIndex = 5;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.ForeColor = SystemColors.Desktop;
-            label5.Location = new Point(14, 81);
+            label5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(13, 78);
             label5.Name = "label5";
-            label5.Size = new Size(82, 15);
+            label5.Size = new Size(90, 17);
             label5.TabIndex = 1;
             label5.Text = "1 - Cancelada:";
             // 
@@ -161,7 +165,8 @@
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(Txt_BolQuitado);
             groupBox2.Controls.Add(label1);
-            groupBox2.ForeColor = SystemColors.HotTrack;
+            groupBox2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            groupBox2.ForeColor = Color.White;
             groupBox2.Location = new Point(58, 22);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(668, 178);
@@ -174,7 +179,7 @@
             botaoArredond3.BackColor = Color.LimeGreen;
             botaoArredond3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             botaoArredond3.ForeColor = Color.White;
-            botaoArredond3.Location = new Point(323, 122);
+            botaoArredond3.Location = new Point(276, 123);
             botaoArredond3.Name = "botaoArredond3";
             botaoArredond3.RaioCanto = 20;
             botaoArredond3.Size = new Size(70, 23);
@@ -188,7 +193,7 @@
             botaoArredond1.BackColor = Color.LimeGreen;
             botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             botaoArredond1.ForeColor = Color.White;
-            botaoArredond1.Location = new Point(323, 83);
+            botaoArredond1.Location = new Point(276, 84);
             botaoArredond1.Name = "botaoArredond1";
             botaoArredond1.RaioCanto = 20;
             botaoArredond1.Size = new Size(70, 23);
@@ -202,66 +207,69 @@
             botaoArredond2.BackColor = Color.LimeGreen;
             botaoArredond2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             botaoArredond2.ForeColor = Color.White;
-            botaoArredond2.Location = new Point(323, 47);
+            botaoArredond2.Location = new Point(276, 48);
             botaoArredond2.Name = "botaoArredond2";
             botaoArredond2.RaioCanto = 20;
             botaoArredond2.Size = new Size(70, 23);
-            botaoArredond2.TabIndex = 29;
+            botaoArredond2.TabIndex = 1;
             botaoArredond2.Text = "Editar";
             botaoArredond2.UseVisualStyleBackColor = false;
             botaoArredond2.Click += botaoArredond2_Click;
             // 
             // Txt_BolCriacao
             // 
-            Txt_BolCriacao.Location = new Point(159, 47);
+            Txt_BolCriacao.Location = new Point(112, 48);
             Txt_BolCriacao.Name = "Txt_BolCriacao";
             Txt_BolCriacao.ReadOnly = true;
-            Txt_BolCriacao.Size = new Size(158, 23);
-            Txt_BolCriacao.TabIndex = 6;
+            Txt_BolCriacao.Size = new Size(158, 25);
+            Txt_BolCriacao.TabIndex = 1;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.ForeColor = SystemColors.Desktop;
+            label4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label4.ForeColor = Color.White;
             label4.Location = new Point(15, 47);
             label4.Name = "label4";
-            label4.Size = new Size(67, 15);
+            label4.Size = new Size(73, 17);
             label4.TabIndex = 7;
             label4.Text = "1 - Criação:";
             // 
             // Txt_BolCanEst
             // 
-            Txt_BolCanEst.Location = new Point(159, 124);
+            Txt_BolCanEst.Location = new Point(112, 125);
             Txt_BolCanEst.Name = "Txt_BolCanEst";
             Txt_BolCanEst.ReadOnly = true;
-            Txt_BolCanEst.Size = new Size(158, 23);
-            Txt_BolCanEst.TabIndex = 4;
+            Txt_BolCanEst.Size = new Size(158, 25);
+            Txt_BolCanEst.TabIndex = 3;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.ForeColor = SystemColors.Desktop;
+            label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label3.ForeColor = Color.White;
             label3.Location = new Point(15, 129);
             label3.Name = "label3";
-            label3.Size = new Size(140, 15);
+            label3.Size = new Size(92, 17);
             label3.TabIndex = 5;
-            label3.Text = "3 - Cancelada/Estornado:";
+            label3.Text = "3 - Cancelada:";
             // 
             // Txt_BolQuitado
             // 
-            Txt_BolQuitado.Location = new Point(159, 85);
+            Txt_BolQuitado.Location = new Point(112, 86);
             Txt_BolQuitado.Name = "Txt_BolQuitado";
             Txt_BolQuitado.ReadOnly = true;
-            Txt_BolQuitado.Size = new Size(158, 23);
+            Txt_BolQuitado.Size = new Size(158, 25);
             Txt_BolQuitado.TabIndex = 2;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.ForeColor = SystemColors.Desktop;
+            label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
             label1.Location = new Point(13, 91);
             label1.Name = "label1";
-            label1.Size = new Size(70, 15);
+            label1.Size = new Size(80, 17);
             label1.TabIndex = 3;
             label1.Text = "2 - Quitado:";
             // 
@@ -270,7 +278,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
-            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImage = Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
             DoubleBuffered = true;

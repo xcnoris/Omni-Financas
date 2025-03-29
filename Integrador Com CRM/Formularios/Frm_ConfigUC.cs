@@ -58,7 +58,7 @@ namespace Integrador_Com_CRM.Formularios
                 return ChBox_EnviarPDF.Checked;
             }
         }
-      
+
 
         public Frm_ConfigUC()
         {
@@ -67,7 +67,7 @@ namespace Integrador_Com_CRM.Formularios
             CarregarConfiguracoes();
         }
 
-       
+
         internal void SalvarConfiguracoes()
         {
             string caminhoArquivo = "config_timers.txt";
@@ -80,9 +80,9 @@ namespace Integrador_Com_CRM.Formularios
               $"ChBox_EnviarPDF|{ChBox_EnviarPDF.Checked}";
 
 
-                File.WriteAllText(caminhoArquivo, conteudo);
-                MetodosGerais.RegistrarLog("Config", "Nova configuração definida!");
-          
+            File.WriteAllText(caminhoArquivo, conteudo);
+            MetodosGerais.RegistrarLog("Config", "Nova configuração definida!");
+
         }
 
         private void CarregarConfiguracoes()
@@ -191,6 +191,11 @@ namespace Integrador_Com_CRM.Formularios
                 // Caso o valor não seja um número válido, reseta para 5
                 Txt_TimerOS.Text = "5";
             }
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

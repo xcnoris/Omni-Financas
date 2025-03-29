@@ -38,18 +38,19 @@
             // 
             // Txt_Token
             // 
-            Txt_Token.Location = new Point(111, 34);
+            Txt_Token.Location = new Point(127, 39);
             Txt_Token.Name = "Txt_Token";
-            Txt_Token.Size = new Size(355, 23);
+            Txt_Token.Size = new Size(405, 25);
             Txt_Token.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.ForeColor = SystemColors.Desktop;
-            label1.Location = new Point(12, 37);
+            label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(14, 42);
             label1.Name = "label1";
-            label1.Size = new Size(62, 15);
+            label1.Size = new Size(72, 17);
             label1.TabIndex = 1;
             label1.Text = "Token API:";
             // 
@@ -60,39 +61,43 @@
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(Txt_Token);
             groupBox1.Controls.Add(label1);
-            groupBox1.ForeColor = SystemColors.HotTrack;
-            groupBox1.Location = new Point(143, 41);
+            groupBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            groupBox1.ForeColor = Color.White;
+            groupBox1.Location = new Point(105, 105);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(566, 318);
+            groupBox1.Size = new Size(611, 145);
             groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
             groupBox1.Text = "Dados API";
             // 
             // Txt_NomeInstancia
             // 
-            Txt_NomeInstancia.Location = new Point(111, 73);
+            Txt_NomeInstancia.Location = new Point(127, 83);
             Txt_NomeInstancia.Name = "Txt_NomeInstancia";
-            Txt_NomeInstancia.Size = new Size(355, 23);
+            Txt_NomeInstancia.Size = new Size(405, 25);
             Txt_NomeInstancia.TabIndex = 2;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = SystemColors.Desktop;
-            label2.Location = new Point(12, 76);
+            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(14, 86);
             label2.Name = "label2";
-            label2.Size = new Size(93, 15);
+            label2.Size = new Size(106, 17);
             label2.TabIndex = 3;
             label2.Text = "Nome Instancia:";
             // 
             // Frm_DadosAPIUC
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImage = Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
             DoubleBuffered = true;
+            Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            ForeColor = Color.White;
             Name = "Frm_DadosAPIUC";
             Size = new Size(829, 421);
             groupBox1.ResumeLayout(false);

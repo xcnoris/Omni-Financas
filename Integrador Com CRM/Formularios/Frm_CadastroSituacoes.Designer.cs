@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_CadastroSituacoes));
             Txt_Id = new TextBox();
             Txt_Nome = new TextBox();
             label1 = new Label();
@@ -54,15 +55,17 @@
             Txt_Nome.MaxLength = 10;
             Txt_Nome.Name = "Txt_Nome";
             Txt_Nome.Size = new Size(114, 23);
-            Txt_Nome.TabIndex = 28;
+            Txt_Nome.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.ForeColor = SystemColors.ActiveCaptionText;
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
             label1.Location = new Point(35, 22);
             label1.Name = "label1";
-            label1.Size = new Size(21, 15);
+            label1.Size = new Size(23, 15);
             label1.TabIndex = 27;
             label1.Text = "ID:";
             // 
@@ -101,12 +104,14 @@
             Txt_Mensagem.Multiline = true;
             Txt_Mensagem.Name = "Txt_Mensagem";
             Txt_Mensagem.Size = new Size(394, 128);
-            Txt_Mensagem.TabIndex = 24;
+            Txt_Mensagem.TabIndex = 2;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.ForeColor = SystemColors.ActiveCaptionText;
+            label5.BackColor = Color.Transparent;
+            label5.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label5.ForeColor = Color.White;
             label5.Location = new Point(35, 87);
             label5.Name = "label5";
             label5.Size = new Size(101, 15);
@@ -116,7 +121,9 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.ForeColor = SystemColors.ActiveCaptionText;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            label2.ForeColor = Color.White;
             label2.Location = new Point(35, 56);
             label2.Name = "label2";
             label2.Size = new Size(43, 15);
@@ -127,7 +134,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.fundo_crm;
+            BackgroundImage = Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(461, 298);
             Controls.Add(Txt_Id);
@@ -139,6 +146,7 @@
             Controls.Add(label5);
             Controls.Add(label2);
             DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MaximumSize = new Size(477, 337);
             MinimizeBox = false;

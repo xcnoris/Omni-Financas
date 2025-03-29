@@ -80,10 +80,12 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
+                using DAL<AcaoSituacao_Boleto_CRM> _dalBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
+                using DAL<AcaoSituacao_OS_CRM> _dalOSnew = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
 
                 // Obter lista de dados da API de forma assíncrona e converter para lista
-                AcoesSitBoleto = (await dalBoleto.ListarAsync()).ToList();
-                AcoesSitOS = (await dalOS.ListarAsync()).ToList();
+                AcoesSitBoleto = (await _dalBoleto.ListarAsync()).ToList();
+                AcoesSitOS = (await _dalOSnew.ListarAsync()).ToList();
 
                 if (AcoesSitBoleto is null)
                 {
@@ -108,16 +110,30 @@ namespace Integrador_Com_CRM.Formularios
 
         private void CarregarTxts(List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto, List<AcaoSituacao_OS_CRM> AcoesSitOS)
         {
-          
-            //----------------------------
-            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is not null)
+
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is not null)
             {
-                Txt_OSCancelada.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).Nome;
+                Txt_BolCriacao.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).Nome;
             }
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
+            {
+                Txt_BolQuitado.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)).Nome;
+            }
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)) is not null)
+            {
+                Txt_BolCanEst.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Cancelada_Ou_Estornado)).Nome;
+            }
+            //----------------------------
+
             if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Criacao)) is not null)
             {
                 Txt_OSCriacao.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Criacao)).Nome;
             }
+            if (AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)) is not null)
+            {
+                Txt_OSCancelada.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).Nome;
+            }
+           
 
         }
 
@@ -132,8 +148,8 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Btn_EditarMenCacelarOS_Click(object sender, EventArgs e)
         {
-            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Cancelamento);
-            FrmCadastroSit.MostrarFormulario();
+            Frm_CadastroSituacoes FrmCadastroSit1 = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Cancelamento);
+            FrmCadastroSit1.MostrarFormulario();
             CarregarDadosAPI();
         }
 
@@ -153,7 +169,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private void botaoArredond3_Click(object sender, EventArgs e)
         {
-            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Quitado);
+            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Cancelado);
             FrmCadastroSit.MostrarFormulario();
             CarregarDadosAPI();
         }

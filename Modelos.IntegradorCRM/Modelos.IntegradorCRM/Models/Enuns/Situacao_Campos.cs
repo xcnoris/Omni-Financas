@@ -15,7 +15,7 @@ namespace Modelos.IntegradorCRM.Models.Enuns
         [Description("OS Crição")]
         OS_Criacao = -1,
         [Description("OS Cancelamento")]
-        OS_Cancelamento = 1,
+        OS_Cancelamento = 11,
     }
 }
 

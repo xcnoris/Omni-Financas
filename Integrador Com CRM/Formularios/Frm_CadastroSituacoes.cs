@@ -44,9 +44,14 @@ namespace Integrador_Com_CRM.Formularios
         private async Task CarregarCamposAsync(Situacao_OSBoleto situacaoOSBoleto, Situacao_Campos tiposCamposSituacao)
         {
             int idFiltro = (int)tiposCamposSituacao; // Converte o Enum para inteiro
+
+            if (idFiltro is 11)
+            {
+                idFiltro =1;
+            }
             if (situacaoOSBoleto == Situacao_OSBoleto.Boleto)
             {
-                AcaoSituacao_Boleto_CRM? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Situacao.Equals(idFiltro));
+                AcaoSituacao_Boleto_CRM? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Situacao == (Situacao_Boleto)idFiltro);
 
                 if (registroExistente != null)
                 {
@@ -58,7 +63,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             else if (situacaoOSBoleto == Situacao_OSBoleto.OS)
             {
-                AcaoSituacao_OS_CRM? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Situacao.Equals(idFiltro));
+                AcaoSituacao_OS_CRM? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Situacao == (Situacao_OS)idFiltro);
 
                 if (registroExistente != null)
                 {
@@ -85,29 +90,60 @@ namespace Integrador_Com_CRM.Formularios
 
                 if (TipoSituacao == Situacao_OSBoleto.Boleto)
                 {
-                    AcaoSituacao_Boleto_CRM? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Id == IdSituacao);
+                    AcaoSituacao_Boleto_CRM? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Situacao == (Situacao_Boleto)IdSituacao);
 
                     if (registroExistente != null)
                     {
                         // Atualiza os dados do registro existente
                         registroExistente.Nome = Txt_Nome.Text;
                         registroExistente.Mensagem = Txt_Mensagem.Text;
+                        registroExistente.Data_Atualizacao = DateTime.Now;
 
                         await _dalSituacaoBoleto.AtualizarAsync(registroExistente);
                     }
+                    else
+                    {
+                        registroExistente = new AcaoSituacao_Boleto_CRM()
+                        {
+                            Situacao = (Situacao_Boleto)IdSituacao,
+                            Nome = Txt_Nome.Text,
+                            Mensagem = Txt_Mensagem.Text,
+                            Data_Cricao = DateTime.Now,
+                        };
+                        await _dalSituacaoBoleto.AdicionarAsync(registroExistente);
+                    }
+
+                    this.Close();
                 }
                 else if (TipoSituacao == Situacao_OSBoleto.OS)
                 {
-                    AcaoSituacao_OS_CRM? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Id == IdSituacao);
+                    if (IdSituacao is 11)
+                    {
+                        IdSituacao = 1;
+                    }
+                    AcaoSituacao_OS_CRM? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Situacao == (Situacao_OS)IdSituacao);
 
                     if (registroExistente != null)
                     {
                         // Atualiza os dados do registro existente
                         registroExistente.Nome = Txt_Nome.Text;
                         registroExistente.Mensagem = Txt_Mensagem.Text;
+                        registroExistente.Data_Atualizacao =  DateTime.Now;
 
                         await _dalSituacaoOS.AtualizarAsync(registroExistente);
                     }
+                    else
+                    {
+                        registroExistente = new AcaoSituacao_OS_CRM()
+                        {
+                            Situacao = (Situacao_OS)IdSituacao,
+                            Nome = Txt_Nome.Text,
+                            Mensagem = Txt_Mensagem.Text,
+                            Data_Cricao = DateTime.Now,
+                        };
+                        await _dalSituacaoOS.AdicionarAsync(registroExistente);
+                    }
+                    this.Close();
                 }
             }
             catch (Exception ex)
