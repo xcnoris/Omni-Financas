@@ -87,22 +87,22 @@ namespace Integrador_Com_CRM
             {
 
 
-                // Timer para executar a função periodicamente a cada 5 minutos
-                //timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
-                //timer5Min.Elapsed += async (s, e) =>
-                //{
-                //    try
-                //    {
-                //        await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
+                //Timer para executar a função periodicamente a cada 5 minutos
+                timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
+                timer5Min.Elapsed += async (s, e) =>
+                {
+                    try
+                    {
+                        await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
 
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        // Log de erro
-                //        MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
-                //    }
-                //};
-                //timer5Min.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log de erro
+                        MetodosGerais.RegistrarLog("OS", $"[ERROR]: {ex.Message}");
+                    }
+                };
+                timer5Min.Start();
 
                 // Timer para execulta a função periodica todo dia as 10:30h Brasília
                 timerDaily = new System.Timers.Timer();
