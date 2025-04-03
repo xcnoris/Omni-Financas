@@ -227,7 +227,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private async void Btn_BuscarOS_Click(object sender, EventArgs e)
         {
-            //await ExecutarBuscaOSAsync();
+            await ExecutarBuscaOSAsync();
         }
 
         private async void Btn_BuscarBoletos_Click(object sender, EventArgs e)

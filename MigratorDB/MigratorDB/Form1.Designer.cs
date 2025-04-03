@@ -207,6 +207,7 @@
             Btn_CriarDataBase.TabIndex = 16;
             Btn_CriarDataBase.Text = "Criar Banco de Dados";
             Btn_CriarDataBase.UseVisualStyleBackColor = false;
+            Btn_CriarDataBase.Click += Btn_CriarDataBase_Click;
             // 
             // Form1
             // 

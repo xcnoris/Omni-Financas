@@ -73,7 +73,7 @@ namespace MigratorDB
 
 
 
-      
+
 
         private void Btn_TEstar_Click(object sender, EventArgs e)
         {
@@ -139,6 +139,32 @@ namespace MigratorDB
             {
                 MessageBox.Show($"Erro: {ex.Message}", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MetodosGerais.RegistrarLog("Geral", $"Erro: {ex.Message}");
+                throw;
+            }
+        }
+
+        private void Btn_CriarDataBase_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var serviceProvider = new ServiceCollection()
+                .AddDbContext<IntegradorDBContext>(options =>
+                 options.UseSqlServer($"Server={Txt_IpHost.Text};Database={Txt_DataBase.Text};User Id={Txt_Usuario.Text};Password={Txt_Senha.Text}; TrustServerCertificate=True"))
+                .BuildServiceProvider();
+
+                using (var context = serviceProvider.GetService<IntegradorDBContext>())
+                {
+                    MessageBox.Show($"Aplicando migrações...", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Console.WriteLine("Aplicando migrações...");
+                    context.Database.Migrate();
+                    MessageBox.Show($"Migrações aplicadas com sucesso.", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Console.WriteLine("Migrações aplicadas com sucesso.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro: {ex.Message}", "MigratorDB", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetodosGerais.RegistrarLog("Conexao_Erro", $"Erro: {ex.Message}");
                 throw;
             }
         }
