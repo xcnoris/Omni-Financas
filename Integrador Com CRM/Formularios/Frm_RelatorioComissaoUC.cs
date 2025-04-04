@@ -187,49 +187,53 @@ namespace Integrador_Com_CRM.Formularios
                 DateTime dataInicio = Convert.ToDateTime(DataInicio).Date; // Garante que começa no início do dia
                 DateTime dataFim = Convert.ToDateTime(DataFim).Date.AddDays(1).AddTicks(-1); // Último milissegundo do dia
 
-                // TODAS AS COMISSOES GERADAS
-                if (IndexSituacaoComissao == 1)
+                using (var dal = new DAL<Controle_Liberacao_ComissaoModel>(new IntegradorDBContext()))
                 {
-                    return (await _dalControle_Liberacao.
-                    RecuperarTodosPorAsync(
-                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                        x.data_hora_emissao_nota >= dataInicio &&
-                        x.data_hora_emissao_nota <= dataFim
-                    )).ToList();
-                }
-                // TODAS AS COMISSOES LIBERADAS NAO PAGAS
-                else if (IndexSituacaoComissao == 2)
-                {
-                    return (await _dalControle_Liberacao.
-                    RecuperarTodosPorAsync(
-                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                        x.Data_Quitacao >= dataInicio &&
-                        x.Data_Quitacao <= dataFim &&
-                        x.Pago_para_Vendedor == 0
-                    )).ToList();
-                }
-                // TODAS AS COMISSOES LIBERADAS  PAGAS
-                else if (IndexSituacaoComissao == 3)
-                {
-                    return (await _dalControle_Liberacao.
-                    RecuperarTodosPorAsync(
-                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                        x.Data_Quitacao >= dataInicio &&
-                        x.Data_Quitacao <= dataFim &&
-                        x.Pago_para_Vendedor == 1
-                    )).ToList();
-                }
-                // TODAS AS COMISSOES LIBERADAS  PAGAS
-                else if (IndexSituacaoComissao == 4)
-                {
-                    return (await _dalControle_Liberacao.
-                    RecuperarTodosPorAsync(
-                        x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
-                        x.Data_Vencimento >= dataInicio &&
-                        x.Data_Vencimento <= dataFim &&
-                        x.Data_Quitacao == null &&
-                        x.Pago_para_Vendedor == 0
-                    )).ToList();
+
+                    // TODAS AS COMISSOES GERADAS
+                    if (IndexSituacaoComissao == 1)
+                    {
+                        return (await dal.
+                        RecuperarTodosPorAsync(
+                            x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                            x.data_hora_emissao_nota >= dataInicio &&
+                            x.data_hora_emissao_nota <= dataFim
+                        )).ToList();
+                    }
+                    // TODAS AS COMISSOES LIBERADAS NAO PAGAS
+                    else if (IndexSituacaoComissao == 2)
+                    {
+                        return (await dal.
+                        RecuperarTodosPorAsync(
+                            x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                            x.Data_Quitacao >= dataInicio &&
+                            x.Data_Quitacao <= dataFim &&
+                            x.Pago_para_Vendedor == 0
+                        )).ToList();
+                    }
+                    // TODAS AS COMISSOES LIBERADAS  PAGAS
+                    else if (IndexSituacaoComissao == 3)
+                    {
+                        return (await dal.
+                        RecuperarTodosPorAsync(
+                            x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                            x.Data_Quitacao >= dataInicio &&
+                            x.Data_Quitacao <= dataFim &&
+                            x.Pago_para_Vendedor == 1
+                        )).ToList();
+                    }
+                    // TODAS AS COMISSOES LIBERADAS  PAGAS
+                    else if (IndexSituacaoComissao == 4)
+                    {
+                        return (await dal.
+                        RecuperarTodosPorAsync(
+                            x => x.Id_Usuario_Vendedor == Index_Id_CboxVendedor &&
+                            x.Data_Vencimento >= dataInicio &&
+                            x.Data_Vencimento <= dataFim &&
+                            x.Data_Quitacao == null &&
+                            x.Pago_para_Vendedor == 0
+                        )).ToList();
+                    }
                 }
 
                 return null;
