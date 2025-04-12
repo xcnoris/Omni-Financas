@@ -47,7 +47,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
                     WHERE 
                          OS.data_hora_cadastro >= '{DateTime}'
-                         AND os.id_ordem_servico = 10080
+                         AND os.id_ordem_servico = 10031
                         
                         
                 ";
@@ -81,7 +81,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         Id_Ordem_Servico = linha["id_ordem_servico"].ToString(),
                         Identificador_Cliente = linha["identificador_cliente"].ToString(),
                         Nome_Cliente = linha["nome_cliente"].ToString(),
-                        Telefone = linha["telefone"].ToString(),
+                        Celular = linha["telefone"].ToString(),
                         Email_Cliente = linha["email_cliente"].ToString(),
                         Id_CategoriaOS = linha["id_categoria_ordem_servico"].ToString(),
                         Situacao = linha["situacao"].ToString()

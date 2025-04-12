@@ -1,4 +1,4 @@
-﻿using Aplication.IntegradorCRM.Servicos;
+﻿using Aplication.IntegradorCRM.Servicos.OS;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
@@ -10,84 +10,40 @@ namespace Aplication.IntegradorCRM.Metodos.OS
 {
     internal class OrdemServicoRequests
     {
-
-        public static async Task EnviarMensagemViaAPI(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        // Metodo responsavel apenas para enviar Mensagem para o cliente
+        public static async Task<bool> EnviarMensagemViaAPI(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
             using (HttpClient client = OS_Services.ConfigurarHttpClient(DadosAPI.Token))
             {
                 // Configurar o cabeçalho de autenticação
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", DadosAPI.Token);
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
                 // Definir URL do endpoint da Evolution API
-                string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
-
-                //HttpContent content = OS_Services.CriarConteudoJson(request);
-
-               
+                string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
 
                 try
                 {
-                    MetodosGerais.RegistrarLog("OS", "Criando Oportunidade no CRM....");
-                    //HttpResponseMessage response = await client.PostAsync(url, content);
+                    // Executando metodo Http Post
+                    HttpContent content = MetodosGerais.CriarConteudoJson(request);
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    
+                    string responseBody = await response.Content.ReadAsStringAsync();
 
-                    //string responseBody = await response.Content.ReadAsStringAsync();
-
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    await OS_Services.ProcessarRespostaSucesso( tableRelacaoOS, dalRelacaoOS);
-                    //}
-                    //else
-                    //{
-                    //    OS_Services.RegistrarErroResposta(response, $"Id OS: {tableRelacaoOS.Id_OrdemServico}");
-                    //}
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        OS_Services.RegistrarErroResposta(response, request.Numero);
+                        return false;
+                    }
                 }
                 catch (Exception ex)
                 {
                     MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
                     throw;
                 }
-
-            }
-        }
-
-        public static async Task AtualizarAcao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, RelacaoOrdemServicoModels TableRelacaoOS)
-        {
-
-            using (HttpClient client = OS_Services.ConfigurarHttpClient(DadosAPI.Token))
-            {
-                // Configurar o cabeçalho de autenticação
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", DadosAPI.Token);
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Definir URL do endpoint da Evolution API
-                string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
-
-                //HttpContent content = OS_Services.CriarConteudoJson(request);
-
-                using var dalRelacaoOS = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
-
-
-                try
-                {
-                    //HttpResponseMessage response = await client.PostAsync(url);
-                    //string responseBody = await response.Content.ReadAsStringAsync();
-
-                    //if (response.IsSuccessStatusCode)
-                    //{
-                    //    await OS_Services.ProcessarRespostaAtualizacao(responseBody, TableRelacaoOS, dalRelacaoOS);
-                    //}
-                    //else
-                    //{
-                    //    OS_Services.RegistrarErroResposta(response, $"Id OS: {TableRelacaoOS.Id_OrdemServico} - {responseBody}");
-                    //}
-                }
-                catch (Exception ex)
-                {
-                    MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
-                    throw;
-                }
-
             }
         }
     }

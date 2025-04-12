@@ -129,7 +129,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Definir URL do endpoint da Evolution API
-                string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
+                string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
 
                 HttpContent content = MetodosGerais.CriarConteudoJson(request);
                
@@ -182,7 +182,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Definir URL do endpoint da Evolution API
-                string url = $"https://api.evolution.com/message/sendText/{DadosAPI.Instancia}";
+                string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
 
                 HttpContent content = MetodosGerais.CriarConteudoJson(request);
 

@@ -14,7 +14,7 @@ namespace Modelos.IntegradorCRMRM.Models
 
             return new ModeloOportunidadeRequest 
             {
-                Numero = celular,
+                Numero = $"55{celular}",
                 Mensagem = Mensagem
             };
         }

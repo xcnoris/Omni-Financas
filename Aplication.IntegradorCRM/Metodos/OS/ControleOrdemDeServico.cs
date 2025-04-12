@@ -1,4 +1,4 @@
-﻿using Aplication.IntegradorCRM.Servicos;
+﻿using Aplication.IntegradorCRM.Servicos.OS;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
@@ -33,17 +33,12 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 List<RelacaoOrdemServicoModels> TableRelacaoOS = (await dalOrdemServico.ListarAsync()).ToList();
 
                 // Passa por cada OS que retornar no select
-                foreach ( var OS in OsList)
+                foreach ( var RetornoOS in OsList)
                 {
                     // Acessa os valores diretamente das propriedades da classe RetornoOrdemServico
-                    string id_ordemServico = OS.Id_Ordem_Servico;
-                    string id_Categoria = OS.Id_CategoriaOS;
-                    string cpf_cnpj_cliente = OS.Identificador_Cliente;
-                    string? email = OS.Email_Cliente;
-                    string nomecliente = OS.Nome_Cliente;
-                    string telefone = OS.Telefone;
-                    string IdENome = $"{id_ordemServico} - {nomecliente}";
-                    int situacao = Convert.ToInt32(OS.Situacao);
+                    string id_ordemServico = RetornoOS.Id_Ordem_Servico;
+                    string id_Categoria = RetornoOS.Id_CategoriaOS;
+                    int situacao = Convert.ToInt32(RetornoOS.Situacao);
 
                     // Crie uma nova instância de DAL para cada operação
                     using (var dalOrdemServicoUsing = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext()))
@@ -58,6 +53,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             Id_CategoriaOS = Convert.ToInt32(id_Categoria),
                             Situacao = situacao
                         };
+
                         // Log para verificação
                         MetodosGerais.RegistrarLog("OS", $"Verificando OS {id_ordemServico}...");
                         /*
@@ -71,12 +67,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
 
                             if (situacao is not 1)
                             {
-                                await OS_Services.EnviarMensagemCriacao(DadosAPI, "55" + OS.Telefone, OSInTableRelacao, dalOrdemServicoUsing);
-                                // Verifica se a Ordem de Serviço esta entrando com aguardando analise, caso nao esteja altera no CRM
-
-                                OS_Services.VerificarOSEntrada(Convert.ToInt32(OS.Id_CategoriaOS), _oSAcoesCRM, DadosAPI, OrdemServicoRelacao, dalOrdemServicoUsing);
-
-                                MetodosGerais.RegistrarLog("OS", $"Processo de criação de OS realizado! OS {id_ordemServico}");
+                                CriacaoOSServices.RealizarProcessoCriacaoOS(DadosAPI, RetornoOS, OrdemServicoRelacao);
                             }
                             else
                             {
@@ -96,40 +87,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             // Caso esteja, significa que os ajustes já foram feitos
                             if (situacaoExistente is not 1)
                             {
-                                // Busca a Ação correspondente a situacao ou a categoria na OS
-                                ModeloOportunidadeRequest? ModeloRequest = await OS_Services.InstanciarOSAcoes(situacao, OS, _oSAcoesCRM);
-
-                                // Verifica se foi encontrado alguma Acão para a categoria ou situacao correspondente
-                                if (ModeloRequest is null)
-                                {
-                                    MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {id_Categoria} ou -1 não cadastrada!");
-                                    continue ;
-                                }
-                              
-                                //AtualizarAcaoRequest AtualizarAcao = OS_Services.InstanciarAcaoRequest(OSModel, cod_oportunidade, codigoJornada);
-
-                                OSInTableRelacao.Id_CategoriaOS = idCategoria;
-                                OSInTableRelacao.Situacao = situacao;
-
-                                if (situacao is 1)
-                                {
-                                    OrdemServicoRequests.AtualizarAcao(ModeloRequest, DadosAPI, OSInTableRelacao);
-                                    MetodosGerais.RegistrarLog("OS", $"OS {id_ordemServico} mudou para a etapa Cancelada no CRM!");
-                                }
-                                else
-                                {
-                                    if (idCategoria != IdcategoriaExiste)
-                                    {
-                                        // Atualize a categoria na tabela de relação se necessário
-                                        OrdemServicoRequests.AtualizarAcao(ModeloRequest, DadosAPI, OSInTableRelacao);
-                                        MetodosGerais.RegistrarLog("OS", $"A categoria da ordem de serviço {id_ordemServico} mudou de {IdcategoriaExiste} para {id_Categoria}.");
-                                    }
-                                    else
-                                    {
-                                        MetodosGerais.RegistrarLog("OS", $"Ordem de serviço {id_ordemServico} já existe na tabela com a mesma categoria.");
-                                    }
-                                }
-                             
+                                VerificarCategoriaServices.VerificarCategorias(RetornoOS, OSInTableRelacao, DadosAPI);
                             }
                             else
                             {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDI OminiService", "Integrador Com CRM\CDI OminiService.csproj", "{D417C0E3-0034-492E-9E61-54F278169EF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CDI OmniService", "Integrador Com CRM\CDI OmniService.csproj", "{D417C0E3-0034-492E-9E61-54F278169EF1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MigratorDB", "MigratorDB\MigratorDB\MigratorDB.csproj", "{27B34D60-2DCD-4CEA-B3CE-C7DF4F85DE07}"
 EndProject

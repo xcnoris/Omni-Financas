@@ -1,5 +1,4 @@
-﻿
-using Aplication.IntegradorCRM.Metodos.OS;
+﻿using Aplication.IntegradorCRM.Metodos.OS;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
@@ -10,33 +9,25 @@ using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Aplication.IntegradorCRM.Servicos
+namespace Aplication.IntegradorCRM.Servicos.OS
 {
     internal class OS_Services
     {
         #region Metodos Gerais
       
-        
-        public static async Task EnviarMensagemCriacao(DadosAPIModels DadosAPI, string Celular, RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
-        {
-            ModeloOportunidadeRequest oportunidade = await InstanciarAcaoRequestSitucaoOS(Situacao_OS.Criacao, Celular);
-
-            await OrdemServicoRequests.EnviarMensagemViaAPI(oportunidade, DadosAPI, tableRelacaoOS, dalRelacaoOS);
-        }
-       
-
+        // Busca Ação para cada alteração de Situação das OS
         public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestSitucaoOS(Situacao_OS SitOS, string CelularCliente)
         {
           
             using DAL<AcaoSituacao_OS_CRM> dalAcaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-            AcaoSituacao_OS_CRM? AcaoSitOS = await dalAcaoOS.BuscarPorAsync(x => x.Situacao.Equals(((int)SitOS)));
+            AcaoSituacao_OS_CRM? AcaoSitOS = await dalAcaoOS.BuscarPorAsync(x => x.Situacao.Equals((int)SitOS));
 
             if (AcaoSitOS is not null)
             {
 
                 return new ModeloOportunidadeRequest()
                 {
-                    Numero = CelularCliente,
+                    Numero = $"55{CelularCliente}",
                     Mensagem = AcaoSitOS.Mensagem
                 };
             }
@@ -44,14 +35,16 @@ namespace Aplication.IntegradorCRM.Servicos
 
         }
 
-
+        // Busca Ação para cada alteração de cadegoria das OS
         public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequest(int idCategoria, string CelularCliente)
         {
             using DAL<OSAcoesCRMModel> dalAcaoOS = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
             OSAcoesCRMModel? AcoesOS = await dalAcaoOS.BuscarPorAsync(x => x.IdCategoria == idCategoria);
 
+
             if (AcoesOS is null)
             {
+                MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {idCategoria} não cadastrada!");
                 return null;
             }
 
@@ -62,29 +55,8 @@ namespace Aplication.IntegradorCRM.Servicos
             };
         }
 
-        public async static Task VerificarOSEntrada(int idCategoria, List<OSAcoesCRMModel> OSAcoes, DadosAPIModels DadosAPI, RelacaoOrdemServicoModels RelOSModel, DAL<RelacaoOrdemServicoModels> dalRelOSModel) 
-        {
-            if (!(idCategoria is 1))
-            {
-                OSAcoesCRMModel? OSModel = OSAcoes.FirstOrDefault(a => a.IdCategoria == idCategoria);
 
-                if (OSModel is null)
-                {
-                    MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {idCategoria} não cadastrada!");
-                    return;
-                }
-
-                // Instancia a ser enviado para atualizar a etapa da oportunidade no CRM
-                ModeloOportunidadeRequest AtualizarAcao = await InstanciarAcaoRequest(idCategoria, OSModel.Mensagem_Atualizacao);
-                  
-                // Atualize a categoria na tabela de relação se necessário
-                RelacaoOrdemServicoModels TableRelacao = await dalRelOSModel.BuscarPorAsync(x => x.Id_OrdemServico == RelOSModel.Id_OrdemServico);
-
-                await OrdemServicoRequests.AtualizarAcao(AtualizarAcao, DadosAPI, TableRelacao);
-               
-
-            }
-        }
+       
 
 
         public async static Task<ModeloOportunidadeRequest?> BuscarAcaoSituacao(Situacao_OS situacaoOS, string Id_OS, string Numero)
@@ -123,11 +95,11 @@ namespace Aplication.IntegradorCRM.Servicos
 
             if ((Situacao_OS)Situacao is Situacao_OS.Cancelada)
             {
-                return OSModel = await BuscarAcaoSituacao(Situacao_OS.Cancelada, RetornoOS.Id_Ordem_Servico, RetornoOS.Telefone);
+                return OSModel = await BuscarAcaoSituacao(Situacao_OS.Cancelada, RetornoOS.Id_Ordem_Servico, RetornoOS.Celular);
             }
             else
             {
-                return OSModel = await InstanciarAcaoRequest(Convert.ToInt32(RetornoOS.Id_CategoriaOS), RetornoOS.Telefone);
+                return OSModel = await InstanciarAcaoRequest(Convert.ToInt32(RetornoOS.Id_CategoriaOS), RetornoOS.Celular);
             }
         }
 
@@ -146,17 +118,13 @@ namespace Aplication.IntegradorCRM.Servicos
 
         internal static async Task ProcessarRespostaSucesso( RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {
-            //OportunidadeResponse resposta = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
-
             MetodosGerais.RegistrarLog("OS", "Resposta OK - Oportunidade criada no CRM:");
-            
 
             // Atualizar TableRelacaoOS e salvar no banco
             tableRelacaoOS.Data_Criacao = DateTime.Now;
 
             // Adicionar a nova entrada ao banco
             await dalRelacaoOS.AdicionarAsync(tableRelacaoOS);
-          
         }
 
         internal static void RegistrarErroResposta(HttpResponseMessage response, string mensagem)
@@ -166,31 +134,22 @@ namespace Aplication.IntegradorCRM.Servicos
             MetodosGerais.RegistrarLog("OS", mensagem);
         }
 
-        internal static async Task ProcessarRespostaAtualizacao(string responseBody, RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        internal static async Task ProcessarRespostaAtualizacao(RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {
-            OportunidadeResponse resposta = JsonConvert.DeserializeObject<OportunidadeResponse>(responseBody);
+            MetodosGerais.RegistrarLog("OS", $"Resposta OK - OS Atualizada na TB Relacao: {tableRelacaoOS.Id_OrdemServico} - Cat OS: {tableRelacaoOS.Id_CategoriaOS}");
+            
+            // Atualizar Data_Alteracao e salvar no banco
+            tableRelacaoOS.Data_Alteracao = DateTime.Now;
 
-            if (resposta != null)
+            // Atualizar a entrada no banco
+            await dalRelacaoOS.AtualizarAsync(tableRelacaoOS);
+
+            if(tableRelacaoOS.Situacao is not 1)
             {
-                MetodosGerais.RegistrarLog("OS", "Resposta OK - Oportunidade Atualizada no CRM:");
-                MetodosGerais.RegistrarLog("OS", responseBody);
-
-                // Atualizar Data_Alteracao e salvar no banco
-                tableRelacaoOS.Data_Alteracao = DateTime.Now;
-
-                // Atualizar a entrada no banco
-                await dalRelacaoOS.AtualizarAsync(tableRelacaoOS);
-
-                if(tableRelacaoOS.Situacao is not 1)
-                {
-                    MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {tableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {tableRelacaoOS.Id_OrdemServico}.");
-                }
+                MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {tableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {tableRelacaoOS.Id_OrdemServico}.");
+                
             }
-            else
-            {
-                MetodosGerais.RegistrarLog("OS", $"Erro na resposta: resposta desserializada é nula. OS: {tableRelacaoOS.Id_CategoriaOS}");
-            }
-
+            //MetodosGerais.RegistrarLog("OS", $"Processo de criação de OS realizado! OS {tableRelacaoOS.Id_OrdemServico}");
         }
 
         #endregion
