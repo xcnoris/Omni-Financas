@@ -24,7 +24,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                 // Atualize a categoria na tabela de relação se necessário
                 RelacaoOrdemServicoModels TableRelacao = await dalRelOSModel.BuscarPorAsync(x => x.Id_OrdemServico == RelOSModel.Id_OrdemServico);
 
-                OS_Services.ProcessarRespostaAtualizacao(TableRelacao, dalRelOSModel);
+                OS_Services.ProcessarRespostaAtualizacao(TableRelacao);
             }
             else
             {

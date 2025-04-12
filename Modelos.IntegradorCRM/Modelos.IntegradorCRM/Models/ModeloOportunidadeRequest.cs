@@ -5,18 +5,9 @@ namespace Modelos.IntegradorCRMRM.Models
 {
     public class ModeloOportunidadeRequest
     {
-        public string Numero { get; set; }
-        public string Mensagem { get; set; }
+        public string number { get; set; }
+        public string text   { get; set; }
       
 
-        public ModeloOportunidadeRequest CriarOportunidade(string celular, string Mensagem)
-        {
-
-            return new ModeloOportunidadeRequest 
-            {
-                Numero = $"55{celular}",
-                Mensagem = Mensagem
-            };
-        }
     }
 }

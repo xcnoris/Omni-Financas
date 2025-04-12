@@ -47,7 +47,6 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
                     WHERE 
                          OS.data_hora_cadastro >= '{DateTime}'
-                         AND os.id_ordem_servico = 10031
                         
                         
                 ";

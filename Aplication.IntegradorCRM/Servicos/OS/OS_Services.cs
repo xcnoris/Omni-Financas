@@ -20,15 +20,15 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         {
           
             using DAL<AcaoSituacao_OS_CRM> dalAcaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-            AcaoSituacao_OS_CRM? AcaoSitOS = await dalAcaoOS.BuscarPorAsync(x => x.Situacao.Equals((int)SitOS));
+            AcaoSituacao_OS_CRM? AcaoSitOS = await dalAcaoOS.BuscarPorAsync(x => x.Situacao == SitOS);
 
             if (AcaoSitOS is not null)
             {
 
                 return new ModeloOportunidadeRequest()
                 {
-                    Numero = $"55{CelularCliente}",
-                    Mensagem = AcaoSitOS.Mensagem
+                    number = $"55{CelularCliente}",
+                    text = AcaoSitOS.Mensagem
                 };
             }
             return null;
@@ -50,8 +50,8 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 
             return new ModeloOportunidadeRequest()
             {
-                Numero = CelularCliente,
-                Mensagem = AcoesOS.Mensagem_Atualizacao
+                number = $"55{CelularCliente}",
+                text = AcoesOS.Mensagem_Atualizacao
             };
         }
 
@@ -76,8 +76,8 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 
                 oSAcoesCRMModel = new ModeloOportunidadeRequest
                 {
-                    Numero = "55" + Numero,
-                    Mensagem = acaoBuscada.Mensagem
+                    number = "55" + Numero,
+                    text = acaoBuscada.Mensagem
                 };
             }
             catch (Exception ex)
@@ -134,8 +134,10 @@ namespace Aplication.IntegradorCRM.Servicos.OS
             MetodosGerais.RegistrarLog("OS", mensagem);
         }
 
-        internal static async Task ProcessarRespostaAtualizacao(RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
+        internal static async Task ProcessarRespostaAtualizacao(RelacaoOrdemServicoModels tableRelacaoOS)
         {
+            using DAL<RelacaoOrdemServicoModels> dalRelacaoOS = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
+
             MetodosGerais.RegistrarLog("OS", $"Resposta OK - OS Atualizada na TB Relacao: {tableRelacaoOS.Id_OrdemServico} - Cat OS: {tableRelacaoOS.Id_CategoriaOS}");
             
             // Atualizar Data_Alteracao e salvar no banco
@@ -146,7 +148,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 
             if(tableRelacaoOS.Situacao is not 1)
             {
-                MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {tableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {tableRelacaoOS.Id_OrdemServico}.");
+                //MetodosGerais.RegistrarLog("OS", $"Categoria atualizada para {tableRelacaoOS.Id_CategoriaOS} na tabela de relação para a OS {tableRelacaoOS.Id_OrdemServico}.");
                 
             }
             //MetodosGerais.RegistrarLog("OS", $"Processo de criação de OS realizado! OS {tableRelacaoOS.Id_OrdemServico}");

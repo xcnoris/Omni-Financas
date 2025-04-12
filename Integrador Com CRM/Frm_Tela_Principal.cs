@@ -350,7 +350,7 @@ namespace Integrador_Com_CRM
 
         private async Task CriarAtualDadosAPI(DadosAPIModels dadosAPI)
         {
-            DAL<DadosAPIModels> dal = new DAL<DadosAPIModels>(new IntegradorDBContext());
+            using DAL<DadosAPIModels> dal = new DAL<DadosAPIModels>(new IntegradorDBContext());
             List<DadosAPIModels> ListDadosAPI = (await dal.ListarAsync()).ToList();
 
             if (ListDadosAPI.Count == 0)
@@ -363,6 +363,7 @@ namespace Integrador_Com_CRM
                 // Atualiza apenas o primeiro dado da lista
                 DadosAPIModels primeiroDado = ListDadosAPI.First();
                 primeiroDado.Token = dadosAPI.Token;
+                primeiroDado.Instancia = dadosAPI.Instancia;
 
                 // Atualiza o dado existente no banco
                 await dal.AtualizarAsync(primeiroDado);

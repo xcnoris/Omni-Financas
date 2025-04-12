@@ -46,8 +46,8 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
             return new ModeloOportunidadeRequest()
             {
-                Numero = "55" + CelularCliente,
-                Mensagem = AcoesOS.Mensagem
+                number = "55" + CelularCliente,
+                text = AcoesOS.Mensagem
             };
         }
 
@@ -58,8 +58,8 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
             return new ModeloOportunidadeRequest()
             {
-                Numero = "55" + CelularCliente,
-                Mensagem = AcaoBoleto.Mensagem_Atualizacao
+                number = "55" + CelularCliente,
+                text = AcaoBoleto.Mensagem_Atualizacao
             };
         }
 

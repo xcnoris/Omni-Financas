@@ -26,7 +26,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                 return;
             }
 
-            OSInTBRelacao.Id_CategoriaOS = Convert.ToInt32(RetornoOS.Id_CategoriaOS);
+            
             OSInTBRelacao.Situacao = Convert.ToInt32(RetornoOS.Situacao);
 
             // verifica se a OS esta cancelada
@@ -34,7 +34,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
             {
                 if(await OrdemServicoRequests.EnviarMensagemViaAPI(ModeloRequest, DadosAPI))
                 {
-                    OS_Services.ProcessarRespostaAtualizacao(OSInTBRelacao, dalRelacaoOS);
+                    OS_Services.ProcessarRespostaAtualizacao(OSInTBRelacao);
                     MetodosGerais.RegistrarLog("OS", $"OS atualizada para Cancelada na TB relacao {RetornoOS.Id_Ordem_Servico}!");
                 }
                 
@@ -45,8 +45,9 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                 {
                     if (await OrdemServicoRequests.EnviarMensagemViaAPI(ModeloRequest, DadosAPI))
                     {
-                        OS_Services.ProcessarRespostaAtualizacao(OSInTBRelacao, dalRelacaoOS);
                         MetodosGerais.RegistrarLog("OS", $"A categoria da ordem de serviço {OSInTBRelacao.Id_OrdemServico} mudou de {OSInTBRelacao.Id_CategoriaOS} para {Convert.ToInt32(RetornoOS.Id_CategoriaOS)}.");
+                        OSInTBRelacao.Id_CategoriaOS = Convert.ToInt32(RetornoOS.Id_CategoriaOS);
+                        OS_Services.ProcessarRespostaAtualizacao(OSInTBRelacao);
                     }
                     // Atualize a categoria na tabela de relação se necessário
                     //OrdemServicoRequests.AtualizarAcao(ModeloRequest, DadosAPI, OSInTableRelacao);
@@ -54,7 +55,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                 }
                 else
                 {
-                    MetodosGerais.RegistrarLog("OS", $"Ordem de serviço {OSInTBRelacao.Id_CategoriaOS} já existe na tabela com a mesma categoria.");
+                    MetodosGerais.RegistrarLog("OS", $"Ordem de serviço {OSInTBRelacao.Id_OrdemServico} já existe na tabela com a mesma categoria. Cat OS: {OSInTBRelacao.Id_CategoriaOS}");
                 }
             }
 

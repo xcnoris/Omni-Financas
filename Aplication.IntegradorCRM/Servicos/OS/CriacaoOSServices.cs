@@ -19,6 +19,9 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 
             ModeloOportunidadeRequest OportunidadRequest = await OS_Services.InstanciarAcaoRequestSitucaoOS( Situacao_OS.Criacao, RetornoOS.Celular);
 
+            if (OportunidadRequest is null)
+                return;
+
             // Tenta enviar a mensagem de criacão da OS, caso nao der certo a criacão, gera um log
             if (await EnviarMensagemCriacao(OportunidadRequest, DadosAPI, RelacaoOS, _dalRelacaoOS) is false)
             {

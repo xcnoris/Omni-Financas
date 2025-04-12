@@ -10,20 +10,20 @@ namespace Aplication.IntegradorCRM.Metodos.OS
     public class ControleOrdemDeServico
     {
         private readonly CrudOS _crudOS;
-        private readonly DAL<RelacaoOrdemServicoModels> dalOrdemServico;
-        private readonly DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS;
-        private readonly DAL<OSAcoesCRMModel> _dalOSAcao = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+        
         private List<OSAcoesCRMModel> _oSAcoesCRM;
         public ControleOrdemDeServico()
         {
             _crudOS = new CrudOS();
-            dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
-            _dalAcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-          
         }
 
         public async Task VerificarNovosServicos(DadosAPIModels DadosAPI, DateTime Datetime)
         {
+
+            using DAL<RelacaoOrdemServicoModels> dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
+            using DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
+            using DAL<OSAcoesCRMModel> _dalOSAcao = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+
             try
             {
                 _oSAcoesCRM = (await _dalOSAcao.ListarAsync()).ToList();

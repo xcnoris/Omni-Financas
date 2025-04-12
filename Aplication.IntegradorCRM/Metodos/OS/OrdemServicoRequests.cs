@@ -1,4 +1,5 @@
-﻿using Aplication.IntegradorCRM.Servicos.OS;
+﻿using System.Net.Http.Headers;
+using Aplication.IntegradorCRM.Servicos.OS;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
@@ -15,9 +16,11 @@ namespace Aplication.IntegradorCRM.Metodos.OS
         {
             using (HttpClient client = OS_Services.ConfigurarHttpClient(DadosAPI.Token))
             {
-                // Configurar o cabeçalho de autenticação
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", DadosAPI.Token);
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                // Correto: adiciona a chave apikey no header
+                client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
                 // Definir URL do endpoint da Evolution API
                 string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
 
@@ -35,7 +38,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     }
                     else
                     {
-                        OS_Services.RegistrarErroResposta(response, request.Numero);
+                        OS_Services.RegistrarErroResposta(response, request.number);
                         return false;
                     }
                 }
