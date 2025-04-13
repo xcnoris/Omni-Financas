@@ -29,7 +29,6 @@ namespace Integrador_Com_CRM
         ControleOrdemDeServico ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly IntegradorDBContext context;
-        private readonly CobrancasNaSegundaModel cobrancas;
         ControleBoletos ControlBoleto;
 
         DAL<OSAcoesCRMModel> dalOSACoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
@@ -64,7 +63,6 @@ namespace Integrador_Com_CRM
             //Instanciando Variaveis dos Formularios
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
-            cobrancas = new CobrancasNaSegundaModel();
 
             FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM, FrmConfigUC);
 
@@ -122,23 +120,7 @@ namespace Integrador_Com_CRM
                 };
                 SetDailyTimer();
 
-                // Timer para execulta a função periodica toda segunda as 10:45h brasilia
-                timerMonday = new System.Timers.Timer();
-                timerMonday.Elapsed += async (s, e) =>
-                {
-                    try
-                    {
-                        await FrmGeralUC.VerificarCobrancas(FrmConfigUC);
-                    }
-                    catch (Exception ex)
-                    {
-                        // Log de erro
-                        MetodosGerais.RegistrarLog("Boleto", $"[ERROR]: {ex.Message}");
-                    }
-                    // Reconfigurar o timer para a próxima segunda às 10:30 AM
-                    SetDailyTimerSegunda();
-                };
-                SetDailyTimerSegunda();
+                
             }
         }
 
@@ -165,35 +147,6 @@ namespace Integrador_Com_CRM
             timerDaily.Interval = intervalToNextRun;
             timerDaily.Start();
         }
-
-
-
-
-        private void SetDailyTimerSegunda()
-        {
-            DateTime now = DateTime.Now;
-
-            // Calcula o próximo dia de segunda-feira
-            int daysUntilMonday = ((int)DayOfWeek.Monday - (int)now.DayOfWeek + 7) % 7;
-
-            // Pega o horário do campo DTP_CobSegundaBoleto (ajuste conforme necessário)
-            DateTime selectedTime = FrmConfigUC.HoraCobSegundaBoleto;
-
-            // Define o horário de execução na próxima segunda-feira, usando o horário do campo
-            DateTime nextRun = now.AddDays(daysUntilMonday).Date.AddHours(selectedTime.Hour).AddMinutes(selectedTime.Minute);
-
-            // Se já passou do horário de execução hoje, pula para a próxima segunda-feira
-            if (now > nextRun)
-            {
-                nextRun = nextRun.AddDays(7); // Salta para a próxima segunda-feira
-            }
-
-            double intervalToNextRun = (nextRun - now).TotalMilliseconds;
-            timerMonday.Interval = intervalToNextRun;
-            timerMonday.Start();
-        }
-
-
 
         private void AdicionarUserontrols()
         {

@@ -91,7 +91,7 @@
             MinimumSize = new Size(344, 205);
             Name = "Frm_VariaveisOS";
             ShowIcon = false;
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Variaveis OS";
             ResumeLayout(false);
             PerformLayout();

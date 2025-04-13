@@ -15,7 +15,6 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
     {
         public string Message;
         public bool Status;
-        private readonly CobrancaServicos CobrancasNaSegunda;
 
         #region Metodos Gerais
         private static ModeloOportunidadeRequest InstanciarModeloRequest( string mensagem, RetornoBoleto RetornoBoleto)
@@ -229,13 +228,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        // Metodo Recebe Boletos que tenham sido quitados, o boleto será excluido da tabela de cobrança de fim de semana caso tenha
-        internal static async Task ProcessarBoletoQuitado(RelacaoBoletoCRMModel boletoRelacao)
-        {
-            var cobrancas = new CobrancaServicos();
-            await cobrancas.RemoverRegistro(boletoRelacao.Id, true);
-            MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {boletoRelacao.Situacao} para o documento {boletoRelacao.Id_DocumentoReceber}");
-        }
+     
 
         #endregion
     }

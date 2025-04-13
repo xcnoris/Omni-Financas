@@ -39,17 +39,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 // Verifica se hoje é final de semana, caso seja, não faz a cobrança dos boleto.
                 if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    /*
-                         Cria um registro na tabela Cobrancas_Na_Segunda_CRM. Toda Segunda os registro que estao nessa tabela são
-                         Lidos e enviado a mensagem de cobraça. No final e removido o registro
-                    */
-                    //// Anexe o boletoRelacao ao contexto como uma entidade existente
-                    //IntegradorDBContext.Entry(boletoRelacao).State = EntityState.Unchanged;
-                    CobrancaServicos CobrancasSegunda = new CobrancaServicos();
-                    await CobrancasSegunda.SalvarDadosEmTableEspera(new CobrancasNaSegundaModel(){
-                        BoletoId = boletoRelacao.Id,
-                        NovoAtrasoBoleto = diasAtraso
-                    });
+                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} já existe na tabela relação. Está com {diasAtraso} dias em atraso. Não será realizado a cobrança porque é fim de semana!");
                 }
                 else
                 {

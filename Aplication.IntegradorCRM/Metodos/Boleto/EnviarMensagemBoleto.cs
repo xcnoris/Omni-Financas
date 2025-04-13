@@ -55,11 +55,9 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             if (apiResponse != false)
             {
                 await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
-                if (foiQuitado)
-                    await Boleto_Services.ProcessarBoletoQuitado(BoletoRElacao);
-
+              
                 await VerificarEnvioPDF(EnviarPDF, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia);
-
+                MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {BoletoRElacao.Situacao} para o documento {BoletoRElacao.Id_DocumentoReceber}");
             }
 
             MetodosGerais.RegistrarLog("BOLETO", $"Erro: API retornou uma resposta nula ou inválida. | DR: {BoletoRElacao.Id_DocumentoReceber}");

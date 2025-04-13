@@ -25,7 +25,6 @@ namespace DataBase.IntegradorCRM.Data
         public DbSet<DadosAPIModels> DadosAPI_CRM { get; set; }
         public DbSet<RelacaoOrdemServicoModels> Relacao_OS_Com_CRM { get; set; }
         public DbSet<RelacaoBoletoCRMModel> RelacaoBoletoCRM { get; set; }
-        public DbSet<CobrancasNaSegundaModel> Cobrancas_Na_Segunda_CRM { get; set; }
         public DbSet<BoletoAcoesCRMModel> boletoAcoes_CRM { get; set; }
         public DbSet<OSAcoesCRMModel> OSAcao_CRM { get; set; }
         public DbSet<AcaoSituacao_OS_CRM> acaoSituacao_OS_CRM { get; set; }
@@ -35,7 +34,6 @@ namespace DataBase.IntegradorCRM.Data
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());
             modelBuilder.ApplyConfiguration(new DadosAPIMap());
             modelBuilder.ApplyConfiguration(new RelacaoBoletoCRMMap());
-            modelBuilder.ApplyConfiguration(new CobrancasSegundaMap());
             modelBuilder.ApplyConfiguration(new BoletoAcaoCRM_Map());
             modelBuilder.ApplyConfiguration(new OSAcaoMap());
             modelBuilder.ApplyConfiguration(new acaoSituacao_OS_Map());

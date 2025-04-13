@@ -180,7 +180,7 @@
             MinimizeBox = false;
             MinimumSize = new Size(477, 337);
             Name = "Frm_CadastroAcoesBoletos";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Cadastro Ações Boleto";
             ResumeLayout(false);
             PerformLayout();

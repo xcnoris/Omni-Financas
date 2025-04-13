@@ -17,7 +17,6 @@ namespace Integrador_Com_CRM.Formularios
     {
         private readonly ControleOrdemDeServico controlOrdemServico;
         private readonly ControleBoletos controlBoletos;
-        private readonly CobrancasNaSegundaModel cobrancas;
         private readonly DadosAPIModels? DadosAPI;
         private readonly DAL<AcaoSituacao_Boleto_CRM> _dalAcaoSitBoleto;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
@@ -34,7 +33,6 @@ namespace Integrador_Com_CRM.Formularios
             _dalAcaoSitBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
             _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
             controlBoletos = new ControleBoletos();
-            cobrancas = new CobrancasNaSegundaModel();
             DadosAPI = (_dalDadosAPI.Listar()).FirstOrDefault();
             FrmConfigUC = FrmConfig;
         }
@@ -164,18 +162,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             return false;
         }
-        public async Task<bool> VerificarCobrancas(Frm_ConfigUC FrmConfigUC)
-        {
-            if (verificarLicenca(FrmConfigUC))
-            {
-                
-                List<DadosAPIModels?> DadosAPI = (await _dalDadosAPI.ListarAsync()).ToList();
-                CobrancaServicos CB = new CobrancaServicos();
-                await CB.RealizarCobrancas( DadosAPI.First());
-                return true;
-            }
-            return false;
-        }
+       
 
 
         public async Task ExecutarBuscarBoletoAsync()
@@ -202,28 +189,7 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        public async Task RealizarCobrancasBoletoAsync()
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                MetodosGerais.RegistrarLog("COBRANCA", $"\n------------------> Cobrança consultadas manualmente <-------------------\n");
-
-                bool deucerto = await VerificarCobrancas(FrmConfigUC);
-
-                if (deucerto)  MessageBox.Show("Cobranças de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Não foi possivel fazer a consulta. Mensagem: {ex.Message}", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MetodosGerais.RegistrarLog("COBRANCA", $"Error :{ex.Message}");
-            }
-            finally
-            {
-                MetodosGerais.RegistrarFinalLog("COBRANCA");
-                Cursor = Cursors.Default;
-            }
-        }
+       
 
         private async void Btn_BuscarOS_Click(object sender, EventArgs e)
         {
@@ -235,9 +201,6 @@ namespace Integrador_Com_CRM.Formularios
             await ExecutarBuscarBoletoAsync();
         }
 
-        private async void Btn_RealizarCobrancas_Click(object sender, EventArgs e)
-        {
-            await RealizarCobrancasBoletoAsync();
-        }
+      
     }
 }

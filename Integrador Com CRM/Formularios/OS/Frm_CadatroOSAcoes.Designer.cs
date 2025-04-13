@@ -168,7 +168,7 @@
             MinimizeBox = false;
             MinimumSize = new Size(477, 337);
             Name = "Frm_CadatroOSAcoes";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Cadastro Ações OS";
             ResumeLayout(false);
             PerformLayout();

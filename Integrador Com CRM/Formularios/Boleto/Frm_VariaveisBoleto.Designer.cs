@@ -115,7 +115,7 @@
             MinimumSize = new Size(344, 205);
             Name = "Frm_VariaveisBoleto";
             ShowIcon = false;
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Variaveis Boleto";
             ResumeLayout(false);
             PerformLayout();
