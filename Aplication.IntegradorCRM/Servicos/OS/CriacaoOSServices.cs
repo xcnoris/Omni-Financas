@@ -17,7 +17,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         {
             using DAL<RelacaoOrdemServicoModels> _dalRelacaoOS = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
 
-            ModeloOportunidadeRequest OportunidadRequest = await OS_Services.InstanciarAcaoRequestSitucaoOS( Situacao_OS.Criacao, RetornoOS.Celular);
+            ModeloOportunidadeRequest OportunidadRequest = await OS_Services.InstanciarAcaoRequestSitucaoOS( Situacao_OS.Criacao, RetornoOS);
 
             if (OportunidadRequest is null)
                 return;
@@ -28,7 +28,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                 MetodosGerais.RegistrarLog("OS", $"Erro ao enviar mensagem de criação da OS {RelacaoOS.Id_OrdemServico} - Cat OS: {RelacaoOS.Id_CategoriaOS}");
             }
 
-            OSEntradaServices.VerificarOSEntrada(Convert.ToInt32(RetornoOS.Id_CategoriaOS), DadosAPI, RelacaoOS, RetornoOS.Celular);
+            OSEntradaServices.VerificarOSEntrada(Convert.ToInt32(RetornoOS.Id_CategoriaOS), DadosAPI, RelacaoOS, RetornoOS);
         }
 
 

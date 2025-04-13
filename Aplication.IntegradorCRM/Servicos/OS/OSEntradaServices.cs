@@ -9,13 +9,13 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 {
     internal class OSEntradaServices
     {
-        public async static Task VerificarOSEntrada(int idCategoria, DadosAPIModels DadosAPI, RelacaoOrdemServicoModels RelOSModel, string celular)
+        public async static Task VerificarOSEntrada(int idCategoria, DadosAPIModels DadosAPI, RelacaoOrdemServicoModels RelOSModel, RetornoOrdemServico RetornoOS)
         {
             using DAL<RelacaoOrdemServicoModels> dalRelOSModel = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
 
 
             // Instancia a ser enviado para atualizar a etapa da oportunidade no CRM
-            ModeloOportunidadeRequest RequestAtualzacao = await OS_Services.InstanciarAcaoRequest(idCategoria, celular);
+            ModeloOportunidadeRequest RequestAtualzacao = await OS_Services.InstanciarAcaoRequest(RetornoOS);
             if(RequestAtualzacao is null)
                 return;
 

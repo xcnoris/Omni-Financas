@@ -158,7 +158,7 @@ namespace Integrador_Com_CRM.Formularios
 
         internal async Task MostrarFormulario()
         {
-            this.ShowDialog();
+            this.Show();
         }
 
         private void Btn_VariaveisBoleto_Click(object sender, EventArgs e)

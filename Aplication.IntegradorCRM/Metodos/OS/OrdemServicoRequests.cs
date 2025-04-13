@@ -16,9 +16,9 @@ namespace Aplication.IntegradorCRM.Metodos.OS
         {
             using (HttpClient client = OS_Services.ConfigurarHttpClient(DadosAPI.Token))
             {
-                // Correto: adiciona a chave apikey no header
-                client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //// Correto: adiciona a chave apikey no header
+                //client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 
                 // Definir URL do endpoint da Evolution API

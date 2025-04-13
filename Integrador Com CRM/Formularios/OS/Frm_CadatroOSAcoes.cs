@@ -49,7 +49,7 @@ namespace Integrador_Com_CRM.Formularios
 
         internal async Task MostrarFormulario()
         {
-            this.ShowDialog();
+            this.Show();
         }
 
 
