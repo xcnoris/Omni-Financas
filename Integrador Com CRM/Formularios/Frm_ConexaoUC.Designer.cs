@@ -40,7 +40,7 @@
             Txt_Usuario = new TextBox();
             Txt_DataBase = new TextBox();
             groupBox1 = new GroupBox();
-            Btn_TestarConexao = new ComponentesPerson.BotaoArredond(components);
+            Btn_TestarConexao = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 

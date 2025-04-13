@@ -1,4 +1,7 @@
-﻿using Metodos.IntegradorCRM.Metodos;
+﻿
+using CDI_OminiService.Formularios;
+using Metodos.IntegradorCRM;
+using Metodos.IntegradorCRM.Metodos;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -196,6 +199,24 @@ namespace Integrador_Com_CRM.Formularios
         private void groupBox4_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void Btn_BuscarMAC_Click(object sender, EventArgs e)
+        {
+            string MAC = HardwareInfo.GetMacAddress();
+            string MACVM = HardwareInfo.GetMacAddressVM();
+
+            Frm_EnderecoMAC frm;
+            if (MAC is null)
+            {
+                frm = new Frm_EnderecoMAC(MACVM);
+            }
+            else
+            {
+                frm = new Frm_EnderecoMAC(MAC);
+
+                frm.ShowDialog();
+            }
         }
     }
 }

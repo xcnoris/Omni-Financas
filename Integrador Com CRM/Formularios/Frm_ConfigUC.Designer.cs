@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
             groupBox5 = new GroupBox();
             groupBox9 = new GroupBox();
@@ -52,6 +53,7 @@
             Txt_TimerOS = new TextBox();
             label6 = new Label();
             groupBox3 = new GroupBox();
+            Btn_BuscarMAC = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_Token = new TextBox();
             label1 = new Label();
             groupBox1.SuspendLayout();
@@ -331,6 +333,7 @@
             // groupBox3
             // 
             groupBox3.BackColor = Color.Transparent;
+            groupBox3.Controls.Add(Btn_BuscarMAC);
             groupBox3.Controls.Add(Txt_Token);
             groupBox3.Controls.Add(label1);
             groupBox3.ForeColor = Color.Yellow;
@@ -340,6 +343,20 @@
             groupBox3.TabIndex = 1;
             groupBox3.TabStop = false;
             groupBox3.Text = "Licença";
+            // 
+            // Btn_BuscarMAC
+            // 
+            Btn_BuscarMAC.BackColor = Color.CadetBlue;
+            Btn_BuscarMAC.Font = new Font("Segoe UI", 8.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            Btn_BuscarMAC.ForeColor = SystemColors.Control;
+            Btn_BuscarMAC.Location = new Point(627, 32);
+            Btn_BuscarMAC.Name = "Btn_BuscarMAC";
+            Btn_BuscarMAC.RaioCanto = 20;
+            Btn_BuscarMAC.Size = new Size(91, 27);
+            Btn_BuscarMAC.TabIndex = 5;
+            Btn_BuscarMAC.Text = "Buscar MAC";
+            Btn_BuscarMAC.UseVisualStyleBackColor = false;
+            Btn_BuscarMAC.Click += Btn_BuscarMAC_Click;
             // 
             // Txt_Token
             // 
@@ -416,5 +433,6 @@
         private CheckBox ChBox_EnviarPDF;
         private Label label9;
         private Label label10;
+        private ComponentesPerson.BotaoArredond Btn_BuscarMAC;
     }
 }

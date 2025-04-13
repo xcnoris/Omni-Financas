@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            Btn_BuscarOS = new ComponentesPerson.BotaoArredond(components);
-            Btn_BuscarBoletos = new ComponentesPerson.BotaoArredond(components);
-            Btn_RealizarCobrancas = new ComponentesPerson.BotaoArredond(components);
+            Btn_BuscarOS = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            Btn_BuscarBoletos = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            Btn_RealizarCobrancas = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // Btn_BuscarOS
             // 
-            Btn_BuscarOS.BackColor = Color.MediumPurple;
+            Btn_BuscarOS.BackColor = Color.CadetBlue;
             Btn_BuscarOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarOS.ForeColor = SystemColors.Control;
             Btn_BuscarOS.Location = new Point(291, 83);
@@ -50,7 +50,7 @@
             // 
             // Btn_BuscarBoletos
             // 
-            Btn_BuscarBoletos.BackColor = Color.MediumPurple;
+            Btn_BuscarBoletos.BackColor = Color.CadetBlue;
             Btn_BuscarBoletos.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarBoletos.ForeColor = SystemColors.Control;
             Btn_BuscarBoletos.Location = new Point(291, 168);
@@ -64,7 +64,7 @@
             // 
             // Btn_RealizarCobrancas
             // 
-            Btn_RealizarCobrancas.BackColor = Color.MediumPurple;
+            Btn_RealizarCobrancas.BackColor = Color.CadetBlue;
             Btn_RealizarCobrancas.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_RealizarCobrancas.ForeColor = SystemColors.Control;
             Btn_RealizarCobrancas.Location = new Point(291, 256);
