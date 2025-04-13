@@ -14,7 +14,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using DAL<RelacaoBoletoCRMModel> _dalRelacaoBOletos = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
             RelacaoBoletoCRMModel RelacaoBoleto = RelacaoBoletoCRMModel.InstanciaDados(boleto);
 
-            ModeloOportunidadeRequest OportunidadRequest = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boleto.Celular, Situacao_Boleto.Aberto);
+            ModeloOportunidadeRequest OportunidadRequest = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boleto, Situacao_Boleto.Aberto);
 
             // Tenta enviar a mensagem de criacão de boleto, caso nao der certo a criacão, gera um log
             if (await EnviarMensagemCriacao(OportunidadRequest, DadosAPI, _dalRelacaoBOletos, RelacaoBoleto, EnviarPDFaoCriarOPT) is false)
@@ -23,7 +23,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 return false;
             }
             // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
-            Boleto_Services.VerificarQuitacao((Situacao_Boleto)RelacaoBoleto.Situacao, RelacaoBoleto, DadosAPI, false);
+            Boleto_Services.VerificarQuitacao((Situacao_Boleto)RelacaoBoleto.Situacao, RelacaoBoleto, DadosAPI, false, boleto);
             return true;
         }
 

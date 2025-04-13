@@ -72,7 +72,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             BoletoRelacao.Celular_Entidade = linha.Celular;
 
                             MetodosGerais.RegistrarLog("BOLETO", $"DR  {BoletoRelacao.Id_DocumentoReceber} esta com a relação do vencimento em {diasAtraso}. Verificação foi iniciada...");
-                            Boleto_Services.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM);
+                            Boleto_Services.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM, linha);
                         }
                     }
                 }

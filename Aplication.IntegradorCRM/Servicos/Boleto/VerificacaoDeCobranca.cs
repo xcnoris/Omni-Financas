@@ -9,7 +9,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class VerificacaoDeCobranca
     {
-        internal async static Task RealizarCobranca(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels DadosAPI)
+        internal async static Task RealizarCobranca(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, RetornoBoleto retornoBoleto,DadosAPIModels DadosAPI)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesCRMModel? boletoAcaoBuscado = AcoesBoletoList.FirstOrDefault(x => x.Dias_Cobrancas.Equals(diasAtraso));
@@ -20,7 +20,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                 return;
             }
-            ModeloOportunidadeRequest atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestBoleto(boletoRelacao.Celular_Entidade, diasAtraso);
+            ModeloOportunidadeRequest atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestBoleto(retornoBoleto, diasAtraso);
 
             await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado);
         }

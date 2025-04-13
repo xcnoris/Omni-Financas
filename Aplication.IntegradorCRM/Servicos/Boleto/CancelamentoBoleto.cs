@@ -11,11 +11,11 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class CancelamentoBoleto
     {
-        public async static Task Cancelar(RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels dadosAPI)
+        public async static Task Cancelar(RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels dadosAPI, RetornoBoleto retornoBoleto)
         {
             try
             {
-                ModeloOportunidadeRequest? RequestCancelamento = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boletoRelacao.Celular_Entidade, Situacao_Boleto.Cancelada_Ou_Estornado);
+                ModeloOportunidadeRequest? RequestCancelamento = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(retornoBoleto, Situacao_Boleto.Cancelada_Ou_Estornado);
               
 
                 if (RequestCancelamento is null)
