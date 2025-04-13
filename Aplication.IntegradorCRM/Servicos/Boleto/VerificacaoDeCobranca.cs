@@ -37,8 +37,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 boletoRelacao.DiasEmAtraso = diasAtraso;
 
                 // Verifica se hoje é final de semana, caso seja, não faz a cobrança dos boleto.
-                //if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
-                if (false)
+                if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
                 {
                     /*
                          Cria um registro na tabela Cobrancas_Na_Segunda_CRM. Toda Segunda os registro que estao nessa tabela são

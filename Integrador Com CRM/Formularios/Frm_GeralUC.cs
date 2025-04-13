@@ -168,10 +168,10 @@ namespace Integrador_Com_CRM.Formularios
         {
             if (verificarLicenca(FrmConfigUC))
             {
-                List<BoletoAcoesCRMModel?> acoesCobrancaList = (await _dalBoletoAcoes.ListarAsync()).ToList();
+                
                 List<DadosAPIModels?> DadosAPI = (await _dalDadosAPI.ListarAsync()).ToList();
                 CobrancaServicos CB = new CobrancaServicos();
-                await CB.RealizarCobrancas(acoesCobrancaList, DadosAPI.First());
+                await CB.RealizarCobrancas( DadosAPI.First());
                 return true;
             }
             return false;

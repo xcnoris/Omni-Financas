@@ -60,13 +60,14 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        public  async Task RealizarCobrancas(List<BoletoAcoesCRMModel> acoesCobrancaList, DadosAPIModels DadosAPI)
+        public  async Task RealizarCobrancas( DadosAPIModels DadosAPI)
         {
             try
             {
                 using DAL<CobrancasNaSegundaModel> dalCobranca = new DAL<CobrancasNaSegundaModel>(new IntegradorDBContext());
                 using DAL<RelacaoBoletoCRMModel> dalRelBoletos = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
-
+                using DAL<BoletoAcoesCRMModel> dalBoletoAcao = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+                List<BoletoAcoesCRMModel> acoesCobrancaList = (await dalBoletoAcao.ListarAsync()).ToList();
                 // Busca as cobranças que devem ser realiada
                 List<CobrancasNaSegundaModel?> ListCobrancas = (await dalCobranca.ListarAsync() ?? Enumerable.Empty<CobrancasNaSegundaModel>()).ToList();
                 if (ListCobrancas is null)
@@ -81,7 +82,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                     if (boletoRelacao is null)
                     {
-                        MetodosGerais.RegistrarLog("COBRANCA", $"Nenhum encotrando na TB relação com o Id {conbranca.BoletoId}!");
+                        MetodosGerais.RegistrarLog("COBRANCA", $"Nenhum boleto encotrando na TB relação com o Id {conbranca.BoletoId}!");
                         return;
                     }
                     var acaoCobranca = BuscarAcaoCobranca(acoesCobrancaList, conbranca.NovoAtrasoBoleto);
