@@ -15,8 +15,8 @@ namespace Aplication.IntegradorCRM.Servicos.OS
             {
                 { "<Documento>", retornoBoleto.Documento },
                 { "<EmailCliente>", retornoBoleto.Email },
-                { "<Cliente>", retornoBoleto.Nome },
-                { "<ClientePrimNome>", retornoBoleto.Nome.Split(' ')[0] },
+                { "<NomeComp_RazSocial>", retornoBoleto.Nome_RazSocial },
+                { "<PrimNome_Fantasia>", retornoBoleto.PrimNome_Fantasia },
                 { "<Vencimento>", retornoBoleto.Data_Vencimento.ToString("dd/MM/yyyy")},
                 { "<Valor>", retornoBoleto.Valor }
                 // Adicione mais variáveis aqui, se precisar

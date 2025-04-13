@@ -13,8 +13,8 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         {
             var variaveis = new Dictionary<string, string>
             {
-                { "<ClienteNome>", retornoOS.Nome_Cliente },
-                { "<ClientePrimeiroNome>", retornoOS.Nome_Cliente.Split(' ')[0] },
+                { "<NomeComp_RazSocial>", retornoOS.Nome_RazSocial },
+                { "<PrimNome_Fantasia>", retornoOS.PrimNome_Fantasia },
                 { "<NSU>", retornoOS.NSU },
                 { "<Categoria>", retornoOS.Categoria }
                 // Adicione mais variáveis aqui, se precisar

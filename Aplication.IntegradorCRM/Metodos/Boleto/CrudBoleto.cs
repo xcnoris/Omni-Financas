@@ -25,21 +25,26 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 // Buscar serviços no banco de dados a partir de uma data ou parâmetro definido
                 string query = @$"
                      SELECT 
-                        DR.numero_documento_receber,
-                        DR.id_documento_receber,
-	                    DR.numero_documento_receber,
-                        DR.id_entidade,
-                        ent.nome,
-                        CONCAT(COALESCE(ent.celular_ddd, ''), COALESCE(ent.celular_numero, '')) AS celular,
-                        ent.email_principal,
-	                    DR.valor,
-                        CASE 
-                            WHEN ent.tipo_entidade = 1 THEN pf.cpf 
-                            WHEN ent.tipo_entidade = 2 THEN pj.cnpj 
-                            ELSE 'Tipo de entidade desconhecido' 
-                        END AS identificador_cliente,
-                        DR.situacao,
-                        DR.data_vencimento
+                           DR.numero_documento_receber,
+                            DR.id_documento_receber,
+                            DR.numero_documento_receber,
+                            DR.id_entidade,
+                            ent.nome,
+	                          CASE 
+                                  WHEN ent.tipo_entidade = 1 THEN LEFT(ent.nome, CHARINDEX(' ', ent.nome + ' ') - 1)
+                                  WHEN ent.tipo_entidade = 2 THEN pj.nome_fantasia 
+                                  ELSE 'Tipo de entidade desconhecido' 
+                              END AS nomeFantasia,
+                            CONCAT(COALESCE(ent.celular_ddd, ''), COALESCE(ent.celular_numero, '')) AS celular,
+                            ent.email_principal,
+                            DR.valor,
+                            CASE 
+                                WHEN ent.tipo_entidade = 1 THEN pf.cpf 
+                                WHEN ent.tipo_entidade = 2 THEN pj.cnpj 
+                                ELSE 'Tipo de entidade desconhecido' 
+                            END AS identificador_cliente,
+                            DR.situacao,
+                            DR.data_vencimento
                     FROM 
                         documento_receber DR
                     INNER JOIN 
@@ -52,7 +57,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                          DR.data_vencimento >= '{DataCriacao}'
                     AND 
                         DR.tem_boleto = 1
-                    and DR.id_documento_receber = 19380
+                    and DR.id_documento_receber = 19381
                 ";
 
                 // Converte o resultado do select em DataTable
@@ -84,7 +89,8 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         Id_DocReceber = linha["id_documento_receber"].ToString(),
                         Documento = linha["numero_documento_receber"].ToString(),
                         Id_Entidade = linha["id_entidade"].ToString(),
-                        Nome = linha["nome"].ToString(),
+                        Nome_RazSocial = linha["nome"].ToString(),
+                        PrimNome_Fantasia = linha["nomeFantasia"].ToString(),
                         Celular = linha["celular"].ToString(),
                         Email = linha["email_principal"].ToString(),
                         Valor = linha["valor"].ToString(),

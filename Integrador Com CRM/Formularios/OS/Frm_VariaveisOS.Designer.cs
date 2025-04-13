@@ -37,7 +37,7 @@
             // textBox1
             // 
             textBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(34, 56);
+            textBox1.Location = new Point(109, 118);
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
             textBox1.Size = new Size(104, 25);
@@ -47,27 +47,27 @@
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(34, 25);
+            textBox2.Location = new Point(82, 25);
             textBox2.Name = "textBox2";
             textBox2.ReadOnly = true;
-            textBox2.Size = new Size(104, 25);
+            textBox2.Size = new Size(159, 25);
             textBox2.TabIndex = 2;
-            textBox2.Text = "<ClienteNome>";
+            textBox2.Text = "<NomeComp_RazSocial>";
             // 
             // textBox3
             // 
             textBox3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(157, 25);
+            textBox3.Location = new Point(82, 56);
             textBox3.Name = "textBox3";
             textBox3.ReadOnly = true;
             textBox3.Size = new Size(159, 25);
             textBox3.TabIndex = 3;
-            textBox3.Text = "<ClientePrimeiroNome>";
+            textBox3.Text = "<PrimNome_Fantasia>";
             // 
             // textBox4
             // 
             textBox4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.Location = new Point(34, 87);
+            textBox4.Location = new Point(109, 87);
             textBox4.Name = "textBox4";
             textBox4.ReadOnly = true;
             textBox4.Size = new Size(104, 25);

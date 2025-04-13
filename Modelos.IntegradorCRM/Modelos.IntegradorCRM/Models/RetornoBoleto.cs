@@ -6,7 +6,8 @@
         public string Id_DocReceber { get; set; }
         public string Documento { get; set; }
         public string Id_Entidade { get; set; }
-        public string Nome { get; set; }
+        public string Nome_RazSocial { get; set; }
+        public string PrimNome_Fantasia { get; set; }
         public string Celular { get; set; }
         public string Email { get; set; }
         public string Valor { get; set; }

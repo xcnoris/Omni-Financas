@@ -27,7 +27,7 @@ namespace Modelos.IntegradorCRM.Models.EF
                 Id_DocumentoReceber = Convert.ToInt32(boleto.Id_DocReceber),
                 Numero_Documento = boleto.Num_DocReceber,
                 Id_Entidade = Convert.ToInt32(boleto.Id_Entidade),
-                Nome_Entidade = boleto.Nome,
+                Nome_Entidade = boleto.Nome_RazSocial,
                 Celular_Entidade = boleto.Celular,
                 Email_Entidade = boleto.Email,
                 CNPJ_CPF = boleto.Identificador_Cliente,

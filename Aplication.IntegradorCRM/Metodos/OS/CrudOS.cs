@@ -27,19 +27,24 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 // Buscar serviços no banco de dados a partir de uma data ou parâmetro definido
                 string query = @$"
                  SELECT 
-                     os.id_ordem_servico, 
-	                 os.nsu,
-                     CASE 
-                         WHEN e.tipo_entidade = 1 THEN pf.cpf 
-                         WHEN e.tipo_entidade = 2 THEN pj.cnpj 
-                         ELSE 'Tipo de entidade desconhecido' 
-                     END AS identificador_cliente,
-                     os.nome_cliente, 
-                     CONCAT(os.celular_ddd_cliente, os.celular_numero_cliente) AS telefone,
-                     os.email_cliente,
-                     os.id_categoria_ordem_servico,
-	                 catOS.nome as categoria,
-                     os.situacao
+                      os.id_ordem_servico, 
+                        os.nsu,
+                        CASE 
+                            WHEN e.tipo_entidade = 1 THEN pf.cpf 
+                            WHEN e.tipo_entidade = 2 THEN pj.cnpj 
+                            ELSE 'Tipo de entidade desconhecido' 
+                        END AS identificador_cliente,
+                        os.nome_cliente, 
+	                    CASE 
+                            WHEN e.tipo_entidade = 1 THEN LEFT(e.nome, CHARINDEX(' ', e.nome + ' ') - 1)
+                            WHEN e.tipo_entidade = 2 THEN pj.nome_fantasia 
+                            ELSE 'Tipo de entidade desconhecido' 
+                        END AS nomeFantasia,
+                        CONCAT(os.celular_ddd_cliente, os.celular_numero_cliente) AS telefone,
+                        os.email_cliente,
+                        os.id_categoria_ordem_servico,
+                        catOS.nome as categoria,
+                        os.situacao
                  FROM 
                      ordem_servico os
                  INNER JOIN 
@@ -85,7 +90,8 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         Id_Ordem_Servico = linha["id_ordem_servico"].ToString(),
                         NSU = linha["nsu"].ToString(),
                         Identificador_Cliente = linha["identificador_cliente"].ToString(),
-                        Nome_Cliente = linha["nome_cliente"].ToString(),
+                        Nome_RazSocial = linha["nome_cliente"].ToString(),
+                        PrimNome_Fantasia = linha["nomeFantasia"].ToString(),
                         Celular = linha["telefone"].ToString(),
                         Email_Cliente = linha["email_cliente"].ToString(),
                         Id_CategoriaOS = linha["id_categoria_ordem_servico"].ToString(),

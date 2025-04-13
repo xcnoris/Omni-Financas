@@ -49,17 +49,17 @@
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(34, 53);
+            textBox2.Location = new Point(34, 43);
             textBox2.Name = "textBox2";
             textBox2.ReadOnly = true;
-            textBox2.Size = new Size(100, 25);
+            textBox2.Size = new Size(168, 25);
             textBox2.TabIndex = 1;
-            textBox2.Text = "<Cliente>";
+            textBox2.Text = "<NomeComp_RazSocial>";
             // 
             // textBox3
             // 
             textBox3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(34, 96);
+            textBox3.Location = new Point(34, 167);
             textBox3.Name = "textBox3";
             textBox3.ReadOnly = true;
             textBox3.Size = new Size(100, 25);
@@ -69,17 +69,17 @@
             // textBox4
             // 
             textBox4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.Location = new Point(176, 96);
+            textBox4.Location = new Point(34, 136);
             textBox4.Name = "textBox4";
             textBox4.ReadOnly = true;
-            textBox4.Size = new Size(100, 25);
+            textBox4.Size = new Size(63, 25);
             textBox4.TabIndex = 3;
             textBox4.Text = "<Valor>";
             // 
             // textBox5
             // 
             textBox5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox5.Location = new Point(176, 12);
+            textBox5.Location = new Point(34, 105);
             textBox5.Name = "textBox5";
             textBox5.ReadOnly = true;
             textBox5.Size = new Size(100, 25);
@@ -89,12 +89,12 @@
             // textBox6
             // 
             textBox6.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox6.Location = new Point(176, 53);
+            textBox6.Location = new Point(34, 74);
             textBox6.Name = "textBox6";
             textBox6.ReadOnly = true;
-            textBox6.Size = new Size(140, 25);
+            textBox6.Size = new Size(153, 25);
             textBox6.TabIndex = 5;
-            textBox6.Text = "<ClientePrimNome>";
+            textBox6.Text = "<PrimNome_Fantasia>";
             // 
             // Frm_VariaveisBoleto
             // 
@@ -102,7 +102,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(328, 166);
+            ClientSize = new Size(227, 224);
             Controls.Add(textBox6);
             Controls.Add(textBox5);
             Controls.Add(textBox4);
@@ -110,9 +110,9 @@
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             MaximizeBox = false;
-            MaximumSize = new Size(344, 205);
+            MaximumSize = new Size(243, 263);
             MinimizeBox = false;
-            MinimumSize = new Size(344, 205);
+            MinimumSize = new Size(243, 263);
             Name = "Frm_VariaveisBoleto";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
