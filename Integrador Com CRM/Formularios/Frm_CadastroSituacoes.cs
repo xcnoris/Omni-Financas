@@ -1,4 +1,6 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using CDI_OminiService.Formularios.Boleto;
+using CDI_OminiService.Formularios.OS;
+using DataBase.IntegradorCRM.Data;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
 using System;
@@ -38,6 +40,15 @@ namespace Integrador_Com_CRM.Formularios
 
         internal void MostrarFormulario()
         {
+            if (TipoSituacao is Situacao_OSBoleto.Boleto)
+            {
+                this.Text = "Casdatro Situacões Boleto";
+            }
+            else if (TipoSituacao is Situacao_OSBoleto.OS)
+            {
+                this.Text = "Casdatro Situacões Ordem de Serviço";
+            }
+
             this.ShowDialog();
         }
 
@@ -47,7 +58,7 @@ namespace Integrador_Com_CRM.Formularios
 
             if (idFiltro is 11)
             {
-                idFiltro =1;
+                idFiltro = 1;
             }
             if (situacaoOSBoleto == Situacao_OSBoleto.Boleto)
             {
@@ -128,7 +139,7 @@ namespace Integrador_Com_CRM.Formularios
                         // Atualiza os dados do registro existente
                         registroExistente.Nome = Txt_Nome.Text;
                         registroExistente.Mensagem = Txt_Mensagem.Text;
-                        registroExistente.Data_Atualizacao =  DateTime.Now;
+                        registroExistente.Data_Atualizacao = DateTime.Now;
 
                         await _dalSituacaoOS.AtualizarAsync(registroExistente);
                     }
@@ -164,6 +175,20 @@ namespace Integrador_Com_CRM.Formularios
         private void Btn_Remover_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void Btn_Variaveis_Click(object sender, EventArgs e)
+        {
+            if (TipoSituacao is Situacao_OSBoleto.Boleto)
+            {
+                Frm_VariaveisBoleto frm = new Frm_VariaveisBoleto();
+                frm.Show();
+            }
+            else if (TipoSituacao is Situacao_OSBoleto.OS)
+            {
+                Frm_VariaveisOS frm = new Frm_VariaveisOS();
+                frm.Show();
+            }
         }
     }
 }

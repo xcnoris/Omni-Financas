@@ -31,13 +31,14 @@
             components = new System.ComponentModel.Container();
             Txt_Id = new TextBox();
             Lbl_Id = new Label();
-            Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
-            Btn_Remover = new ComponentesPerson.BotaoArredond(components);
+            Btn_Salvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            Btn_Remover = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_Mensagem = new TextBox();
             Lbl_MensagemEnvio = new Label();
             Txt_DiaCobranca = new TextBox();
             label1 = new Label();
             Check_EnviarPDF = new CheckBox();
+            Btn_VariaveisBoleto = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // Txt_Id
@@ -136,12 +137,26 @@
             Check_EnviarPDF.BackColor = Color.Transparent;
             Check_EnviarPDF.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             Check_EnviarPDF.ForeColor = Color.White;
-            Check_EnviarPDF.Location = new Point(341, 57);
+            Check_EnviarPDF.Location = new Point(341, 24);
             Check_EnviarPDF.Name = "Check_EnviarPDF";
             Check_EnviarPDF.Size = new Size(86, 19);
             Check_EnviarPDF.TabIndex = 2;
             Check_EnviarPDF.Text = "Enviar PDF:";
             Check_EnviarPDF.UseVisualStyleBackColor = false;
+            // 
+            // Btn_VariaveisBoleto
+            // 
+            Btn_VariaveisBoleto.BackColor = Color.CadetBlue;
+            Btn_VariaveisBoleto.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_VariaveisBoleto.ForeColor = SystemColors.Control;
+            Btn_VariaveisBoleto.Location = new Point(292, 49);
+            Btn_VariaveisBoleto.Name = "Btn_VariaveisBoleto";
+            Btn_VariaveisBoleto.RaioCanto = 20;
+            Btn_VariaveisBoleto.Size = new Size(135, 27);
+            Btn_VariaveisBoleto.TabIndex = 40;
+            Btn_VariaveisBoleto.Text = "variáveis";
+            Btn_VariaveisBoleto.UseVisualStyleBackColor = false;
+            Btn_VariaveisBoleto.Click += Btn_VariaveisBoleto_Click;
             // 
             // Frm_CadastroAcoesBoletos
             // 
@@ -150,6 +165,7 @@
             BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(461, 298);
+            Controls.Add(Btn_VariaveisBoleto);
             Controls.Add(Check_EnviarPDF);
             Controls.Add(label1);
             Controls.Add(Txt_DiaCobranca);
@@ -181,5 +197,6 @@
         private TextBox Txt_DiaCobranca;
         private Label label1;
         private CheckBox Check_EnviarPDF;
+        private ComponentesPerson.BotaoArredond Btn_VariaveisBoleto;
     }
 }

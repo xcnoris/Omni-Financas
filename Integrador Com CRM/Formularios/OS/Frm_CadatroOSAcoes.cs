@@ -1,4 +1,5 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using CDI_OminiService.Formularios.OS;
+using DataBase.IntegradorCRM.Data;
 using Modelos.IntegradorCRM.Models.EF;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Integrador_Com_CRM.Formularios
             InitializeComponent();
 
             _dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
-  
+
 
             Btn_Salvar.Text = SalvarAtualizar;
 
@@ -113,6 +114,12 @@ namespace Integrador_Com_CRM.Formularios
             {
                 MessageBox.Show($"Ocorreu um erro: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void Btn_Variaveis_Click(object sender, EventArgs e)
+        {
+            Frm_VariaveisOS frm = new Frm_VariaveisOS();
+            frm.Show();
         }
     }
 }

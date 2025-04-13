@@ -33,11 +33,12 @@
             label5 = new Label();
             label2 = new Label();
             Txt_Mensagem = new TextBox();
-            Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
-            Btn_Remover = new ComponentesPerson.BotaoArredond(components);
+            Btn_Salvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            Btn_Remover = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_IdCategoria = new TextBox();
             label1 = new Label();
             Txt_Id = new TextBox();
+            Btn_Variaveis = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // label5
@@ -130,6 +131,20 @@
             Txt_Id.Size = new Size(83, 23);
             Txt_Id.TabIndex = 21;
             // 
+            // Btn_Variaveis
+            // 
+            Btn_Variaveis.BackColor = Color.CadetBlue;
+            Btn_Variaveis.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_Variaveis.ForeColor = SystemColors.Control;
+            Btn_Variaveis.Location = new Point(292, 57);
+            Btn_Variaveis.Name = "Btn_Variaveis";
+            Btn_Variaveis.RaioCanto = 20;
+            Btn_Variaveis.Size = new Size(135, 27);
+            Btn_Variaveis.TabIndex = 41;
+            Btn_Variaveis.Text = "variáveis";
+            Btn_Variaveis.UseVisualStyleBackColor = false;
+            Btn_Variaveis.Click += Btn_Variaveis_Click;
+            // 
             // Frm_CadatroOSAcoes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -137,6 +152,7 @@
             BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(461, 298);
+            Controls.Add(Btn_Variaveis);
             Controls.Add(Txt_Id);
             Controls.Add(Txt_IdCategoria);
             Controls.Add(label1);
@@ -168,5 +184,6 @@
         private TextBox Txt_IdCategoria;
         private Label label1;
         private TextBox Txt_Id;
+        private ComponentesPerson.BotaoArredond Btn_Variaveis;
     }
 }

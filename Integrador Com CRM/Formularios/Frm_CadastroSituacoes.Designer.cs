@@ -33,11 +33,12 @@
             Txt_Id = new TextBox();
             Txt_Nome = new TextBox();
             label1 = new Label();
-            Btn_Salvar = new ComponentesPerson.BotaoArredond(components);
-            Btn_Remover = new ComponentesPerson.BotaoArredond(components);
+            Btn_Salvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            Btn_Remover = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_Mensagem = new TextBox();
             label5 = new Label();
             label2 = new Label();
+            Btn_Variaveis = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // Txt_Id
@@ -130,6 +131,20 @@
             label2.TabIndex = 22;
             label2.Text = "Nome:";
             // 
+            // Btn_Variaveis
+            // 
+            Btn_Variaveis.BackColor = Color.CadetBlue;
+            Btn_Variaveis.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            Btn_Variaveis.ForeColor = SystemColors.Control;
+            Btn_Variaveis.Location = new Point(294, 49);
+            Btn_Variaveis.Name = "Btn_Variaveis";
+            Btn_Variaveis.RaioCanto = 20;
+            Btn_Variaveis.Size = new Size(135, 27);
+            Btn_Variaveis.TabIndex = 41;
+            Btn_Variaveis.Text = "variáveis";
+            Btn_Variaveis.UseVisualStyleBackColor = false;
+            Btn_Variaveis.Click += Btn_Variaveis_Click;
+            // 
             // Frm_CadastroSituacoes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -137,6 +152,7 @@
             BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(461, 298);
+            Controls.Add(Btn_Variaveis);
             Controls.Add(Txt_Id);
             Controls.Add(Txt_Nome);
             Controls.Add(label1);
@@ -168,5 +184,6 @@
         private TextBox Txt_Mensagem;
         private Label label5;
         private Label label2;
+        private ComponentesPerson.BotaoArredond Btn_Variaveis;
     }
 }

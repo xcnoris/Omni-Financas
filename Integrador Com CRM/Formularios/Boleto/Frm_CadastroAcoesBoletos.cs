@@ -1,4 +1,5 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using CDI_OminiService.Formularios.Boleto;
+using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 using System;
@@ -160,5 +161,10 @@ namespace Integrador_Com_CRM.Formularios
             this.ShowDialog();
         }
 
+        private void Btn_VariaveisBoleto_Click(object sender, EventArgs e)
+        {
+            Frm_VariaveisBoleto frm = new Frm_VariaveisBoleto();
+            frm.Show();
+        }
     }
 }
