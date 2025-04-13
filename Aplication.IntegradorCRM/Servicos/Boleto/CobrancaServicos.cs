@@ -33,7 +33,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 if (await VerificarDuplicidadeCobranca(cobrancasNaSegundaModel))
                 {
                     await dalCobrancas.AdicionarAsync(cobrancasNaSegundaModel);
-                    MetodosGerais.RegistrarLog("COBRANCA", $"Ação {cobrancasNaSegundaModel.NovoAtrasoBoleto} marcada para ser cobrado na segunda para o boletoBoleto {cobrancasNaSegundaModel.BoletoId}. CodOp: {cobrancasNaSegundaModel.Cod_Oportunidade}");
+                    MetodosGerais.RegistrarLog("COBRANCA", $"Ação {cobrancasNaSegundaModel.NovoAtrasoBoleto} marcada para ser cobrado na segunda para o boletoBoleto {cobrancasNaSegundaModel.BoletoId}");
                 }
                
             }
@@ -48,7 +48,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         {
             try
             {
-                CobrancasNaSegundaModel? cobrancaExistente = await dalCobrancas.BuscarPorAsync(x => x.Cod_Oportunidade.Equals(cobrancasNaSegundaModel.Cod_Oportunidade) && x.NovoAtrasoBoleto.Equals(cobrancasNaSegundaModel.NovoAtrasoBoleto));
+                CobrancasNaSegundaModel? cobrancaExistente = await dalCobrancas.BuscarPorAsync(x => x.BoletoId.Equals(cobrancasNaSegundaModel.BoletoId) && x.NovoAtrasoBoleto.Equals(cobrancasNaSegundaModel.NovoAtrasoBoleto));
 
                 if (cobrancaExistente is null) return true;
                 return false;
@@ -85,13 +85,13 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                         return;
                     }
                     var acaoCobranca = BuscarAcaoCobranca(acoesCobrancaList, conbranca.NovoAtrasoBoleto);
-                    var acaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, acaoCobranca, DadosAPI);
+                    //var acaoRequest = CriarAtualizarAcaoRequest(boletoRelacao, acaoCobranca, DadosAPI);
 
                     boletoRelacao.DiasEmAtraso = conbranca.NovoAtrasoBoleto;
                     //await EnviarMensagemBoleto.EnviarMensagem(acaoRequest, DadosAPI.Token, dalRelBoletos, boletoRelacao, false, acaoCobranca.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
 
                     await RemoverRegistro(conbranca.Id, false);
-                    MetodosGerais.RegistrarLog("COBRANCA", $"Boleto {boletoRelacao.Id_DocumentoReceber} removido da lista de cobrança. CodOp: {conbranca.Cod_Oportunidade}");
+                    MetodosGerais.RegistrarLog("COBRANCA", $"Boleto {boletoRelacao.Id_DocumentoReceber} removido da lista de cobrança. ");
                 }
 
 
@@ -111,15 +111,6 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 MetodosGerais.RegistrarLog("COBRANCA", $"Ocorreu um [ERROR]: {ex.Message}");
                 throw;
             }
-        }
-
-        private static AtualizarAcaoRequest CriarAtualizarAcaoRequest(RelacaoBoletoCRMModel boletoRelacao, BoletoAcoesCRMModel acaoCobracaBoleto, DadosAPIModels DadosAPI)
-        {
-            return new AtualizarAcaoRequest
-            {
-                codigoOportunidade = boletoRelacao.Cod_Oportunidade,
-                textoFollowup = acaoCobracaBoleto.Mensagem_Atualizacao
-            };
         }
 
 
@@ -150,7 +141,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     foreach (var cobranca in cobrancaList)
                     {
                         await dalCobrancas.DeletarAsync(cobranca).ConfigureAwait(false);
-                        MetodosGerais.RegistrarLog("COBRANCA", $"Oportunidade {cobranca.Cod_Oportunidade} removido da lista de cobrança. Boleto Id: {cobranca.BoletoId}");
+                        MetodosGerais.RegistrarLog("COBRANCA", $"Boleto {cobranca.BoletoId} - {cobranca.NovoAtrasoBoleto} removido da lista de cobrança. Boleto Id: {cobranca.BoletoId}");
                     }
                 }
 

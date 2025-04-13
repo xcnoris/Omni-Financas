@@ -19,7 +19,6 @@ namespace DataBase.IntegradorCRM.Data.Map
             builder.Property(x => x.CNPJ_CPF).IsRequired();
             builder.Property(x => x.Situacao).IsRequired();
             builder.Property(x => x.Data_Vencimento).IsRequired();
-            builder.Property(x => x.Cod_Oportunidade).IsRequired();
             builder.Property(x => x.Quitado).IsRequired();
             builder.Property(x => x.DiasEmAtraso).IsRequired();
             builder.Property(x => x.Data_Criacao).IsRequired();

@@ -14,7 +14,6 @@ namespace Modelos.IntegradorCRM.Models.EF
         public string CNPJ_CPF { get; set; }
         public int Situacao { get; set; }
         public DateTime Data_Vencimento { get; set; }
-        public string Cod_Oportunidade { get; set; }
         public int Quitado { get; set; }
         public int DiasEmAtraso { get; set; }
         public DateTime Data_Criacao { get; set; }

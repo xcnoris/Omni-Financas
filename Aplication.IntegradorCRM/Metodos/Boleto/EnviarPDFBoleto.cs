@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Net.Http.Headers;
 using System.Text;
 using Aplication.IntegradorCRM.Servicos.Boleto;
 using Azure.Core;
@@ -121,15 +122,12 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             using (HttpClient httpClient = new HttpClient())
             {
                 try
-                {
-
-
-                    // Configurar o cabeçalho de autenticação
-                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token);
-                    httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                {   // Configurar o cabeçalho de autenticação
+                    httpClient.DefaultRequestHeaders.Add("apikey", Token);
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     // Definir URL do endpoint da Evolution API
-                    string url = $"{{baseUrl}}/message/sendMedia/{Instancia}";
+                    string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendMedia/{Instancia}";
                     HttpContent content = MetodosGerais.CriarConteudoJson(payload);
 
                     HttpResponseMessage response = await httpClient.PostAsync(url, content);

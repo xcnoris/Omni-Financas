@@ -37,7 +37,8 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 boletoRelacao.DiasEmAtraso = diasAtraso;
 
                 // Verifica se hoje é final de semana, caso seja, não faz a cobrança dos boleto.
-                if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
+                //if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
+                if (false)
                 {
                     /*
                          Cria um registro na tabela Cobrancas_Na_Segunda_CRM. Toda Segunda os registro que estao nessa tabela são
@@ -48,8 +49,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     CobrancaServicos CobrancasSegunda = new CobrancaServicos();
                     await CobrancasSegunda.SalvarDadosEmTableEspera(new CobrancasNaSegundaModel(){
                         BoletoId = boletoRelacao.Id,
-                        NovoAtrasoBoleto = diasAtraso,
-                        Cod_Oportunidade = boletoRelacao.Cod_Oportunidade
+                        NovoAtrasoBoleto = diasAtraso
                     });
                 }
                 else

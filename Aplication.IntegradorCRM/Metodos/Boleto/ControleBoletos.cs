@@ -9,24 +9,23 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
     public class ControleBoletos
     {
-        private DAL<RelacaoBoletoCRMModel> dalBoleto;
         private readonly CrudBoleto _CrudBoleto;
-        private readonly Boleto_Services BoletoServices;
-        private readonly DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
-        private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly Situacao_Boleto SituacaoBoleto = new Situacao_Boleto();
 
         public ControleBoletos()
         {
-            dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
+            
             _CrudBoleto = new CrudBoleto();
-            _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
-            BoletoServices = new Boleto_Services();
+            
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
         public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM, DateTime DateTime, bool EnviarPDFaoCriarOPT)
         {
+            DAL<BoletoAcoesCRMModel> _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            DAL<DadosAPIModels> _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
+            DAL<RelacaoBoletoCRMModel> dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
+
             try
             {
                 MetodosGerais.RegistrarInicioLog("BOLETO");
@@ -68,12 +67,12 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         else
                         {
                             int DiasEmAtrasoBoleto = BoletoRelacao.DiasEmAtraso;
-                            int diasAtraso = (DateTime.Now - linha.Data_Vencimento).Days;
+                            int diasAtraso = (DateTime.Now.Date - linha.Data_Vencimento).Days;
                             int situacaTBRelacao = BoletoRelacao.Situacao;
                             BoletoRelacao.Celular_Entidade = linha.Celular;
 
                             MetodosGerais.RegistrarLog("BOLETO", $"DR  {BoletoRelacao.Id_DocumentoReceber} esta com a relação do vencimento em {diasAtraso}. Verificação foi iniciada...");
-                            BoletoServices.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM);
+                            Boleto_Services.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM);
                         }
                     }
                 }

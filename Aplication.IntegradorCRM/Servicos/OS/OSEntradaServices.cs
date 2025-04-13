@@ -19,7 +19,8 @@ namespace Aplication.IntegradorCRM.Servicos.OS
             if(RequestAtualzacao is null)
                 return;
 
-            if(await OrdemServicoRequests.EnviarMensagemViaAPI(RequestAtualzacao, DadosAPI))
+            await Task.Delay(30000); // 30 Segundos
+            if (await OrdemServicoRequests.EnviarMensagemViaAPI(RequestAtualzacao, DadosAPI))
             {
                 // Atualize a categoria na tabela de relação se necessário
                 RelacaoOrdemServicoModels TableRelacao = await dalRelOSModel.BuscarPorAsync(x => x.Id_OrdemServico == RelOSModel.Id_OrdemServico);

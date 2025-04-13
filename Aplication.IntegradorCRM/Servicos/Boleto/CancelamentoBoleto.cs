@@ -15,11 +15,10 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         {
             try
             {
-                ModeloOportunidadeRequest? RequestQuitacao = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boletoRelacao.Celular_Entidade, Situacao_Boleto.Cancelada_Ou_Estornado);
+                ModeloOportunidadeRequest? RequestCancelamento = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boletoRelacao.Celular_Entidade, Situacao_Boleto.Cancelada_Ou_Estornado);
               
 
-                ModeloOportunidadeRequest? atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(boletoRelacao.Celular_Entidade, Situacao_Boleto.Cancelada_Ou_Estornado);
-                if (atualizacaoRequest is null)
+                if (RequestCancelamento is null)
                 {
                     MetodosGerais.RegistrarLog("ENV_BOLETO", $"[ERROR]: Ação de cancelamento não encontrada para o boleto: {boletoRelacao.Id_DocumentoReceber}!");
                     return;
@@ -27,7 +26,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                 try
                 {
-                    await CancelarBoletoNoCRM(boletoRelacao, atualizacaoRequest, dadosAPI);
+                    await CancelarBoleto(boletoRelacao, RequestCancelamento, dadosAPI);
                     MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa Cancelada.");
                 }
                 catch (Exception ex)
@@ -45,13 +44,14 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
 
-        private async static Task CancelarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, ModeloOportunidadeRequest RequestCancelamento, DadosAPIModels DadosAPI)
+        private async static Task CancelarBoleto(RelacaoBoletoCRMModel boletoRelacao, ModeloOportunidadeRequest RequestCancelamento, DadosAPIModels DadosAPI)
         {
             using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
 
             boletoRelacao.Situacao = 3;
             // É passado o parametro "foiQuitado" como true para remover qualquer registro de aviso que esteja aguardando para envio
             await EnviarMensagemBoleto.EnviarMensagem(RequestCancelamento, DadosAPI, dalBoleto, boletoRelacao, true, false, DadosAPI.CodAPI_EnvioPDF);
+        
         }
     }
 }

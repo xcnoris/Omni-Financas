@@ -26,7 +26,6 @@ namespace Aplication.IntegradorCRM.Metodos.OS
 
             try
             {
-                _oSAcoesCRM = (await _dalOSAcao.ListarAsync()).ToList();
                 MetodosGerais.RegistrarInicioLog("OS");
                 // Busca serviços no DB
                 List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(Datetime);
@@ -43,9 +42,8 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     // Crie uma nova instância de DAL para cada operação
                     using (var dalOrdemServicoUsing = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext()))
                     {
-                        // Verifica se a OS já esta na tabela de relação, caso ela este, significa que já existe um cady/oportunidade criada no CRM
+                        // Verifica se a OS já esta na tabela de relação, caso ela este, significa que o Omni já está controlando essa OS
                         RelacaoOrdemServicoModels OSInTableRelacao = TableRelacaoOS.FirstOrDefault(x => x.Id_OrdemServico == Convert.ToInt32(id_ordemServico));
-
 
                         RelacaoOrdemServicoModels OrdemServicoRelacao = new RelacaoOrdemServicoModels()
                         {
@@ -59,7 +57,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         /*
                             Caso seja null, siginifica que o ID da OS não foi encontrado na TB relação, então vai ser tentado criar uma oportunidade no
                             no crm, e incluido o ID da OS na TB Relação
-                            Caso a OS já esteja vindo como cancelada do modrniza, o integrador não vai nem tentar cria-la no CRM nem salvar na TB relaçã
+                            Caso a OS já esteja vindo como cancelada do moderniza, o integrador não vai nem tentar enviar a mensagem nem salvar na TB relação
                         */
                         if (OSInTableRelacao is null)
                         {
