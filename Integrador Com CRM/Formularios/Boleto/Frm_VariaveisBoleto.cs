@@ -16,5 +16,10 @@ namespace CDI_OminiService.Formularios.Boleto
         {
             InitializeComponent();
         }
+
+        private void Frm_VariaveisBoleto_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

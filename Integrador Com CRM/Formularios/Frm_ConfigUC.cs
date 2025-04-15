@@ -15,50 +15,71 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        internal int TxtVerificaoOS
+        internal int TxtOSVerificao
         {
             get
             {
-                return Convert.ToInt32(Txt_TimerOS.Text);
+                return Convert.ToInt32(Txt_OSTimer.Text);
             }
         }
 
-        internal DateTime DataSelectOS
+        internal DateTime DataOSSelect
         {
             get
             {
-                return DTP_SelectOS.Value.Date;
+                return DTP_OSSelect.Value.Date;
+            }
+        }
+        internal bool ChBox_OSEnviarMensCancel
+        {
+            get
+            {
+                return ChBox_OSMensCancel.Checked;
             }
         }
 
-        internal DateTime HoraCobDiariaBoleto
+        internal DateTime HoraBoletoCobDiaria
         {
             get
             {
-                return DTP_CobDiariaBoleto.Value;
+                return DTP_BoletoCobDiaria.Value;
             }
         }
 
-        internal DateTime HoraCobSegundaBoleto
+        internal DateTime HoraBoletoCobSegunda
         {
             get
             {
-                return DTP_CobSegundaBoleto.Value;
+                return DTP_BoletoCobSegunda.Value;
             }
         }
 
-        internal DateTime DataSelectBoleto
+        internal DateTime DataBoletoSelect
         {
             get
             {
-                return DTP_SelectBoleto.Value.Date;
+                return DTP_BoletoSelect.Value.Date;
             }
         }
-        internal bool ChBox_EnviarPDFa
+        internal bool ChBox_BoletoEnviarPDFa
         {
             get
             {
-                return ChBox_EnviarPDF.Checked;
+                return ChBox_BoletoEnviarPDF.Checked;
+            }
+        }
+        internal bool ChBox_BoletoEnviarMensCancelamento
+        {
+            get
+            {
+                return ChBox_BoletoEnviarMensCancel.Checked;
+            }
+        }
+        internal bool ChBox_BoletoMensFimdeSemana
+        {
+            get
+            {
+                return ChBox_BoletoEnviarMensFimdesem.Checked;
             }
         }
 
@@ -75,12 +96,15 @@ namespace Integrador_Com_CRM.Formularios
         {
             string caminhoArquivo = "config_timers.txt";
             string conteudo = $"Token|{Txt_Token.Text}\n" +
-              $"Txt_TimerOS|{Txt_TimerOS.Text}\n" +
-              $"DTP_SelectOS|{DTP_SelectOS.Value.ToString("dd/MM/yyyy")}\n" +
-              $"DTP_CobDiariaBoleto|{DTP_CobDiariaBoleto.Value.ToString("HH:mm")}\n" +
-              $"DTP_CobSegundaBoleto|{DTP_CobSegundaBoleto.Value.ToString("HH:mm")}\n" +
-              $"DTP_SelectBoleto|{DTP_SelectBoleto.Value.ToString("dd/MM/yyyy")}\n" +
-              $"ChBox_EnviarPDF|{ChBox_EnviarPDF.Checked}";
+              $"Txt_OSTimer|{Txt_OSTimer.Text}\n" +
+              $"DTP_OSSelect|{DTP_OSSelect.Value.ToString("dd/MM/yyyy")}\n" +
+              $"ChBox_OSEnvMensCanc|{ChBox_OSMensCancel.Checked}\n" +
+              $"DTP_BoletoCobDiaria|{DTP_BoletoCobDiaria.Value.ToString("HH:mm")}\n" +
+              $"DTP_BoletoCobSegunda|{DTP_BoletoCobSegunda.Value.ToString("HH:mm")}\n" +
+              $"DTP_BoletoSelect|{DTP_BoletoSelect.Value.ToString("dd/MM/yyyy")}\n" +
+              $"ChBox_BoletoEnviarPDF|{ChBox_BoletoEnviarPDF.Checked}\n" +
+              $"ChBox_BoletoMensCanc|{ChBox_BoletoEnviarMensCancel.Checked}\n" +
+              $"ChBox_BoletoMensFds|{ChBox_BoletoEnviarMensFimdesem.Checked}";
 
 
             File.WriteAllText(caminhoArquivo, conteudo);
@@ -108,40 +132,52 @@ namespace Integrador_Com_CRM.Formularios
                                 Txt_Token.Text = valor;
                                 break;
 
-                            case "Txt_TimerOS":
-                                Txt_TimerOS.Text = valor;
+                            case "Txt_OSTimer":
+                                Txt_OSTimer.Text = valor;
                                 break;
 
-                            case "DTP_SelectOS":
+                            case "DTP_OSSelect":
                                 if (DateTime.TryParseExact(valor, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dataSelectOS))
                                 {
-                                    DTP_SelectOS.Value = dataSelectOS;
+                                    DTP_OSSelect.Value = dataSelectOS;
                                 }
                                 break;
 
-                            case "DTP_CobDiariaBoleto":
+                            case "ChBox_OSEnvMensCanc":
+                                ChBox_OSMensCancel.Checked = Convert.ToBoolean(valor);
+                                break;
+
+                            case "DTP_BoletoCobDiaria":
                                 if (DateTime.TryParseExact(valor, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime horaDiaria))
                                 {
-                                    DTP_CobDiariaBoleto.Value = DateTime.Today.Add(horaDiaria.TimeOfDay);
+                                    DTP_BoletoCobDiaria.Value = DateTime.Today.Add(horaDiaria.TimeOfDay);
                                 }
                                 break;
 
-                            case "DTP_CobSegundaBoleto":
+                            case "DTP_BoletoCobSegunda":
                                 if (DateTime.TryParseExact(valor, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime horaSegunda))
                                 {
-                                    DTP_CobSegundaBoleto.Value = DateTime.Today.Add(horaSegunda.TimeOfDay);
+                                    DTP_BoletoCobSegunda.Value = DateTime.Today.Add(horaSegunda.TimeOfDay);
                                 }
                                 break;
 
-                            case "DTP_SelectBoleto":
+                            case "DTP_BoletoSelect":
                                 if (DateTime.TryParseExact(valor, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dataSelectBoleto))
                                 {
-                                    DTP_SelectBoleto.Value = dataSelectBoleto;
+                                    DTP_BoletoSelect.Value = dataSelectBoleto;
                                 }
                                 break;
 
-                            case "ChBox_EnviarPDF":
-                                ChBox_EnviarPDF.Checked = Convert.ToBoolean(valor);
+                            case "ChBox_BoletoEnviarPDF":
+                                ChBox_BoletoEnviarPDF.Checked = Convert.ToBoolean(valor);
+                                break;
+
+                            case "ChBox_BoletoMensCanc":
+                                ChBox_BoletoEnviarMensCancel.Checked = Convert.ToBoolean(valor);
+                                break;
+
+                            case "ChBox_BoletoMensFds":
+                                ChBox_BoletoEnviarMensFimdesem.Checked = Convert.ToBoolean(valor);
                                 break;
                         }
                     }
@@ -160,15 +196,19 @@ namespace Integrador_Com_CRM.Formularios
             string caminhoArquivo = "config_timers.txt";
 
             string conteudo = $"Token|\n" +
-                   $"Txt_TimerOS|5\n" +
-                   $"DTP_SelectOS|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
-                   $"DTP_CobDiariaBoleto|10:30\n" +
-                   $"DTP_CobSegundaBoleto|10:45\n" +
-                   $"DTP_SelectBoleto|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
-                   $"ChBox_EnviarPDF|False";
+                              $"Txt_OSTimer|5\n" +
+                              $"DTP_OSSelect|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
+                              $"ChBox_OSEnvMensCanc|False\n" +
+                              $"DTP_BoletoCobDiaria|10:30\n" +
+                              $"DTP_BoletoCobSegunda|10:45\n" +
+                              $"DTP_BoletoSelect|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
+                              $"ChBox_BoletoEnviarPDF|False\n" +
+                              $"ChBox_BoletoMensCanc|False\n" +
+                              $"ChBox_BoletoMensFds|False";
 
             File.WriteAllText(caminhoArquivo, conteudo);
         }
+
 
         private void Txt_TimerOS_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -181,18 +221,18 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Txt_TimerOS_Leave(object sender, EventArgs e)
         {
-            if (int.TryParse(Txt_TimerOS.Text, out int valor))
+            if (int.TryParse(Txt_OSTimer.Text, out int valor))
             {
                 if (valor < 5)
                 {
                     MessageBox.Show("O valor mínimo permitido para verificação das OS é 5 minutos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    Txt_TimerOS.Text = "5"; // Força o valor mínimo
+                    Txt_OSTimer.Text = "5"; // Força o valor mínimo
                 }
             }
             else
             {
                 // Caso o valor não seja um número válido, reseta para 5
-                Txt_TimerOS.Text = "5";
+                Txt_OSTimer.Text = "5";
             }
         }
 

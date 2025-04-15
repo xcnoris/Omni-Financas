@@ -86,12 +86,12 @@ namespace Integrador_Com_CRM
 
 
                 //Timer para executar a função periodicamente a cada 5 minutos
-                timer5Min = new System.Timers.Timer(FrmConfigUC.TxtVerificaoOS * 60000); // 5 min
+                timer5Min = new System.Timers.Timer(FrmConfigUC.TxtOSVerificao * 60000); // 5 min
                 timer5Min.Elapsed += async (s, e) =>
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
+                        //await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
 
                     }
                     catch (Exception ex)
@@ -108,7 +108,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarBoletos(FrmConfigUC);
+                        //await FrmGeralUC.VerificarBoletos(FrmConfigUC);
                     }
                     catch (Exception ex)
                     {
@@ -132,7 +132,7 @@ namespace Integrador_Com_CRM
             DateTime now = DateTime.Now;
 
             // Pega o horário do campo HoraCobDiariaBoleto (ajuste conforme necessário)
-            DateTime selectedTime = FrmConfigUC.HoraCobDiariaBoleto;
+            DateTime selectedTime = FrmConfigUC.HoraBoletoCobDiaria;
 
             // Define o próximo horário de execução para hoje, usando o horário do campo
             DateTime nextRun = new DateTime(now.Year, now.Month, now.Day, selectedTime.Hour, selectedTime.Minute, 0);

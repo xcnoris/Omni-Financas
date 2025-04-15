@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Modelos.IntegradorCRMRM.Models;
+﻿using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Servicos.OS
 {
@@ -13,8 +8,14 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         {
             var variaveis = new Dictionary<string, string>
             {
+                { "<Id_Cliente>", retornoOS.Id_entidade },
                 { "<NomeComp_RazSocial>", retornoOS.Nome_RazSocial },
                 { "<PrimNome_Fantasia>", retornoOS.PrimNome_Fantasia },
+                { "<CNPJ_CPF>", retornoOS.Identificador_Cliente },
+                { "<Email>", retornoOS.Email_Cliente },
+                { "<Celular>", retornoOS.Celular },
+
+                { "<Id_OS>", retornoOS.Id_Ordem_Servico },
                 { "<NSU>", retornoOS.NSU },
                 { "<Categoria>", retornoOS.Categoria }
                 // Adicione mais variáveis aqui, se precisar

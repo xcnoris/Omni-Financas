@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Modelos.IntegradorCRMRM.Models;
+﻿using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Servicos.OS
 {
@@ -13,10 +8,15 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         {
             var variaveis = new Dictionary<string, string>
             {
-                { "<Documento>", retornoBoleto.Documento },
-                { "<EmailCliente>", retornoBoleto.Email },
+                { "<Id_Cliente>", retornoBoleto.Id_Entidade },
                 { "<NomeComp_RazSocial>", retornoBoleto.Nome_RazSocial },
                 { "<PrimNome_Fantasia>", retornoBoleto.PrimNome_Fantasia },
+                { "<CNPJ_CPF>", retornoBoleto.Identificador_Cliente },
+                { "<Email>", retornoBoleto.Email },
+                { "<Celular>", retornoBoleto.Celular },
+
+                { "<Id_DR>", retornoBoleto.Id_DocReceber },
+                { "<Documento_DR>", retornoBoleto.Documento },
                 { "<Vencimento>", retornoBoleto.Data_Vencimento.ToString("dd/MM/yyyy")},
                 { "<Valor>", retornoBoleto.Valor }
                 // Adicione mais variáveis aqui, se precisar
@@ -26,10 +26,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
             {
                 mensagem = mensagem.Replace(item.Key, item.Value);
             }
-
             return mensagem;
         }
-
-
     }
 }

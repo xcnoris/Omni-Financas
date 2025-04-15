@@ -143,7 +143,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             if (verificarLicenca(FrmConfigUC))
             {
-                await controlOrdemServico.VerificarNovosServicos(DadosAPI, FrmConfigUC.DataSelectOS);
+                await controlOrdemServico.VerificarNovosServicos(DadosAPI, FrmConfigUC.DataOSSelect);
                 return true;
             }
             return false;
@@ -157,7 +157,7 @@ namespace Integrador_Com_CRM.Formularios
                 List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
                 List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
 
-                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, FrmConfigUC.DataSelectBoleto, FrmConfigUC.ChBox_EnviarPDFa);
+                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, FrmConfigUC.DataBoletoSelect, FrmConfigUC.ChBox_BoletoEnviarPDFa);
                 return true;
             }
             return false;

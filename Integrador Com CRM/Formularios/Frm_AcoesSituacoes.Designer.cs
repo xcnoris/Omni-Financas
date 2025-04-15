@@ -31,16 +31,16 @@
             components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
             groupBox3 = new GroupBox();
-            Btn_EditarMenCacelarOS = new ComponentesPerson.BotaoArredond(components);
-            Btn_EditarMenCricaoOS = new ComponentesPerson.BotaoArredond(components);
+            Btn_EditarMenCacelarOS = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            Btn_EditarMenCricaoOS = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_OSCriacao = new TextBox();
             label2 = new Label();
             Txt_OSCancelada = new TextBox();
             label5 = new Label();
             groupBox2 = new GroupBox();
-            botaoArredond3 = new ComponentesPerson.BotaoArredond(components);
-            botaoArredond1 = new ComponentesPerson.BotaoArredond(components);
-            botaoArredond2 = new ComponentesPerson.BotaoArredond(components);
+            botaoArredond3 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            botaoArredond1 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            botaoArredond2 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_BolCriacao = new TextBox();
             label4 = new Label();
             Txt_BolCanEst = new TextBox();
@@ -231,9 +231,9 @@
             label4.ForeColor = Color.White;
             label4.Location = new Point(15, 47);
             label4.Name = "label4";
-            label4.Size = new Size(73, 17);
+            label4.Size = new Size(78, 17);
             label4.TabIndex = 7;
-            label4.Text = "1 - Criação:";
+            label4.Text = "1 - Emissão:";
             // 
             // Txt_BolCanEst
             // 

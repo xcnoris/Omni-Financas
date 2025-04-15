@@ -34,6 +34,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             WHEN e.tipo_entidade = 2 THEN pj.cnpj 
                             ELSE 'Tipo de entidade desconhecido' 
                         END AS identificador_cliente,
+                        e.id_entidade,
                         os.nome_cliente, 
 	                    CASE 
                             WHEN e.tipo_entidade = 1 THEN LEFT(e.nome, CHARINDEX(' ', e.nome + ' ') - 1)
@@ -89,6 +90,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     {
                         Id_Ordem_Servico = linha["id_ordem_servico"].ToString(),
                         NSU = linha["nsu"].ToString(),
+                        Id_entidade = linha["id_entidade"].ToString(),
                         Identificador_Cliente = linha["identificador_cliente"].ToString(),
                         Nome_RazSocial = linha["nome_cliente"].ToString(),
                         PrimNome_Fantasia = linha["nomeFantasia"].ToString(),

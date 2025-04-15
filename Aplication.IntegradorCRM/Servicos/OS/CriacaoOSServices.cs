@@ -28,7 +28,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                 MetodosGerais.RegistrarLog("OS", $"Erro ao enviar mensagem de criação da OS {RelacaoOS.Id_OrdemServico} - Cat OS: {RelacaoOS.Id_CategoriaOS}");
             }
 
-            OSEntradaServices.VerificarOSEntrada(Convert.ToInt32(RetornoOS.Id_CategoriaOS), DadosAPI, RelacaoOS, RetornoOS);
+            //OSEntradaServices.VerificarOSEntrada(Convert.ToInt32(RetornoOS.Id_CategoriaOS), DadosAPI, RelacaoOS, RetornoOS);
         }
 
 

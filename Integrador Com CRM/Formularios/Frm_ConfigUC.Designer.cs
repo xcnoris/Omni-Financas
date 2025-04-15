@@ -30,104 +30,251 @@
         {
             components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
-            groupBox5 = new GroupBox();
-            groupBox9 = new GroupBox();
-            ChBox_EnviarPDF = new CheckBox();
-            label9 = new Label();
-            label10 = new Label();
-            groupBox6 = new GroupBox();
-            DTP_CobSegundaBoleto = new DateTimePicker();
-            DTP_CobDiariaBoleto = new DateTimePicker();
-            label2 = new Label();
-            label3 = new Label();
-            groupBox8 = new GroupBox();
-            DTP_SelectBoleto = new DateTimePicker();
-            label8 = new Label();
-            label4 = new Label();
-            groupBox4 = new GroupBox();
             groupBox7 = new GroupBox();
-            DTP_SelectOS = new DateTimePicker();
+            ChBox_OSMensCancel = new CheckBox();
+            label14 = new Label();
+            DTP_OSSelect = new DateTimePicker();
             label7 = new Label();
             groupBox2 = new GroupBox();
             label5 = new Label();
-            Txt_TimerOS = new TextBox();
+            Txt_OSTimer = new TextBox();
             label6 = new Label();
+            label13 = new Label();
+            groupBox9 = new GroupBox();
+            ChBox_BoletoEnviarMensCancel = new CheckBox();
+            label15 = new Label();
+            ChBox_BoletoEnviarMensFimdesem = new CheckBox();
+            label11 = new Label();
+            ChBox_BoletoEnviarPDF = new CheckBox();
+            label9 = new Label();
+            label10 = new Label();
+            label12 = new Label();
+            groupBox6 = new GroupBox();
+            DTP_BoletoCobSegunda = new DateTimePicker();
+            DTP_BoletoCobDiaria = new DateTimePicker();
+            label2 = new Label();
+            label3 = new Label();
+            groupBox8 = new GroupBox();
+            DTP_BoletoSelect = new DateTimePicker();
+            label8 = new Label();
+            label4 = new Label();
             groupBox3 = new GroupBox();
             Btn_BuscarMAC = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_Token = new TextBox();
             label1 = new Label();
             groupBox1.SuspendLayout();
-            groupBox5.SuspendLayout();
+            groupBox7.SuspendLayout();
+            groupBox2.SuspendLayout();
             groupBox9.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox8.SuspendLayout();
-            groupBox4.SuspendLayout();
-            groupBox7.SuspendLayout();
-            groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.BackColor = Color.Transparent;
-            groupBox1.Controls.Add(groupBox5);
-            groupBox1.Controls.Add(groupBox4);
+            groupBox1.Controls.Add(groupBox7);
+            groupBox1.Controls.Add(groupBox2);
+            groupBox1.Controls.Add(label13);
+            groupBox1.Controls.Add(groupBox9);
+            groupBox1.Controls.Add(label12);
+            groupBox1.Controls.Add(groupBox6);
+            groupBox1.Controls.Add(groupBox8);
             groupBox1.Controls.Add(groupBox3);
             groupBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             groupBox1.ForeColor = Color.White;
             groupBox1.Location = new Point(19, 14);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(785, 393);
+            groupBox1.Size = new Size(791, 390);
             groupBox1.TabIndex = 13;
             groupBox1.TabStop = false;
             groupBox1.Text = "Configurações";
             // 
-            // groupBox5
+            // groupBox7
             // 
-            groupBox5.BackColor = Color.Transparent;
-            groupBox5.Controls.Add(groupBox9);
-            groupBox5.Controls.Add(groupBox6);
-            groupBox5.Controls.Add(groupBox8);
-            groupBox5.ForeColor = Color.White;
-            groupBox5.Location = new Point(18, 215);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(745, 170);
-            groupBox5.TabIndex = 17;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "Boletos";
+            groupBox7.BackColor = Color.Transparent;
+            groupBox7.Controls.Add(ChBox_OSMensCancel);
+            groupBox7.Controls.Add(label14);
+            groupBox7.Controls.Add(DTP_OSSelect);
+            groupBox7.Controls.Add(label7);
+            groupBox7.ForeColor = Color.White;
+            groupBox7.Location = new Point(277, 123);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(450, 87);
+            groupBox7.TabIndex = 4;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Config Select";
+            // 
+            // ChBox_OSMensCancel
+            // 
+            ChBox_OSMensCancel.AutoSize = true;
+            ChBox_OSMensCancel.Location = new Point(179, 54);
+            ChBox_OSMensCancel.Name = "ChBox_OSMensCancel";
+            ChBox_OSMensCancel.Size = new Size(15, 14);
+            ChBox_OSMensCancel.TabIndex = 20;
+            ChBox_OSMensCancel.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label14.Location = new Point(8, 52);
+            label14.Name = "label14";
+            label14.Size = new Size(165, 17);
+            label14.TabIndex = 19;
+            label14.Text = "Enviar PDF ao criar boleto";
+            // 
+            // DTP_OSSelect
+            // 
+            DTP_OSSelect.CustomFormat = "HH:mm";
+            DTP_OSSelect.Format = DateTimePickerFormat.Short;
+            DTP_OSSelect.Location = new Point(345, 22);
+            DTP_OSSelect.Name = "DTP_OSSelect";
+            DTP_OSSelect.Size = new Size(95, 25);
+            DTP_OSSelect.TabIndex = 3;
+            DTP_OSSelect.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(8, 23);
+            label7.Name = "label7";
+            label7.Size = new Size(331, 17);
+            label7.TabIndex = 7;
+            label7.Text = "Buscar OS registradas no banco de dados a partir de:";
+            // 
+            // groupBox2
+            // 
+            groupBox2.BackColor = Color.Transparent;
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(Txt_OSTimer);
+            groupBox2.Controls.Add(label6);
+            groupBox2.ForeColor = Color.White;
+            groupBox2.Location = new Point(18, 123);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(253, 54);
+            groupBox2.TabIndex = 3;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Timers";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(178, 25);
+            label5.Name = "label5";
+            label5.Size = new Size(61, 17);
+            label5.TabIndex = 7;
+            label5.Text = "minutos.";
+            // 
+            // Txt_OSTimer
+            // 
+            Txt_OSTimer.Location = new Point(116, 22);
+            Txt_OSTimer.Name = "Txt_OSTimer";
+            Txt_OSTimer.Size = new Size(52, 25);
+            Txt_OSTimer.TabIndex = 2;
+            Txt_OSTimer.KeyPress += Txt_TimerOS_KeyPress;
+            Txt_OSTimer.Leave += Txt_TimerOS_Leave;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(8, 25);
+            label6.Name = "label6";
+            label6.Size = new Size(102, 17);
+            label6.TabIndex = 1;
+            label6.Text = "Verificar a cada ";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Arial", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label13.Location = new Point(23, 103);
+            label13.Name = "label13";
+            label13.Size = new Size(177, 22);
+            label13.TabIndex = 8;
+            label13.Text = "Ordem de Serviço";
             // 
             // groupBox9
             // 
             groupBox9.BackColor = Color.Transparent;
-            groupBox9.Controls.Add(ChBox_EnviarPDF);
+            groupBox9.Controls.Add(ChBox_BoletoEnviarMensCancel);
+            groupBox9.Controls.Add(label15);
+            groupBox9.Controls.Add(ChBox_BoletoEnviarMensFimdesem);
+            groupBox9.Controls.Add(label11);
+            groupBox9.Controls.Add(ChBox_BoletoEnviarPDF);
             groupBox9.Controls.Add(label9);
             groupBox9.Controls.Add(label10);
             groupBox9.ForeColor = Color.White;
-            groupBox9.Location = new Point(337, 22);
+            groupBox9.Location = new Point(336, 225);
             groupBox9.Name = "groupBox9";
             groupBox9.Size = new Size(402, 78);
             groupBox9.TabIndex = 6;
             groupBox9.TabStop = false;
             groupBox9.Text = "Config Select";
             // 
-            // ChBox_EnviarPDF
+            // ChBox_BoletoEnviarMensCancel
             // 
-            ChBox_EnviarPDF.AutoSize = true;
-            ChBox_EnviarPDF.Location = new Point(236, 28);
-            ChBox_EnviarPDF.Name = "ChBox_EnviarPDF";
-            ChBox_EnviarPDF.Size = new Size(15, 14);
-            ChBox_EnviarPDF.TabIndex = 18;
-            ChBox_EnviarPDF.UseVisualStyleBackColor = true;
+            ChBox_BoletoEnviarMensCancel.AutoSize = true;
+            ChBox_BoletoEnviarMensCancel.Location = new Point(366, 28);
+            ChBox_BoletoEnviarMensCancel.Name = "ChBox_BoletoEnviarMensCancel";
+            ChBox_BoletoEnviarMensCancel.Size = new Size(15, 14);
+            ChBox_BoletoEnviarMensCancel.TabIndex = 22;
+            ChBox_BoletoEnviarMensCancel.UseVisualStyleBackColor = true;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label15.Location = new Point(205, 26);
+            label15.Name = "label15";
+            label15.Size = new Size(162, 17);
+            label15.TabIndex = 21;
+            label15.Text = "Enviar Mensagem Cancel.";
+            // 
+            // ChBox_BoletoEnviarMensFimdesem
+            // 
+            ChBox_BoletoEnviarMensFimdesem.AutoSize = true;
+            ChBox_BoletoEnviarMensFimdesem.Location = new Point(251, 53);
+            ChBox_BoletoEnviarMensFimdesem.Name = "ChBox_BoletoEnviarMensFimdesem";
+            ChBox_BoletoEnviarMensFimdesem.Size = new Size(15, 14);
+            ChBox_BoletoEnviarMensFimdesem.TabIndex = 20;
+            ChBox_BoletoEnviarMensFimdesem.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label11.Location = new Point(13, 51);
+            label11.Name = "label11";
+            label11.Size = new Size(232, 17);
+            label11.TabIndex = 19;
+            label11.Text = "Enviar Mensagem no Fim de semana";
+            // 
+            // ChBox_BoletoEnviarPDF
+            // 
+            ChBox_BoletoEnviarPDF.AutoSize = true;
+            ChBox_BoletoEnviarPDF.Location = new Point(184, 31);
+            ChBox_BoletoEnviarPDF.Name = "ChBox_BoletoEnviarPDF";
+            ChBox_BoletoEnviarPDF.Size = new Size(15, 14);
+            ChBox_BoletoEnviarPDF.TabIndex = 18;
+            ChBox_BoletoEnviarPDF.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label9.Location = new Point(14, 25);
+            label9.Location = new Point(13, 29);
             label9.Name = "label9";
-            label9.Size = new Size(216, 17);
+            label9.Size = new Size(165, 17);
             label9.TabIndex = 8;
-            label9.Text = "Enviar PDF ao Criar Oportunidade:";
+            label9.Text = "Enviar PDF ao criar boleto";
             // 
             // label10
             // 
@@ -137,42 +284,54 @@
             label10.Size = new Size(0, 17);
             label10.TabIndex = 1;
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.BackColor = Color.Transparent;
+            label12.Font = new Font("Arial", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.ForeColor = Color.White;
+            label12.Location = new Point(23, 200);
+            label12.Name = "label12";
+            label12.Size = new Size(81, 22);
+            label12.TabIndex = 3;
+            label12.Text = "Boletos";
+            // 
             // groupBox6
             // 
             groupBox6.BackColor = Color.Transparent;
-            groupBox6.Controls.Add(DTP_CobSegundaBoleto);
-            groupBox6.Controls.Add(DTP_CobDiariaBoleto);
+            groupBox6.Controls.Add(DTP_BoletoCobSegunda);
+            groupBox6.Controls.Add(DTP_BoletoCobDiaria);
             groupBox6.Controls.Add(label2);
             groupBox6.Controls.Add(label3);
             groupBox6.ForeColor = Color.White;
-            groupBox6.Location = new Point(19, 22);
+            groupBox6.Location = new Point(18, 225);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(312, 78);
             groupBox6.TabIndex = 5;
             groupBox6.TabStop = false;
             groupBox6.Text = "Timers";
             // 
-            // DTP_CobSegundaBoleto
+            // DTP_BoletoCobSegunda
             // 
-            DTP_CobSegundaBoleto.CustomFormat = "HH:mm";
-            DTP_CobSegundaBoleto.Format = DateTimePickerFormat.Custom;
-            DTP_CobSegundaBoleto.Location = new Point(240, 49);
-            DTP_CobSegundaBoleto.Name = "DTP_CobSegundaBoleto";
-            DTP_CobSegundaBoleto.ShowUpDown = true;
-            DTP_CobSegundaBoleto.Size = new Size(55, 25);
-            DTP_CobSegundaBoleto.TabIndex = 5;
-            DTP_CobSegundaBoleto.Value = new DateTime(2024, 12, 25, 0, 0, 0, 0);
+            DTP_BoletoCobSegunda.CustomFormat = "HH:mm";
+            DTP_BoletoCobSegunda.Format = DateTimePickerFormat.Custom;
+            DTP_BoletoCobSegunda.Location = new Point(240, 49);
+            DTP_BoletoCobSegunda.Name = "DTP_BoletoCobSegunda";
+            DTP_BoletoCobSegunda.ShowUpDown = true;
+            DTP_BoletoCobSegunda.Size = new Size(55, 25);
+            DTP_BoletoCobSegunda.TabIndex = 5;
+            DTP_BoletoCobSegunda.Value = new DateTime(2024, 12, 25, 0, 0, 0, 0);
             // 
-            // DTP_CobDiariaBoleto
+            // DTP_BoletoCobDiaria
             // 
-            DTP_CobDiariaBoleto.CustomFormat = "HH:mm";
-            DTP_CobDiariaBoleto.Format = DateTimePickerFormat.Custom;
-            DTP_CobDiariaBoleto.Location = new Point(240, 20);
-            DTP_CobDiariaBoleto.Name = "DTP_CobDiariaBoleto";
-            DTP_CobDiariaBoleto.ShowUpDown = true;
-            DTP_CobDiariaBoleto.Size = new Size(55, 25);
-            DTP_CobDiariaBoleto.TabIndex = 4;
-            DTP_CobDiariaBoleto.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
+            DTP_BoletoCobDiaria.CustomFormat = "HH:mm";
+            DTP_BoletoCobDiaria.Format = DateTimePickerFormat.Custom;
+            DTP_BoletoCobDiaria.Location = new Point(240, 20);
+            DTP_BoletoCobDiaria.Name = "DTP_BoletoCobDiaria";
+            DTP_BoletoCobDiaria.ShowUpDown = true;
+            DTP_BoletoCobDiaria.Size = new Size(55, 25);
+            DTP_BoletoCobDiaria.TabIndex = 4;
+            DTP_BoletoCobDiaria.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
             // 
             // label2
             // 
@@ -198,26 +357,26 @@
             // groupBox8
             // 
             groupBox8.BackColor = Color.Transparent;
-            groupBox8.Controls.Add(DTP_SelectBoleto);
+            groupBox8.Controls.Add(DTP_BoletoSelect);
             groupBox8.Controls.Add(label8);
             groupBox8.Controls.Add(label4);
             groupBox8.ForeColor = Color.White;
-            groupBox8.Location = new Point(19, 106);
+            groupBox8.Location = new Point(18, 309);
             groupBox8.Name = "groupBox8";
             groupBox8.Size = new Size(478, 59);
             groupBox8.TabIndex = 7;
             groupBox8.TabStop = false;
             groupBox8.Text = "Config Select";
             // 
-            // DTP_SelectBoleto
+            // DTP_BoletoSelect
             // 
-            DTP_SelectBoleto.CustomFormat = "HH:mm";
-            DTP_SelectBoleto.Format = DateTimePickerFormat.Short;
-            DTP_SelectBoleto.Location = new Point(370, 22);
-            DTP_SelectBoleto.Name = "DTP_SelectBoleto";
-            DTP_SelectBoleto.Size = new Size(95, 25);
-            DTP_SelectBoleto.TabIndex = 6;
-            DTP_SelectBoleto.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
+            DTP_BoletoSelect.CustomFormat = "HH:mm";
+            DTP_BoletoSelect.Format = DateTimePickerFormat.Short;
+            DTP_BoletoSelect.Location = new Point(370, 22);
+            DTP_BoletoSelect.Name = "DTP_BoletoSelect";
+            DTP_BoletoSelect.Size = new Size(95, 25);
+            DTP_BoletoSelect.TabIndex = 6;
+            DTP_BoletoSelect.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
             // 
             // label8
             // 
@@ -238,105 +397,13 @@
             label4.Size = new Size(0, 17);
             label4.TabIndex = 1;
             // 
-            // groupBox4
-            // 
-            groupBox4.BackColor = Color.Transparent;
-            groupBox4.Controls.Add(groupBox7);
-            groupBox4.Controls.Add(groupBox2);
-            groupBox4.ForeColor = Color.White;
-            groupBox4.Location = new Point(18, 106);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(745, 103);
-            groupBox4.TabIndex = 2;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Ordem de Serviço";
-            // 
-            // groupBox7
-            // 
-            groupBox7.BackColor = Color.Transparent;
-            groupBox7.Controls.Add(DTP_SelectOS);
-            groupBox7.Controls.Add(label7);
-            groupBox7.ForeColor = Color.White;
-            groupBox7.Location = new Point(278, 35);
-            groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(450, 54);
-            groupBox7.TabIndex = 4;
-            groupBox7.TabStop = false;
-            groupBox7.Text = "Config Select";
-            // 
-            // DTP_SelectOS
-            // 
-            DTP_SelectOS.CustomFormat = "HH:mm";
-            DTP_SelectOS.Format = DateTimePickerFormat.Short;
-            DTP_SelectOS.Location = new Point(345, 22);
-            DTP_SelectOS.Name = "DTP_SelectOS";
-            DTP_SelectOS.Size = new Size(95, 25);
-            DTP_SelectOS.TabIndex = 3;
-            DTP_SelectOS.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.ForeColor = Color.White;
-            label7.Location = new Point(8, 23);
-            label7.Name = "label7";
-            label7.Size = new Size(331, 17);
-            label7.TabIndex = 7;
-            label7.Text = "Buscar OS registradas no banco de dados a partir de:";
-            // 
-            // groupBox2
-            // 
-            groupBox2.BackColor = Color.Transparent;
-            groupBox2.Controls.Add(label5);
-            groupBox2.Controls.Add(Txt_TimerOS);
-            groupBox2.Controls.Add(label6);
-            groupBox2.ForeColor = Color.White;
-            groupBox2.Location = new Point(19, 35);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(253, 54);
-            groupBox2.TabIndex = 3;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Timers";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label5.ForeColor = Color.White;
-            label5.Location = new Point(178, 25);
-            label5.Name = "label5";
-            label5.Size = new Size(61, 17);
-            label5.TabIndex = 7;
-            label5.Text = "minutos.";
-            // 
-            // Txt_TimerOS
-            // 
-            Txt_TimerOS.Location = new Point(116, 22);
-            Txt_TimerOS.Name = "Txt_TimerOS";
-            Txt_TimerOS.Size = new Size(52, 25);
-            Txt_TimerOS.TabIndex = 2;
-            Txt_TimerOS.KeyPress += Txt_TimerOS_KeyPress;
-            Txt_TimerOS.Leave += Txt_TimerOS_Leave;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(8, 25);
-            label6.Name = "label6";
-            label6.Size = new Size(102, 17);
-            label6.TabIndex = 1;
-            label6.Text = "Verificar a cada ";
-            // 
             // groupBox3
             // 
             groupBox3.BackColor = Color.Transparent;
             groupBox3.Controls.Add(Btn_BuscarMAC);
             groupBox3.Controls.Add(Txt_Token);
             groupBox3.Controls.Add(label1);
-            groupBox3.ForeColor = Color.Yellow;
+            groupBox3.ForeColor = Color.White;
             groupBox3.Location = new Point(18, 22);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(745, 78);
@@ -370,7 +437,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label1.ForeColor = Color.Yellow;
+            label1.ForeColor = Color.White;
             label1.Location = new Point(19, 36);
             label1.Name = "label1";
             label1.Size = new Size(47, 17);
@@ -388,18 +455,17 @@
             Name = "Frm_ConfigUC";
             Size = new Size(829, 421);
             groupBox1.ResumeLayout(false);
-            groupBox5.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             groupBox9.ResumeLayout(false);
             groupBox9.PerformLayout();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
-            groupBox4.ResumeLayout(false);
-            groupBox7.ResumeLayout(false);
-            groupBox7.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ResumeLayout(false);
@@ -409,30 +475,36 @@
 
         private GroupBox groupBox1;
         private GroupBox groupBox2;
-        private TextBox Txt_TimerOS;
+        private TextBox Txt_OSTimer;
         private Label label6;
         private GroupBox groupBox3;
         private TextBox Txt_Token;
         private Label label1;
-        private GroupBox groupBox5;
-        private GroupBox groupBox4;
         private GroupBox groupBox6;
-        private DateTimePicker DTP_CobSegundaBoleto;
-        private DateTimePicker DTP_CobDiariaBoleto;
+        private DateTimePicker DTP_BoletoCobSegunda;
+        private DateTimePicker DTP_BoletoCobDiaria;
         private Label label2;
         private Label label3;
         private GroupBox groupBox8;
         private Label label4;
         private GroupBox groupBox7;
         private Label label5;
-        private DateTimePicker DTP_SelectOS;
+        private DateTimePicker DTP_OSSelect;
         private Label label7;
-        private DateTimePicker DTP_SelectBoleto;
+        private DateTimePicker DTP_BoletoSelect;
         private Label label8;
         private GroupBox groupBox9;
-        private CheckBox ChBox_EnviarPDF;
+        private CheckBox ChBox_BoletoEnviarPDF;
         private Label label9;
         private Label label10;
         private ComponentesPerson.BotaoArredond Btn_BuscarMAC;
+        private Label label12;
+        private CheckBox ChBox_BoletoEnviarMensFimdesem;
+        private Label label11;
+        private Label label13;
+        private CheckBox ChBox_OSMensCancel;
+        private Label label14;
+        private CheckBox ChBox_BoletoEnviarMensCancel;
+        private Label label15;
     }
 }
