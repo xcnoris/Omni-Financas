@@ -1,6 +1,7 @@
 ﻿using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
@@ -20,7 +21,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
-        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM, DateTime DateTime, bool EnviarPDFaoCriarOPT)
+        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM, Configuracao_Geral FrmConfigUC)
         {
             DAL<BoletoAcoesCRMModel> _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
             DAL<DadosAPIModels> _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
@@ -30,7 +31,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             {
                 MetodosGerais.RegistrarInicioLog("BOLETO");
                 // Busca Novos boletos no DB
-                List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB(DateTime);
+                List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB(FrmConfigUC.DataBoletoSelect);
                 List<RelacaoBoletoCRMModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoCRMModel>()).ToList();
 
                 MetodosGerais.RegistrarLog("BOLETO", $"Foram encontrados {boletoList.Count} Boletos.\n");
@@ -57,7 +58,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                 // Log para verificação
                                 MetodosGerais.RegistrarLog("BOLETO", $"Documento a receber {id_DocReceber} não encontrada na tabela de relação.");
 
-                                CriacaoService.RealizarProcessoCriacaoBoleto(DadosAPI,linha, EnviarPDFaoCriarOPT);
+                                CriacaoService.RealizarProcessoCriacaoBoleto(DadosAPI,linha, FrmConfigUC.ChBox_BoletoEnviarPDFa);
                             }
                             else
                             {
@@ -72,7 +73,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             BoletoRelacao.Celular_Entidade = linha.Celular;
 
                             MetodosGerais.RegistrarLog("BOLETO", $"DR  {BoletoRelacao.Id_DocumentoReceber} esta com a relação do vencimento em {diasAtraso}. Verificação foi iniciada...");
-                            Boleto_Services.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM, linha);
+                            Boleto_Services.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM, linha, FrmConfigUC);
                         }
                     }
                 }

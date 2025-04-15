@@ -9,7 +9,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class VerificacaoDeCobranca
     {
-        internal async static Task RealizarCobranca(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, RetornoBoleto retornoBoleto,DadosAPIModels DadosAPI)
+        internal async static Task RealizarCobranca(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, RetornoBoleto retornoBoleto,DadosAPIModels DadosAPI, bool PermitirEnvioFinsDeSemana)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesCRMModel? boletoAcaoBuscado = AcoesBoletoList.FirstOrDefault(x => x.Dias_Cobrancas.Equals(diasAtraso));
@@ -22,35 +22,31 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
             ModeloOportunidadeRequest atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestBoleto(retornoBoleto, diasAtraso);
 
-            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado);
+            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado, PermitirEnvioFinsDeSemana);
         }
-       
 
-        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoCRMModel boletoRelacao, ModeloOportunidadeRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesCRMModel boletoAcaoBuscado)
+        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoCRMModel boletoRelacao, ModeloOportunidadeRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesCRMModel boletoAcaoBuscado, bool PermitirEnvioFinsDeSemana)
         {
-            /*
-                Verifica se o dia de atraso é igual ao registrado
-                Caso seja, significa que já foi realizada a cobrança desse boleto para o determinado dia
-            */
             if (DiasAtrasoRelBoleto != diasAtraso)
             {
                 boletoRelacao.DiasEmAtraso = diasAtraso;
+                bool ehFimDeSemana = DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday;
+                string logMsg = $"Boleto {boletoRelacao.Id_DocumentoReceber} já existe na tabela relação. Está com {diasAtraso} dias em atraso.";
 
-                // Verifica se hoje é final de semana, caso seja, não faz a cobrança dos boleto.
-                if (DateTime.Today.DayOfWeek == DayOfWeek.Saturday || DateTime.Today.DayOfWeek == DayOfWeek.Sunday)
-                {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} já existe na tabela relação. Está com {diasAtraso} dias em atraso. Não será realizado a cobrança porque é fim de semana!");
-                }
-                else
+                if (PermitirEnvioFinsDeSemana || !ehFimDeSemana)
                 {
                     using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
                     await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
-                    MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está com {diasAtraso} dias em atraso.");
+                    MetodosGerais.RegistrarLog("BOLETO", logMsg);
+                }
+                else
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"{logMsg}. Não será realizada a cobrança porque é fim de semana!");
                 }
             }
             else
             {
-                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Esta na etapa atraso {diasAtraso}!");
+                MetodosGerais.RegistrarLog("BOLETO", $"Boleto já existe na tabela relação. Está na etapa atraso {diasAtraso}!");
             }
         }
     }

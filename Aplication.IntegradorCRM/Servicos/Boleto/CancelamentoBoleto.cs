@@ -11,7 +11,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class CancelamentoBoleto
     {
-        public async static Task Cancelar(RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels dadosAPI, RetornoBoleto retornoBoleto)
+        public async static Task Cancelar(RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels dadosAPI, RetornoBoleto retornoBoleto, bool EnviarMensagemCancelamento)
         {
             try
             {
@@ -26,7 +26,14 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                 try
                 {
-                    await CancelarBoleto(boletoRelacao, RequestCancelamento, dadosAPI);
+                    if (EnviarMensagemCancelamento)
+                    {
+                        await CancelarBoleto(boletoRelacao, RequestCancelamento, dadosAPI);
+                    }
+                    else
+                    {
+                        await Boleto_Services.AtualizarBoletoNoBanco(boletoRelacao);
+                    }
                     MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa Cancelada.");
                 }
                 catch (Exception ex)

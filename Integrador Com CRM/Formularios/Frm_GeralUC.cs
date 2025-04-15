@@ -10,6 +10,7 @@ using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM;
 using Aplication.IntegradorCRM.Metodos.Envio__Email;
 using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -143,7 +144,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             if (verificarLicenca(FrmConfigUC))
             {
-                await controlOrdemServico.VerificarNovosServicos(DadosAPI, FrmConfigUC.DataOSSelect);
+                await controlOrdemServico.VerificarNovosServicos(DadosAPI, InstanciarConfigGeral(FrmConfigUC));
                 return true;
             }
             return false;
@@ -157,13 +158,28 @@ namespace Integrador_Com_CRM.Formularios
                 List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
                 List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
 
-                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, FrmConfigUC.DataBoletoSelect, FrmConfigUC.ChBox_BoletoEnviarPDFa);
+                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, InstanciarConfigGeral(FrmConfigUC));
                 return true;
             }
             return false;
         }
        
-
+        private Configuracao_Geral InstanciarConfigGeral(Frm_ConfigUC FrmConfigUC)
+        {
+            return new Configuracao_Geral
+            {
+                Token = FrmConfigUC.Token,
+                TimerOS = FrmConfigUC.TxtOSVerificao,
+                DataOSSelect = FrmConfigUC.DataOSSelect,
+                ChBox_OSEnviarMensCancel = FrmConfigUC.ChBox_OSEnviarMensCancel,
+                HoraBoletoCobDiaria = FrmConfigUC.HoraBoletoCobDiaria,
+                HoraBoletoCobSegunda = FrmConfigUC.HoraBoletoCobSegunda,
+                DataBoletoSelect = FrmConfigUC.DataBoletoSelect,
+                ChBox_BoletoEnviarPDFa = FrmConfigUC.ChBox_BoletoEnviarPDFa,
+                ChBox_BoletoEnviarMensCancelamento = FrmConfigUC.ChBox_BoletoEnviarMensCancelamento,
+                ChBox_BoletoMensFimdeSemana = FrmConfigUC.ChBox_BoletoMensFimdeSemana,
+            };
+        }
 
         public async Task ExecutarBuscarBoletoAsync()
         {

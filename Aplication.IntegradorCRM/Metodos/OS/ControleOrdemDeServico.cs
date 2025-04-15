@@ -17,7 +17,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
             _crudOS = new CrudOS();
         }
 
-        public async Task VerificarNovosServicos(DadosAPIModels DadosAPI, DateTime Datetime)
+        public async Task VerificarNovosServicos(DadosAPIModels DadosAPI, Configuracao_Geral FrmConfigUC)
         {
 
             using DAL<RelacaoOrdemServicoModels> dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
@@ -28,7 +28,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
             {
                 MetodosGerais.RegistrarInicioLog("OS");
                 // Busca serviços no DB
-                List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(Datetime);
+                List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(FrmConfigUC.DataBoletoSelect);
                 List<RelacaoOrdemServicoModels> TableRelacaoOS = (await dalOrdemServico.ListarAsync()).ToList();
 
                 // Passa por cada OS que retornar no select
@@ -85,7 +85,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             // Caso esteja, significa que os ajustes já foram feitos
                             if (situacaoExistente is not 1)
                             {
-                                VerificarCategoriaServices.VerificarCategorias(RetornoOS, OSInTableRelacao, DadosAPI);
+                                VerificarCategoriaServices.VerificarCategorias(RetornoOS, OSInTableRelacao, DadosAPI, FrmConfigUC.ChBox_OSEnviarMensCancel);
                             }
                             else
                             {

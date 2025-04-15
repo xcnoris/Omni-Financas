@@ -66,7 +66,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
            
         }
 
-        internal async static Task VerificarBoletosCriados(RelacaoBoletoCRMModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<BoletoAcoesCRMModel> AcoesBoletoList, RetornoBoleto retornoBoleto)
+        internal async static Task VerificarBoletosCriados(RelacaoBoletoCRMModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<BoletoAcoesCRMModel> AcoesBoletoList, RetornoBoleto retornoBoleto, Configuracao_Geral ConfigGeral)
         {
             using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
             {
@@ -77,7 +77,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     case Situacao_Boleto.Cancelada_Ou_Estornado:
                         if ((Situacao_Boleto)situacaTBRelacao != Situacao_Boleto.Cancelada_Ou_Estornado)
                         {
-                            await CancelarBoleto( BoletoRelacao, DadosAPI, retornoBoleto);
+                            await CancelarBoleto( BoletoRelacao, DadosAPI, retornoBoleto, ConfigGeral.ChBox_BoletoEnviarMensCancelamento);
                         }
                         else
                         {
@@ -98,24 +98,24 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                     // Caso não seja quitado nem cancelado, faz a cobrança
                     default:
-                        await RealizarCobrancas(AcoesBoletoList, diasAtraso, BoletoRelacao.DiasEmAtraso, BoletoRelacao, DadosAPI, retornoBoleto);
+                        await RealizarCobrancas(AcoesBoletoList, diasAtraso, BoletoRelacao.DiasEmAtraso, BoletoRelacao, DadosAPI, retornoBoleto, ConfigGeral.ChBox_BoletoMensFimdeSemana);
                         break;
                 }
             }
         }
 
-        private async static Task RealizarCobrancas(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels DadosAPI, RetornoBoleto retornoBoleto)
+        private async static Task RealizarCobrancas(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels DadosAPI, RetornoBoleto retornoBoleto, bool PermitirEnvioFinsDeSemana)
         {
-            await VerificacaoDeCobranca.RealizarCobranca(AcoesBoletoList, diasAtraso, DiasAtrasoRelBoleto, boletoRelacao, retornoBoleto, DadosAPI);
+            await VerificacaoDeCobranca.RealizarCobranca(AcoesBoletoList, diasAtraso, DiasAtrasoRelBoleto, boletoRelacao, retornoBoleto, DadosAPI, PermitirEnvioFinsDeSemana);
         }
         private async static Task QuitarBoleto( RelacaoBoletoCRMModel BoletoRelacao,DadosAPIModels DadosAPI, RetornoBoleto retorno)
         {
             await QuitacaoBoleto.Quitar( BoletoRelacao, retorno, true, DadosAPI);
         }
 
-        private async static Task CancelarBoleto( RelacaoBoletoCRMModel BoletoRelacao , DadosAPIModels DadosAPI, RetornoBoleto retorno)
+        private async static Task CancelarBoleto( RelacaoBoletoCRMModel BoletoRelacao , DadosAPIModels DadosAPI, RetornoBoleto retorno, bool EnviarMensagemCancelamento)
         {
-            await CancelamentoBoleto.Cancelar( BoletoRelacao, DadosAPI, retorno);
+            await CancelamentoBoleto.Cancelar( BoletoRelacao, DadosAPI, retorno, EnviarMensagemCancelamento);
         }
         #endregion
 

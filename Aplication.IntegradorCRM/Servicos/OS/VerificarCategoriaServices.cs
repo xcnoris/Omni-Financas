@@ -3,6 +3,7 @@ using Aplication.IntegradorCRM.Metodos.OS;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
 
 namespace Aplication.IntegradorCRM.Servicos.OS
@@ -10,7 +11,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
     internal class VerificarCategoriaServices
     {
 
-        internal static async Task VerificarCategorias(RetornoOrdemServico RetornoOS, RelacaoOrdemServicoModels OSInTBRelacao, DadosAPIModels DadosAPI)
+        internal static async Task VerificarCategorias(RetornoOrdemServico RetornoOS, RelacaoOrdemServicoModels OSInTBRelacao, DadosAPIModels DadosAPI, bool EnviarMensagemCancelamento)
         {
             using DAL<OSAcoesCRMModel> dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
             using DAL<RelacaoOrdemServicoModels> dalRelacaoOS = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
@@ -25,18 +26,17 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                 MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {RetornoOS.Id_CategoriaOS} ou -1 não cadastrada!");
                 return;
             }
-
             
             OSInTBRelacao.Situacao = Convert.ToInt32(RetornoOS.Situacao);
 
             // verifica se a OS esta cancelada
-            if ((Convert.ToInt32((RetornoOS.Situacao)) is 1))
+            if ((Situacao_OS)Convert.ToInt32(RetornoOS.Situacao) is Situacao_OS.Cancelada)
             {
-                if(await OrdemServicoRequests.EnviarMensagemViaAPI(ModeloRequest, DadosAPI))
-                {
-                    OS_Services.ProcessarRespostaAtualizacao(OSInTBRelacao);
-                    MetodosGerais.RegistrarLog("OS", $"OS atualizada para Cancelada na TB relacao {RetornoOS.Id_Ordem_Servico}!");
-                }
+                if (EnviarMensagemCancelamento)
+                    await OrdemServicoRequests.EnviarMensagemViaAPI(ModeloRequest, DadosAPI);
+                
+                OS_Services.ProcessarRespostaAtualizacao(OSInTBRelacao);
+                MetodosGerais.RegistrarLog("OS", $"OS atualizada para Cancelada na TB relacao {RetornoOS.Id_Ordem_Servico}!");
                 
             }
             else
