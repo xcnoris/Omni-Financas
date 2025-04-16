@@ -96,6 +96,7 @@
             Txt_Mensagem.MaxLength = 3000;
             Txt_Mensagem.Multiline = true;
             Txt_Mensagem.Name = "Txt_Mensagem";
+            Txt_Mensagem.ScrollBars = ScrollBars.Vertical;
             Txt_Mensagem.Size = new Size(394, 139);
             Txt_Mensagem.TabIndex = 3;
             // 

@@ -22,13 +22,13 @@ namespace DataBase.IntegradorCRM.Data
             _connectionString = conexao.Carregarbanco();
         }
 
-        public DbSet<DadosAPIModels> DadosAPI_CRM { get; set; }
-        public DbSet<RelacaoOrdemServicoModels> Relacao_OS_Com_CRM { get; set; }
-        public DbSet<RelacaoBoletoCRMModel> RelacaoBoletoCRM { get; set; }
-        public DbSet<BoletoAcoesCRMModel> boletoAcoes_CRM { get; set; }
-        public DbSet<OSAcoesCRMModel> OSAcao_CRM { get; set; }
-        public DbSet<AcaoSituacao_OS_CRM> acaoSituacao_OS_CRM { get; set; }
-        public DbSet<AcaoSituacao_Boleto_CRM> acaoSituacao_Boleto_CRM { get; set; }
+        public DbSet<DadosAPIModels> DadosAPI_OmniService { get; set; }
+        public DbSet<RelacaoOrdemServicoModels> Relacao_OS_OmniService { get; set; }
+        public DbSet<RelacaoBoletoCRMModel> RelacaoBoleto_OmniService { get; set; }
+        public DbSet<BoletoAcoesCRMModel> boletoAcoes_OmniService { get; set; }
+        public DbSet<OSAcoesCRMModel> OSAcao_OmniService { get; set; }
+        public DbSet<AcaoSituacao_OS_CRM> acaoSituacao_OS_OmniService { get; set; }
+        public DbSet<AcaoSituacao_Boleto_CRM> acaoSituacao_Boleto_OmniService { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());

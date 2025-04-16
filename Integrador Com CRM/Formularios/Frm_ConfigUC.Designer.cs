@@ -109,7 +109,7 @@
             // ChBox_OSMensCancel
             // 
             ChBox_OSMensCancel.AutoSize = true;
-            ChBox_OSMensCancel.Location = new Point(179, 54);
+            ChBox_OSMensCancel.Location = new Point(222, 54);
             ChBox_OSMensCancel.Name = "ChBox_OSMensCancel";
             ChBox_OSMensCancel.Size = new Size(15, 14);
             ChBox_OSMensCancel.TabIndex = 20;
@@ -121,9 +121,9 @@
             label14.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label14.Location = new Point(8, 52);
             label14.Name = "label14";
-            label14.Size = new Size(165, 17);
+            label14.Size = new Size(206, 17);
             label14.TabIndex = 19;
-            label14.Text = "Enviar PDF ao criar boleto";
+            label14.Text = "Enviar Mensagem Cancelamento";
             // 
             // DTP_OSSelect
             // 

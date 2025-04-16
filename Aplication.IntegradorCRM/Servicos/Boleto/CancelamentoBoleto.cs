@@ -32,6 +32,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                     }
                     else
                     {
+                        boletoRelacao.Situacao = 3;
                         await Boleto_Services.AtualizarBoletoNoBanco(boletoRelacao);
                     }
                     MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} atualizado para a etapa Cancelada.");

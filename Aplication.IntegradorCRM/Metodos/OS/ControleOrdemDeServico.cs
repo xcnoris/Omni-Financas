@@ -28,7 +28,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
             {
                 MetodosGerais.RegistrarInicioLog("OS");
                 // Busca serviços no DB
-                List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(FrmConfigUC.DataBoletoSelect);
+                List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(FrmConfigUC.DataOSSelect);
                 List<RelacaoOrdemServicoModels> TableRelacaoOS = (await dalOrdemServico.ListarAsync()).ToList();
 
                 // Passa por cada OS que retornar no select
