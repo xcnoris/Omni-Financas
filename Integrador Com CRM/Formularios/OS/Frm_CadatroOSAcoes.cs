@@ -16,7 +16,7 @@ namespace Integrador_Com_CRM.Formularios
     public partial class Frm_CadatroOSAcoes : Form
     {
         private readonly DAL<OSAcoesCRMModel> _dalOSAcoes;
-
+        private Frm_VariaveisOS FrmVariaveis;
         public Frm_CadatroOSAcoes(bool Criacao, OSAcoesCRMModel OSAcoes, string SalvarAtualizar)
         {
             InitializeComponent();
@@ -118,8 +118,14 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Btn_Variaveis_Click(object sender, EventArgs e)
         {
-            Frm_VariaveisOS frm = new Frm_VariaveisOS();
-            frm.Show();
+            FrmVariaveis = new Frm_VariaveisOS(Txt_Mensagem);
+            FrmVariaveis.Show();
+        }
+
+        private void Frm_CadatroOSAcoes_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(FrmVariaveis is not null)
+                FrmVariaveis.Close();
         }
     }
 }

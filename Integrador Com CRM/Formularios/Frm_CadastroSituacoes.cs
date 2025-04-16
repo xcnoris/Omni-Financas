@@ -21,6 +21,9 @@ namespace Integrador_Com_CRM.Formularios
 
         private Situacao_OSBoleto TipoSituacao;
 
+        private Frm_VariaveisBoleto FrmVariaveisBoleto;
+        private Frm_VariaveisOS FrmVariaveisOS;
+
         private readonly DAL<AcaoSituacao_OS_CRM> _dalSituacaoOS;
         private readonly DAL<AcaoSituacao_Boleto_CRM> _dalSituacaoBoleto;
 
@@ -49,7 +52,7 @@ namespace Integrador_Com_CRM.Formularios
                 this.Text = "Casdatro Situacões Ordem de Serviço";
             }
 
-            this.ShowDialog();
+            this.Show();
         }
 
         private async Task CarregarCamposAsync(Situacao_OSBoleto situacaoOSBoleto, Situacao_Campos tiposCamposSituacao)
@@ -181,14 +184,24 @@ namespace Integrador_Com_CRM.Formularios
         {
             if (TipoSituacao is Situacao_OSBoleto.Boleto)
             {
-                Frm_VariaveisBoleto frm = new Frm_VariaveisBoleto();
-                frm.Show();
+
+                FrmVariaveisBoleto = new Frm_VariaveisBoleto(Txt_Mensagem);
+                FrmVariaveisBoleto.Show();
             }
             else if (TipoSituacao is Situacao_OSBoleto.OS)
             {
-                Frm_VariaveisOS frm = new Frm_VariaveisOS();
-                frm.Show();
+                FrmVariaveisOS = new Frm_VariaveisOS(Txt_Mensagem);
+                FrmVariaveisOS.Show();
             }
+        }
+
+        private void Frm_CadastroSituacoes_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (FrmVariaveisBoleto is not null)
+                FrmVariaveisBoleto.Close();
+
+            if (FrmVariaveisOS is not null)
+                FrmVariaveisOS.Close();
         }
     }
 }

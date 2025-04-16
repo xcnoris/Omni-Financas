@@ -28,49 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox3 = new TextBox();
-            textBox4 = new TextBox();
             label2 = new Label();
-            textBox9 = new TextBox();
-            textBox10 = new TextBox();
-            textBox8 = new TextBox();
-            textBox7 = new TextBox();
-            textBox5 = new TextBox();
             label1 = new Label();
-            textBox2 = new TextBox();
-            textBox6 = new TextBox();
+            Btn_IdCliente = new Button();
+            Btn_NomeSocial = new Button();
+            Btn_PrimNome = new Button();
+            Btn_CNPJCPF = new Button();
+            Btn_Email = new Button();
+            Btn_Celular = new Button();
+            Btn_IdDR = new Button();
+            Btn_DocumentoDR = new Button();
+            Btn_Vencimento = new Button();
+            Btn_Valor = new Button();
             SuspendLayout();
-            // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(310, 89);
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.Size = new Size(120, 25);
-            textBox1.TabIndex = 0;
-            textBox1.Text = "<Documento_DR>";
-            // 
-            // textBox3
-            // 
-            textBox3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(310, 120);
-            textBox3.Name = "textBox3";
-            textBox3.ReadOnly = true;
-            textBox3.Size = new Size(100, 25);
-            textBox3.TabIndex = 2;
-            textBox3.Text = "<Vencimento>";
-            // 
-            // textBox4
-            // 
-            textBox4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox4.Location = new Point(310, 151);
-            textBox4.Name = "textBox4";
-            textBox4.ReadOnly = true;
-            textBox4.Size = new Size(63, 25);
-            textBox4.TabIndex = 3;
-            textBox4.Text = "<Valor>";
             // 
             // label2
             // 
@@ -84,56 +54,6 @@
             label2.TabIndex = 7;
             label2.Text = "Dados Boleto";
             // 
-            // textBox9
-            // 
-            textBox9.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox9.Location = new Point(310, 58);
-            textBox9.Name = "textBox9";
-            textBox9.ReadOnly = true;
-            textBox9.Size = new Size(63, 25);
-            textBox9.TabIndex = 20;
-            textBox9.Text = "<Id_DR>";
-            // 
-            // textBox10
-            // 
-            textBox10.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox10.Location = new Point(44, 58);
-            textBox10.Name = "textBox10";
-            textBox10.ReadOnly = true;
-            textBox10.Size = new Size(84, 25);
-            textBox10.TabIndex = 35;
-            textBox10.Text = "<Id_Cliente>";
-            // 
-            // textBox8
-            // 
-            textBox8.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox8.Location = new Point(134, 182);
-            textBox8.Name = "textBox8";
-            textBox8.ReadOnly = true;
-            textBox8.Size = new Size(84, 25);
-            textBox8.TabIndex = 34;
-            textBox8.Text = "<Celular>";
-            // 
-            // textBox7
-            // 
-            textBox7.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox7.Location = new Point(44, 151);
-            textBox7.Name = "textBox7";
-            textBox7.ReadOnly = true;
-            textBox7.Size = new Size(84, 25);
-            textBox7.TabIndex = 33;
-            textBox7.Text = "<CNPJ_CPF>";
-            // 
-            // textBox5
-            // 
-            textBox5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox5.Location = new Point(44, 182);
-            textBox5.Name = "textBox5";
-            textBox5.ReadOnly = true;
-            textBox5.Size = new Size(63, 25);
-            textBox5.TabIndex = 32;
-            textBox5.Text = "<Email>";
-            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -146,25 +66,115 @@
             label1.TabIndex = 31;
             label1.Text = "Dados Cliente";
             // 
-            // textBox2
+            // Btn_IdCliente
             // 
-            textBox2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox2.Location = new Point(44, 120);
-            textBox2.Name = "textBox2";
-            textBox2.ReadOnly = true;
-            textBox2.Size = new Size(174, 25);
-            textBox2.TabIndex = 30;
-            textBox2.Text = "<PrimNome_Fantasia>";
+            Btn_IdCliente.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_IdCliente.Location = new Point(44, 53);
+            Btn_IdCliente.Name = "Btn_IdCliente";
+            Btn_IdCliente.Size = new Size(93, 30);
+            Btn_IdCliente.TabIndex = 36;
+            Btn_IdCliente.Text = "<Id_Cliente>";
+            Btn_IdCliente.UseVisualStyleBackColor = true;
+            Btn_IdCliente.Click += button1_Click;
             // 
-            // textBox6
+            // Btn_NomeSocial
             // 
-            textBox6.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            textBox6.Location = new Point(44, 89);
-            textBox6.Name = "textBox6";
-            textBox6.ReadOnly = true;
-            textBox6.Size = new Size(174, 25);
-            textBox6.TabIndex = 29;
-            textBox6.Text = "<NomeComp_RazSocial>";
+            Btn_NomeSocial.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_NomeSocial.Location = new Point(44, 86);
+            Btn_NomeSocial.Name = "Btn_NomeSocial";
+            Btn_NomeSocial.Size = new Size(174, 30);
+            Btn_NomeSocial.TabIndex = 37;
+            Btn_NomeSocial.Text = "<NomeComp_RazSocial>";
+            Btn_NomeSocial.UseVisualStyleBackColor = true;
+            Btn_NomeSocial.Click += Btn_NomeSocial_Click_1;
+            // 
+            // Btn_PrimNome
+            // 
+            Btn_PrimNome.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_PrimNome.Location = new Point(44, 119);
+            Btn_PrimNome.Name = "Btn_PrimNome";
+            Btn_PrimNome.Size = new Size(174, 30);
+            Btn_PrimNome.TabIndex = 38;
+            Btn_PrimNome.Text = "<PrimNome_Fantasia>";
+            Btn_PrimNome.UseVisualStyleBackColor = true;
+            Btn_PrimNome.Click += Btn_PrimNome_Click_1;
+            // 
+            // Btn_CNPJCPF
+            // 
+            Btn_CNPJCPF.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_CNPJCPF.Location = new Point(44, 152);
+            Btn_CNPJCPF.Name = "Btn_CNPJCPF";
+            Btn_CNPJCPF.Size = new Size(174, 30);
+            Btn_CNPJCPF.TabIndex = 39;
+            Btn_CNPJCPF.Text = "<CNPJ_CPF>";
+            Btn_CNPJCPF.UseVisualStyleBackColor = true;
+            Btn_CNPJCPF.Click += Btn_CNPJCPF_Click;
+            // 
+            // Btn_Email
+            // 
+            Btn_Email.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_Email.Location = new Point(44, 185);
+            Btn_Email.Name = "Btn_Email";
+            Btn_Email.Size = new Size(78, 30);
+            Btn_Email.TabIndex = 40;
+            Btn_Email.Text = "<Email>";
+            Btn_Email.UseVisualStyleBackColor = true;
+            Btn_Email.Click += Btn_Email_Click;
+            // 
+            // Btn_Celular
+            // 
+            Btn_Celular.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_Celular.Location = new Point(137, 185);
+            Btn_Celular.Name = "Btn_Celular";
+            Btn_Celular.Size = new Size(81, 30);
+            Btn_Celular.TabIndex = 41;
+            Btn_Celular.Text = "<Celular>";
+            Btn_Celular.UseVisualStyleBackColor = true;
+            Btn_Celular.Click += Btn_Celular_Click;
+            // 
+            // Btn_IdDR
+            // 
+            Btn_IdDR.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_IdDR.Location = new Point(310, 53);
+            Btn_IdDR.Name = "Btn_IdDR";
+            Btn_IdDR.Size = new Size(147, 30);
+            Btn_IdDR.TabIndex = 42;
+            Btn_IdDR.Text = "<Id_DR>";
+            Btn_IdDR.UseVisualStyleBackColor = true;
+            Btn_IdDR.Click += Btn_IdDR_Click;
+            // 
+            // Btn_DocumentoDR
+            // 
+            Btn_DocumentoDR.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_DocumentoDR.Location = new Point(310, 86);
+            Btn_DocumentoDR.Name = "Btn_DocumentoDR";
+            Btn_DocumentoDR.Size = new Size(145, 30);
+            Btn_DocumentoDR.TabIndex = 43;
+            Btn_DocumentoDR.Text = "<Documento_DR>";
+            Btn_DocumentoDR.UseVisualStyleBackColor = true;
+            Btn_DocumentoDR.Click += Btn_DocumentoDR_Click;
+            // 
+            // Btn_Vencimento
+            // 
+            Btn_Vencimento.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_Vencimento.Location = new Point(310, 119);
+            Btn_Vencimento.Name = "Btn_Vencimento";
+            Btn_Vencimento.Size = new Size(147, 30);
+            Btn_Vencimento.TabIndex = 44;
+            Btn_Vencimento.Text = "<Vencimento>";
+            Btn_Vencimento.UseVisualStyleBackColor = true;
+            Btn_Vencimento.Click += Btn_Vencimento_Click;
+            // 
+            // Btn_Valor
+            // 
+            Btn_Valor.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            Btn_Valor.Location = new Point(310, 152);
+            Btn_Valor.Name = "Btn_Valor";
+            Btn_Valor.Size = new Size(147, 30);
+            Btn_Valor.TabIndex = 45;
+            Btn_Valor.Text = "<Valor>";
+            Btn_Valor.UseVisualStyleBackColor = true;
+            Btn_Valor.Click += Btn_Valor_Click;
             // 
             // Frm_VariaveisBoleto
             // 
@@ -173,18 +183,18 @@
             BackgroundImage = Properties.Resources.Cdi_1;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(540, 238);
-            Controls.Add(textBox10);
-            Controls.Add(textBox8);
-            Controls.Add(textBox7);
-            Controls.Add(textBox5);
+            Controls.Add(Btn_Valor);
+            Controls.Add(Btn_Vencimento);
+            Controls.Add(Btn_DocumentoDR);
+            Controls.Add(Btn_IdDR);
+            Controls.Add(Btn_Celular);
+            Controls.Add(Btn_Email);
+            Controls.Add(Btn_CNPJCPF);
+            Controls.Add(Btn_PrimNome);
+            Controls.Add(Btn_NomeSocial);
+            Controls.Add(Btn_IdCliente);
             Controls.Add(label1);
-            Controls.Add(textBox2);
-            Controls.Add(textBox6);
-            Controls.Add(textBox9);
             Controls.Add(label2);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
-            Controls.Add(textBox1);
             MaximizeBox = false;
             MaximumSize = new Size(556, 277);
             MinimizeBox = false;
@@ -193,24 +203,22 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Variaveis Boleto";
-            Load += Frm_VariaveisBoleto_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private TextBox textBox1;
-        private TextBox textBox3;
-        private TextBox textBox4;
         private Label label2;
-        private TextBox textBox9;
-        private TextBox textBox10;
-        private TextBox textBox8;
-        private TextBox textBox7;
-        private TextBox textBox5;
         private Label label1;
-        private TextBox textBox2;
-        private TextBox textBox6;
+        private Button Btn_IdCliente;
+        private Button Btn_NomeSocial;
+        private Button Btn_PrimNome;
+        private Button Btn_CNPJCPF;
+        private Button Btn_Email;
+        private Button Btn_Celular;
+        private Button Btn_IdDR;
+        private Button Btn_DocumentoDR;
+        private Button Btn_Vencimento;
+        private Button Btn_Valor;
     }
 }

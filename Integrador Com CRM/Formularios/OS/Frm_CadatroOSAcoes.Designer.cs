@@ -171,6 +171,7 @@
             Name = "Frm_CadatroOSAcoes";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cadastro Ações OS";
+            FormClosed += Frm_CadatroOSAcoes_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

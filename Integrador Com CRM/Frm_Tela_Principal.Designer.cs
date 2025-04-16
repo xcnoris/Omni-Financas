@@ -33,8 +33,8 @@
             TBC_Dados = new TabControl();
             notifyIcon1 = new NotifyIcon(components);
             label7 = new Label();
-            botaoArredond1 = new ComponentesPerson.BotaoArredond(components);
-            botaoArredond2 = new ComponentesPerson.BotaoArredond(components);
+            botaoArredond1 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            botaoArredond2 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // TBC_Dados
@@ -60,9 +60,9 @@
             label7.ForeColor = SystemColors.Desktop;
             label7.Location = new Point(770, 463);
             label7.Name = "label7";
-            label7.Size = new Size(51, 15);
+            label7.Size = new Size(34, 15);
             label7.TabIndex = 9;
-            label7.Text = "2.25.2.1";
+            label7.Text = "1.1.1";
             // 
             // botaoArredond1
             // 

@@ -168,8 +168,9 @@
             MinimizeBox = false;
             MinimumSize = new Size(477, 337);
             Name = "Frm_CadastroSituacoes";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Casdatro Situacões";
+            FormClosed += Frm_CadastroSituacoes_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -12,13 +12,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Integrador_Com_CRM.Formularios
 {
     public partial class Frm_CadastroAcoesBoletos : Form
     {
 
-
+        private Frm_VariaveisBoleto FrmVariaveis;
         private readonly DAL<BoletoAcoesCRMModel> _dalAcoesBoletos;
 
         public Frm_CadastroAcoesBoletos(bool Criacao, BoletoAcoesCRMModel BoletoAacao, string SalvarAtualizar)
@@ -161,10 +162,18 @@ namespace Integrador_Com_CRM.Formularios
             this.Show();
         }
 
+
+
         private void Btn_VariaveisBoleto_Click(object sender, EventArgs e)
         {
-            Frm_VariaveisBoleto frm = new Frm_VariaveisBoleto();
-            frm.Show();
+            FrmVariaveis = new Frm_VariaveisBoleto(Txt_Mensagem);
+            FrmVariaveis.Show();
+        }
+
+        private void Frm_CadastroAcoesBoletos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(FrmVariaveis is not null)
+                FrmVariaveis.Close();
         }
     }
 }

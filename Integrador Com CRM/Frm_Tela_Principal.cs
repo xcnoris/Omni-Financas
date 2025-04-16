@@ -79,7 +79,6 @@ namespace Integrador_Com_CRM
                     MessageBox.Show("Licença inválida. Entre em contato com o suporte.", "Erro de Licença",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
             }
             else
             {
@@ -207,16 +206,15 @@ namespace Integrador_Com_CRM
 
 
             TBC_Dados.TabPages.Add(TB1);
-            TBC_Dados.TabPages.Add(TB2);
-            TBC_Dados.TabPages.Add(TB3);
             TBC_Dados.TabPages.Add(TB4);
             TBC_Dados.TabPages.Add(TB5);
             TBC_Dados.TabPages.Add(TB6);
+            TBC_Dados.TabPages.Add(TB2);
+            TBC_Dados.TabPages.Add(TB3);
             TBC_Dados.TabPages.Add(TB7);
         }
 
        
-
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
@@ -248,6 +246,7 @@ namespace Integrador_Com_CRM
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
                 // Instancia as class 
                 ConexaoDB conexao = LeituraFrmConexaoDB();
                 DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
@@ -259,27 +258,47 @@ namespace Integrador_Com_CRM
                 }
 
                 FrmConfigUC.SalvarConfiguracoes();
+                SalvarArquivoConexao(conexao);
 
-                if (conexao is not null)
+                if (FrmConexaoUC.TestarConexaoDB(false))
                 {
-                    await CriarAtualDadosAPI(dadosAPI);
-                    await SalvarSitBoleto(AcoesSitBoleto);
-                    await SalvarSitOS(AcoesSitOS);
+                    if (conexao is not null)
+                    {
+                        await CriarAtualDadosAPI(dadosAPI);
+                        await SalvarSitBoleto(AcoesSitBoleto);
+                        await SalvarSitOS(AcoesSitOS);
+
+                        MessageBox.Show("Valores Salvos", "Envio de Ordem de Serviço", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
-                // Cria uma string com o caminho e nome do diretorio do arquivo de conexao
-                string basePath = AppDomain.CurrentDomain.BaseDirectory;
-                string filePath = Path.Combine(basePath, "conexao.json");
+                else
+                {
+                    MessageBox.Show("Valores de configurações não serão salvos enquanto uma conexão valida com o banco de dados não for definida!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
 
-                // Salva um arquivo Json com os dados da conexão
-                if (conexao is not null) conexao.SaveConnectionData(filePath);
 
-                MessageBox.Show("Valores Salvos", "Envio de Ordem de Serviço", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
+
+        private void SalvarArquivoConexao(ConexaoDB conexao)
+        {
+            // Cria uma string com o caminho e nome do diretorio do arquivo de conexao
+            string basePath = AppDomain.CurrentDomain.BaseDirectory;
+            string filePath = Path.Combine(basePath, "conexao.json");
+
+            // Salva um arquivo Json com os dados da conexão
+            if (conexao is not null) conexao.SaveConnectionData(filePath);
+        }
+
 
         private async Task SalvarSitBoleto(List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto)
         {

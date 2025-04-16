@@ -34,10 +34,12 @@ namespace Integrador_Com_CRM.Formularios
             CarregarDadosConexao();
         }
 
-        private void Btn_TestarConexao_Click(object sender, EventArgs e)
+        internal bool TestarConexaoDB(bool exibirMensagemConfirmacao)
         {
             try
             {
+                Cursor = Cursors.WaitCursor;
+
                 // Cria uma instância de ConexaoDB com os dados fornecidos no formulário
                 ConexaoDB conexao = new ConexaoDB
                 {
@@ -57,26 +59,39 @@ namespace Integrador_Com_CRM.Formularios
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
                     sqlConnection.Open();
-                    MessageBox.Show("Conexão bem-sucedida!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (exibirMensagemConfirmacao)
+                        MessageBox.Show("Conexão bem-sucedida!", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     MetodosGerais.RegistrarLog("ConexãoDB", $"Conexão bem-sucedida com o banco de dados {conexao.DataBase}!");
                     sqlConnection.Close();
+                    return true;
                 }
             }
             catch (SqlException ex)
             {
                 MetodosGerais.RegistrarLog("ConexãoDB", $"Erro ao testar conexão: {ex.Message}. Verique a string de conexão!");
-
-                MessageBox.Show("Erro ao testar conexão: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (exibirMensagemConfirmacao)
+                    MessageBox.Show("Erro ao testar conexão: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("ConexãoDB", $"Erro ao testar conexão: {ex.Message}. Verique a string de conexão!");
-                MessageBox.Show("Erro ao testar conexão: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (exibirMensagemConfirmacao)
+                    MessageBox.Show("Erro ao testar conexão: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
             finally
             {
+                Cursor = Cursors.Default;
                 MetodosGerais.RegistrarFinalLog("ConexãoDB");
             }
+
+           
+        }
+
+        private void Btn_TestarConexao_Click(object sender, EventArgs e)
+        {
+            TestarConexaoDB(true);
         }
 
         private void Frm_ConexaoUC_Load(object sender, EventArgs e)

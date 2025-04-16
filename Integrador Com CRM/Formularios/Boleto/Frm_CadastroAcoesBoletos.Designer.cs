@@ -183,6 +183,7 @@
             Name = "Frm_CadastroAcoesBoletos";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cadastro Ações Boleto";
+            FormClosed += Frm_CadastroAcoesBoletos_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }
