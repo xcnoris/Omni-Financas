@@ -214,7 +214,7 @@ namespace Integrador_Com_CRM
             TBC_Dados.TabPages.Add(TB7);
         }
 
-       
+
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
@@ -240,7 +240,7 @@ namespace Integrador_Com_CRM
             }
         }
 
-        
+
 
         private async void SalvarDados()
         {
@@ -277,7 +277,7 @@ namespace Integrador_Com_CRM
                 }
 
 
-                
+
             }
             catch (Exception ex)
             {
@@ -391,7 +391,7 @@ namespace Integrador_Com_CRM
             }
         }
 
-        private void botaoArredond2_Click(object sender, EventArgs e)
+        private void btnSalvar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -403,11 +403,32 @@ namespace Integrador_Com_CRM
             }
         }
 
-        private void botaoArredond1_Click(object sender, EventArgs e)
+        // Design
+        private void btnFechar_Click(object sender, EventArgs e)
         {
             // Minimiza a janela
             this.WindowState = FormWindowState.Minimized;
             MinimizarParaBandeja();
+        }
+
+        private void btnSalvar_MouseEnter(object sender, EventArgs e)
+        {
+            btnSalvar.BackColor = Color.MediumTurquoise;
+        }
+
+        private void btnSalvar_MouseLeave(object sender, EventArgs e)
+        {
+            btnSalvar.BackColor = Color.Teal;
+        }
+
+        private void btnFechar_MouseEnter(object sender, EventArgs e)
+        {
+            btnFechar.BackColor = Color.MediumTurquoise;
+        }
+
+        private void btnFechar_MouseLeave(object sender, EventArgs e)
+        {
+            btnFechar.BackColor = Color.Teal;
         }
     }
 }

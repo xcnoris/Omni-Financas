@@ -33,8 +33,8 @@
             TBC_Dados = new TabControl();
             notifyIcon1 = new NotifyIcon(components);
             label7 = new Label();
-            botaoArredond1 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
-            botaoArredond2 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            btnFechar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            btnSalvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // TBC_Dados
@@ -64,42 +64,48 @@
             label7.TabIndex = 9;
             label7.Text = "1.1.1";
             // 
-            // botaoArredond1
+            // btnFechar
             // 
-            botaoArredond1.BackColor = Color.CadetBlue;
-            botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
-            botaoArredond1.ForeColor = SystemColors.ButtonFace;
-            botaoArredond1.Location = new Point(430, 451);
-            botaoArredond1.Name = "botaoArredond1";
-            botaoArredond1.RaioCanto = 20;
-            botaoArredond1.Size = new Size(134, 30);
-            botaoArredond1.TabIndex = 10;
-            botaoArredond1.Text = "Fechar";
-            botaoArredond1.UseVisualStyleBackColor = false;
-            botaoArredond1.Click += botaoArredond1_Click;
+            btnFechar.BackColor = Color.Teal;
+            btnFechar.Cursor = Cursors.Hand;
+            btnFechar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            btnFechar.ForeColor = SystemColors.ButtonFace;
+            btnFechar.Location = new Point(430, 451);
+            btnFechar.Name = "btnFechar";
+            btnFechar.RaioCanto = 20;
+            btnFechar.Size = new Size(134, 30);
+            btnFechar.TabIndex = 10;
+            btnFechar.Text = "Fechar";
+            btnFechar.UseVisualStyleBackColor = false;
+            btnFechar.Click += btnFechar_Click;
+            btnFechar.MouseEnter += btnFechar_MouseEnter;
+            btnFechar.MouseLeave += btnFechar_MouseLeave;
             // 
-            // botaoArredond2
+            // btnSalvar
             // 
-            botaoArredond2.BackColor = Color.CadetBlue;
-            botaoArredond2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            botaoArredond2.ForeColor = SystemColors.ButtonFace;
-            botaoArredond2.Location = new Point(280, 451);
-            botaoArredond2.Name = "botaoArredond2";
-            botaoArredond2.RaioCanto = 20;
-            botaoArredond2.Size = new Size(134, 30);
-            botaoArredond2.TabIndex = 11;
-            botaoArredond2.Text = "Salvar";
-            botaoArredond2.UseVisualStyleBackColor = false;
-            botaoArredond2.Click += botaoArredond2_Click;
+            btnSalvar.BackColor = Color.Teal;
+            btnSalvar.Cursor = Cursors.Hand;
+            btnSalvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            btnSalvar.ForeColor = SystemColors.ButtonFace;
+            btnSalvar.Location = new Point(280, 451);
+            btnSalvar.Name = "btnSalvar";
+            btnSalvar.RaioCanto = 20;
+            btnSalvar.Size = new Size(134, 30);
+            btnSalvar.TabIndex = 11;
+            btnSalvar.Text = "Salvar";
+            btnSalvar.UseVisualStyleBackColor = false;
+            btnSalvar.Click += btnSalvar_Click;
+            btnSalvar.MouseEnter += btnSalvar_MouseEnter;
+            btnSalvar.MouseLeave += btnSalvar_MouseLeave;
             // 
             // Frm_Tela_Principal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ButtonFace;
+            BackColor = Color.SkyBlue;
             ClientSize = new Size(834, 487);
-            Controls.Add(botaoArredond2);
-            Controls.Add(botaoArredond1);
+            Controls.Add(btnSalvar);
+            Controls.Add(btnFechar);
             Controls.Add(label7);
             Controls.Add(TBC_Dados);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -118,7 +124,7 @@
         private TabControl TBC_Dados;
         private NotifyIcon notifyIcon1;
         private Label label7;
-        private ComponentesPerson.BotaoArredond botaoArredond1;
-        private ComponentesPerson.BotaoArredond botaoArredond2;
+        private ComponentesPerson.BotaoArredond btnFechar;
+        private ComponentesPerson.BotaoArredond btnSalvar;
     }
 }
