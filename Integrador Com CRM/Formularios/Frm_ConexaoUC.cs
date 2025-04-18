@@ -86,7 +86,7 @@ namespace Integrador_Com_CRM.Formularios
                 MetodosGerais.RegistrarFinalLog("ConexãoDB");
             }
 
-           
+
         }
 
         private void Btn_TestarConexao_Click(object sender, EventArgs e)
@@ -96,7 +96,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Frm_ConexaoUC_Load(object sender, EventArgs e)
         {
-          
+
         }
 
         private void CarregarDadosConexao()
@@ -120,6 +120,16 @@ namespace Integrador_Com_CRM.Formularios
             {
                 MessageBox.Show("Erro ao carregar dados de conexão: " + ex.Message);
             }
+        }
+
+        private void Btn_TestarConexao_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_TestarConexao.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_TestarConexao_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_TestarConexao.BackColor = Color.Teal;
         }
     }
 }

@@ -258,5 +258,15 @@ namespace Integrador_Com_CRM.Formularios
                 frm.ShowDialog();
             }
         }
+
+        private void Btn_BuscarMAC_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_BuscarMAC.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_BuscarMAC_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_BuscarMAC.BackColor = Color.Teal;
+        }
     }
 }

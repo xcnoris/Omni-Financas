@@ -35,7 +35,7 @@
             // 
             // Btn_BuscarOS
             // 
-            Btn_BuscarOS.BackColor = Color.CadetBlue;
+            Btn_BuscarOS.BackColor = Color.Teal;
             Btn_BuscarOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarOS.ForeColor = SystemColors.Control;
             Btn_BuscarOS.Location = new Point(291, 124);
@@ -46,10 +46,13 @@
             Btn_BuscarOS.Text = "Consultar Ordem de Serviço";
             Btn_BuscarOS.UseVisualStyleBackColor = false;
             Btn_BuscarOS.Click += Btn_BuscarOS_Click;
+            Btn_BuscarOS.MouseEnter += Btn_BuscarOS_MouseEnter;
+            Btn_BuscarOS.MouseLeave += Btn_BuscarOS_MouseLeave;
             // 
             // Btn_BuscarBoletos
             // 
-            Btn_BuscarBoletos.BackColor = Color.CadetBlue;
+            Btn_BuscarBoletos.BackColor = Color.Teal;
+            Btn_BuscarBoletos.Cursor = Cursors.Hand;
             Btn_BuscarBoletos.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarBoletos.ForeColor = SystemColors.Control;
             Btn_BuscarBoletos.Location = new Point(291, 209);
@@ -60,12 +63,14 @@
             Btn_BuscarBoletos.Text = "Consultar Boletos";
             Btn_BuscarBoletos.UseVisualStyleBackColor = false;
             Btn_BuscarBoletos.Click += Btn_BuscarBoletos_Click;
+            Btn_BuscarBoletos.MouseEnter += Btn_BuscarBoletos_MouseEnter;
+            Btn_BuscarBoletos.MouseLeave += Btn_BuscarBoletos_MouseLeave;
             // 
             // Frm_GeralUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
+            BackgroundImage = CDI_OminiService.Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(Btn_BuscarBoletos);
             Controls.Add(Btn_BuscarOS);

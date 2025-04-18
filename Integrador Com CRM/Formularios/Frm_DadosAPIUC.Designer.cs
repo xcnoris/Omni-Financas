@@ -47,7 +47,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label1.ForeColor = Color.White;
+            label1.ForeColor = Color.Black;
             label1.Location = new Point(14, 42);
             label1.Name = "label1";
             label1.Size = new Size(72, 17);
@@ -62,7 +62,7 @@
             groupBox1.Controls.Add(Txt_Token);
             groupBox1.Controls.Add(label1);
             groupBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            groupBox1.ForeColor = Color.White;
+            groupBox1.ForeColor = Color.Black;
             groupBox1.Location = new Point(105, 105);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(611, 145);
@@ -81,7 +81,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label2.ForeColor = Color.White;
+            label2.ForeColor = Color.Black;
             label2.Location = new Point(14, 86);
             label2.Name = "label2";
             label2.Size = new Size(106, 17);
@@ -92,7 +92,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
+            BackgroundImage = CDI_OminiService.Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
             DoubleBuffered = true;

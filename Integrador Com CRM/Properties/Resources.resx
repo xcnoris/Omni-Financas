@@ -127,4 +127,7 @@
   <data name="Cdi 2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cdi 2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fundo_omni" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fundo_omni.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

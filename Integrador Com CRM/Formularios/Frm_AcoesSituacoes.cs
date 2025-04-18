@@ -133,7 +133,7 @@ namespace Integrador_Com_CRM.Formularios
             {
                 Txt_OSCancelada.Text = AcoesSitOS.FirstOrDefault(x => x.Situacao.Equals(Situacao_OS.Cancelada)).Nome;
             }
-           
+
 
         }
 
@@ -172,6 +172,56 @@ namespace Integrador_Com_CRM.Formularios
             Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Cancelado);
             FrmCadastroSit.MostrarFormulario();
             CarregarDadosAPI();
+        }
+
+        private void Btn_Editar1_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Editar1.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Editar1_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Editar1.BackColor = Color.Teal;
+        }
+
+        private void Btn_Editar2_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Editar2.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Editar2_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Editar2.BackColor = Color.Teal;
+        }
+
+        private void Btn_Editar3_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Editar3.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Editar3_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Editar3.BackColor = Color.Teal;
+        }
+
+        private void Btn_Editar4_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Editar4.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Editar4_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Editar4.BackColor = Color.Teal;
+        }
+
+        private void Btn_Editar5_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Editar5.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Editar5_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Editar5.BackColor = Color.Teal;
         }
     }
 }

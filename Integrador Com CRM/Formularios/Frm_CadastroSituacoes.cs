@@ -203,5 +203,35 @@ namespace Integrador_Com_CRM.Formularios
             if (FrmVariaveisOS is not null)
                 FrmVariaveisOS.Close();
         }
+
+        private void Btn_Salvar_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Salvar.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Salvar_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Salvar.BackColor = Color.Teal;
+        }
+
+        private void Btn_Remover_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.Silver;
+        }
+
+        private void Btn_Remover_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.DarkGray;
+        }
+
+        private void Btn_Variaveis_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Variaveis.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Variaveis_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Variaveis.BackColor = Color.Teal;
+        }
     }
 }

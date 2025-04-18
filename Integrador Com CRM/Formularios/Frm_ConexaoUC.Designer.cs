@@ -48,6 +48,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label1.ForeColor = Color.Black;
             label1.Location = new Point(52, 64);
             label1.Name = "label1";
             label1.Size = new Size(63, 17);
@@ -58,7 +59,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label2.ForeColor = Color.White;
+            label2.ForeColor = Color.Black;
             label2.Location = new Point(52, 95);
             label2.Name = "label2";
             label2.Size = new Size(57, 17);
@@ -69,6 +70,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.Black;
             label3.Location = new Point(52, 127);
             label3.Name = "label3";
             label3.Size = new Size(67, 17);
@@ -79,6 +81,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label4.ForeColor = Color.Black;
             label4.Location = new Point(56, 158);
             label4.Name = "label4";
             label4.Size = new Size(57, 17);
@@ -89,6 +92,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label5.ForeColor = Color.Black;
             label5.Location = new Point(56, 189);
             label5.Name = "label5";
             label5.Size = new Size(48, 17);
@@ -146,7 +150,7 @@
             groupBox1.Controls.Add(Txt_IpHost);
             groupBox1.Controls.Add(label5);
             groupBox1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            groupBox1.ForeColor = Color.White;
+            groupBox1.ForeColor = Color.Black;
             groupBox1.Location = new Point(199, 33);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(435, 309);
@@ -156,7 +160,8 @@
             // 
             // Btn_TestarConexao
             // 
-            Btn_TestarConexao.BackColor = Color.CadetBlue;
+            Btn_TestarConexao.BackColor = Color.Teal;
+            Btn_TestarConexao.Cursor = Cursors.Hand;
             Btn_TestarConexao.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_TestarConexao.ForeColor = SystemColors.ControlLightLight;
             Btn_TestarConexao.Location = new Point(137, 236);
@@ -167,13 +172,15 @@
             Btn_TestarConexao.Text = "Testar Conexão";
             Btn_TestarConexao.UseVisualStyleBackColor = false;
             Btn_TestarConexao.Click += Btn_TestarConexao_Click;
+            Btn_TestarConexao.MouseEnter += Btn_TestarConexao_MouseEnter;
+            Btn_TestarConexao.MouseLeave += Btn_TestarConexao_MouseLeave;
             // 
             // Frm_ConexaoUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLightLight;
-            BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
+            BackgroundImage = CDI_OminiService.Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             Controls.Add(groupBox1);
             DoubleBuffered = true;

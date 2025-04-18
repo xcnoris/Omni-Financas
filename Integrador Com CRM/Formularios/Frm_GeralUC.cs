@@ -68,7 +68,7 @@ namespace Integrador_Com_CRM.Formularios
             string ipExterno;
             using (HttpClient client = new HttpClient())
             {
-               ipExterno = await client.GetStringAsync("https://api.ipify.org");
+                ipExterno = await client.GetStringAsync("https://api.ipify.org");
             }
 
             var emailRequest = new EmailRequest
@@ -152,7 +152,7 @@ namespace Integrador_Com_CRM.Formularios
 
         public async Task<bool> VerificarBoletos(Frm_ConfigUC FrmConfigUC)
         {
-          
+
             if (verificarLicenca(FrmConfigUC))
             {
                 List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
@@ -163,7 +163,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             return false;
         }
-       
+
         private Configuracao_Geral InstanciarConfigGeral(Frm_ConfigUC FrmConfigUC)
         {
             return new Configuracao_Geral
@@ -205,7 +205,7 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-       
+
 
         private async void Btn_BuscarOS_Click(object sender, EventArgs e)
         {
@@ -217,6 +217,24 @@ namespace Integrador_Com_CRM.Formularios
             await ExecutarBuscarBoletoAsync();
         }
 
-      
+        private void Btn_BuscarOS_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_BuscarOS.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_BuscarOS_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_BuscarOS.BackColor = Color.Teal;
+        }
+
+        private void Btn_BuscarBoletos_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_BuscarBoletos.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_BuscarBoletos_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_BuscarBoletos.BackColor = Color.Teal;
+        }
     }
 }
