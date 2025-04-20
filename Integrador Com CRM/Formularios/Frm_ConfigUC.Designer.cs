@@ -50,9 +50,7 @@
             label10 = new Label();
             label12 = new Label();
             groupBox6 = new GroupBox();
-            DTP_BoletoCobSegunda = new DateTimePicker();
             DTP_BoletoCobDiaria = new DateTimePicker();
-            label2 = new Label();
             label3 = new Label();
             groupBox8 = new GroupBox();
             DTP_BoletoSelect = new DateTimePicker();
@@ -196,7 +194,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Arial", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.ForeColor = Color.Black;
+            label13.ForeColor = Color.Teal;
             label13.Location = new Point(23, 103);
             label13.Name = "label13";
             label13.Size = new Size(177, 22);
@@ -213,7 +211,7 @@
             groupBox9.Controls.Add(ChBox_BoletoEnviarPDF);
             groupBox9.Controls.Add(label9);
             groupBox9.Controls.Add(label10);
-            groupBox9.ForeColor = Color.White;
+            groupBox9.ForeColor = Color.Black;
             groupBox9.Location = new Point(336, 225);
             groupBox9.Name = "groupBox9";
             groupBox9.Size = new Size(402, 78);
@@ -294,7 +292,7 @@
             label12.AutoSize = true;
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Arial", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.ForeColor = Color.Black;
+            label12.ForeColor = Color.Teal;
             label12.Location = new Point(23, 200);
             label12.Name = "label12";
             label12.Size = new Size(81, 22);
@@ -304,57 +302,33 @@
             // groupBox6
             // 
             groupBox6.BackColor = Color.Transparent;
-            groupBox6.Controls.Add(DTP_BoletoCobSegunda);
             groupBox6.Controls.Add(DTP_BoletoCobDiaria);
-            groupBox6.Controls.Add(label2);
             groupBox6.Controls.Add(label3);
             groupBox6.ForeColor = Color.Black;
-            groupBox6.Location = new Point(18, 225);
+            groupBox6.Location = new Point(23, 238);
             groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(312, 78);
+            groupBox6.Size = new Size(312, 55);
             groupBox6.TabIndex = 5;
             groupBox6.TabStop = false;
             groupBox6.Text = "Timers";
-            // 
-            // DTP_BoletoCobSegunda
-            // 
-            DTP_BoletoCobSegunda.CustomFormat = "HH:mm";
-            DTP_BoletoCobSegunda.Format = DateTimePickerFormat.Custom;
-            DTP_BoletoCobSegunda.Location = new Point(240, 49);
-            DTP_BoletoCobSegunda.Name = "DTP_BoletoCobSegunda";
-            DTP_BoletoCobSegunda.ShowUpDown = true;
-            DTP_BoletoCobSegunda.Size = new Size(55, 25);
-            DTP_BoletoCobSegunda.TabIndex = 5;
-            DTP_BoletoCobSegunda.Value = new DateTime(2024, 12, 25, 0, 0, 0, 0);
             // 
             // DTP_BoletoCobDiaria
             // 
             DTP_BoletoCobDiaria.CustomFormat = "HH:mm";
             DTP_BoletoCobDiaria.Format = DateTimePickerFormat.Custom;
-            DTP_BoletoCobDiaria.Location = new Point(240, 20);
+            DTP_BoletoCobDiaria.Location = new Point(251, 19);
             DTP_BoletoCobDiaria.Name = "DTP_BoletoCobDiaria";
             DTP_BoletoCobDiaria.ShowUpDown = true;
             DTP_BoletoCobDiaria.Size = new Size(55, 25);
             DTP_BoletoCobDiaria.TabIndex = 4;
             DTP_BoletoCobDiaria.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(11, 51);
-            label2.Name = "label2";
-            label2.Size = new Size(223, 17);
-            label2.TabIndex = 23;
-            label2.Text = "Realizar Cobrança toda segunda às:";
-            // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label3.ForeColor = Color.Black;
-            label3.Location = new Point(11, 27);
+            label3.Location = new Point(8, 21);
             label3.Name = "label3";
             label3.Size = new Size(209, 17);
             label3.TabIndex = 22;
@@ -490,9 +464,7 @@
         private TextBox Txt_Token;
         private Label label1;
         private GroupBox groupBox6;
-        private DateTimePicker DTP_BoletoCobSegunda;
         private DateTimePicker DTP_BoletoCobDiaria;
-        private Label label2;
         private Label label3;
         private GroupBox groupBox8;
         private Label label4;

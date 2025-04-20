@@ -56,6 +56,7 @@
             // label7
             // 
             label7.AutoSize = true;
+            label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = SystemColors.Desktop;
             label7.Location = new Point(770, 463);
@@ -103,6 +104,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightCyan;
+            BackgroundImage = CDI_OminiService.Properties.Resources.fundo_omni;
             ClientSize = new Size(834, 487);
             Controls.Add(btnSalvar);
             Controls.Add(btnFechar);

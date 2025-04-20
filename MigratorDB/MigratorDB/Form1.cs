@@ -168,5 +168,35 @@ namespace MigratorDB
                 throw;
             }
         }
+
+        private void Btn_TEstar_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_TEstar.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_TEstar_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_TEstar.BackColor = Color.Teal;
+        }
+
+        private void Btn_SalvarConexao_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_SalvarConexao.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_SalvarConexao_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_SalvarConexao.BackColor = Color.Teal;
+        }
+
+        private void Btn_CriarDataBase_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_CriarDataBase.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_CriarDataBase_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_CriarDataBase.BackColor = Color.Teal;
+        }
     }
 }

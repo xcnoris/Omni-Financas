@@ -173,7 +173,6 @@ namespace Integrador_Com_CRM.Formularios
                 DataOSSelect = FrmConfigUC.DataOSSelect,
                 ChBox_OSEnviarMensCancel = FrmConfigUC.ChBox_OSEnviarMensCancel,
                 HoraBoletoCobDiaria = FrmConfigUC.HoraBoletoCobDiaria,
-                HoraBoletoCobSegunda = FrmConfigUC.HoraBoletoCobSegunda,
                 DataBoletoSelect = FrmConfigUC.DataBoletoSelect,
                 ChBox_BoletoEnviarPDFa = FrmConfigUC.ChBox_BoletoEnviarPDFa,
                 ChBox_BoletoEnviarMensCancelamento = FrmConfigUC.ChBox_BoletoEnviarMensCancelamento,

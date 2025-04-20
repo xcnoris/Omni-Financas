@@ -37,7 +37,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Black;
+            label1.ForeColor = Color.Teal;
             label1.Location = new Point(12, 52);
             label1.Name = "label1";
             label1.Size = new Size(125, 21);
@@ -61,6 +61,7 @@
             ClientSize = new Size(337, 131);
             Controls.Add(Txt_MAC);
             Controls.Add(label1);
+            DoubleBuffered = true;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "Frm_EnderecoMAC";

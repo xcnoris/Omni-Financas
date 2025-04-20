@@ -43,7 +43,8 @@
             // 
             // Txt_Id
             // 
-            Txt_Id.Location = new Point(113, 20);
+            Txt_Id.BackColor = Color.White;
+            Txt_Id.Location = new Point(146, 12);
             Txt_Id.MaxLength = 10;
             Txt_Id.Name = "Txt_Id";
             Txt_Id.ReadOnly = true;
@@ -55,8 +56,8 @@
             Lbl_Id.AutoSize = true;
             Lbl_Id.BackColor = Color.Transparent;
             Lbl_Id.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            Lbl_Id.ForeColor = Color.White;
-            Lbl_Id.Location = new Point(33, 23);
+            Lbl_Id.ForeColor = Color.Black;
+            Lbl_Id.Location = new Point(115, 15);
             Lbl_Id.Name = "Lbl_Id";
             Lbl_Id.Size = new Size(23, 15);
             Lbl_Id.TabIndex = 35;
@@ -64,7 +65,8 @@
             // 
             // Btn_Salvar
             // 
-            Btn_Salvar.BackColor = Color.LimeGreen;
+            Btn_Salvar.BackColor = Color.Teal;
+            Btn_Salvar.Cursor = Cursors.Hand;
             Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Salvar.ForeColor = Color.White;
             Btn_Salvar.Location = new Point(127, 263);
@@ -75,10 +77,13 @@
             Btn_Salvar.Text = "Salvar";
             Btn_Salvar.UseVisualStyleBackColor = false;
             Btn_Salvar.Click += Btn_Salvar_Click;
+            Btn_Salvar.MouseEnter += Btn_Salvar_MouseEnter;
+            Btn_Salvar.MouseLeave += Btn_Salvar_MouseLeave;
             // 
             // Btn_Remover
             // 
-            Btn_Remover.BackColor = Color.Tomato;
+            Btn_Remover.BackColor = Color.DarkGray;
+            Btn_Remover.Cursor = Cursors.Hand;
             Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Remover.ForeColor = Color.White;
             Btn_Remover.Location = new Point(235, 263);
@@ -89,15 +94,17 @@
             Btn_Remover.Text = "Fechar";
             Btn_Remover.UseVisualStyleBackColor = false;
             Btn_Remover.Click += Btn_Remover_Click;
+            Btn_Remover.MouseEnter += Btn_Remover_MouseEnter;
+            Btn_Remover.MouseLeave += Btn_Remover_MouseLeave;
             // 
             // Txt_Mensagem
             // 
-            Txt_Mensagem.Location = new Point(33, 105);
+            Txt_Mensagem.Location = new Point(37, 89);
             Txt_Mensagem.MaxLength = 3000;
             Txt_Mensagem.Multiline = true;
             Txt_Mensagem.Name = "Txt_Mensagem";
             Txt_Mensagem.ScrollBars = ScrollBars.Vertical;
-            Txt_Mensagem.Size = new Size(394, 139);
+            Txt_Mensagem.Size = new Size(401, 139);
             Txt_Mensagem.TabIndex = 3;
             // 
             // Lbl_MensagemEnvio
@@ -105,8 +112,8 @@
             Lbl_MensagemEnvio.AutoSize = true;
             Lbl_MensagemEnvio.BackColor = Color.Transparent;
             Lbl_MensagemEnvio.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            Lbl_MensagemEnvio.ForeColor = Color.White;
-            Lbl_MensagemEnvio.Location = new Point(33, 87);
+            Lbl_MensagemEnvio.ForeColor = Color.Black;
+            Lbl_MensagemEnvio.Location = new Point(37, 71);
             Lbl_MensagemEnvio.Name = "Lbl_MensagemEnvio";
             Lbl_MensagemEnvio.Size = new Size(101, 15);
             Lbl_MensagemEnvio.TabIndex = 31;
@@ -114,7 +121,7 @@
             // 
             // Txt_DiaCobranca
             // 
-            Txt_DiaCobranca.Location = new Point(113, 53);
+            Txt_DiaCobranca.Location = new Point(146, 41);
             Txt_DiaCobranca.MaxLength = 10;
             Txt_DiaCobranca.Name = "Txt_DiaCobranca";
             Txt_DiaCobranca.Size = new Size(83, 23);
@@ -125,8 +132,8 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(33, 56);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(57, 44);
             label1.Name = "label1";
             label1.Size = new Size(81, 15);
             label1.TabIndex = 39;
@@ -137,7 +144,7 @@
             Check_EnviarPDF.AutoSize = true;
             Check_EnviarPDF.BackColor = Color.Transparent;
             Check_EnviarPDF.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
-            Check_EnviarPDF.ForeColor = Color.White;
+            Check_EnviarPDF.ForeColor = Color.Black;
             Check_EnviarPDF.Location = new Point(341, 24);
             Check_EnviarPDF.Name = "Check_EnviarPDF";
             Check_EnviarPDF.Size = new Size(86, 19);
@@ -147,7 +154,8 @@
             // 
             // Btn_VariaveisBoleto
             // 
-            Btn_VariaveisBoleto.BackColor = Color.CadetBlue;
+            Btn_VariaveisBoleto.BackColor = Color.Teal;
+            Btn_VariaveisBoleto.Cursor = Cursors.Hand;
             Btn_VariaveisBoleto.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_VariaveisBoleto.ForeColor = SystemColors.Control;
             Btn_VariaveisBoleto.Location = new Point(292, 49);
@@ -155,15 +163,17 @@
             Btn_VariaveisBoleto.RaioCanto = 20;
             Btn_VariaveisBoleto.Size = new Size(135, 27);
             Btn_VariaveisBoleto.TabIndex = 40;
-            Btn_VariaveisBoleto.Text = "variáveis";
+            Btn_VariaveisBoleto.Text = "Variáveis";
             Btn_VariaveisBoleto.UseVisualStyleBackColor = false;
             Btn_VariaveisBoleto.Click += Btn_VariaveisBoleto_Click;
+            Btn_VariaveisBoleto.MouseEnter += Btn_VariaveisBoleto_MouseEnter;
+            Btn_VariaveisBoleto.MouseLeave += Btn_VariaveisBoleto_MouseLeave;
             // 
             // Frm_CadastroAcoesBoletos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
+            BackgroundImage = CDI_OminiService.Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(461, 298);
             Controls.Add(Btn_VariaveisBoleto);

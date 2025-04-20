@@ -172,8 +172,38 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Frm_CadastroAcoesBoletos_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if(FrmVariaveis is not null)
+            if (FrmVariaveis is not null)
                 FrmVariaveis.Close();
+        }
+
+        private void Btn_Salvar_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Salvar.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Salvar_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Salvar.BackColor = Color.Teal;
+        }
+
+        private void Btn_VariaveisBoleto_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_VariaveisBoleto.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_VariaveisBoleto_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_VariaveisBoleto.BackColor = Color.Teal;
+        }
+
+        private void Btn_Remover_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.Silver;
+        }
+
+        private void Btn_Remover_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.DarkGray;
         }
     }
 }

@@ -46,14 +46,6 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        internal DateTime HoraBoletoCobSegunda
-        {
-            get
-            {
-                return DTP_BoletoCobSegunda.Value;
-            }
-        }
-
         internal DateTime DataBoletoSelect
         {
             get
@@ -100,7 +92,6 @@ namespace Integrador_Com_CRM.Formularios
               $"DTP_OSSelect|{DTP_OSSelect.Value.ToString("dd/MM/yyyy")}\n" +
               $"ChBox_OSEnvMensCanc|{ChBox_OSMensCancel.Checked}\n" +
               $"DTP_BoletoCobDiaria|{DTP_BoletoCobDiaria.Value.ToString("HH:mm")}\n" +
-              $"DTP_BoletoCobSegunda|{DTP_BoletoCobSegunda.Value.ToString("HH:mm")}\n" +
               $"DTP_BoletoSelect|{DTP_BoletoSelect.Value.ToString("dd/MM/yyyy")}\n" +
               $"ChBox_BoletoEnviarPDF|{ChBox_BoletoEnviarPDF.Checked}\n" +
               $"ChBox_BoletoMensCanc|{ChBox_BoletoEnviarMensCancel.Checked}\n" +
@@ -153,14 +144,6 @@ namespace Integrador_Com_CRM.Formularios
                                     DTP_BoletoCobDiaria.Value = DateTime.Today.Add(horaDiaria.TimeOfDay);
                                 }
                                 break;
-
-                            case "DTP_BoletoCobSegunda":
-                                if (DateTime.TryParseExact(valor, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime horaSegunda))
-                                {
-                                    DTP_BoletoCobSegunda.Value = DateTime.Today.Add(horaSegunda.TimeOfDay);
-                                }
-                                break;
-
                             case "DTP_BoletoSelect":
                                 if (DateTime.TryParseExact(valor, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime dataSelectBoleto))
                                 {

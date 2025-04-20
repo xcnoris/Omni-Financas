@@ -58,7 +58,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
+            label1.ForeColor = Color.Teal;
             label1.Location = new Point(58, 21);
             label1.Name = "label1";
             label1.Size = new Size(116, 19);
@@ -168,7 +168,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.Cdi_1;
+            BackgroundImage = Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(540, 238);
             Controls.Add(Btn_Categoria);

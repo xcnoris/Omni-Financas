@@ -47,7 +47,7 @@
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
+            label2.ForeColor = Color.Teal;
             label2.Location = new Point(310, 26);
             label2.Name = "label2";
             label2.Size = new Size(113, 19);
@@ -59,7 +59,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Arial", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
+            label1.ForeColor = Color.Teal;
             label1.Location = new Point(44, 26);
             label1.Name = "label1";
             label1.Size = new Size(116, 19);
@@ -180,7 +180,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.Cdi_1;
+            BackgroundImage = Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(540, 238);
             Controls.Add(Btn_Valor);
@@ -195,6 +195,7 @@
             Controls.Add(Btn_IdCliente);
             Controls.Add(label1);
             Controls.Add(label2);
+            DoubleBuffered = true;
             MaximizeBox = false;
             MaximumSize = new Size(556, 277);
             MinimizeBox = false;

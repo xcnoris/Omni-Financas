@@ -144,9 +144,9 @@ namespace Integrador_Com_CRM.Formularios
             await FrmCadastroOS.MostrarFormulario();
             await CarregarListaDeBoletoAcao();
         }
-     
 
-      
+
+
         private async Task CarregarDados()
         {
             try
@@ -206,7 +206,27 @@ namespace Integrador_Com_CRM.Formularios
                 MessageBox.Show($" {ex.Message}", $"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
             }
-           
+
+        }
+
+        private void Btn_Salvar_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Salvar.BackColor = Color.MediumTurquoise;
+        }
+
+        private void Btn_Salvar_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Salvar.BackColor = Color.Teal;
+        }
+
+        private void Btn_Remover_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.Silver;
+        }
+
+        private void Btn_Remover_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.DarkGray;
         }
     }
 }

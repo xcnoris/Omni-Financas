@@ -46,7 +46,7 @@
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label5.ForeColor = Color.White;
+            label5.ForeColor = Color.Black;
             label5.Location = new Point(33, 93);
             label5.Name = "label5";
             label5.Size = new Size(112, 17);
@@ -58,8 +58,8 @@
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(33, 62);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(60, 62);
             label2.Name = "label2";
             label2.Size = new Size(85, 17);
             label2.TabIndex = 11;
@@ -77,7 +77,8 @@
             // 
             // Btn_Salvar
             // 
-            Btn_Salvar.BackColor = Color.LimeGreen;
+            Btn_Salvar.BackColor = Color.Teal;
+            Btn_Salvar.Cursor = Cursors.Hand;
             Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Salvar.ForeColor = Color.White;
             Btn_Salvar.Location = new Point(127, 260);
@@ -88,10 +89,13 @@
             Btn_Salvar.Text = "Salvar";
             Btn_Salvar.UseVisualStyleBackColor = false;
             Btn_Salvar.Click += Btn_Salvar_Click;
+            Btn_Salvar.MouseEnter += Btn_Salvar_MouseEnter;
+            Btn_Salvar.MouseLeave += Btn_Salvar_MouseLeave;
             // 
             // Btn_Remover
             // 
-            Btn_Remover.BackColor = Color.Tomato;
+            Btn_Remover.BackColor = Color.DarkGray;
+            Btn_Remover.Cursor = Cursors.Hand;
             Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Remover.ForeColor = Color.White;
             Btn_Remover.Location = new Point(235, 260);
@@ -102,10 +106,12 @@
             Btn_Remover.Text = "Fechar";
             Btn_Remover.UseVisualStyleBackColor = false;
             Btn_Remover.Click += Btn_Remover_Click;
+            Btn_Remover.MouseEnter += Btn_Remover_MouseEnter;
+            Btn_Remover.MouseLeave += Btn_Remover_MouseLeave;
             // 
             // Txt_IdCategoria
             // 
-            Txt_IdCategoria.Location = new Point(127, 61);
+            Txt_IdCategoria.Location = new Point(151, 61);
             Txt_IdCategoria.MaxLength = 10;
             Txt_IdCategoria.Name = "Txt_IdCategoria";
             Txt_IdCategoria.Size = new Size(114, 23);
@@ -116,8 +122,8 @@
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(33, 28);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(121, 34);
             label1.Name = "label1";
             label1.Size = new Size(24, 17);
             label1.TabIndex = 19;
@@ -125,7 +131,8 @@
             // 
             // Txt_Id
             // 
-            Txt_Id.Location = new Point(127, 27);
+            Txt_Id.BackColor = Color.White;
+            Txt_Id.Location = new Point(151, 28);
             Txt_Id.MaxLength = 10;
             Txt_Id.Name = "Txt_Id";
             Txt_Id.ReadOnly = true;
@@ -134,7 +141,8 @@
             // 
             // Btn_Variaveis
             // 
-            Btn_Variaveis.BackColor = Color.CadetBlue;
+            Btn_Variaveis.BackColor = Color.Teal;
+            Btn_Variaveis.Cursor = Cursors.Hand;
             Btn_Variaveis.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Variaveis.ForeColor = SystemColors.Control;
             Btn_Variaveis.Location = new Point(292, 57);
@@ -145,12 +153,14 @@
             Btn_Variaveis.Text = "variáveis";
             Btn_Variaveis.UseVisualStyleBackColor = false;
             Btn_Variaveis.Click += Btn_Variaveis_Click;
+            Btn_Variaveis.MouseEnter += Btn_Variaveis_MouseEnter;
+            Btn_Variaveis.MouseLeave += Btn_Variaveis_MouseLeave;
             // 
             // Frm_CadatroOSAcoes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = CDI_OminiService.Properties.Resources.Cdi_1;
+            BackgroundImage = CDI_OminiService.Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(461, 298);
             Controls.Add(Btn_Variaveis);

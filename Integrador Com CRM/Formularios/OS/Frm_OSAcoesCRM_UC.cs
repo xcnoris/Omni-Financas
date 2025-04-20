@@ -184,9 +184,24 @@ namespace Integrador_Com_CRM.Formularios
             Incluir();
         }
 
-        private void Frm_OSAcoesCRM_UC_Load(object sender, EventArgs e)
+        private void Btn_Incluir_MouseEnter(object sender, EventArgs e)
         {
+            Btn_Incluir.BackColor = Color.MediumTurquoise;
+        }
 
+        private void Btn_Incluir_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Incluir.BackColor = Color.Teal;
+        }
+
+        private void Btn_Remover_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.Silver;
+        }
+
+        private void Btn_Remover_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_Remover.BackColor = Color.DarkGray;
         }
     }
 }

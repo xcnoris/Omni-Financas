@@ -65,7 +65,7 @@
             groupBox1.Controls.Add(Txt_IpHost);
             groupBox1.Controls.Add(label5);
             groupBox1.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
-            groupBox1.ForeColor = Color.White;
+            groupBox1.ForeColor = Color.Black;
             groupBox1.Location = new Point(62, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(409, 255);
@@ -75,7 +75,8 @@
             // 
             // Btn_TEstar
             // 
-            Btn_TEstar.BackColor = Color.CadetBlue;
+            Btn_TEstar.BackColor = Color.Teal;
+            Btn_TEstar.Cursor = Cursors.Hand;
             Btn_TEstar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             Btn_TEstar.ForeColor = Color.White;
             Btn_TEstar.Location = new Point(114, 206);
@@ -86,6 +87,8 @@
             Btn_TEstar.Text = "Testar Conexão";
             Btn_TEstar.UseVisualStyleBackColor = false;
             Btn_TEstar.Click += Btn_TEstar_Click;
+            Btn_TEstar.MouseEnter += Btn_TEstar_MouseEnter;
+            Btn_TEstar.MouseLeave += Btn_TEstar_MouseLeave;
             // 
             // Txt_Servidor
             // 
@@ -96,7 +99,8 @@
             // 
             // Btn_SalvarConexao
             // 
-            Btn_SalvarConexao.BackColor = Color.CadetBlue;
+            Btn_SalvarConexao.BackColor = Color.Teal;
+            Btn_SalvarConexao.Cursor = Cursors.Hand;
             Btn_SalvarConexao.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             Btn_SalvarConexao.ForeColor = Color.White;
             Btn_SalvarConexao.Location = new Point(240, 206);
@@ -107,10 +111,13 @@
             Btn_SalvarConexao.Text = "Salvar Conexão";
             Btn_SalvarConexao.UseVisualStyleBackColor = false;
             Btn_SalvarConexao.Click += Btn_SalvarConexao_Click;
+            Btn_SalvarConexao.MouseEnter += Btn_SalvarConexao_MouseEnter;
+            Btn_SalvarConexao.MouseLeave += Btn_SalvarConexao_MouseLeave;
             // 
             // label1
             // 
             label1.AutoSize = true;
+            label1.ForeColor = Color.Black;
             label1.Location = new Point(29, 36);
             label1.Name = "label1";
             label1.Size = new Size(68, 20);
@@ -127,6 +134,7 @@
             // label2
             // 
             label2.AutoSize = true;
+            label2.ForeColor = Color.Black;
             label2.Location = new Point(29, 69);
             label2.Name = "label2";
             label2.Size = new Size(66, 20);
@@ -143,6 +151,7 @@
             // label3
             // 
             label3.AutoSize = true;
+            label3.ForeColor = Color.Black;
             label3.Location = new Point(29, 102);
             label3.Name = "label3";
             label3.Size = new Size(72, 20);
@@ -160,6 +169,7 @@
             // label4
             // 
             label4.AutoSize = true;
+            label4.ForeColor = Color.Black;
             label4.Location = new Point(33, 135);
             label4.Name = "label4";
             label4.Size = new Size(62, 20);
@@ -187,7 +197,7 @@
             groupBox2.BackColor = Color.Transparent;
             groupBox2.Controls.Add(Btn_CriarDataBase);
             groupBox2.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBox2.ForeColor = Color.White;
+            groupBox2.ForeColor = Color.Black;
             groupBox2.Location = new Point(62, 273);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(409, 88);
@@ -197,7 +207,8 @@
             // 
             // Btn_CriarDataBase
             // 
-            Btn_CriarDataBase.BackColor = Color.CadetBlue;
+            Btn_CriarDataBase.BackColor = Color.Teal;
+            Btn_CriarDataBase.Cursor = Cursors.Hand;
             Btn_CriarDataBase.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             Btn_CriarDataBase.ForeColor = Color.White;
             Btn_CriarDataBase.Location = new Point(114, 37);
@@ -208,12 +219,14 @@
             Btn_CriarDataBase.Text = "Criar Banco de Dados";
             Btn_CriarDataBase.UseVisualStyleBackColor = false;
             Btn_CriarDataBase.Click += Btn_CriarDataBase_Click;
+            Btn_CriarDataBase.MouseEnter += Btn_CriarDataBase_MouseEnter;
+            Btn_CriarDataBase.MouseLeave += Btn_CriarDataBase_MouseLeave;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.Cdi_1;
+            BackgroundImage = Properties.Resources.Cdi_2;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(553, 390);
             Controls.Add(groupBox2);
