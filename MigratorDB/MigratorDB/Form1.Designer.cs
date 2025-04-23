@@ -233,7 +233,9 @@
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
+            MaximumSize = new Size(569, 429);
             MinimizeBox = false;
+            MinimumSize = new Size(569, 429);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CDI MigratoDB";

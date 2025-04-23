@@ -230,9 +230,10 @@ namespace Integrador_Com_CRM.Formularios
             string MACVM = HardwareInfo.GetMacAddressVM();
 
             Frm_EnderecoMAC frm;
-            if (MAC is null)
+            if (MAC is null || MAC is "")
             {
                 frm = new Frm_EnderecoMAC(MACVM);
+                frm.ShowDialog();
             }
             else
             {
