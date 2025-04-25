@@ -127,38 +127,41 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using (HttpClient client = new HttpClient())
             {
                 // Configurar o cabeçalho de autenticação
+                // Adiciona header corretamente como no Postman
                 client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
                 // Definir URL do endpoint da Evolution API
                 string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
 
                 HttpContent content = MetodosGerais.CriarConteudoJson(request);
-               
-               
+
+                string jsonContent = await content.ReadAsStringAsync();
 
                 try
                 {
                     HttpResponseMessage response = await client.PostAsync(url, content);
-
+                    string responseBody = await response.Content.ReadAsStringAsync();
+             
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", " Resposta OK - Mensagem Criação Enviada!");
+                        MetodosGerais.RegistrarLog("BOLETO", $" Resposta OK - Mensagem Criação Enviada! Mensagem {request.text}");
                         return true;
                     }
 
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {response}  | Json: {content}");
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {response}  | Json: {content} - Mensagem: {request.text} - numero: {request.number} - json {jsonContent}");
                     return false;
                 }
                 catch (HttpRequestException ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | Json: {content}");
-                    throw;
+                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | Json: {content} - Mensagem: {request.text} - numero: {request.number} - json {jsonContent}");
+                    return false;
+                 
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | Json: {content}");
-                    throw;
+                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | Json: {content} - Mensagem: {request.text} - numero: {request.number} - json {jsonContent}");
+                    return false;
+                    
                 }
             }
         }
@@ -205,12 +208,12 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 catch (HttpRequestException ex)
                 {
                     MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {content}");
-                    throw;
+                    return false;
                 }
                 catch (Exception ex)
                 {
                     MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {content}");
-                    throw;
+                    return false;
                 }
 
             }

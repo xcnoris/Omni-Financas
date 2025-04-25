@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using Aplication.IntegradorCRM.Servicos.OS;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
@@ -14,11 +15,11 @@ namespace Aplication.IntegradorCRM.Metodos.OS
         // Metodo responsavel apenas para enviar Mensagem para o cliente
         public static async Task<bool> EnviarMensagemViaAPI(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
-            using (HttpClient client = OS_Services.ConfigurarHttpClient(DadosAPI.Token))
+            using (HttpClient client = new HttpClient())
             {
                 //// Correto: adiciona a chave apikey no header
-                //client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
-                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 
                 // Definir URL do endpoint da Evolution API
@@ -31,7 +32,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     HttpResponseMessage response = await client.PostAsync(url, content);
                     
                     string responseBody = await response.Content.ReadAsStringAsync();
-
+                    string jsonContent = await content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         return true;
@@ -39,13 +40,14 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     else
                     {
                         OS_Services.RegistrarErroResposta(response, request.number);
+                        MetodosGerais.RegistrarLog("DEBUG", $"JSON enviado: {jsonContent}");
                         return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
-                    throw;
+                    return false;
                 }
             }
         }

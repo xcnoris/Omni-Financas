@@ -55,6 +55,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             // Verifica se o boleto não esta cancelado ou estornado
                             if ((Situacao_Boleto)situacao != Situacao_Boleto.Cancelada_Ou_Estornado)
                             {
+
                                 // Log para verificação
                                 MetodosGerais.RegistrarLog("BOLETO", $"Documento a receber {id_DocReceber} não encontrada na tabela de relação.");
 
@@ -62,7 +63,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             }
                             else
                             {
-                                MetodosGerais.RegistrarLog("BOLETO", $"Documento Cancelado/Estornado. Não consta na Tabela relação nem CRM!");
+                                MetodosGerais.RegistrarLog("BOLETO", $"Documento Cancelado/Estornado. Não consta na Tabela relação!");
                             }
                         }
                         else

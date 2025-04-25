@@ -70,7 +70,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             {
                 await Task.Delay(30000);
                 string destinatarios = $"+55{BoletoRElacao.Celular_Entidade}";
-                await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd/MM/yyyy"), InstanciaEnvoluctionAPI);
+                await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd-MM-yyyy"), InstanciaEnvoluctionAPI);
 
             }
         }

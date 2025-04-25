@@ -41,7 +41,15 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             WHEN e.tipo_entidade = 2 THEN pj.nome_fantasia 
                             ELSE 'Tipo de entidade desconhecido' 
                         END AS nomeFantasia,
-                        CONCAT(os.celular_ddd_cliente, os.celular_numero_cliente) AS telefone,
+                        CONCAT(
+                          COALESCE(e.celular_ddd, ''),
+                              CASE 
+                                  WHEN LEN(COALESCE(e.celular_numero, '')) = 8 THEN 
+                                      CONCAT('9', e.celular_numero)
+                                  ELSE 
+                                      COALESCE(e.celular_numero, '')
+                              END
+                          ) AS celular,
                         os.email_cliente,
                         os.id_categoria_ordem_servico,
                         catOS.nome as categoria,
@@ -93,7 +101,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         Identificador_Cliente = linha["identificador_cliente"].ToString(),
                         Nome_RazSocial = linha["nome_cliente"].ToString(),
                         PrimNome_Fantasia = linha["nomeFantasia"].ToString(),
-                        Celular = linha["telefone"].ToString(),
+                        Celular = linha["celular"].ToString(),
                         Email_Cliente = linha["email_cliente"].ToString(),
                         Id_CategoriaOS = linha["id_categoria_ordem_servico"].ToString(),
                         Categoria = linha["categoria"].ToString(),

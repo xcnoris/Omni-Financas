@@ -34,7 +34,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 
         private async static Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, RelacaoOrdemServicoModels tableRelacaoOS, DAL<RelacaoOrdemServicoModels> dalRelacaoOS)
         {
-            MetodosGerais.RegistrarLog("OS", "Criando Oportunidade no CRM....");
+            MetodosGerais.RegistrarLog("OS", "Criando controle de OS dentro do CDI OmniService....");
             
             if (await OrdemServicoRequests.EnviarMensagemViaAPI(request, DadosAPI))
             {

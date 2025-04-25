@@ -1,3 +1,4 @@
+using System.Net;
 using NLog;
 
 namespace Integrador_Com_CRM
@@ -11,6 +12,7 @@ namespace Integrador_Com_CRM
         [STAThread]
         static void Main()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             LogManager.LoadConfiguration("nlog.config");
             string mutexName = "Global\\Integrador_Com_CRM";
 

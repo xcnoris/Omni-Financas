@@ -35,7 +35,15 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                   WHEN ent.tipo_entidade = 2 THEN pj.nome_fantasia 
                                   ELSE 'Tipo de entidade desconhecido' 
                               END AS nomeFantasia,
-                            CONCAT(COALESCE(ent.celular_ddd, ''), COALESCE(ent.celular_numero, '')) AS celular,
+                           CONCAT(
+                                  COALESCE(e.celular_ddd, ''),
+                                  CASE 
+                                      WHEN LEN(COALESCE(e.celular_numero, '')) = 8 THEN 
+                                          CONCAT('9', e.celular_numero)
+                                      ELSE 
+                                          COALESCE(e.celular_numero, '')
+                                  END
+                              ) AS celular,
                             ent.email_principal,
                             DR.valor,
                             CASE 
@@ -97,6 +105,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         Situacao = linha["situacao"].ToString(),
                         Data_Vencimento = Convert.ToDateTime(linha["data_vencimento"])
                     };
+                    
 
                     listaRetornoOS.Add(RBoleto);
                 }

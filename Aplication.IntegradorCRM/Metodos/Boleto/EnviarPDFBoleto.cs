@@ -1,7 +1,9 @@
 ﻿
 using System;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using Aplication.IntegradorCRM.Servicos.Boleto;
 using Azure.Core;
 using Metodos.IntegradorCRM.Metodos;
@@ -63,40 +65,42 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 
             string jsonPayload = JsonConvert.SerializeObject(payload);
 
-            using (HttpClient httpClient = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 try
                 {
                     // Configurar o endpoint da API
-                    string url = "http://localhost:5007/api/BoletoPDF/upload";
+                    string url = "http://212.85.17.216:5007/api/BoletoPDF/upload";
 
-                    // Configurar o cabeçalho da requisição
-                    httpClient.DefaultRequestHeaders.Add("Authorization", Token);
+                  
 
                     // Enviar a requisição POST
                     HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await httpClient.PostAsync(url, content);
-
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    string jsonContent = await content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         // Ler a resposta da API
                         string responseContent = await response.Content.ReadAsStringAsync();
 
+                        var jsonDoc = JsonDocument.Parse(responseContent);
+                        string urlRetornada = jsonDoc.RootElement.GetProperty("url").GetString();
+
                         MetodosGerais.RegistrarLog("BOLETO_PDF", $"Caminho DR {idDocumentoReceber}: {responseContent.Trim()} ");
-                        return responseContent.Trim(); // Retorna o link do PDF
+                        return urlRetornada.Trim(); // Retorna o link do PDF
                     
                     }
                     else
                     {
                         // Registrar erro caso a resposta não seja bem-sucedida
-                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro: API retornou código de status {response.StatusCode}.  DR {idDocumentoReceber}.");
+                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro: API retornou código de status {response.StatusCode}.  DR {idDocumentoReceber}. - json {jsonContent}");
                         return null;
                     }
                 }
                 catch (Exception ex)
                 {
                     // Tratar e registrar erros
-                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar PDF do boleto: {ex.Message}.  DR {idDocumentoReceber}.");
+                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar PDF do boleto: {ex.Message}.  DR {idDocumentoReceber}. ");
                     throw;
                 }
             }
@@ -119,6 +123,10 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 fileName = $"BOLETO_{dataVencimentoBoleto}.pdf"
             };
 
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+
             using (HttpClient httpClient = new HttpClient())
             {
                 try
@@ -129,6 +137,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     // Definir URL do endpoint da Evolution API
                     string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendMedia/{Instancia}";
                     HttpContent content = MetodosGerais.CriarConteudoJson(payload);
+                    string jsonContent = await content.ReadAsStringAsync();
 
                     HttpResponseMessage response = await httpClient.PostAsync(url, content);
 
@@ -142,7 +151,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     else
                     {
                         // Log de erro
-                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar Boleto em PDF do documento a receber: {idDocumentoReceber}. Codigo Error: {response.StatusCode}");
+                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar Boleto em PDF do documento a receber: {idDocumentoReceber}. Codigo Error: {response.StatusCode} - Json: {jsonContent}");
                         return false;
                     }
                 }
