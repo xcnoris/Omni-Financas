@@ -31,8 +31,8 @@ namespace Integrador_Com_CRM
         private readonly IntegradorDBContext context;
         ControleBoletos ControlBoleto;
 
-        DAL<OSAcoesCRMModel> dalOSACoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
-        List<OSAcoesCRMModel> modelList;
+        DAL<OSAcoesModel> dalOSACoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
+        List<OSAcoesModel> modelList;
 
         public Frm_Tela_Principal()
         {

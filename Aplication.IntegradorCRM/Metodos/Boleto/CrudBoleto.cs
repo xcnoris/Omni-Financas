@@ -36,12 +36,12 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                   ELSE 'Tipo de entidade desconhecido' 
                               END AS nomeFantasia,
                            CONCAT(
-                                  COALESCE(e.celular_ddd, ''),
+                                  COALESCE(ent.celular_ddd, ''),
                                   CASE 
-                                      WHEN LEN(COALESCE(e.celular_numero, '')) = 8 THEN 
-                                          CONCAT('9', e.celular_numero)
+                                      WHEN LEN(COALESCE(ent.celular_numero, '')) = 8 THEN 
+                                          CONCAT('9', ent.celular_numero)
                                       ELSE 
-                                          COALESCE(e.celular_numero, '')
+                                          COALESCE(ent.celular_numero, '')
                                   END
                               ) AS celular,
                             ent.email_principal,

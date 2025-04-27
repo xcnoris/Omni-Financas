@@ -1,6 +1,6 @@
 ﻿namespace Modelos.IntegradorCRM.Models.EF
 {
-    public class OSAcoesCRMModel
+    public class OSAcoesModel
     {
         public int Id { get; set; }
         public int IdCategoria { get; set; }

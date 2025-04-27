@@ -15,13 +15,13 @@ namespace Integrador_Com_CRM.Formularios
 {
     public partial class Frm_CadatroOSAcoes : Form
     {
-        private readonly DAL<OSAcoesCRMModel> _dalOSAcoes;
+        private readonly DAL<OSAcoesModel> _dalOSAcoes;
         private Frm_VariaveisOS FrmVariaveis;
-        public Frm_CadatroOSAcoes(bool Criacao, OSAcoesCRMModel OSAcoes, string SalvarAtualizar)
+        public Frm_CadatroOSAcoes(bool Criacao, OSAcoesModel OSAcoes, string SalvarAtualizar)
         {
             InitializeComponent();
 
-            _dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+            _dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
 
 
             Btn_Salvar.Text = SalvarAtualizar;
@@ -30,7 +30,7 @@ namespace Integrador_Com_CRM.Formularios
                 CarregarCampos(OSAcoes);
         }
 
-        private void CarregarCampos(OSAcoesCRMModel? OSAcoes)
+        private void CarregarCampos(OSAcoesModel? OSAcoes)
         {
             Txt_Id.Text = OSAcoes.Id.ToString();
             Txt_IdCategoria.Text = OSAcoes.IdCategoria.ToString();
@@ -79,7 +79,7 @@ namespace Integrador_Com_CRM.Formularios
 
 
                 // Criar um objeto para representar o registro da linha
-                var osAcao = new OSAcoesCRMModel
+                var osAcao = new OSAcoesModel
                 {
                     Id = Id ?? 0,
                     IdCategoria = IdCategoria,
@@ -89,7 +89,7 @@ namespace Integrador_Com_CRM.Formularios
                 if (Id != null && Id > 0)
                 {
                     // Verifica se o registro já existe no banco
-                    OSAcoesCRMModel? registroExistente = await _dalOSAcoes.BuscarPorAsync(x => x.Id == Id);
+                    OSAcoesModel? registroExistente = await _dalOSAcoes.BuscarPorAsync(x => x.Id == Id);
 
                     if (registroExistente != null)
                     {

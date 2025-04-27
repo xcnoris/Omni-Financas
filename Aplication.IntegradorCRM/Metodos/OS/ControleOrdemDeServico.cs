@@ -11,7 +11,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
     {
         private readonly CrudOS _crudOS;
         
-        private List<OSAcoesCRMModel> _oSAcoesCRM;
+        private List<OSAcoesModel> _oSAcoesCRM;
         public ControleOrdemDeServico()
         {
             _crudOS = new CrudOS();
@@ -22,7 +22,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
 
             using DAL<RelacaoOrdemServicoModels> dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
             using DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-            using DAL<OSAcoesCRMModel> _dalOSAcao = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+            using DAL<OSAcoesModel> _dalOSAcao = new DAL<OSAcoesModel>(new IntegradorDBContext());
 
             try
             {
@@ -61,15 +61,15 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         */
                         if (OSInTableRelacao is null)
                         {
-                            MetodosGerais.RegistrarLog("OS", $"OS {id_ordemServico} não encontrada na tabela de relação.");
+                            //MetodosGerais.RegistrarLog("OS", $"OS {id_ordemServico} não encontrada na tabela de relação.");
 
                             if (situacao is not 1)
                             {
-                                CriacaoOSServices.RealizarProcessoCriacaoOS(DadosAPI, RetornoOS, OrdemServicoRelacao);
+                                await CriacaoOSServices.RealizarProcessoCriacaoOS(DadosAPI, RetornoOS, OrdemServicoRelacao);
                             }
                             else
                             {
-                                MetodosGerais.RegistrarLog("OS", $"OS: {id_ordemServico} consta como cancelada. Não será enviada mensagem!");
+                                MetodosGerais.RegistrarLog("OS", $"OS: {id_ordemServico} não esta sendo sincronizada pelo CDI OmniService e consta como cancelada no ERP. Não será enviada nenhuma mensagem!");
                             }
                         }
                         else
@@ -85,7 +85,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                             // Caso esteja, significa que os ajustes já foram feitos
                             if (situacaoExistente is not 1)
                             {
-                                VerificarCategoriaServices.VerificarCategorias(RetornoOS, OSInTableRelacao, DadosAPI, FrmConfigUC.ChBox_OSEnviarMensCancel);
+                                await VerificarCategoriaServices.VerificarCategorias(RetornoOS, OSInTableRelacao, DadosAPI, FrmConfigUC.ChBox_OSEnviarMensCancel);
                             }
                             else
                             {

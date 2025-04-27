@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -64,6 +65,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             };
 
             string jsonPayload = JsonConvert.SerializeObject(payload);
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             using (HttpClient client = new HttpClient())
             {
@@ -122,9 +124,10 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 media = linkBoleto,
                 fileName = $"BOLETO_{dataVencimentoBoleto}.pdf"
             };
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
 
             using (HttpClient httpClient = new HttpClient())

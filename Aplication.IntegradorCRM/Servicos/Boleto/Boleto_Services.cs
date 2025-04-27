@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using Modelos.IntegradorCRM.Models.Enuns;
 using Aplication.IntegradorCRM.Servicos.OS;
+using System.Net;
 
 namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
@@ -124,6 +125,8 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         // Método auxiliar para enviar requisição de criação de oportunidade para a API
         internal static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             using (HttpClient client = new HttpClient())
             {
                 // Configurar o cabeçalho de autenticação
@@ -179,6 +182,9 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
         internal static async Task<bool> EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, string IdDocReceber)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+
             // configurar o cabeçalho de autorização 
             using (HttpClient client = new HttpClient())
             {

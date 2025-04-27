@@ -10,15 +10,15 @@ namespace Integrador_Com_CRM.Formularios
     public partial class Frm_OSAcoesCRM_UC : UserControl
     {
 
-        private readonly DAL<OSAcoesCRMModel> dalOSAcoes;
-        private List<OSAcoesCRMModel> OSAcaoList;
+        private readonly DAL<OSAcoesModel> dalOSAcoes;
+        private List<OSAcoesModel> OSAcaoList;
 
         public Frm_OSAcoesCRM_UC()
         {
             InitializeComponent();
 
 
-            dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+            dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
 
             AddColumnDataGridView();
             CarregarListaDeOSAcao();
@@ -34,7 +34,7 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     OSAcaoList.Clear();
                 }
-                DAL<OSAcoesCRMModel> _dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+                DAL<OSAcoesModel> _dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
                 OSAcaoList = (await _dalOSAcoes.ListarAsync()).ToList();
                 CarregarDados();
             }
@@ -57,7 +57,7 @@ namespace Integrador_Com_CRM.Formularios
                     // Retrieve the selected row data
                     var selectedRow = DGV_Dados.CurrentRow;
                     int id = Convert.ToInt32(selectedRow.Cells["ID"].Value);
-                    OSAcoesCRMModel OSAcao = OSAcaoList.FirstOrDefault(x => x.Id == id);
+                    OSAcoesModel OSAcao = OSAcaoList.FirstOrDefault(x => x.Id == id);
                     if (OSAcao is not null)
                     {
                         dalOSAcoes.DeletarAsync(OSAcao);
@@ -108,7 +108,7 @@ namespace Integrador_Com_CRM.Formularios
 
 
         // Recebe um object e convert para uma linha do DataGridView
-        private void AddAcaoToDataGridView(OSAcoesCRMModel OSAcao)
+        private void AddAcaoToDataGridView(OSAcoesModel OSAcao)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace Integrador_Com_CRM.Formularios
                 if (OSAcaoList is not null)
                 {
                     DGV_Dados.Rows.Clear();
-                    foreach (OSAcoesCRMModel OS in OSAcaoList)
+                    foreach (OSAcoesModel OS in OSAcaoList)
                     {
                         AddAcaoToDataGridView(OS);
                     }
@@ -159,7 +159,7 @@ namespace Integrador_Com_CRM.Formularios
             var selectedRow = DGV_Dados.CurrentRow;
 
 
-            OSAcoesCRMModel oSAcoes = new OSAcoesCRMModel()
+            OSAcoesModel oSAcoes = new OSAcoesModel()
             {
                 Id = Convert.ToInt32(selectedRow.Cells["ID"].Value),
                 IdCategoria = Convert.ToInt32(selectedRow.Cells["IdCategoria"].Value),
@@ -174,7 +174,7 @@ namespace Integrador_Com_CRM.Formularios
         private async Task Incluir()
         {
 
-            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(true, new OSAcoesCRMModel(), "Incluir");
+            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(true, new OSAcoesModel(), "Incluir");
             await FrmCadastroOS.MostrarFormulario();
             await CarregarListaDeOSAcao();
         }

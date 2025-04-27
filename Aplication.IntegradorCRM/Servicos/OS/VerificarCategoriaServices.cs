@@ -13,9 +13,9 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 
         internal static async Task VerificarCategorias(RetornoOrdemServico RetornoOS, RelacaoOrdemServicoModels OSInTBRelacao, DadosAPIModels DadosAPI, bool EnviarMensagemCancelamento)
         {
-            using DAL<OSAcoesCRMModel> dalOSAcoes = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
+            using DAL<OSAcoesModel> dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
             using DAL<RelacaoOrdemServicoModels> dalRelacaoOS = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
-            List<OSAcoesCRMModel> _oSAcoesCRM = (await dalOSAcoes.ListarAsync()).ToList();
+            List<OSAcoesModel> _oSAcoesCRM = (await dalOSAcoes.ListarAsync()).ToList();
 
             // Busca a Ação correspondente a situacao ou a categoria na OS
             ModeloOportunidadeRequest? ModeloRequest = await OS_Services.InstanciarOSAcoes(Convert.ToInt32(RetornoOS.Situacao), RetornoOS, _oSAcoesCRM);
@@ -23,7 +23,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
             // Verifica se foi encontrado alguma Acão para a categoria ou situacao correspondente
             if (ModeloRequest is null)
             {
-                MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {RetornoOS.Id_CategoriaOS} ou -1 não cadastrada!");
+                //MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {RetornoOS.Id_CategoriaOS} ou -1 não cadastrada!");
                 return;
             }
             

@@ -4,9 +4,9 @@ using Modelos.IntegradorCRM.Models.EF;
 
 namespace DataBase.IntegradorCRM.Data.Map
 {
-    internal class OSAcaoMap : IEntityTypeConfiguration<OSAcoesCRMModel>
+    internal class OSAcaoMap : IEntityTypeConfiguration<OSAcoesModel>
     {
-        public void Configure(EntityTypeBuilder<OSAcoesCRMModel> bld)
+        public void Configure(EntityTypeBuilder<OSAcoesModel> bld)
         {
             bld.HasKey(x => x.Id);
             bld.Property(x => x.IdCategoria);

@@ -43,13 +43,13 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         // Busca Ação para cada alteração de cadegoria das OS
         public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequest( RetornoOrdemServico retornoOS)
         {
-            using DAL<OSAcoesCRMModel> dalAcaoOS = new DAL<OSAcoesCRMModel>(new IntegradorDBContext());
-            OSAcoesCRMModel? AcoesOS = await dalAcaoOS.BuscarPorAsync(x => x.IdCategoria == Convert.ToInt32(retornoOS.Id_CategoriaOS));
+            using DAL<OSAcoesModel> dalAcaoOS = new DAL<OSAcoesModel>(new IntegradorDBContext());
+            OSAcoesModel? AcoesOS = await dalAcaoOS.BuscarPorAsync(x => x.IdCategoria == Convert.ToInt32(retornoOS.Id_CategoriaOS));
 
 
             if (AcoesOS is null)
             {
-                MetodosGerais.RegistrarLog("OS", $"Error: Ação do CRM correspondende para categoria {retornoOS.Id_CategoriaOS} não cadastrada!");
+                MetodosGerais.RegistrarLog("OS", $"Controle de mensagem para categoria {retornoOS.Id_CategoriaOS} não cadastrada!");
                 return null;
             }
             return InstanciarModeloRequest(retornoOS.Celular, AcoesOS.Mensagem_Atualizacao, retornoOS);
@@ -63,7 +63,7 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         public async static Task<ModeloOportunidadeRequest?> BuscarAcaoSituacao(Situacao_OS situacaoOS,RetornoOrdemServico retornoOS)
         {
             DAL<AcaoSituacao_OS_CRM> AcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-            ModeloOportunidadeRequest? oSAcoesCRMModel = null;
+            ModeloOportunidadeRequest? oSAcoesModel = null;
 
             try
             {
@@ -75,17 +75,17 @@ namespace Aplication.IntegradorCRM.Servicos.OS
                     return null; // Retorna null caso a ação não seja encontrada
                 }
                 
-                oSAcoesCRMModel = InstanciarModeloRequest(retornoOS.Celular, acaoBuscada.Mensagem, retornoOS);
+                oSAcoesModel = InstanciarModeloRequest(retornoOS.Celular, acaoBuscada.Mensagem, retornoOS);
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("OS", $"Erro ao buscar ação de situação para a OS {retornoOS.Id_Ordem_Servico}: {ex.Message}");
             }
 
-            return oSAcoesCRMModel;
+            return oSAcoesModel;
         }
 
-        public async static Task<ModeloOportunidadeRequest?> InstanciarOSAcoes(int Situacao, RetornoOrdemServico RetornoOS, List<OSAcoesCRMModel> osAcoesCRM)
+        public async static Task<ModeloOportunidadeRequest?> InstanciarOSAcoes(int Situacao, RetornoOrdemServico RetornoOS, List<OSAcoesModel> osAcoesCRM)
         {
             // Verifica se a Situacao é 1, caso seja, signica que esta cancelado a OS, e busca pelo ação -1
             ModeloOportunidadeRequest? OSModel;
