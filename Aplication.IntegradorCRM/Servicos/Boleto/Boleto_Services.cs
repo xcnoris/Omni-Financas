@@ -126,6 +126,8 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         internal static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
             using (HttpClient client = new HttpClient())
             {
@@ -183,6 +185,8 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         internal static async Task<bool> EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, string IdDocReceber)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
 
             // configurar o cabeçalho de autorização 
