@@ -117,7 +117,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             {
                 number = destinatario,
                 mediatype = "document",
-                mimetype = "image/pdf",
+                mimetype = "application/pdf",
                 caption = "Segue o seu boleto!",
                 media = linkBoleto,
                 fileName = $"BOLETO_{dataVencimentoBoleto}.pdf"
