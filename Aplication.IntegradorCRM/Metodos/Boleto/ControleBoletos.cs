@@ -59,7 +59,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                                 // Log para verificação
                                 MetodosGerais.RegistrarLog("BOLETO", $"Documento a receber {id_DocReceber} não encontrada na tabela de relação.");
 
-                                CriacaoService.RealizarProcessoCriacaoBoleto(DadosAPI,linha, FrmConfigUC.ChBox_BoletoEnviarPDFa);
+                                await CriacaoService.RealizarProcessoCriacaoBoleto(DadosAPI,linha, FrmConfigUC.ChBox_BoletoEnviarPDFa);
                             }
                             else
                             {
@@ -74,7 +74,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             BoletoRelacao.Celular_Entidade = linha.Celular;
 
                             MetodosGerais.RegistrarLog("BOLETO", $"DR  {BoletoRelacao.Id_DocumentoReceber} esta com a relação do vencimento em {diasAtraso}. Verificação foi iniciada...");
-                            Boleto_Services.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM, linha, FrmConfigUC);
+                            await Boleto_Services.VerificarBoletosCriados(BoletoRelacao, diasAtraso, situacao, situacaTBRelacao, DadosAPI, BoletoAcoesCRM, linha, FrmConfigUC);
                         }
                     }
                 }

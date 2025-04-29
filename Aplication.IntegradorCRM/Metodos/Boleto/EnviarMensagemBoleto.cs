@@ -1,8 +1,6 @@
 ﻿using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
-using Microsoft.IdentityModel.Tokens;
-using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;
 
@@ -68,7 +66,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
         {
             if (EnviarPDF)
             {
-                await Task.Delay(30000);
+                await Task.Delay(1000);
                 string destinatarios = $"+55{BoletoRElacao.Celular_Entidade}";
                 await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd-MM-yyyy"), InstanciaEnvoluctionAPI);
 

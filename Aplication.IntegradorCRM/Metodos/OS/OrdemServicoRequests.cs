@@ -1,60 +1,66 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using Aplication.IntegradorCRM.Servicos.OS;
-using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Aplication.IntegradorCRM.Metodos.OS
 {
     internal class OrdemServicoRequests
     {
+        private static readonly HttpClient _httpClient;
+
+        static OrdemServicoRequests()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+            _httpClient = new HttpClient(handler);
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
         // Metodo responsavel apenas para enviar Mensagem para o cliente
         public static async Task<bool> EnviarMensagemViaAPI(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
+            HttpContent content = MetodosGerais.CriarConteudoJson(request);
+            string jsonContent = await content.ReadAsStringAsync();
 
-            using (HttpClient client = new HttpClient())
+            for (int tentativa = 1; tentativa <= 3; tentativa++)
             {
-                //// Correto: adiciona a chave apikey no header
-                client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-
-                // Definir URL do endpoint da Evolution API
-                string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
-
                 try
                 {
-                    // Executando metodo Http Post
-                    HttpContent content = MetodosGerais.CriarConteudoJson(request);
-                    HttpResponseMessage response = await client.PostAsync(url, content);
-                    
+                    _httpClient.DefaultRequestHeaders.Remove("apikey");
+                    _httpClient.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
+
+                    HttpResponseMessage response = await _httpClient.PostAsync(url, content);
                     string responseBody = await response.Content.ReadAsStringAsync();
-                    string jsonContent = await content.ReadAsStringAsync();
+
                     if (response.IsSuccessStatusCode)
                     {
+                        MetodosGerais.RegistrarLog("OS", $"Tentativa {tentativa} - JSON enviado: {jsonContent}");
                         return true;
                     }
                     else
                     {
                         OS_Services.RegistrarErroResposta(response, request.number);
-                        MetodosGerais.RegistrarLog("DEBUG", $"JSON enviado: {jsonContent}");
-                        return false;
+                        MetodosGerais.RegistrarLog("DEBUG", $"Tentativa {tentativa} - JSON enviado: {jsonContent}");
                     }
+                }
+                catch (HttpRequestException ex)
+                {
+                    MetodosGerais.RegistrarLog("OS", $"Tentativa {tentativa} - Erro de rede: {ex.Message} | Inner: {ex.InnerException?.Message}");
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarErroExcecao("OS", "Exceção durante a chamada da API:", ex);
-                    return false;
+                    MetodosGerais.RegistrarErroExcecao("OS", $"Tentativa {tentativa} - Exceção durante a chamada da API:", ex);
                 }
+
+                await Task.Delay(1000 * tentativa);
             }
+
+            return false;
         }
     }
 }

@@ -184,12 +184,17 @@ namespace Integrador_Com_CRM.Formularios
         {
             if (TipoSituacao is Situacao_OSBoleto.Boleto)
             {
+                if (FrmVariaveisBoleto is not null)
+                    FrmVariaveisBoleto.Close();
 
                 FrmVariaveisBoleto = new Frm_VariaveisBoleto(Txt_Mensagem);
                 FrmVariaveisBoleto.Show();
             }
             else if (TipoSituacao is Situacao_OSBoleto.OS)
             {
+                if (FrmVariaveisOS is not null)
+                    FrmVariaveisOS.Close();
+
                 FrmVariaveisOS = new Frm_VariaveisOS(Txt_Mensagem);
                 FrmVariaveisOS.Show();
             }

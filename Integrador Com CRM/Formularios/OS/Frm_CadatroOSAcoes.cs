@@ -118,8 +118,12 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Btn_Variaveis_Click(object sender, EventArgs e)
         {
+            if (FrmVariaveis is not null)
+                FrmVariaveis.Close();
+            
             FrmVariaveis = new Frm_VariaveisOS(Txt_Mensagem);
             FrmVariaveis.Show();
+
         }
 
         private void Frm_CadatroOSAcoes_FormClosed(object sender, FormClosedEventArgs e)

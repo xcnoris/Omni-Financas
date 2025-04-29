@@ -13,6 +13,8 @@ namespace Gerador_de_Linceça
         public Form1()
         {
             InitializeComponent();
+
+            Txt_EndMac.Focus();
         }
 
         public static string GenerateToken(string macAddress)

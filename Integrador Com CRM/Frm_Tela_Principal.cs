@@ -6,6 +6,7 @@ using Integrador_Com_CRM.Formularios;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 using Metodos.IntegradorCRM;
+using CDI_OminiService.Formularios;
 
 namespace Integrador_Com_CRM
 {
@@ -19,11 +20,12 @@ namespace Integrador_Com_CRM
 
         //Declando Variaveis dos Formularios
         private readonly Frm_GeralUC FrmGeralUC;
-        private readonly Frm_ConexaoUC FrmConexaoUC;
-        private readonly Frm_DadosAPIUC FrmDadosAPIUUC;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoesCRM;
+        private readonly FrmEtapaBoletoUC EtapasBoletos;
         private readonly Frm_OSAcoesCRM_UC FrmOSAcao;
         private readonly Frm_AcoesSituacoes FrmAcoesSit;
+        private readonly Frm_ConexaoUC FrmConexaoUC;
+        private readonly Frm_DadosAPIUC FrmDadosAPIUUC;
         private readonly Frm_ConfigUC FrmConfigUC;
 
         ControleOrdemDeServico ControlOS;
@@ -63,6 +65,7 @@ namespace Integrador_Com_CRM
             //Instanciando Variaveis dos Formularios
             FrmDadosAPIUUC = new Frm_DadosAPIUC();
             FrmConexaoUC = new Frm_ConexaoUC();
+            EtapasBoletos = new FrmEtapaBoletoUC();
 
             FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM, FrmConfigUC);
 
@@ -153,6 +156,8 @@ namespace Integrador_Com_CRM
             FrmOSAcao.Dock = DockStyle.Fill;
             FrmAcoesSit.Dock = DockStyle.Fill;
             FrmConfigUC.Dock = DockStyle.Fill;
+            EtapasBoletos.Dock = DockStyle.Fill;
+
 
             TabPage TB1 = new TabPage
             {
@@ -177,16 +182,16 @@ namespace Integrador_Com_CRM
 
             TabPage TB4 = new TabPage
             {
-                Name = "Ações Boleto API",
-                Text = "Ações Boleto API"
+                Name = "Ações Boleto",
+                Text = "Ações Boleto"
             };
             TB4.Controls.Add(BoletoAcoesCRM);
 
 
             TabPage TB5 = new TabPage
             {
-                Name = "Ações Ordem de Serviço API",
-                Text = "Ações Ordem de Serviço API"
+                Name = "Ações Ordem de Serviço",
+                Text = "Ações Ordem de Serviço"
             };
             TB5.Controls.Add(FrmOSAcao);
 
@@ -204,9 +209,16 @@ namespace Integrador_Com_CRM
             };
             TB7.Controls.Add(FrmConfigUC);
 
+            TabPage TB8 = new TabPage
+            {
+                Name = "Etapas Boleto",
+                Text = "Etapas Boleto"
+            };
+            TB8.Controls.Add(EtapasBoletos);
 
             TBC_Dados.TabPages.Add(TB1);
             TBC_Dados.TabPages.Add(TB4);
+            TBC_Dados.TabPages.Add(TB8);
             TBC_Dados.TabPages.Add(TB5);
             TBC_Dados.TabPages.Add(TB6);
             TBC_Dados.TabPages.Add(TB2);

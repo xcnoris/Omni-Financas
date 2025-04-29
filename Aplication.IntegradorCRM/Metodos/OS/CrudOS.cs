@@ -36,20 +36,21 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                         END AS identificador_cliente,
                         e.id_entidade,
                         os.nome_cliente, 
-	                    CASE 
-                            WHEN e.tipo_entidade = 1 THEN LEFT(e.nome, CHARINDEX(' ', e.nome + ' ') - 1)
-                            WHEN e.tipo_entidade = 2 THEN pj.nome_fantasia 
+	                  CASE 
+                            WHEN ent.tipo_entidade = 1 THEN LEFT(ent.nome, CHARINDEX(' ', ent.nome + ' ') - 1)
+                            WHEN ent.tipo_entidade = 2 THEN pj.nome_fantasia 
                             ELSE 'Tipo de entidade desconhecido' 
                         END AS nomeFantasia,
                         CONCAT(
-                          COALESCE(e.celular_ddd, ''),
-                              CASE 
-                                  WHEN LEN(COALESCE(e.celular_numero, '')) = 8 THEN 
-                                      CONCAT('9', e.celular_numero)
-                                  ELSE 
-                                      COALESCE(e.celular_numero, '')
-                              END
-                          ) AS celular,
+                            COALESCE(ent.celular_ddd, ''),
+                            CASE 
+                                WHEN LEN(LTRIM(RTRIM(COALESCE(ent.celular_numero, '')))) = 8 AND LEFT(LTRIM(RTRIM(ent.celular_numero)), 1) != '3' THEN 
+                                    -- Coloca 9 somente se for número de 8 dígitos e não começar com 3 (fixo)
+                                    CONCAT('9', LTRIM(RTRIM(ent.celular_numero)))
+                                ELSE 
+                                    LTRIM(RTRIM(ent.celular_numero))
+                            END
+                        ) AS celular,
                         os.email_cliente,
                         os.id_categoria_ordem_servico,
                         catOS.nome as categoria,
@@ -65,7 +66,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                  LEFT JOIN 
                      pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
                     WHERE 
-                         OS.data_hora_cadastro >= '{DateTime}'
+                         OS.data_hora_cadastro >= '{DateTime}' 
                         
                 ";
                 //string query = "SELECT id_ordem_servico, nome_cliente, fone_ddd_cliente + fone_numero_cliente AS telefone, email_cliente, id_categoria_ordem_servico FROM ordem_servico WHERE id_ordem_servico = 8674";

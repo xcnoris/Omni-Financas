@@ -166,6 +166,9 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Btn_VariaveisBoleto_Click(object sender, EventArgs e)
         {
+            if (FrmVariaveis is not null)
+                FrmVariaveis.Close();
+
             FrmVariaveis = new Frm_VariaveisBoleto(Txt_Mensagem);
             FrmVariaveis.Show();
         }

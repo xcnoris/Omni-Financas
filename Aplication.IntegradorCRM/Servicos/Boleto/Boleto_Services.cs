@@ -16,6 +16,19 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
     {
         public string Message;
         public bool Status;
+        private static readonly HttpClient _httpClient;
+
+        // Bloco estático para configurar o HttpClient uma única vez
+        static Boleto_Services()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var handler = new HttpClientHandler();
+            // REMOVER isso em produção se quiser validar SSL corretamente
+            handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+            _httpClient = new HttpClient(handler);
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
 
         #region Metodos Gerais
         private static ModeloOportunidadeRequest InstanciarModeloRequest( string mensagem, RetornoBoleto RetornoBoleto)
@@ -125,50 +138,41 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         // Método auxiliar para enviar requisição de criação de oportunidade para a API
         internal static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
+            HttpContent content = MetodosGerais.CriarConteudoJson(request);
+            string jsonContent = await content.ReadAsStringAsync();
 
-            using (HttpClient client = new HttpClient())
+            for (int tentativa = 1; tentativa <= 3; tentativa++)
             {
-                // Configurar o cabeçalho de autenticação
-                // Adiciona header corretamente como no Postman
-                client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                // Definir URL do endpoint da Evolution API
-                string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
-
-                HttpContent content = MetodosGerais.CriarConteudoJson(request);
-
-                string jsonContent = await content.ReadAsStringAsync();
-
                 try
                 {
-                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    _httpClient.DefaultRequestHeaders.Remove("apikey");
+                    _httpClient.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
+
+                    HttpResponseMessage response = await _httpClient.PostAsync(url, content);
                     string responseBody = await response.Content.ReadAsStringAsync();
-             
+
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", $" Resposta OK - Mensagem Criação Enviada! Mensagem {request.text}");
+                        MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Mensagem Criação enviada com sucesso! Mensagem: {request.text}");
                         return true;
                     }
 
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {response}  | Json: {content} - Mensagem: {request.text} - numero: {request.number} - json {jsonContent}");
-                    return false;
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Erro na resposta da API: Status {response.StatusCode} - {responseBody} | Json: {jsonContent}");
                 }
                 catch (HttpRequestException ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | Json: {content} - Mensagem: {request.text} - numero: {request.number} - json {jsonContent}");
-                    return false;
-                 
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Erro de rede: {ex.Message} | Inner: {ex.InnerException?.Message} | Json: {jsonContent}");
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | Json: {content} - Mensagem: {request.text} - numero: {request.number} - json {jsonContent}");
-                    return false;
-                    
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Exceção geral: {ex.Message} | Json: {jsonContent}");
                 }
+
+                await Task.Delay(1000 * tentativa); // Espera 1s, depois 2s, depois 3s
             }
+
+            return false;
         }
 
         // Método auxiliar para adicionar o boleto no banco de dados
@@ -184,49 +188,41 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
         internal static async Task<bool> EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, string IdDocReceber)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
+            HttpContent content = MetodosGerais.CriarConteudoJson(request);
+            string jsonContent = await content.ReadAsStringAsync();
 
-
-            // configurar o cabeçalho de autorização 
-            using (HttpClient client = new HttpClient())
+            for (int tentativa = 1; tentativa <= 3; tentativa++)
             {
-                // Configurar o cabeçalho de autenticação
-                client.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Definir URL do endpoint da Evolution API
-                string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
-
-                HttpContent content = MetodosGerais.CriarConteudoJson(request);
-
                 try
                 {
-                    HttpResponseMessage response = await client.PostAsync(url, content);
-                    var responseBody = await response.Content.ReadAsStringAsync();
+                    _httpClient.DefaultRequestHeaders.Remove("apikey");
+                    _httpClient.DefaultRequestHeaders.Add("apikey", DadosAPI.Token);
+
+                    HttpResponseMessage response = await _httpClient.PostAsync(url, content);
+                    string responseBody = await response.Content.ReadAsStringAsync();
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", $"Resposta OK - Mensagem Enviada com Sucesso! | DocReceber: {IdDocReceber}  | Json: {content}");
+                        MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Mensagem enviada com sucesso! | DocReceber: {IdDocReceber}");
                         return true;
                     }
 
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro na resposta da API: Status {response.StatusCode} - {responseBody} | DocReceber: {IdDocReceber}  | Json: {content}");
-                    return false;
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Erro na resposta da API: Status {response.StatusCode} - {responseBody} | DocReceber: {IdDocReceber} | Json: {jsonContent}");
                 }
                 catch (HttpRequestException ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Erro de rede ao chamar API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {content}");
-                    return false;
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Erro de rede: {ex.Message} | Inner: {ex.InnerException?.Message} | DocReceber: {IdDocReceber} | Json: {jsonContent}");
                 }
                 catch (Exception ex)
                 {
-                    MetodosGerais.RegistrarLog("BOLETO", $"Exceção ao processar resposta da API: {ex.Message}  | DocReceber: {IdDocReceber}  | Json: {content}");
-                    return false;
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Exceção geral: {ex.Message} | DocReceber: {IdDocReceber} | Json: {jsonContent}");
                 }
 
+                await Task.Delay(1000 * tentativa);
             }
+
+            return false;
         }
 
         // Método auxiliar para atualizar boleto no banco

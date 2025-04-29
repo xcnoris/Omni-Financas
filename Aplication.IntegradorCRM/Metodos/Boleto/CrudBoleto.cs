@@ -30,20 +30,21 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                             DR.numero_documento_receber,
                             DR.id_entidade,
                             ent.nome,
-	                          CASE 
-                                  WHEN ent.tipo_entidade = 1 THEN LEFT(ent.nome, CHARINDEX(' ', ent.nome + ' ') - 1)
-                                  WHEN ent.tipo_entidade = 2 THEN pj.nome_fantasia 
-                                  ELSE 'Tipo de entidade desconhecido' 
-                              END AS nomeFantasia,
-                           CONCAT(
-                                  COALESCE(ent.celular_ddd, ''),
-                                  CASE 
-                                      WHEN LEN(COALESCE(ent.celular_numero, '')) = 8 THEN 
-                                          CONCAT('9', ent.celular_numero)
-                                      ELSE 
-                                          COALESCE(ent.celular_numero, '')
-                                  END
-                              ) AS celular,
+	                       CASE 
+                                WHEN ent.tipo_entidade = 1 THEN LEFT(ent.nome, CHARINDEX(' ', ent.nome + ' ') - 1)
+                                WHEN ent.tipo_entidade = 2 THEN pj.nome_fantasia 
+                                ELSE 'Tipo de entidade desconhecido' 
+                            END AS nomeFantasia,
+                            CONCAT(
+                                COALESCE(ent.celular_ddd, ''),
+                                CASE 
+                                    WHEN LEN(LTRIM(RTRIM(COALESCE(ent.celular_numero, '')))) = 8 AND LEFT(LTRIM(RTRIM(ent.celular_numero)), 1) != '3' THEN 
+                                        -- Coloca 9 somente se for número de 8 dígitos e não começar com 3 (fixo)
+                                        CONCAT('9', LTRIM(RTRIM(ent.celular_numero)))
+                                    ELSE 
+                                        LTRIM(RTRIM(ent.celular_numero))
+                                END
+                            ) AS celular,
                             ent.email_principal,
                             DR.valor,
                             CASE 
