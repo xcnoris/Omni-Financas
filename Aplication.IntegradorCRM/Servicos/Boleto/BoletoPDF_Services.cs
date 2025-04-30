@@ -44,18 +44,18 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             catch (SqlException ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao acessar o banco de dados: {ex.Message}");
-                throw new Exception("Erro ao acessar o banco de dados.", ex);
+                return "";
             }
             catch (Exception ex)
             {
                 MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro inesperado: {ex.Message}");
-                throw;
+                return "";
             }
 
             if (string.IsNullOrEmpty(caminhoArquivoBoleto))
             {
                 MetodosGerais.RegistrarLog("BOLETO_PDF", "Caminho do arquivo não encontrado para o ID especificado.");
-                throw new Exception("Caminho do arquivo não encontrado para o ID especificado.");
+                return "";
             }
 
             return caminhoArquivoBoleto;

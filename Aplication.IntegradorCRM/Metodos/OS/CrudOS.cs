@@ -27,44 +27,44 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 // Buscar serviços no banco de dados a partir de uma data ou parâmetro definido
                 string query = @$"
                  SELECT 
-                      os.id_ordem_servico, 
-                        os.nsu,
+                        os.id_ordem_servico, 
+                          os.nsu,
+                          CASE 
+                              WHEN ent.tipo_entidade = 1 THEN pf.cpf 
+                              WHEN ent.tipo_entidade = 2 THEN pj.cnpj 
+                              ELSE 'Tipo de entidade desconhecido' 
+                          END AS identificador_cliente,
+                          ent.id_entidade,
+                          os.nome_cliente, 
                         CASE 
-                            WHEN e.tipo_entidade = 1 THEN pf.cpf 
-                            WHEN e.tipo_entidade = 2 THEN pj.cnpj 
-                            ELSE 'Tipo de entidade desconhecido' 
-                        END AS identificador_cliente,
-                        e.id_entidade,
-                        os.nome_cliente, 
-	                  CASE 
-                            WHEN ent.tipo_entidade = 1 THEN LEFT(ent.nome, CHARINDEX(' ', ent.nome + ' ') - 1)
-                            WHEN ent.tipo_entidade = 2 THEN pj.nome_fantasia 
-                            ELSE 'Tipo de entidade desconhecido' 
-                        END AS nomeFantasia,
-                        CONCAT(
-                            COALESCE(ent.celular_ddd, ''),
-                            CASE 
-                                WHEN LEN(LTRIM(RTRIM(COALESCE(ent.celular_numero, '')))) = 8 AND LEFT(LTRIM(RTRIM(ent.celular_numero)), 1) != '3' THEN 
-                                    -- Coloca 9 somente se for número de 8 dígitos e não começar com 3 (fixo)
-                                    CONCAT('9', LTRIM(RTRIM(ent.celular_numero)))
-                                ELSE 
-                                    LTRIM(RTRIM(ent.celular_numero))
-                            END
-                        ) AS celular,
-                        os.email_cliente,
-                        os.id_categoria_ordem_servico,
-                        catOS.nome as categoria,
-                        os.situacao
-                 FROM 
-                     ordem_servico os
-                 INNER JOIN 
-                     entidade e ON os.id_entidade_cliente = e.id_entidade
-                 INNER JOIN
-	                categoria_ordem_servico catOS on catOS.id_categoria_ordem_servico = os.id_categoria_ordem_servico
-                 LEFT JOIN 
-                     pessoa_juridica pj ON e.id_entidade = pj.id_entidade AND e.tipo_entidade = 2
-                 LEFT JOIN 
-                     pessoa_fisica pf ON e.id_entidade = pf.id_entidade AND e.tipo_entidade = 1
+                              WHEN ent.tipo_entidade = 1 THEN LEFT(ent.nome, CHARINDEX(' ', ent.nome + ' ') - 1)
+                              WHEN ent.tipo_entidade = 2 THEN pj.nome_fantasia 
+                              ELSE 'Tipo de entidade desconhecido' 
+                          END AS nomeFantasia,
+                          CONCAT(
+                              COALESCE(ent.celular_ddd, ''),
+                              CASE 
+                                  WHEN LEN(LTRIM(RTRIM(COALESCE(ent.celular_numero, '')))) = 8 AND LEFT(LTRIM(RTRIM(ent.celular_numero)), 1) != '3' THEN 
+                                      -- Coloca 9 somente se for número de 8 dígitos e não começar com 3 (fixo)
+                                      CONCAT('9', LTRIM(RTRIM(ent.celular_numero)))
+                                  ELSE 
+                                      LTRIM(RTRIM(ent.celular_numero))
+                              END
+                          ) AS celular,
+                          os.email_cliente,
+                          os.id_categoria_ordem_servico,
+                          catOS.nome as categoria,
+                          os.situacao
+                   FROM 
+                       ordem_servico os
+                   INNER JOIN 
+                       entidade ent ON os.id_entidade_cliente = ent.id_entidade
+                   INNER JOIN
+                      categoria_ordem_servico catOS on catOS.id_categoria_ordem_servico = os.id_categoria_ordem_servico
+                   LEFT JOIN 
+                       pessoa_juridica pj ON ent.id_entidade = pj.id_entidade AND ent.tipo_entidade = 2
+                   LEFT JOIN 
+                       pessoa_fisica pf ON ent.id_entidade = pf.id_entidade AND ent.tipo_entidade = 1
                     WHERE 
                          OS.data_hora_cadastro >= '{DateTime}' 
                         

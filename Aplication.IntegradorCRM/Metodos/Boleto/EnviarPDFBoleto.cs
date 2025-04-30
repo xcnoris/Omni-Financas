@@ -84,7 +84,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         {
                             var jsonDoc = JsonDocument.Parse(responseContent);
                             string urlRetornada = jsonDoc.RootElement.GetProperty("url").GetString();
-                            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Caminho DR {idDocumentoReceber}: {responseContent.Trim()} ");
+                            MetodosGerais.RegistrarLog("BOLETO_PDF", $" Tentativa {tentativa} - Caminho DR {idDocumentoReceber}: {responseContent.Trim()} ");
                             return urlRetornada?.Trim();
                         }
                         MetodosGerais.RegistrarLog("BOLETO_PDF", $"Tentativa {tentativa} - Falha ao enviar. Status: {response.StatusCode}. DR: {idDocumentoReceber}. Json: {responseContent}");
@@ -139,7 +139,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                         HttpResponseMessage response = await _httpClient.PostAsync(url, content);
                         if (response.IsSuccessStatusCode)
                         {
-                            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Boleto em PDF enviado com sucesso por WhatsApp! DR: {idDocumentoReceber}");
+                            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Tentativa {tentativa} - Boleto em PDF enviado com sucesso por WhatsApp! DR: {idDocumentoReceber}");
                             return true;
                         }
                         MetodosGerais.RegistrarLog("BOLETO_PDF", $"Tentativa {tentativa} - Falha ao enviar. Status: {response.StatusCode}. DR: {idDocumentoReceber}. Json: {jsonContent}");

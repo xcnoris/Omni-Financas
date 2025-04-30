@@ -31,6 +31,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                 List<RetornoOrdemServico> OsList = _crudOS.BuscarOrdemDeServiçoInDB(FrmConfigUC.DataOSSelect);
                 List<RelacaoOrdemServicoModels> TableRelacaoOS = (await dalOrdemServico.ListarAsync()).ToList();
 
+
                 // Passa por cada OS que retornar no select
                 foreach ( var RetornoOS in OsList)
                 {
