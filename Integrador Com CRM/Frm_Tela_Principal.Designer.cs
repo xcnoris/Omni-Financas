@@ -59,11 +59,11 @@
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = SystemColors.Desktop;
-            label7.Location = new Point(750, 460);
+            label7.Location = new Point(726, 460);
             label7.Name = "label7";
-            label7.Size = new Size(72, 15);
+            label7.Size = new Size(80, 15);
             label7.TabIndex = 9;
-            label7.Text = "V 1.25.4.3.0";
+            label7.Text = "V - 1.25.4.5.1";
             // 
             // btnFechar
             // 

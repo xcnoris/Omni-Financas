@@ -24,7 +24,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             }
             catch (Exception ex)
             {
-                throw new Exception($"{ex.Message}");
+                return false;
             }
 
             if (retornoCriaca != false)
@@ -56,6 +56,8 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
               
                 await VerificarEnvioPDF(EnviarPDF, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia);
                 MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {BoletoRElacao.Situacao} para o documento {BoletoRElacao.Id_DocumentoReceber}");
+
+                return;
             }
 
             MetodosGerais.RegistrarLog("BOLETO", $"Erro: API retornou uma resposta nula ou inválida. | DR: {BoletoRElacao.Id_DocumentoReceber}");
