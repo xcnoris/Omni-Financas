@@ -138,11 +138,11 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         // Método auxiliar para enviar requisição de criação de oportunidade para a API
         internal static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
-            string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
+            string url = $"https://cdi-omni-evolution-api.azvg4h.easypanel.host/message/sendText/{DadosAPI.Instancia}";
             HttpContent content = MetodosGerais.CriarConteudoJson(request);
             string jsonContent = await content.ReadAsStringAsync();
 
-            for (int tentativa = 1; tentativa <= 3; tentativa++)
+            for (int tentativa = 1; tentativa <= 5; tentativa++)
             {
                 try
                 {
@@ -188,11 +188,11 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
         internal static async Task<bool> EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, string IdDocReceber)
         {
-            string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
+            string url = $"https://cdi-omni-evolution-api.azvg4h.easypanel.host/message/sendText/{DadosAPI.Instancia}";
             HttpContent content = MetodosGerais.CriarConteudoJson(request);
             string jsonContent = await content.ReadAsStringAsync();
 
-            for (int tentativa = 1; tentativa <= 3; tentativa++)
+            for (int tentativa = 1; tentativa <= 5; tentativa++)
             {
                 try
                 {

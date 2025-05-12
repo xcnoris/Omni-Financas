@@ -27,13 +27,13 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 
         public static async Task<bool> ProcessarEnvioPDFBoleto(int idDocumentoReceber, string Token, string destinatario, string dataVencimentoBoleto, string InstanciaEnvoluctionAPI)
         {
-            string linkBoleto = await GerarLinkDoPDFReposOnline(idDocumentoReceber, Token, dataVencimentoBoleto);
-            if (string.IsNullOrEmpty(linkBoleto)) return false;
+            string Base64Boleto = await GerarBase64DoPDF(idDocumentoReceber, Token, dataVencimentoBoleto);
+            if (string.IsNullOrEmpty(Base64Boleto)) return false;
 
-            return await EnviarPDFBoletoNoWhatsapp(linkBoleto, destinatario, Token, idDocumentoReceber, dataVencimentoBoleto, InstanciaEnvoluctionAPI);
+            return await EnviarPDFBoletoNoWhatsapp(Base64Boleto, destinatario, Token, idDocumentoReceber, dataVencimentoBoleto, InstanciaEnvoluctionAPI);
         }
 
-        public static async Task<string> GerarLinkDoPDFReposOnline(int idDocumentoReceber, string Token, string dataVencimentoBoleto)
+        public static async Task<string> GerarBase64DoPDF(int idDocumentoReceber, string Token, string dataVencimentoBoleto)
         {
             if (idDocumentoReceber <= 0)
             {
@@ -50,64 +50,12 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             }
 
             string boletoBase64 = boletoPDFService.ConverterPDFParaBase64(caminhoBoleto);
-            if (string.IsNullOrEmpty(boletoBase64))
-            {
-                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao converter o boleto para Base64. DR: {idDocumentoReceber}");
-                return null;
-            }
-
-            var payload = new
-            {
-                cnpj = "07446072000106",
-                username = "admin",
-                password = "senha123",
-                fileName = $"Boleto_{dataVencimentoBoleto}_{idDocumentoReceber}.pdf",
-                base64 = boletoBase64
-            };
-
-            string jsonPayload = JsonConvert.SerializeObject(payload);
-
-            try
-            {
-                var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-                string url = "http://212.85.17.216:5007/api/BoletoPDF/upload";
-              
-                
-
-                for (int tentativa = 1; tentativa <= 3; tentativa++)
-                {
-                    try
-                    {
-                        HttpResponseMessage response = await _httpClient.PostAsync(url, content);
-                        string responseContent = await response.Content.ReadAsStringAsync();
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var jsonDoc = JsonDocument.Parse(responseContent);
-                            string urlRetornada = jsonDoc.RootElement.GetProperty("url").GetString();
-                            MetodosGerais.RegistrarLog("BOLETO_PDF", $" Tentativa {tentativa} - Caminho DR {idDocumentoReceber}: {responseContent.Trim()} ");
-                            return urlRetornada?.Trim();
-                        }
-                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Tentativa {tentativa} - Falha ao enviar. Status: {response.StatusCode}. DR: {idDocumentoReceber}. Json: {responseContent}");
-                    }
-                    catch (HttpRequestException ex)
-                    {
-                        MetodosGerais.RegistrarLog("BOLETO_PDF", $"Tentativa {tentativa} - Erro HTTP: {ex.Message} | Inner: {ex.InnerException?.Message}");
-                    }
-                    await Task.Delay(1000 * tentativa);
-                }
-                return "";
-             
-            }
-            catch (Exception ex)
-            {
-                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao enviar PDF do boleto: {ex.Message}. DR {idDocumentoReceber}");
-                return null;
-            }
+            return boletoBase64;
         }
 
-        public static async Task<bool> EnviarPDFBoletoNoWhatsapp(string linkBoleto, string destinatario, string Token, int idDocumentoReceber, string dataVencimentoBoleto, string Instancia)
+        public static async Task<bool> EnviarPDFBoletoNoWhatsapp(string base64Boleto, string destinatario, string Token, int idDocumentoReceber, string dataVencimentoBoleto, string Instancia)
         {
-            if (string.IsNullOrWhiteSpace(linkBoleto) || string.IsNullOrWhiteSpace(destinatario) || string.IsNullOrWhiteSpace(Instancia))
+            if (string.IsNullOrWhiteSpace(base64Boleto) || string.IsNullOrWhiteSpace(destinatario) || string.IsNullOrWhiteSpace(Instancia))
             {
                 MetodosGerais.RegistrarLog("BOLETO_PDF", "Parâmetros inválidos para envio de mensagem.");
                 return false;
@@ -119,7 +67,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 mediatype = "document",
                 mimetype = "application/pdf",
                 caption = "Segue o seu boleto!",
-                media = linkBoleto,
+                media = base64Boleto,
                 fileName = $"BOLETO_{dataVencimentoBoleto}.pdf"
             };
 
@@ -128,11 +76,11 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 _httpClient.DefaultRequestHeaders.Remove("apikey");
                 _httpClient.DefaultRequestHeaders.Add("apikey", Token);
 
-                string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendMedia/{Instancia}";
+                string url = $"https://cdi-omni-evolution-api.azvg4h.easypanel.host/message/sendMedia/{Instancia}";
                 HttpContent content = MetodosGerais.CriarConteudoJson(payload);
                 string jsonContent = await content.ReadAsStringAsync();
 
-                for (int tentativa = 1; tentativa <= 3; tentativa++)
+                for (int tentativa = 1; tentativa <= 5; tentativa++)
                 {
                     try
                     {

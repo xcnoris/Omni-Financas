@@ -23,11 +23,11 @@ namespace Aplication.IntegradorCRM.Metodos.OS
         // Metodo responsavel apenas para enviar Mensagem para o cliente
         public static async Task<bool> EnviarMensagemViaAPI(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
         {
-            string url = $"https://n8n-evolution-api.usbaxy.easypanel.host/message/sendText/{DadosAPI.Instancia}";
+            string url = $"https://cdi-omni-evolution-api.azvg4h.easypanel.host/message/sendText/{DadosAPI.Instancia}";
             HttpContent content = MetodosGerais.CriarConteudoJson(request);
             string jsonContent = await content.ReadAsStringAsync();
 
-            for (int tentativa = 1; tentativa <= 3; tentativa++)
+            for (int tentativa = 1; tentativa <= 5; tentativa++)
             {
                 try
                 {
@@ -45,7 +45,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                     else
                     {
                         OS_Services.RegistrarErroResposta(response, request.number);
-                        MetodosGerais.RegistrarLog("DEBUG", $"Tentativa {tentativa} - JSON enviado: {jsonContent}");
+                        MetodosGerais.RegistrarLog("OS", $"Tentativa {tentativa} - JSON: {jsonContent}");
                     }
                 }
                 catch (HttpRequestException ex)

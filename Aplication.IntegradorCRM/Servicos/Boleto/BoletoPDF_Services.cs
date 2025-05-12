@@ -28,37 +28,45 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         /// <returns>Caminho do arquivo PDF</returns>
         public string ConsultarCaminhoBoleto(int idDocumentoReceber)
         {
-            MetodosGerais.RegistrarLog("BOLETO_PDF", $"Iniciando consulta do boleto para ID: {idDocumentoReceber}");
-
-            string? caminhoArquivoBoleto = string.Empty; 
-            string query = "SELECT caminho_arquivo_boleto FROM boleto WHERE id_documento_receber = @IdDocumentoReceber";
+            const string query = "SELECT caminho_arquivo_boleto FROM boleto WHERE id_documento_receber = @IdDocumentoReceber";
 
             try
             {
-                string queryComID = query.Replace("@IdDocumentoReceber", idDocumentoReceber.ToString());
+                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Consultando boleto para ID: {idDocumentoReceber}");
 
-                DataTable retornoOS = _comandosDB.ExecuteQuery(queryComID);
-                caminhoArquivoBoleto = retornoOS.Rows.Count > 0 ? retornoOS.Rows[0][0].ToString() : string.Empty;
+                SqlParameter[] parametros =
+                {
+                    new SqlParameter("@IdDocumentoReceber", SqlDbType.Int) { Value = idDocumentoReceber }
+                };
 
+                DataTable resultado = _comandosDB.ExecuteQuery(query, parametros);
+
+                if (resultado.Rows.Count == 0)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Nenhum caminho encontrado para o ID: {idDocumentoReceber}");
+                    return null;
+                }
+
+                var caminho = resultado.Rows[0]["caminho_arquivo_boleto"]?.ToString();
+
+                if (string.IsNullOrWhiteSpace(caminho))
+                {
+                    MetodosGerais.RegistrarLog("BOLETO_PDF", $"Caminho vazio ou nulo para o ID: {idDocumentoReceber}");
+                    return null;
+                }
+
+                return caminho;
             }
             catch (SqlException ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro ao acessar o banco de dados: {ex.Message}");
-                return "";
+                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro SQL ao consultar boleto (ID: {idDocumentoReceber}): {ex.Message}");
+                return null;
             }
             catch (Exception ex)
             {
-                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro inesperado: {ex.Message}");
-                return "";
+                MetodosGerais.RegistrarLog("BOLETO_PDF", $"Erro inesperado ao consultar boleto (ID: {idDocumentoReceber}): {ex.Message}");
+                return null;
             }
-
-            if (string.IsNullOrEmpty(caminhoArquivoBoleto))
-            {
-                MetodosGerais.RegistrarLog("BOLETO_PDF", "Caminho do arquivo não encontrado para o ID especificado.");
-                return "";
-            }
-
-            return caminhoArquivoBoleto;
         }
 
         /// <summary>
