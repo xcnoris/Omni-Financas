@@ -19,7 +19,7 @@ namespace Aplication.IntegradorCRM.Metodos.ControleComissao
             try
             {
                 string query = @$"
-                                             SELECT 
+                                      SELECT 
     pv.id_pedido_venda,
     pv.id_usuario_vendedor,
     usu.nome,
@@ -49,9 +49,10 @@ INNER JOIN Controle_Comissao_Item_Demander cci ON cci.codigo_pedido = pv.id_pedi
 INNER JOIN pedido_venda_nota_fiscal pvn ON pvn.id_pedido_venda = pv.id_pedido_venda
 INNER JOIN usuario usu on usu.id_usuario = pv.id_usuario_vendedor
 INNER JOIN nota_fiscal nf ON nf.id_nota_fiscal = pvn.id_nota_fiscal
-LEFT JOIN fatura_nota_fiscal fnf ON fnf.id_nota_fiscal = nf.id_nota_fiscal
-LEFT JOIN documento_receber dr ON dr.numero_documento_receber = fnf.numero_fatura
-WHERE pv.situacao = 5 AND nf.id_situacao_documento_fiscal = 1
+INNER JOIN operacao_pdv opdv ON opdv.id_nota_fiscal = nf.id_nota_fiscal
+INNER JOIN finalizador_operacao_pdv fpdv ON fpdv.id_operacao = opdv.id_operacao
+LEFT JOIN documento_receber dr ON dr.id_documento_receber = fpdv.id_documento_receber
+WHERE pv.situacao = 5 AND nf.id_situacao_documento_fiscal = 1 
 GROUP BY 
     pv.id_pedido_venda,
     pv.id_usuario_vendedor,
@@ -65,6 +66,8 @@ GROUP BY
 	nf.numero_documento_fiscal,
 	nf.data_hora_emissao,
 	nf.id_situacao_documento_fiscal;
+
+
                 ";
                
                 // Converte o resultado do select em DataTable
