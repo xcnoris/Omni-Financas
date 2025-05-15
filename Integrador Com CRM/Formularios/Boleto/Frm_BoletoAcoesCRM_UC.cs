@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Modelos.IntegradorCRM.Models.EF;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Forms;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -12,6 +13,7 @@ namespace Integrador_Com_CRM.Formularios
     {
         private readonly DAL<BoletoAcoesCRMModel> dalBoletoAcoes;
         private List<BoletoAcoesCRMModel> BoletoAcaoList;
+        private List<Frm_CadastroAcoesBoletos> FrmAbertos;
 
 
         public Frm_BoletoAcoesCRM_UC()
@@ -19,6 +21,7 @@ namespace Integrador_Com_CRM.Formularios
             InitializeComponent();
 
             dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            FrmAbertos = new List<Frm_CadastroAcoesBoletos>();
 
             AddColumnDataGridView();
             CarregarListaDeBoletoAcao();
@@ -140,7 +143,7 @@ namespace Integrador_Com_CRM.Formularios
         private async Task Incluir()
         {
 
-            Frm_CadastroAcoesBoletos FrmCadastroOS = new Frm_CadastroAcoesBoletos(true, new BoletoAcoesCRMModel(), "Incluir");
+            Frm_CadastroAcoesBoletos FrmCadastroOS = new Frm_CadastroAcoesBoletos(true, new BoletoAcoesCRMModel(), "Incluir", this);
             await FrmCadastroOS.MostrarFormulario();
             await CarregarListaDeBoletoAcao();
         }
@@ -196,8 +199,17 @@ namespace Integrador_Com_CRM.Formularios
                 };
 
 
+                Frm_CadastroAcoesBoletos? Frm = FrmAberto(diasCobrancas);
+                if (Frm is not null)
+                {
+                    MessageBox.Show($"Já existe uma tela de edição de mensagem para essa data de cobrança!", $"Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Frm.Focus();
+                    return;
+                }
 
-                Frm_CadastroAcoesBoletos FrmCadAcoesBoleto = new Frm_CadastroAcoesBoletos(false, boletoAcao, "Atualizar");
+
+                Frm_CadastroAcoesBoletos FrmCadAcoesBoleto = new Frm_CadastroAcoesBoletos(false, boletoAcao, "Atualizar", this);
+                FrmAbertos.Add(FrmCadAcoesBoleto);
                 await FrmCadAcoesBoleto.MostrarFormulario();
                 await CarregarListaDeBoletoAcao();
             }
@@ -207,6 +219,20 @@ namespace Integrador_Com_CRM.Formularios
                 throw;
             }
 
+        }
+
+
+        // Verifica se já existe um formulario aberto de edição da cobrança X
+        private Frm_CadastroAcoesBoletos? FrmAberto(int DiasCobrancas) 
+        {
+            return FrmAbertos.FirstOrDefault(x => x.DiaCobranca.Equals(DiasCobrancas));
+        }
+
+        internal void RemoverFrmDaListFrmAbertos(int DiasCobrancas)
+        {
+            Frm_CadastroAcoesBoletos? Frm = FrmAbertos.FirstOrDefault(x => x.DiaCobranca.Equals(DiasCobrancas));
+            if (Frm is not null)
+                FrmAbertos.Remove(Frm);
         }
 
         private void Btn_Salvar_MouseEnter(object sender, EventArgs e)

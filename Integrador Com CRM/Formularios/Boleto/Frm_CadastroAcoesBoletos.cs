@@ -2,17 +2,7 @@
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -21,13 +11,15 @@ namespace Integrador_Com_CRM.Formularios
 
         private Frm_VariaveisBoleto FrmVariaveis;
         private readonly DAL<BoletoAcoesCRMModel> _dalAcoesBoletos;
+        private Frm_BoletoAcoesCRM_UC FrmBoletoAcoes;
+        public int DiaCobranca { get; set; }
 
-        public Frm_CadastroAcoesBoletos(bool Criacao, BoletoAcoesCRMModel BoletoAacao, string SalvarAtualizar)
+        public Frm_CadastroAcoesBoletos(bool Criacao, BoletoAcoesCRMModel BoletoAacao, string SalvarAtualizar, Frm_BoletoAcoesCRM_UC FrmBoletoAcoesCRMUC)
         {
             InitializeComponent();
 
             _dalAcoesBoletos = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
-
+            FrmBoletoAcoes = FrmBoletoAcoesCRMUC;
 
             Btn_Salvar.Text = SalvarAtualizar;
 
@@ -52,6 +44,7 @@ namespace Integrador_Com_CRM.Formularios
             Txt_DiaCobranca.Text = BoletoAcoes.Dias_Cobrancas.ToString();
             Txt_Mensagem.Text = BoletoAcoes.Mensagem_Atualizacao;
             Check_EnviarPDF.Checked = BoletoAcoes.EnviarPDF;
+            DiaCobranca = BoletoAcoes.Dias_Cobrancas;
         }
         private async Task SalvarAtualizar()
         {
@@ -177,6 +170,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             if (FrmVariaveis is not null)
                 FrmVariaveis.Close();
+            FrmBoletoAcoes.RemoverFrmDaListFrmAbertos(DiaCobranca);
         }
 
         private void Btn_Salvar_MouseEnter(object sender, EventArgs e)

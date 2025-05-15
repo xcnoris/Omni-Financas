@@ -63,7 +63,7 @@
             label7.Name = "label7";
             label7.Size = new Size(80, 15);
             label7.TabIndex = 9;
-            label7.Text = "V - 1.25.4.5.1";
+            label7.Text = "V - 1.25.5.1.0";
             // 
             // btnFechar
             // 

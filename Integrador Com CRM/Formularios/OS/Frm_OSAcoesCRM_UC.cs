@@ -1,7 +1,5 @@
 ﻿using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
-using Microsoft.Data.SqlClient;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Modelos.IntegradorCRM.Models.EF;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,13 +10,14 @@ namespace Integrador_Com_CRM.Formularios
 
         private readonly DAL<OSAcoesModel> dalOSAcoes;
         private List<OSAcoesModel> OSAcaoList;
-
+        private List<Frm_CadatroOSAcoes> FrmsAberto;
         public Frm_OSAcoesCRM_UC()
         {
             InitializeComponent();
 
 
             dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
+            FrmsAberto = new List<Frm_CadatroOSAcoes>();
 
             AddColumnDataGridView();
             CarregarListaDeOSAcao();
@@ -166,15 +165,38 @@ namespace Integrador_Com_CRM.Formularios
                 Mensagem_Atualizacao = selectedRow.Cells["Mensagem"].Value.ToString()
             };
 
-            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(false, oSAcoes, "Atualizar");
+
+            Frm_CadatroOSAcoes? Frm = FrmAberto(oSAcoes.IdCategoria);
+            if (Frm is not null)
+            {
+                MessageBox.Show($"Já existe uma tela de edição de mensagem para essa categoria!", $"Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Frm.Focus();
+                return;
+            }
+
+            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(false, oSAcoes, "Atualizar", this);
+            FrmsAberto.Add(FrmCadastroOS);
             await FrmCadastroOS.MostrarFormulario();
             await CarregarListaDeOSAcao();
+        }
+
+        // Verifica se já existe um formulario aberto de edição da cobrança X
+        private Frm_CadatroOSAcoes? FrmAberto(int IdCategoria)
+        {
+            return FrmsAberto.FirstOrDefault(x => x.IdCategoria.Equals(IdCategoria));
+        }
+
+        internal void RemoverFrmDaListFrmAbertos(int IdCategoria)
+        {
+            Frm_CadatroOSAcoes? Frm = FrmsAberto.FirstOrDefault(x => x.IdCategoria.Equals(IdCategoria));
+            if (Frm is not null)
+                FrmsAberto.Remove(Frm);
         }
 
         private async Task Incluir()
         {
 
-            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(true, new OSAcoesModel(), "Incluir");
+            Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(true, new OSAcoesModel(), "Incluir", this);
             await FrmCadastroOS.MostrarFormulario();
             await CarregarListaDeOSAcao();
         }

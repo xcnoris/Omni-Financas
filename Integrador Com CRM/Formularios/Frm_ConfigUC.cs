@@ -19,7 +19,8 @@ namespace Integrador_Com_CRM.Formularios
         {
             get
             {
-                return Convert.ToInt32(Txt_OSTimer.Text);
+                if(!(string.IsNullOrEmpty(Txt_OSTimer.Text))) return Convert.ToInt32(Txt_OSTimer.Text);
+                return 5;
             }
         }
 

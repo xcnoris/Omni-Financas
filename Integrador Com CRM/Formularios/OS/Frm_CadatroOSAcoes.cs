@@ -1,15 +1,7 @@
 ﻿using CDI_OminiService.Formularios.OS;
 using DataBase.IntegradorCRM.Data;
 using Modelos.IntegradorCRM.Models.EF;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -17,12 +9,14 @@ namespace Integrador_Com_CRM.Formularios
     {
         private readonly DAL<OSAcoesModel> _dalOSAcoes;
         private Frm_VariaveisOS FrmVariaveis;
-        public Frm_CadatroOSAcoes(bool Criacao, OSAcoesModel OSAcoes, string SalvarAtualizar)
+        private Frm_OSAcoesCRM_UC FrmOSAcoes;
+        public int IdCategoria { get; set; }
+        public Frm_CadatroOSAcoes(bool Criacao, OSAcoesModel OSAcoes, string SalvarAtualizar, Frm_OSAcoesCRM_UC FrmOSAcoesCRMUC)
         {
             InitializeComponent();
 
             _dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
-
+            FrmOSAcoes = FrmOSAcoesCRMUC;
 
             Btn_Salvar.Text = SalvarAtualizar;
 
@@ -35,6 +29,7 @@ namespace Integrador_Com_CRM.Formularios
             Txt_Id.Text = OSAcoes.Id.ToString();
             Txt_IdCategoria.Text = OSAcoes.IdCategoria.ToString();
             Txt_Mensagem.Text = OSAcoes.Mensagem_Atualizacao;
+            IdCategoria = OSAcoes.IdCategoria;
         }
 
         private void Btn_Remover_Click(object sender, EventArgs e)
@@ -124,12 +119,14 @@ namespace Integrador_Com_CRM.Formularios
             FrmVariaveis = new Frm_VariaveisOS(Txt_Mensagem);
             FrmVariaveis.Show();
 
+
         }
 
         private void Frm_CadatroOSAcoes_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (FrmVariaveis is not null)
                 FrmVariaveis.Close();
+            FrmOSAcoes.RemoverFrmDaListFrmAbertos(IdCategoria);
         }
 
         private void Btn_Variaveis_MouseEnter(object sender, EventArgs e)
