@@ -41,7 +41,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
 
-        public async static Task VerificarQuitacao(Situacao_Boleto situacao, RelacaoBoletoCRMModel BoletoRelacao,  DadosAPIModels DadosAPI, bool InTBRelacao, RetornoBoleto retorno)
+        public async static Task VerificarQuitacao(Situacao_Boleto situacao, RelacaoBoletoModel BoletoRelacao,  DadosAPIModels DadosAPI, bool InTBRelacao, RetornoBoleto retorno)
         {
             // Verifica se o boleto já esta pago, caso esteja muda o boleto para fase Pago/Aguardando Liberação
             if (situacao == Situacao_Boleto.Quitado)
@@ -64,8 +64,8 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
         public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestSitucaoBoleto(RetornoBoleto retornoBoleto, Situacao_Boleto SitBoleto)
         {
-            using DAL<AcaoSituacao_Boleto_CRM> dalSitBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
-            AcaoSituacao_Boleto_CRM? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
+            using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
+            AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
 
             return InstanciarModeloRequest(AcoesOS.Mensagem,retornoBoleto);
           
@@ -73,16 +73,16 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
         public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestBoleto(RetornoBoleto retornoBoleto, int DiasEmAtraso)
         {
-            using DAL<BoletoAcoesCRMModel> dalSitBoleto = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
-            BoletoAcoesCRMModel? AcaoBoleto = await dalSitBoleto.BuscarPorAsync(x => x.Dias_Cobrancas == DiasEmAtraso);
+            using DAL<BoletoAcoesModel> dalSitBoleto = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
+            BoletoAcoesModel? AcaoBoleto = await dalSitBoleto.BuscarPorAsync(x => x.Dias_Cobrancas == DiasEmAtraso);
 
             return InstanciarModeloRequest(AcaoBoleto.Mensagem_Atualizacao, retornoBoleto);
            
         }
 
-        internal async static Task VerificarBoletosCriados(RelacaoBoletoCRMModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<BoletoAcoesCRMModel> AcoesBoletoList, RetornoBoleto retornoBoleto, Configuracao_Geral ConfigGeral)
+        internal async static Task VerificarBoletosCriados(RelacaoBoletoModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<BoletoAcoesModel> AcoesBoletoList, RetornoBoleto retornoBoleto, Configuracao_Geral ConfigGeral)
         {
-            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+            using (var dalBoletoUsing = new DAL<RelacaoBoletoModel>(new IntegradorDBContext()))
             {
                 // Verifica a situação do boleto (3 = cancelado/estornado, 2 = quitado)
                 switch ((Situacao_Boleto)situacao)
@@ -118,16 +118,16 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        private async static Task RealizarCobrancas(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, DadosAPIModels DadosAPI, RetornoBoleto retornoBoleto, bool PermitirEnvioFinsDeSemana)
+        private async static Task RealizarCobrancas(List<BoletoAcoesModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoModel boletoRelacao, DadosAPIModels DadosAPI, RetornoBoleto retornoBoleto, bool PermitirEnvioFinsDeSemana)
         {
             await VerificacaoDeCobranca.RealizarCobranca(AcoesBoletoList, diasAtraso, DiasAtrasoRelBoleto, boletoRelacao, retornoBoleto, DadosAPI, PermitirEnvioFinsDeSemana);
         }
-        private async static Task QuitarBoleto( RelacaoBoletoCRMModel BoletoRelacao,DadosAPIModels DadosAPI, RetornoBoleto retorno)
+        private async static Task QuitarBoleto( RelacaoBoletoModel BoletoRelacao,DadosAPIModels DadosAPI, RetornoBoleto retorno)
         {
             await QuitacaoBoleto.Quitar( BoletoRelacao, retorno, true, DadosAPI);
         }
 
-        private async static Task CancelarBoleto( RelacaoBoletoCRMModel BoletoRelacao , DadosAPIModels DadosAPI, RetornoBoleto retorno, bool EnviarMensagemCancelamento)
+        private async static Task CancelarBoleto( RelacaoBoletoModel BoletoRelacao , DadosAPIModels DadosAPI, RetornoBoleto retorno, bool EnviarMensagemCancelamento)
         {
             await CancelamentoBoleto.Cancelar( BoletoRelacao, DadosAPI, retorno, EnviarMensagemCancelamento);
         }
@@ -176,11 +176,11 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
         // Método auxiliar para adicionar o boleto no banco de dados
-        internal static async Task AdicionarBoletoNoBanco(DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel)
+        internal static async Task AdicionarBoletoNoBanco(DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel)
         {
             boletoInTabRel.Data_Criacao = DateTime.Now;
 
-            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+            using (var dalBoletoUsing = new DAL<RelacaoBoletoModel>(new IntegradorDBContext()))
             {
                 await dalBoletoUsing.AdicionarAsync(boletoInTabRel);
             }
@@ -226,11 +226,11 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
         // Método auxiliar para atualizar boleto no banco
-        internal static async Task AtualizarBoletoNoBanco(RelacaoBoletoCRMModel boletoRelacao)
+        internal static async Task AtualizarBoletoNoBanco(RelacaoBoletoModel boletoRelacao)
         {
             boletoRelacao.Data_Atualizacao = DateTime.Now;
 
-            using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+            using (var dalBoletoUsing = new DAL<RelacaoBoletoModel>(new IntegradorDBContext()))
             {
                 await dalBoletoUsing.AtualizarAsync(boletoRelacao);
                 MetodosGerais.RegistrarLog("CrudBoleto", $"DocReceber {boletoRelacao.Id_DocumentoReceber} atualizado no banco de dados!");

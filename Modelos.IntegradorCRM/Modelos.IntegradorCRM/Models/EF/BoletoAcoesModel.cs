@@ -1,6 +1,6 @@
 ﻿namespace Modelos.IntegradorCRM.Models.EF
 {
-    public class BoletoAcoesCRMModel
+    public class BoletoAcoesModel
     {
         public int Id { get; set; }
         public int Dias_Cobrancas { get; set; }

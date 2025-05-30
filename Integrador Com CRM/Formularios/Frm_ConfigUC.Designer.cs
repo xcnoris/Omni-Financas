@@ -98,8 +98,9 @@
             groupBox7.Controls.Add(label7);
             groupBox7.ForeColor = Color.Black;
             groupBox7.Location = new Point(277, 123);
+            groupBox7.Margin = new Padding(10, 3, 3, 3);
             groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(450, 87);
+            groupBox7.Size = new Size(486, 87);
             groupBox7.TabIndex = 4;
             groupBox7.TabStop = false;
             groupBox7.Text = "Config Select";
@@ -128,11 +129,12 @@
             // 
             DTP_OSSelect.CustomFormat = "HH:mm";
             DTP_OSSelect.Format = DateTimePickerFormat.Short;
-            DTP_OSSelect.Location = new Point(345, 22);
+            DTP_OSSelect.Location = new Point(339, 22);
+            DTP_OSSelect.Margin = new Padding(10, 3, 3, 3);
             DTP_OSSelect.Name = "DTP_OSSelect";
-            DTP_OSSelect.Size = new Size(95, 25);
+            DTP_OSSelect.Size = new Size(141, 25);
             DTP_OSSelect.TabIndex = 3;
-            DTP_OSSelect.Value = new DateTime(2024, 12, 15, 0, 0, 0, 0);
+            DTP_OSSelect.Value = new DateTime(2025, 6, 30, 0, 0, 0, 0);
             // 
             // label7
             // 
@@ -214,7 +216,7 @@
             groupBox9.ForeColor = Color.Black;
             groupBox9.Location = new Point(336, 225);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(402, 78);
+            groupBox9.Size = new Size(437, 78);
             groupBox9.TabIndex = 6;
             groupBox9.TabStop = false;
             groupBox9.Text = "Config Select";
@@ -470,7 +472,6 @@
         private Label label4;
         private GroupBox groupBox7;
         private Label label5;
-        private DateTimePicker DTP_OSSelect;
         private Label label7;
         private DateTimePicker DTP_BoletoSelect;
         private Label label8;
@@ -487,5 +488,6 @@
         private Label label14;
         private CheckBox ChBox_BoletoEnviarMensCancel;
         private Label label15;
+        internal DateTimePicker DTP_OSSelect;
     }
 }

@@ -11,8 +11,8 @@ namespace Integrador_Com_CRM.Formularios
 {
     public partial class Frm_BoletoAcoesCRM_UC : UserControl
     {
-        private readonly DAL<BoletoAcoesCRMModel> dalBoletoAcoes;
-        private List<BoletoAcoesCRMModel> BoletoAcaoList;
+        private readonly DAL<BoletoAcoesModel> dalBoletoAcoes;
+        private List<BoletoAcoesModel> BoletoAcaoList;
         private List<Frm_CadastroAcoesBoletos> FrmAbertos;
 
 
@@ -20,7 +20,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             InitializeComponent();
 
-            dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            dalBoletoAcoes = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
             FrmAbertos = new List<Frm_CadastroAcoesBoletos>();
 
             AddColumnDataGridView();
@@ -32,7 +32,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                DAL<BoletoAcoesCRMModel> dalBoletoAcoe = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+                using DAL<BoletoAcoesModel> dalBoletoAcoe = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
                 if (BoletoAcaoList is not null)
                 {
                     BoletoAcaoList.Clear();
@@ -59,7 +59,7 @@ namespace Integrador_Com_CRM.Formularios
                     // Retrieve the selected row data
                     var selectedRow = DGV_Dados.CurrentRow;
                     int id = Convert.ToInt32(selectedRow.Cells["ID"].Value);
-                    BoletoAcoesCRMModel boleto = BoletoAcaoList.FirstOrDefault(x => x.Id == id);
+                    BoletoAcoesModel boleto = BoletoAcaoList.FirstOrDefault(x => x.Id == id);
                     if (boleto is not null)
                     {
                         dalBoletoAcoes.DeletarAsync(boleto);
@@ -113,7 +113,7 @@ namespace Integrador_Com_CRM.Formularios
 
 
         // Recebe um object e convert para uma linha do DataGridView
-        private void AddAcaoToDataGridView(BoletoAcoesCRMModel BoletoAcao)
+        private void AddAcaoToDataGridView(BoletoAcoesModel BoletoAcao)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace Integrador_Com_CRM.Formularios
         private async Task Incluir()
         {
 
-            Frm_CadastroAcoesBoletos FrmCadastroOS = new Frm_CadastroAcoesBoletos(true, new BoletoAcoesCRMModel(), "Incluir", this);
+            Frm_CadastroAcoesBoletos FrmCadastroOS = new Frm_CadastroAcoesBoletos(true, new BoletoAcoesModel(), "Incluir", this);
             await FrmCadastroOS.MostrarFormulario();
             await CarregarListaDeBoletoAcao();
         }
@@ -157,7 +157,7 @@ namespace Integrador_Com_CRM.Formularios
                 if (BoletoAcaoList is not null)
                 {
                     DGV_Dados.Rows.Clear();
-                    foreach (BoletoAcoesCRMModel boleto in BoletoAcaoList)
+                    foreach (BoletoAcoesModel boleto in BoletoAcaoList)
                     {
                         AddAcaoToDataGridView(boleto);
                     }
@@ -190,7 +190,7 @@ namespace Integrador_Com_CRM.Formularios
                 bool EnviarPDF = Convert.ToBoolean(selectedRow.Cells["CheckBox"].Value);
 
                 // Criar um objeto para representar o registro da linha
-                var boletoAcao = new BoletoAcoesCRMModel
+                var boletoAcao = new BoletoAcoesModel
                 {
                     Id = id ?? 0,  // Se o ID for nulo, inicialize com 0 para um novo registro
                     Dias_Cobrancas = diasCobrancas,
@@ -211,7 +211,6 @@ namespace Integrador_Com_CRM.Formularios
                 Frm_CadastroAcoesBoletos FrmCadAcoesBoleto = new Frm_CadastroAcoesBoletos(false, boletoAcao, "Atualizar", this);
                 FrmAbertos.Add(FrmCadAcoesBoleto);
                 await FrmCadAcoesBoleto.MostrarFormulario();
-                await CarregarListaDeBoletoAcao();
             }
             catch (Exception ex)
             {
@@ -233,6 +232,7 @@ namespace Integrador_Com_CRM.Formularios
             Frm_CadastroAcoesBoletos? Frm = FrmAbertos.FirstOrDefault(x => x.DiaCobranca.Equals(DiasCobrancas));
             if (Frm is not null)
                 FrmAbertos.Remove(Frm);
+            CarregarListaDeBoletoAcao();
         }
 
         private void Btn_Salvar_MouseEnter(object sender, EventArgs e)

@@ -10,15 +10,15 @@ namespace Integrador_Com_CRM.Formularios
     {
 
         private Frm_VariaveisBoleto FrmVariaveis;
-        private readonly DAL<BoletoAcoesCRMModel> _dalAcoesBoletos;
+        private readonly DAL<BoletoAcoesModel> _dalAcoesBoletos;
         private Frm_BoletoAcoesCRM_UC FrmBoletoAcoes;
         public int DiaCobranca { get; set; }
 
-        public Frm_CadastroAcoesBoletos(bool Criacao, BoletoAcoesCRMModel BoletoAacao, string SalvarAtualizar, Frm_BoletoAcoesCRM_UC FrmBoletoAcoesCRMUC)
+        public Frm_CadastroAcoesBoletos(bool Criacao, BoletoAcoesModel BoletoAacao, string SalvarAtualizar, Frm_BoletoAcoesCRM_UC FrmBoletoAcoesCRMUC)
         {
             InitializeComponent();
 
-            _dalAcoesBoletos = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            _dalAcoesBoletos = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
             FrmBoletoAcoes = FrmBoletoAcoesCRMUC;
 
             Btn_Salvar.Text = SalvarAtualizar;
@@ -38,7 +38,7 @@ namespace Integrador_Com_CRM.Formularios
             SalvarAtualizar();
         }
 
-        private void CarregarCampos(BoletoAcoesCRMModel? BoletoAcoes)
+        private void CarregarCampos(BoletoAcoesModel? BoletoAcoes)
         {
             Txt_Id.Text = BoletoAcoes.Id.ToString();
             Txt_DiaCobranca.Text = BoletoAcoes.Dias_Cobrancas.ToString();
@@ -81,7 +81,7 @@ namespace Integrador_Com_CRM.Formularios
 
 
                 // Criar um objeto para representar o registro da linha
-                var BoletoAcao = new BoletoAcoesCRMModel
+                var BoletoAcao = new BoletoAcoesModel
                 {
                     Id = Id ?? 0,
                     Dias_Cobrancas = IdCategoria,
@@ -92,7 +92,7 @@ namespace Integrador_Com_CRM.Formularios
                 if (Id != null && Id > 0)
                 {
                     // Verifica se o registro já existe no banco
-                    BoletoAcoesCRMModel? registroExistente = await _dalAcoesBoletos.BuscarPorAsync(x => x.Id == Id);
+                    BoletoAcoesModel? registroExistente = await _dalAcoesBoletos.BuscarPorAsync(x => x.Id == Id);
 
                     if (registroExistente != null)
                     {
@@ -128,7 +128,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                BoletoAcoesCRMModel? BAM = await _dalAcoesBoletos.BuscarPorAsync(x => x.Dias_Cobrancas == Convert.ToInt32(Txt_DiaCobranca.Text));
+                BoletoAcoesModel? BAM = await _dalAcoesBoletos.BuscarPorAsync(x => x.Dias_Cobrancas == Convert.ToInt32(Txt_DiaCobranca.Text));
                 if (BAM is null)
                 {
                     return true;

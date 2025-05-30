@@ -21,18 +21,18 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             //metodosGeraisBoleto = new MetodosGeraisBoleto(FrmBoletoAcao);
         }
 
-        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto, List<BoletoAcoesCRMModel> BoletoAcoesCRM, Configuracao_Geral FrmConfigUC)
+        public async Task VerificarNovosBoletos(DadosAPIModels DadosAPI, List<AcaoSituacao_Boleto> AcoesSituacaoBoleto, List<BoletoAcoesModel> BoletoAcoesCRM, Configuracao_Geral FrmConfigUC)
         {
-            DAL<BoletoAcoesCRMModel> _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
+            DAL<BoletoAcoesModel> _dalBoletoAcoes = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
             DAL<DadosAPIModels> _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
-            DAL<RelacaoBoletoCRMModel> dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
+            DAL<RelacaoBoletoModel> dalBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
 
             try
             {
                 MetodosGerais.RegistrarInicioLog("BOLETO");
                 // Busca Novos boletos no DB
                 List<RetornoBoleto> boletoList = _CrudBoleto.BuscarBoletosInDB(FrmConfigUC.DataBoletoSelect);
-                List<RelacaoBoletoCRMModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoCRMModel>()).ToList();
+                List<RelacaoBoletoModel> TableRelacaoBoleto = (await dalBoleto.ListarAsync() ?? Enumerable.Empty<RelacaoBoletoModel>()).ToList();
 
                 MetodosGerais.RegistrarLog("BOLETO", $"Foram encontrados {boletoList.Count} Boletos.\n");
 
@@ -42,10 +42,10 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     string id_DocReceber = linha.Id_DocReceber;
                     int situacao = Convert.ToInt32(linha.Situacao);
 
-                    using (var dalBoletoUsing = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext()))
+                    using (var dalBoletoUsing = new DAL<RelacaoBoletoModel>(new IntegradorDBContext()))
                     {
                         // Verifica se a BOLETO já esta na tabela de relação, caso ele esteja, significa que já existe um cady/oportunidade criada no CRM
-                        RelacaoBoletoCRMModel BoletoRelacao = TableRelacaoBoleto.FirstOrDefault(x => x.Id_DocumentoReceber == Convert.ToInt32(id_DocReceber));
+                        RelacaoBoletoModel BoletoRelacao = TableRelacaoBoleto.FirstOrDefault(x => x.Id_DocumentoReceber == Convert.ToInt32(id_DocReceber));
 
                         // Log para verificação
                         MetodosGerais.RegistrarLog("BOLETO", $"Verificando Documento a receber {id_DocReceber}...");

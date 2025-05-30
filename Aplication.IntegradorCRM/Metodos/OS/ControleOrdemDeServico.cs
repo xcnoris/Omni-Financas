@@ -21,7 +21,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
         {
 
             using DAL<RelacaoOrdemServicoModels> dalOrdemServico = new DAL<RelacaoOrdemServicoModels>(new IntegradorDBContext());
-            using DAL<AcaoSituacao_OS_CRM> _dalAcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
+            using DAL<AcaoSituacao_OS> _dalAcaoSituacaoOS = new DAL<AcaoSituacao_OS>(new IntegradorDBContext());
             using DAL<OSAcoesModel> _dalOSAcao = new DAL<OSAcoesModel>(new IntegradorDBContext());
 
             try

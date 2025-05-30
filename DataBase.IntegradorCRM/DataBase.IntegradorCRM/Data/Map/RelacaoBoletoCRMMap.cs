@@ -5,9 +5,9 @@ using Modelos.IntegradorCRM.Models.EF;
 
 namespace DataBase.IntegradorCRM.Data.Map
 {
-    internal class RelacaoBoletoCRMMap : IEntityTypeConfiguration<RelacaoBoletoCRMModel>
+    internal class RelacaoBoletoCRMMap : IEntityTypeConfiguration<RelacaoBoletoModel>
     {
-        public void Configure(EntityTypeBuilder<RelacaoBoletoCRMModel> builder)
+        public void Configure(EntityTypeBuilder<RelacaoBoletoModel> builder)
         {
             builder.HasKey(x=> x.Id);
             builder.Property(x => x.Id_DocumentoReceber).IsRequired();

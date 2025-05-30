@@ -3,15 +3,6 @@ using CDI_OminiService.Formularios.OS;
 using DataBase.IntegradorCRM.Data;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -24,8 +15,8 @@ namespace Integrador_Com_CRM.Formularios
         private Frm_VariaveisBoleto FrmVariaveisBoleto;
         private Frm_VariaveisOS FrmVariaveisOS;
 
-        private readonly DAL<AcaoSituacao_OS_CRM> _dalSituacaoOS;
-        private readonly DAL<AcaoSituacao_Boleto_CRM> _dalSituacaoBoleto;
+        private readonly DAL<AcaoSituacao_OS> _dalSituacaoOS;
+        private readonly DAL<AcaoSituacao_Boleto> _dalSituacaoBoleto;
 
         public Frm_CadastroSituacoes(Situacao_OSBoleto enumSituacao, Situacao_Campos SituacaoCampos)
         {
@@ -34,8 +25,8 @@ namespace Integrador_Com_CRM.Formularios
             IdSituacao = (int)SituacaoCampos;
             TipoSituacao = enumSituacao;
 
-            _dalSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-            _dalSituacaoBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
+            _dalSituacaoOS = new DAL<AcaoSituacao_OS>(new IntegradorDBContext());
+            _dalSituacaoBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
 
 
             CarregarCamposAsync(enumSituacao, SituacaoCampos);
@@ -65,7 +56,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             if (situacaoOSBoleto == Situacao_OSBoleto.Boleto)
             {
-                AcaoSituacao_Boleto_CRM? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Situacao == (Situacao_Boleto)idFiltro);
+                AcaoSituacao_Boleto? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Situacao == (Situacao_Boleto)idFiltro);
 
                 if (registroExistente != null)
                 {
@@ -77,7 +68,7 @@ namespace Integrador_Com_CRM.Formularios
             }
             else if (situacaoOSBoleto == Situacao_OSBoleto.OS)
             {
-                AcaoSituacao_OS_CRM? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Situacao == (Situacao_OS)idFiltro);
+                AcaoSituacao_OS? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Situacao == (Situacao_OS)idFiltro);
 
                 if (registroExistente != null)
                 {
@@ -104,7 +95,7 @@ namespace Integrador_Com_CRM.Formularios
 
                 if (TipoSituacao == Situacao_OSBoleto.Boleto)
                 {
-                    AcaoSituacao_Boleto_CRM? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Situacao == (Situacao_Boleto)IdSituacao);
+                    AcaoSituacao_Boleto? registroExistente = await _dalSituacaoBoleto.BuscarPorAsync(x => x.Situacao == (Situacao_Boleto)IdSituacao);
 
                     if (registroExistente != null)
                     {
@@ -117,7 +108,7 @@ namespace Integrador_Com_CRM.Formularios
                     }
                     else
                     {
-                        registroExistente = new AcaoSituacao_Boleto_CRM()
+                        registroExistente = new AcaoSituacao_Boleto()
                         {
                             Situacao = (Situacao_Boleto)IdSituacao,
                             Nome = Txt_Nome.Text,
@@ -135,7 +126,7 @@ namespace Integrador_Com_CRM.Formularios
                     {
                         IdSituacao = 1;
                     }
-                    AcaoSituacao_OS_CRM? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Situacao == (Situacao_OS)IdSituacao);
+                    AcaoSituacao_OS? registroExistente = await _dalSituacaoOS.BuscarPorAsync(x => x.Situacao == (Situacao_OS)IdSituacao);
 
                     if (registroExistente != null)
                     {
@@ -148,7 +139,7 @@ namespace Integrador_Com_CRM.Formularios
                     }
                     else
                     {
-                        registroExistente = new AcaoSituacao_OS_CRM()
+                        registroExistente = new AcaoSituacao_OS()
                         {
                             Situacao = (Situacao_OS)IdSituacao,
                             Nome = Txt_Nome.Text,

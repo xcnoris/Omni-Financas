@@ -2,7 +2,7 @@
 
 namespace Modelos.IntegradorCRM.Models.EF
 {
-    public class RelacaoBoletoCRMModel
+    public class RelacaoBoletoModel
     {
         public int Id { get; set; }
         public int Id_DocumentoReceber { get; set; }
@@ -20,9 +20,9 @@ namespace Modelos.IntegradorCRM.Models.EF
         public DateTime Data_Atualizacao { get; set; }
 
 
-        public static RelacaoBoletoCRMModel InstanciaDados(RetornoBoleto boleto)
+        public static RelacaoBoletoModel InstanciaDados(RetornoBoleto boleto)
         {
-            return new RelacaoBoletoCRMModel
+            return new RelacaoBoletoModel
             {
                 Id_DocumentoReceber = Convert.ToInt32(boleto.Id_DocReceber),
                 Numero_Documento = boleto.Num_DocReceber,

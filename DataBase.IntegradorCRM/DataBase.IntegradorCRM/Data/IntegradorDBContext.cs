@@ -24,11 +24,11 @@ namespace DataBase.IntegradorCRM.Data
 
         public DbSet<DadosAPIModels> DadosAPI_OmniService { get; set; }
         public DbSet<RelacaoOrdemServicoModels> Relacao_OS_OmniService { get; set; }
-        public DbSet<RelacaoBoletoCRMModel> RelacaoBoleto_OmniService { get; set; }
-        public DbSet<BoletoAcoesCRMModel> boletoAcoes_OmniService { get; set; }
+        public DbSet<RelacaoBoletoModel> RelacaoBoleto_OmniService { get; set; }
+        public DbSet<BoletoAcoesModel> boletoAcoes_OmniService { get; set; }
         public DbSet<OSAcoesModel> OSAcao_OmniService { get; set; }
-        public DbSet<AcaoSituacao_OS_CRM> acaoSituacao_OS_OmniService { get; set; }
-        public DbSet<AcaoSituacao_Boleto_CRM> acaoSituacao_Boleto_OmniService { get; set; }
+        public DbSet<AcaoSituacao_OS> acaoSituacao_OS_OmniService { get; set; }
+        public DbSet<AcaoSituacao_Boleto> acaoSituacao_Boleto_OmniService { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());

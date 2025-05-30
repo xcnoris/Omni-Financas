@@ -30,10 +30,12 @@
         {
             components = new System.ComponentModel.Container();
             groupBox3 = new GroupBox();
+            Cbox_DiaCobranca = new ComboBox();
             Btn_BuscarBoletos = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             label1 = new Label();
-            Cbox_DiaCobranca = new ComboBox();
             DGV_Dados = new DataGridView();
+            label2 = new Label();
+            Txt_NumItens = new TextBox();
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).BeginInit();
             SuspendLayout();
@@ -52,6 +54,14 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Filtro";
             // 
+            // Cbox_DiaCobranca
+            // 
+            Cbox_DiaCobranca.FormattingEnabled = true;
+            Cbox_DiaCobranca.Location = new Point(114, 35);
+            Cbox_DiaCobranca.Name = "Cbox_DiaCobranca";
+            Cbox_DiaCobranca.Size = new Size(121, 23);
+            Cbox_DiaCobranca.TabIndex = 6;
+            // 
             // Btn_BuscarBoletos
             // 
             Btn_BuscarBoletos.BackColor = Color.Teal;
@@ -65,6 +75,7 @@
             Btn_BuscarBoletos.TabIndex = 5;
             Btn_BuscarBoletos.Text = "Buscar Boletos";
             Btn_BuscarBoletos.UseVisualStyleBackColor = false;
+            Btn_BuscarBoletos.Click += Btn_BuscarBoletos_Click;
             // 
             // label1
             // 
@@ -78,14 +89,6 @@
             label1.TabIndex = 1;
             label1.Text = "Dia cobrança:";
             // 
-            // Cbox_DiaCobranca
-            // 
-            Cbox_DiaCobranca.FormattingEnabled = true;
-            Cbox_DiaCobranca.Location = new Point(114, 35);
-            Cbox_DiaCobranca.Name = "Cbox_DiaCobranca";
-            Cbox_DiaCobranca.Size = new Size(121, 23);
-            Cbox_DiaCobranca.TabIndex = 6;
-            // 
             // DGV_Dados
             // 
             DGV_Dados.AllowUserToAddRows = false;
@@ -97,20 +100,45 @@
             DGV_Dados.Size = new Size(790, 243);
             DGV_Dados.TabIndex = 3;
             // 
-            // EtapaBoletoUC
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(19, 353);
+            label2.Name = "label2";
+            label2.Size = new Size(38, 17);
+            label2.TabIndex = 4;
+            label2.Text = "Itens";
+            // 
+            // Txt_NumItens
+            // 
+            Txt_NumItens.Location = new Point(57, 350);
+            Txt_NumItens.Name = "Txt_NumItens";
+            Txt_NumItens.ReadOnly = true;
+            Txt_NumItens.Size = new Size(46, 23);
+            Txt_NumItens.TabIndex = 5;
+            Txt_NumItens.Text = "0";
+            Txt_NumItens.TextAlign = HorizontalAlignment.Center;
+            // 
+            // FrmEtapaBoletoUC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Cdi_2;
             BackgroundImageLayout = ImageLayout.Stretch;
+            Controls.Add(Txt_NumItens);
+            Controls.Add(label2);
             Controls.Add(DGV_Dados);
             Controls.Add(groupBox3);
-            Name = "EtapaBoletoUC";
+            Name = "FrmEtapaBoletoUC";
             Size = new Size(829, 421);
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -120,5 +148,7 @@
         private Integrador_Com_CRM.ComponentesPerson.BotaoArredond Btn_BuscarBoletos;
         private Label label1;
         private DataGridView DGV_Dados;
+        private Label label2;
+        private TextBox Txt_NumItens;
     }
 }

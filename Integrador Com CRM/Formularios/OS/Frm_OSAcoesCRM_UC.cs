@@ -33,7 +33,7 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     OSAcaoList.Clear();
                 }
-                DAL<OSAcoesModel> _dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
+                using DAL<OSAcoesModel> _dalOSAcoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
                 OSAcaoList = (await _dalOSAcoes.ListarAsync()).ToList();
                 CarregarDados();
             }
@@ -177,7 +177,7 @@ namespace Integrador_Com_CRM.Formularios
             Frm_CadatroOSAcoes FrmCadastroOS = new Frm_CadatroOSAcoes(false, oSAcoes, "Atualizar", this);
             FrmsAberto.Add(FrmCadastroOS);
             await FrmCadastroOS.MostrarFormulario();
-            await CarregarListaDeOSAcao();
+            //await CarregarListaDeOSAcao();
         }
 
         // Verifica se já existe um formulario aberto de edição da cobrança X
@@ -186,11 +186,14 @@ namespace Integrador_Com_CRM.Formularios
             return FrmsAberto.FirstOrDefault(x => x.IdCategoria.Equals(IdCategoria));
         }
 
+        // Quando um formulario é fechado, ele deve ser removido da listagem de formularios aberto, e é exatamente isso que esse metodo faz.
+        // Ele busca pelo ID do categoria  remove da listagem por meio de um metodo LINQ
         internal void RemoverFrmDaListFrmAbertos(int IdCategoria)
         {
             Frm_CadatroOSAcoes? Frm = FrmsAberto.FirstOrDefault(x => x.IdCategoria.Equals(IdCategoria));
             if (Frm is not null)
                 FrmsAberto.Remove(Frm);
+            CarregarListaDeOSAcao();
         }
 
         private async Task Incluir()

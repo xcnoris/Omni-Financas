@@ -19,10 +19,10 @@ namespace Integrador_Com_CRM.Formularios
         private readonly ControleOrdemDeServico controlOrdemServico;
         private readonly ControleBoletos controlBoletos;
         private readonly DadosAPIModels? DadosAPI;
-        private readonly DAL<AcaoSituacao_Boleto_CRM> _dalAcaoSitBoleto;
+        private readonly DAL<AcaoSituacao_Boleto> _dalAcaoSitBoleto;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
-        DAL<BoletoAcoesCRMModel> _dalBoletoAcoes;
+        DAL<BoletoAcoesModel> _dalBoletoAcoes;
         private readonly Frm_ConfigUC FrmConfigUC;
         public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
         {
@@ -30,8 +30,8 @@ namespace Integrador_Com_CRM.Formularios
 
             controlOrdemServico = controlOS;
             BoletoAcoes = BoletosAcoes;
-            _dalBoletoAcoes = new DAL<BoletoAcoesCRMModel>(new IntegradorDBContext());
-            _dalAcaoSitBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
+            _dalBoletoAcoes = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
+            _dalAcaoSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
             _dalDadosAPI = new DAL<DadosAPIModels>(new IntegradorDBContext());
             controlBoletos = new ControleBoletos();
             DadosAPI = (_dalDadosAPI.Listar()).FirstOrDefault();
@@ -155,8 +155,8 @@ namespace Integrador_Com_CRM.Formularios
 
             if (verificarLicenca(FrmConfigUC))
             {
-                List<AcaoSituacao_Boleto_CRM> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
-                List<BoletoAcoesCRMModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
+                List<AcaoSituacao_Boleto> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
+                List<BoletoAcoesModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
 
                 await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, InstanciarConfigGeral(FrmConfigUC));
                 return true;

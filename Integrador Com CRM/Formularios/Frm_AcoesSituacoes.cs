@@ -7,10 +7,10 @@ namespace Integrador_Com_CRM.Formularios
 {
     public partial class Frm_AcoesSituacoes : UserControl
     {
-        private DAL<AcaoSituacao_Boleto_CRM> dalBoleto;
-        private DAL<AcaoSituacao_OS_CRM> dalOS;
-        List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto;
-        List<AcaoSituacao_OS_CRM> AcoesSitOS;
+        private DAL<AcaoSituacao_Boleto> dalBoleto;
+        private DAL<AcaoSituacao_OS> dalOS;
+        List<AcaoSituacao_Boleto> AcoesSitBoleto;
+        List<AcaoSituacao_OS> AcoesSitOS;
 
         internal string BoletoQuitado
         {
@@ -70,8 +70,8 @@ namespace Integrador_Com_CRM.Formularios
 
             var context = new IntegradorDBContext();
 
-            dalBoleto = new DAL<AcaoSituacao_Boleto_CRM>(context);
-            dalOS = new DAL<AcaoSituacao_OS_CRM>(context);
+            dalBoleto = new DAL<AcaoSituacao_Boleto>(context);
+            dalOS = new DAL<AcaoSituacao_OS>(context);
 
             CarregarDadosAPI();
         }
@@ -80,8 +80,8 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                using DAL<AcaoSituacao_Boleto_CRM> _dalBoleto = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
-                using DAL<AcaoSituacao_OS_CRM> _dalOSnew = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
+                using DAL<AcaoSituacao_Boleto> _dalBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
+                using DAL<AcaoSituacao_OS> _dalOSnew = new DAL<AcaoSituacao_OS>(new IntegradorDBContext());
 
                 // Obter lista de dados da API de forma assíncrona e converter para lista
                 AcoesSitBoleto = (await _dalBoleto.ListarAsync()).ToList();
@@ -108,7 +108,7 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        private void CarregarTxts(List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto, List<AcaoSituacao_OS_CRM> AcoesSitOS)
+        private void CarregarTxts(List<AcaoSituacao_Boleto> AcoesSitBoleto, List<AcaoSituacao_OS> AcoesSitOS)
         {
 
             if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is not null)

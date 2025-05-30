@@ -263,8 +263,8 @@ namespace Integrador_Com_CRM
                 ConexaoDB conexao = LeituraFrmConexaoDB();
                 DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
 
-                List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto = new List<AcaoSituacao_Boleto_CRM>();
-                List<AcaoSituacao_OS_CRM> AcoesSitOS = new List<AcaoSituacao_OS_CRM>();
+                List<AcaoSituacao_Boleto> AcoesSitBoleto = new List<AcaoSituacao_Boleto>();
+                List<AcaoSituacao_OS> AcoesSitOS = new List<AcaoSituacao_OS>();
                 if (conexao is not null && dadosAPI is not null)
                 {
                 }
@@ -312,18 +312,18 @@ namespace Integrador_Com_CRM
         }
 
 
-        private async Task SalvarSitBoleto(List<AcaoSituacao_Boleto_CRM> AcoesSitBoleto)
+        private async Task SalvarSitBoleto(List<AcaoSituacao_Boleto> AcoesSitBoleto)
         {
-            DAL<AcaoSituacao_Boleto_CRM> dalAcaoSItBol = new DAL<AcaoSituacao_Boleto_CRM>(new IntegradorDBContext());
+            DAL<AcaoSituacao_Boleto> dalAcaoSItBol = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
             foreach (var item in AcoesSitBoleto)
             {
                 await dalAcaoSItBol.AtualizarAsync(item);
             }
         }
 
-        private async Task SalvarSitOS(List<AcaoSituacao_OS_CRM> AcoesSitOS)
+        private async Task SalvarSitOS(List<AcaoSituacao_OS> AcoesSitOS)
         {
-            DAL<AcaoSituacao_OS_CRM> dalSitOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
+            DAL<AcaoSituacao_OS> dalSitOS = new DAL<AcaoSituacao_OS>(new IntegradorDBContext());
             foreach (var item in AcoesSitOS)
             {
                 await dalSitOS.AtualizarAsync(item);

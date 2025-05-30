@@ -28,8 +28,8 @@ namespace Aplication.IntegradorCRM.Servicos.OS
         public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestSitucaoOS(Situacao_OS SitOS,  RetornoOrdemServico retornoOS)
         {
           
-            using DAL<AcaoSituacao_OS_CRM> dalAcaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
-            AcaoSituacao_OS_CRM? AcaoSitOS = await dalAcaoOS.BuscarPorAsync(x => x.Situacao == SitOS);
+            using DAL<AcaoSituacao_OS> dalAcaoOS = new DAL<AcaoSituacao_OS>(new IntegradorDBContext());
+            AcaoSituacao_OS? AcaoSitOS = await dalAcaoOS.BuscarPorAsync(x => x.Situacao == SitOS);
 
             if (AcaoSitOS is not null)
             {
@@ -62,12 +62,12 @@ namespace Aplication.IntegradorCRM.Servicos.OS
 
         public async static Task<ModeloOportunidadeRequest?> BuscarAcaoSituacao(Situacao_OS situacaoOS,RetornoOrdemServico retornoOS)
         {
-            DAL<AcaoSituacao_OS_CRM> AcaoSituacaoOS = new DAL<AcaoSituacao_OS_CRM>(new IntegradorDBContext());
+            DAL<AcaoSituacao_OS> AcaoSituacaoOS = new DAL<AcaoSituacao_OS>(new IntegradorDBContext());
             ModeloOportunidadeRequest? oSAcoesModel = null;
 
             try
             {
-                AcaoSituacao_OS_CRM? acaoBuscada = await AcaoSituacaoOS.BuscarPorAsync(x => x.Situacao.Equals(situacaoOS));
+                AcaoSituacao_OS? acaoBuscada = await AcaoSituacaoOS.BuscarPorAsync(x => x.Situacao.Equals(situacaoOS));
 
                 if (acaoBuscada == null)
                 {

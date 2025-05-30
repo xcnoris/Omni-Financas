@@ -10,7 +10,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
     {
 
 
-        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel boletoInTabRel, bool EnviarPDF)
+        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel, bool EnviarPDF)
         {
             // Validar entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || boletoInTabRel == null)
@@ -41,7 +41,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return false;
         }
 
-        public static async Task EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoCRMModel> dalTableRelacaoBoleto, RelacaoBoletoCRMModel BoletoRElacao, bool foiQuitado, bool EnviarPDF, string CodigoAPI_EnvioPDF)
+        public static async Task EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel BoletoRElacao, bool foiQuitado, bool EnviarPDF, string CodigoAPI_EnvioPDF)
         {
             // Validar dados de entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || BoletoRElacao == null)
@@ -64,7 +64,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 
         }
 
-        private static async Task VerificarEnvioPDF(bool EnviarPDF,RelacaoBoletoCRMModel BoletoRElacao,string token, string InstanciaEnvoluctionAPI)
+        private static async Task VerificarEnvioPDF(bool EnviarPDF,RelacaoBoletoModel BoletoRElacao,string token, string InstanciaEnvoluctionAPI)
         {
             if (EnviarPDF)
             {

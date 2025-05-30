@@ -10,7 +10,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class QuitacaoBoleto
     {
-        public async static Task Quitar( RelacaoBoletoCRMModel boletoRelacao, RetornoBoleto retornoBoleto, bool boletoJaEmTabela, DadosAPIModels dadosAPI)
+        public async static Task Quitar( RelacaoBoletoModel boletoRelacao, RetornoBoleto retornoBoleto, bool boletoJaEmTabela, DadosAPIModels dadosAPI)
         {
             ModeloOportunidadeRequest? RequestQuitacao = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(retornoBoleto, Situacao_Boleto.Quitado);
 
@@ -30,9 +30,9 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
 
-        private async static Task AtualizarBoletoNoCRM(RelacaoBoletoCRMModel boletoRelacao, ModeloOportunidadeRequest ModeloRequest, DadosAPIModels dadosAPI, bool boletoJaEmTabela)
+        private async static Task AtualizarBoletoNoCRM(RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest ModeloRequest, DadosAPIModels dadosAPI, bool boletoJaEmTabela)
         {
-            using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
+            using var dalBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
             
             if (boletoJaEmTabela)
             {

@@ -9,10 +9,10 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class VerificacaoDeCobranca
     {
-        internal async static Task RealizarCobranca(List<BoletoAcoesCRMModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoCRMModel boletoRelacao, RetornoBoleto retornoBoleto,DadosAPIModels DadosAPI, bool PermitirEnvioFinsDeSemana)
+        internal async static Task RealizarCobranca(List<BoletoAcoesModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoModel boletoRelacao, RetornoBoleto retornoBoleto,DadosAPIModels DadosAPI, bool PermitirEnvioFinsDeSemana)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
-            BoletoAcoesCRMModel? boletoAcaoBuscado = AcoesBoletoList.FirstOrDefault(x => x.Dias_Cobrancas.Equals(diasAtraso));
+            BoletoAcoesModel? boletoAcaoBuscado = AcoesBoletoList.FirstOrDefault(x => x.Dias_Cobrancas.Equals(diasAtraso));
 
             if (boletoAcaoBuscado is null)
             {
@@ -25,7 +25,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado, PermitirEnvioFinsDeSemana);
         }
 
-        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoCRMModel boletoRelacao, ModeloOportunidadeRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesCRMModel boletoAcaoBuscado, bool PermitirEnvioFinsDeSemana)
+        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesModel boletoAcaoBuscado, bool PermitirEnvioFinsDeSemana)
         {
             if (DiasAtrasoRelBoleto != diasAtraso)
             {
@@ -35,7 +35,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                 if (PermitirEnvioFinsDeSemana || !ehFimDeSemana)
                 {
-                    using var dalBoleto = new DAL<RelacaoBoletoCRMModel>(new IntegradorDBContext());
+                    using var dalBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
                     await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
                     MetodosGerais.RegistrarLog("BOLETO", logMsg);
                 }
