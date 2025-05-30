@@ -36,7 +36,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 if (PermitirEnvioFinsDeSemana || !ehFimDeSemana)
                 {
                     using var dalBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
-                    await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, DadosAPI.CodAPI_EnvioPDF);
+                    await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, true, DadosAPI.CodAPI_EnvioPDF);
                     MetodosGerais.RegistrarLog("BOLETO", logMsg);
                 }
                 else

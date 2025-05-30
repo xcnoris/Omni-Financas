@@ -37,7 +37,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             if (boletoJaEmTabela)
             {
                
-                await EnviarMensagemBoleto.EnviarMensagem(ModeloRequest, dadosAPI, dalBoleto, boletoRelacao, true, false, dadosAPI.CodAPI_EnvioPDF);
+                await EnviarMensagemBoleto.EnviarMensagem( ModeloRequest, dadosAPI, dalBoleto, boletoRelacao, true, false, false, dadosAPI.CodAPI_EnvioPDF);
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 boletoInTableRelacao.Situacao = 2;
                 boletoInTableRelacao.DiasEmAtraso = boletoRelacao.DiasEmAtraso;
                 boletoInTableRelacao.Quitado = 1;
-                await EnviarMensagemBoleto.EnviarMensagem(ModeloRequest, dadosAPI, dalBoleto, boletoInTableRelacao, true, false, dadosAPI.CodAPI_EnvioPDF);
+                await EnviarMensagemBoleto.EnviarMensagem(ModeloRequest, dadosAPI, dalBoleto, boletoInTableRelacao, true, false, false ,dadosAPI.CodAPI_EnvioPDF);
             }
         }
     }

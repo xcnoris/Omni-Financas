@@ -1,16 +1,14 @@
 ﻿
 using Aplication.IntegradorCRM.Metodos.Boleto;
 using Aplication.IntegradorCRM.Metodos.OS;
-using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
-using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM.Models.EF;
 using Metodos.IntegradorCRM;
-using Modelos.IntegradorCRM.Models;
+using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM;
-using Aplication.IntegradorCRM.Metodos.Envio__Email;
-using System.Net;
+using Modelos.IntegradorCRM.Models;
+using Modelos.IntegradorCRM.Models.EF;
 using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace Integrador_Com_CRM.Formularios
 {
@@ -94,7 +92,12 @@ namespace Integrador_Com_CRM.Formularios
 
             string tokenCDI = "F65F9082EE9DB13A464B5DC0A9F2B8D56840CA3A1178826B0DF17DA2CE7DD621";
 
-            bool enviadoComSucesso = await EnvioEmail.EnviarEmail(emailRequest, tokenCDI);
+            await EmailService.EnviarEmailAsync(
+                   destinatario: "casainfosc@gmail.com",
+                   assunto: "Verificação de Token inválida!",
+                   mensagem: emailRequest.TextoEmail,
+                   mensagemEhHtml: false);
+            //bool enviadoComSucesso = await EnvioEmail.EnviarEmail(emailRequest, tokenCDI);
 
         }
 
@@ -208,7 +211,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private async void Btn_BuscarOS_Click(object sender, EventArgs e)
         {
-            await ExecutarBuscaOSAsync();
+            //await ExecutarBuscaOSAsync();
         }
 
         private async void Btn_BuscarBoletos_Click(object sender, EventArgs e)

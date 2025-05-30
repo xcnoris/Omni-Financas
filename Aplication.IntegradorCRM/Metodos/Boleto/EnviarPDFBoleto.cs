@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Aplication.IntegradorCRM.Servicos.Boleto;
+using Metodos.IntegradorCRM.Metodos;
+using Modelos.IntegradorCRM.Models;
+using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Aplication.IntegradorCRM.Servicos.Boleto;
-using Metodos.IntegradorCRM.Metodos;
-using System.Net.Http.Json;
 
 namespace Aplication.IntegradorCRM.Metodos.Boleto
 {
@@ -25,12 +26,25 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<bool> ProcessarEnvioPDFBoleto(int idDocumentoReceber, string Token, string destinatario, string dataVencimentoBoleto, string InstanciaEnvoluctionAPI)
+        public static async Task<bool> ProcessarEnvioPDFBoleto(bool EnviarPDFPorWhats, bool EnviarPDFPorEmail, int idDocumentoReceber, string Token, string destinatario, string dataVencimentoBoleto, string InstanciaEnvoluctionAPI, EmailModel email)
         {
+
             string Base64Boleto = await GerarBase64DoPDF(idDocumentoReceber, Token, dataVencimentoBoleto);
             if (string.IsNullOrEmpty(Base64Boleto)) return false;
 
-            return await EnviarPDFBoletoNoWhatsapp(Base64Boleto, destinatario, Token, idDocumentoReceber, dataVencimentoBoleto, InstanciaEnvoluctionAPI);
+            // chama os metodos de envio do PDF
+            if (EnviarPDFPorEmail)
+            {
+                email.pdfBase64 = Base64Boleto;
+                EnviarBoletoNoEmail(email);
+            }
+
+            if (EnviarPDFPorWhats)
+                EnviarPDFBoletoNoWhatsapp(Base64Boleto, destinatario, Token, idDocumentoReceber, dataVencimentoBoleto, InstanciaEnvoluctionAPI);
+
+            return true;
+            
+
         }
 
         public static async Task<string> GerarBase64DoPDF(int idDocumentoReceber, string Token, string dataVencimentoBoleto)
@@ -53,6 +67,19 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return boletoBase64;
         }
 
+
+        public static async Task EnviarBoletoNoEmail(EmailModel email) 
+        {
+            await EmailService.EnviarEmailAsync(
+                destinatario: email.destinatario,
+                assunto: email.assunto,
+                mensagem: email.mensagem,
+                nomeDestinatario: email.nomeDestinatario,
+                pdfBase64: email.pdfBase64,
+                nomeAnexo: email.nomeAnexo,
+                mensagemEhHtml: email.mensagemEhHtml);
+           
+        }
         public static async Task<bool> EnviarPDFBoletoNoWhatsapp(string base64Boleto, string destinatario, string Token, int idDocumentoReceber, string dataVencimentoBoleto, string Instancia)
         {
             if (string.IsNullOrWhiteSpace(base64Boleto) || string.IsNullOrWhiteSpace(destinatario) || string.IsNullOrWhiteSpace(Instancia))

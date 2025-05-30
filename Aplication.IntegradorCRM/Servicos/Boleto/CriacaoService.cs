@@ -32,7 +32,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using DAL<AcaoSituacao_Boleto> dalAcaoSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
             AcaoSituacao_Boleto? AcaoSitBoleto = await dalAcaoSitBoleto.BuscarPorAsync(x => x.Situacao == Situacao_Boleto.Aberto);
 
-            bool response = await EnviarMensagemBoleto.EnviarMensagemCriacao(Request, DadosAPI, dalRelBoletos, RelacaoBoleto, EnviarPDFaoCriarOPT);
+            bool response = await EnviarMensagemBoleto.EnviarMensagemCriacao(Request, DadosAPI, dalRelBoletos, RelacaoBoleto, EnviarPDFaoCriarOPT, true);
             return response;
         }
     } 
