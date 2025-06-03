@@ -10,7 +10,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class QuitacaoBoleto
     {
-        public async static Task Quitar( RelacaoBoletoModel boletoRelacao, RetornoBoleto retornoBoleto, bool boletoJaEmTabela, DadosAPIModels dadosAPI)
+        public async static Task Quitar( RelacaoBoletoModel boletoRelacao, RetornoBoleto retornoBoleto, bool boletoJaEmTabela, DadosAPIModels dadosAPI, ConfigEmail configEmail)
         {
             ModeloOportunidadeRequest? RequestQuitacao = await Boleto_Services.InstanciarAcaoRequestSitucaoBoleto(retornoBoleto, Situacao_Boleto.Quitado);
 
@@ -20,7 +20,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             try
             {
 
-                await AtualizarBoletoNoCRM(boletoRelacao, RequestQuitacao, dadosAPI, boletoJaEmTabela);
+                await AtualizarBoletoNoCRM(boletoRelacao, RequestQuitacao, dadosAPI, boletoJaEmTabela, configEmail);
                 MetodosGerais.RegistrarLog("BOLETO", $"Boleto {boletoRelacao.Id_DocumentoReceber} já existe na tabela relação. Foi atualizado para etapa Pago!");
             }
             catch (Exception ex)
@@ -30,14 +30,14 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
 
-        private async static Task AtualizarBoletoNoCRM(RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest ModeloRequest, DadosAPIModels dadosAPI, bool boletoJaEmTabela)
+        private async static Task AtualizarBoletoNoCRM(RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest ModeloRequest, DadosAPIModels dadosAPI, bool boletoJaEmTabela, ConfigEmail configEmail)
         {
             using var dalBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
             
             if (boletoJaEmTabela)
             {
                
-                await EnviarMensagemBoleto.EnviarMensagem( ModeloRequest, dadosAPI, dalBoleto, boletoRelacao, true, false, false, dadosAPI.CodAPI_EnvioPDF);
+                await EnviarMensagemBoleto.EnviarMensagem( ModeloRequest, dadosAPI, dalBoleto, boletoRelacao, true, false, false, dadosAPI.CodAPI_EnvioPDF, configEmail);
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 boletoInTableRelacao.Situacao = 2;
                 boletoInTableRelacao.DiasEmAtraso = boletoRelacao.DiasEmAtraso;
                 boletoInTableRelacao.Quitado = 1;
-                await EnviarMensagemBoleto.EnviarMensagem(ModeloRequest, dadosAPI, dalBoleto, boletoInTableRelacao, true, false, false ,dadosAPI.CodAPI_EnvioPDF);
+                await EnviarMensagemBoleto.EnviarMensagem(ModeloRequest, dadosAPI, dalBoleto, boletoInTableRelacao, true, false, false ,dadosAPI.CodAPI_EnvioPDF, configEmail);
             }
         }
     }

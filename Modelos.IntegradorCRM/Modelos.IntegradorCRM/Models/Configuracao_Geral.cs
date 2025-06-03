@@ -12,10 +12,12 @@ namespace Modelos.IntegradorCRM.Models
         public int TimerOS { get; set; }
         public DateTime DataOSSelect { get; set; }
         public bool ChBox_OSEnviarMensCancel { get; set; }
+   
         public DateTime HoraBoletoCobDiaria { get; set; }
         public DateTime HoraBoletoCobSegunda { get; set; }
         public DateTime DataBoletoSelect { get; set; }
-        public bool ChBox_BoletoEnviarPDFa { get; set; }
+        public bool ChBox_BoletoEnviarPDFPorWhats { get; set; }
+        public bool ChBox_BoletoEnviarPDFPorEmail { get; set; }
         public bool ChBox_BoletoEnviarMensCancelamento { get; set; }
         public bool ChBox_BoletoMensFimdeSemana { get; set; }
     }

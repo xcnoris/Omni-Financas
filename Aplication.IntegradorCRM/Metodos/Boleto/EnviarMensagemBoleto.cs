@@ -12,7 +12,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
     {
 
 
-        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel, bool EnviarPDFBoletoPorWhats, bool EnviarPDFBoletoPorEmail)
+        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel, bool EnviarPDFBoletoPorWhats, ConfigEmail configEmail, bool EnviarPDFBoletoPorEmail)
         {
             // Validar entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || boletoInTabRel == null)
@@ -43,7 +43,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     mensagemEhHtml = false
                 };
 
-                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, Email);
+                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, configEmail, Email);
                 return true;
                 
             }
@@ -54,7 +54,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return false;
         }
 
-        public static async Task EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel BoletoRElacao, bool foiQuitado, bool EnviarPDFBoletoPorWhats, bool EnviarPDFBoletoPorEmail,  string CodigoAPI_EnvioPDF)
+        public static async Task EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel BoletoRElacao, bool foiQuitado, bool EnviarPDFBoletoPorWhats, bool EnviarPDFBoletoPorEmail,  string CodigoAPI_EnvioPDF, ConfigEmail configEmail)
         {
             // Validar dados de entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || BoletoRElacao == null)
@@ -75,7 +75,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     mensagemEhHtml = false
                 };
 
-                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia, Email);
+                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia, configEmail, Email);
                 MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {BoletoRElacao.Situacao} para o documento {BoletoRElacao.Id_DocumentoReceber}");
 
                 return;
@@ -85,11 +85,11 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 
         }
 
-        private static async Task VerificarEnvioPDF(bool EnviarPDFPorWhats, bool EnviarPDFPorEmail,RelacaoBoletoModel BoletoRElacao,string token, string InstanciaEnvoluctionAPI, EmailModel Email)
+        private static async Task VerificarEnvioPDF(bool EnviarPDFPorWhats, bool EnviarPDFPorEmail,RelacaoBoletoModel BoletoRElacao,string token, string InstanciaEnvoluctionAPI, ConfigEmail ConfigEmail, EmailModel Email)
         {
             await Task.Delay(1000);
             string destinatarios = $"+55{BoletoRElacao.Celular_Entidade}";
-            await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(EnviarPDFPorWhats,EnviarPDFPorEmail, BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd-MM-yyyy"), InstanciaEnvoluctionAPI, Email);
+            await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(EnviarPDFPorWhats,EnviarPDFPorEmail, BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd-MM-yyyy"), InstanciaEnvoluctionAPI, ConfigEmail, Email);
 
         }
 

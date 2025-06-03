@@ -9,7 +9,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class VerificacaoDeCobranca
     {
-        internal async static Task RealizarCobranca(List<BoletoAcoesModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoModel boletoRelacao, RetornoBoleto retornoBoleto,DadosAPIModels DadosAPI, bool PermitirEnvioFinsDeSemana)
+        internal async static Task RealizarCobranca(List<BoletoAcoesModel> AcoesBoletoList, int diasAtraso, int DiasAtrasoRelBoleto, RelacaoBoletoModel boletoRelacao, RetornoBoleto retornoBoleto,DadosAPIModels DadosAPI, bool PermitirEnvioFinsDeSemana, ConfigEmail configEmail)
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesModel? boletoAcaoBuscado = AcoesBoletoList.FirstOrDefault(x => x.Dias_Cobrancas.Equals(diasAtraso));
@@ -22,10 +22,10 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
             ModeloOportunidadeRequest atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestBoleto(retornoBoleto, diasAtraso);
 
-            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado, PermitirEnvioFinsDeSemana);
+            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado, PermitirEnvioFinsDeSemana, configEmail);
         }
 
-        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesModel boletoAcaoBuscado, bool PermitirEnvioFinsDeSemana)
+        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesModel boletoAcaoBuscado, bool PermitirEnvioFinsDeSemana, ConfigEmail configEmail)
         {
             if (DiasAtrasoRelBoleto != diasAtraso)
             {
@@ -36,7 +36,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 if (PermitirEnvioFinsDeSemana || !ehFimDeSemana)
                 {
                     using var dalBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
-                    await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, true, DadosAPI.CodAPI_EnvioPDF);
+                    await EnviarMensagemBoleto.EnviarMensagem(atualizarAcaoRequest, DadosAPI, dalBoleto, boletoRelacao, false, boletoAcaoBuscado.EnviarPDF, true, DadosAPI.CodAPI_EnvioPDF, configEmail);
                     MetodosGerais.RegistrarLog("BOLETO", logMsg);
                 }
                 else

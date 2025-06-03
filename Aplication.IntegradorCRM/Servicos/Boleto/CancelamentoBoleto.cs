@@ -11,7 +11,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
     internal class CancelamentoBoleto
     {
-        public async static Task Cancelar(RelacaoBoletoModel boletoRelacao, DadosAPIModels dadosAPI, RetornoBoleto retornoBoleto, bool EnviarMensagemCancelamento)
+        public async static Task Cancelar(RelacaoBoletoModel boletoRelacao, DadosAPIModels dadosAPI, RetornoBoleto retornoBoleto, bool EnviarMensagemCancelamento, ConfigEmail configEmail)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
                 {
                     if (EnviarMensagemCancelamento)
                     {
-                        await CancelarBoleto(boletoRelacao, RequestCancelamento, dadosAPI);
+                        await CancelarBoleto(boletoRelacao, RequestCancelamento, dadosAPI, configEmail);
                     }
                     else
                     {
@@ -52,13 +52,13 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
 
-        private async static Task CancelarBoleto(RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest RequestCancelamento, DadosAPIModels DadosAPI)
+        private async static Task CancelarBoleto(RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest RequestCancelamento, DadosAPIModels DadosAPI, ConfigEmail configEmail)
         {
             using var dalBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
 
             boletoRelacao.Situacao = 3;
             // É passado o parametro "foiQuitado" como true para remover qualquer registro de aviso que esteja aguardando para envio
-            await EnviarMensagemBoleto.EnviarMensagem(RequestCancelamento, DadosAPI, dalBoleto, boletoRelacao, true, false, false, DadosAPI.CodAPI_EnvioPDF);
+            await EnviarMensagemBoleto.EnviarMensagem(RequestCancelamento, DadosAPI, dalBoleto, boletoRelacao, true, false, false, DadosAPI.CodAPI_EnvioPDF, configEmail);
         
         }
     }

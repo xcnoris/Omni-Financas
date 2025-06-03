@@ -29,6 +29,8 @@ namespace DataBase.IntegradorCRM.Data
         public DbSet<OSAcoesModel> OSAcao_OmniService { get; set; }
         public DbSet<AcaoSituacao_OS> acaoSituacao_OS_OmniService { get; set; }
         public DbSet<AcaoSituacao_Boleto> acaoSituacao_Boleto_OmniService { get; set; }
+        public DbSet<ConfigEmail> Config_Email_OmniService { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.ApplyConfiguration(new RelacaoOSMap());
@@ -38,7 +40,6 @@ namespace DataBase.IntegradorCRM.Data
             modelBuilder.ApplyConfiguration(new OSAcaoMap());
             modelBuilder.ApplyConfiguration(new acaoSituacao_OS_Map());
             modelBuilder.ApplyConfiguration(new acaoSituacao_Boleto_Map());
-
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

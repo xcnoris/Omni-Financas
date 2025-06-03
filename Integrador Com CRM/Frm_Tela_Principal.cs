@@ -27,6 +27,7 @@ namespace Integrador_Com_CRM
         private readonly Frm_ConexaoUC FrmConexaoUC;
         private readonly Frm_DadosAPIUC FrmDadosAPIUUC;
         private readonly Frm_ConfigUC FrmConfigUC;
+        private readonly FrmConfigEmail frmConfigEmail;
 
         ControleOrdemDeServico ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
@@ -56,6 +57,7 @@ namespace Integrador_Com_CRM
             BoletoAcoesCRM = new Frm_BoletoAcoesCRM_UC();
             FrmOSAcao = new Frm_OSAcoesCRM_UC();
             FrmAcoesSit = new Frm_AcoesSituacoes();
+            frmConfigEmail = new FrmConfigEmail();
 
             context = new IntegradorDBContext();
 
@@ -67,7 +69,7 @@ namespace Integrador_Com_CRM
             FrmConexaoUC = new Frm_ConexaoUC();
             EtapasBoletos = new FrmEtapaBoletoUC();
 
-            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM, FrmConfigUC);
+            FrmGeralUC = new Frm_GeralUC(ControlOS, ControlBoleto, BoletoAcoesCRM, FrmConfigUC, frmConfigEmail);
 
 
             AdicionarUserontrols();
@@ -110,7 +112,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarBoletos(FrmConfigUC);
+                        await FrmGeralUC.VerificarBoletos(FrmConfigUC, InstanciarConfigEmail(frmConfigEmail));
                     }
                     catch (Exception ex)
                     {
@@ -125,7 +127,16 @@ namespace Integrador_Com_CRM
         }
 
 
-
+        private ConfigEmail InstanciarConfigEmail(FrmConfigEmail Frm)
+        {
+            return new ConfigEmail()
+            {
+                SMTP_Server = Frm.Server,
+                SMTP_Port = Convert.ToInt32(Frm.Port),
+                Email = Frm.Email,
+                Senha = Frm.Senha
+            };
+        }
 
         private void SetDailyTimer()
         {
@@ -157,73 +168,82 @@ namespace Integrador_Com_CRM
             FrmAcoesSit.Dock = DockStyle.Fill;
             FrmConfigUC.Dock = DockStyle.Fill;
             EtapasBoletos.Dock = DockStyle.Fill;
+            frmConfigEmail.Dock = DockStyle.Fill;
 
 
-            TabPage TB1 = new TabPage
+            TabPage Geral = new TabPage
             {
                 Name = "geral",
                 Text = "Geral"
             };
-            TB1.Controls.Add(FrmGeralUC);
+            Geral.Controls.Add(FrmGeralUC);
 
-            TabPage TB2 = new TabPage
+            TabPage Conexao = new TabPage
             {
                 Name = "Conexão",
                 Text = "Conexão"
             };
-            TB2.Controls.Add(FrmConexaoUC);
+            Conexao.Controls.Add(FrmConexaoUC);
 
-            TabPage TB3 = new TabPage
+            TabPage DadosAPi = new TabPage
             {
                 Name = "Dados API",
                 Text = "Dados API"
             };
-            TB3.Controls.Add(FrmDadosAPIUUC);
+            DadosAPi.Controls.Add(FrmDadosAPIUUC);
 
-            TabPage TB4 = new TabPage
+            TabPage AcoesBoleto = new TabPage
             {
                 Name = "Ações Boleto",
                 Text = "Ações Boleto"
             };
-            TB4.Controls.Add(BoletoAcoesCRM);
+            AcoesBoleto.Controls.Add(BoletoAcoesCRM);
 
 
-            TabPage TB5 = new TabPage
+            TabPage AcoesOS = new TabPage
             {
                 Name = "Ações Ordem de Serviço",
                 Text = "Ações Ordem de Serviço"
             };
-            TB5.Controls.Add(FrmOSAcao);
+            AcoesOS.Controls.Add(FrmOSAcao);
 
-            TabPage TB6 = new TabPage
+            TabPage AcoesSituaccoes = new TabPage
             {
                 Name = "Ações Situações",
                 Text = "Ações Situações"
             };
-            TB6.Controls.Add(FrmAcoesSit);
+            AcoesSituaccoes.Controls.Add(FrmAcoesSit);
 
-            TabPage TB7 = new TabPage
+            TabPage ConfiguracaoGeral = new TabPage
             {
                 Name = "Configuração",
                 Text = "Configuração"
             };
-            TB7.Controls.Add(FrmConfigUC);
+            ConfiguracaoGeral.Controls.Add(FrmConfigUC);
 
-            TabPage TB8 = new TabPage
+            TabPage EtapasBoleto = new TabPage
             {
                 Name = "Etapas Boleto",
                 Text = "Etapas Boleto"
             };
-            TB8.Controls.Add(EtapasBoletos);
+            EtapasBoleto.Controls.Add(EtapasBoletos);
 
-            TBC_Dados.TabPages.Add(TB1);
-            TBC_Dados.TabPages.Add(TB4);
-            TBC_Dados.TabPages.Add(TB8);
-            TBC_Dados.TabPages.Add(TB5);
-            TBC_Dados.TabPages.Add(TB6);
-            TBC_Dados.TabPages.Add(TB2);
-            TBC_Dados.TabPages.Add(TB3);
-            TBC_Dados.TabPages.Add(TB7);
+            TabPage Config_Email = new TabPage
+            {
+                Name = "Config Email",
+                Text = "Config Emai"
+            };
+            Config_Email.Controls.Add(frmConfigEmail);
+
+            TBC_Dados.TabPages.Add(Geral);
+            TBC_Dados.TabPages.Add(AcoesBoleto);
+            TBC_Dados.TabPages.Add(EtapasBoleto);
+            TBC_Dados.TabPages.Add(AcoesOS);
+            TBC_Dados.TabPages.Add(AcoesSituaccoes);
+            TBC_Dados.TabPages.Add(Conexao);
+            TBC_Dados.TabPages.Add(DadosAPi);
+            TBC_Dados.TabPages.Add(Config_Email);
+            TBC_Dados.TabPages.Add(ConfiguracaoGeral);
         }
 
 
@@ -262,6 +282,7 @@ namespace Integrador_Com_CRM
                 // Instancia as class 
                 ConexaoDB conexao = LeituraFrmConexaoDB();
                 DadosAPIModels dadosAPI = LeituraFrmDadosAPI();
+                ConfigEmail configEmail = LeituraFrmConfigEmail();
 
                 List<AcaoSituacao_Boleto> AcoesSitBoleto = new List<AcaoSituacao_Boleto>();
                 List<AcaoSituacao_OS> AcoesSitOS = new List<AcaoSituacao_OS>();
@@ -279,7 +300,7 @@ namespace Integrador_Com_CRM
                         await CriarAtualDadosAPI(dadosAPI);
                         await SalvarSitBoleto(AcoesSitBoleto);
                         await SalvarSitOS(AcoesSitOS);
-
+                        await CriarAtualConfigEmail(configEmail);
                         MessageBox.Show("Valores Salvos", "Envio de Ordem de Serviço", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
@@ -352,6 +373,30 @@ namespace Integrador_Com_CRM
             }
         }
 
+        private async Task CriarAtualConfigEmail(ConfigEmail configEmail)
+        {
+            using DAL<ConfigEmail> dal = new DAL<ConfigEmail>(new IntegradorDBContext());
+            List<ConfigEmail> ListConfigEmail = (await dal.ListarAsync()).ToList();
+
+            if (ListConfigEmail.Count == 0)
+            {
+                // Se não existir nenhum dado, adiciona o novo
+                await dal.AdicionarAsync(configEmail);
+            }
+            else
+            {
+                // Atualiza apenas o primeiro dado da lista
+                ConfigEmail primeiroDado = ListConfigEmail.First();
+                primeiroDado.SMTP_Server = configEmail.SMTP_Server;
+                primeiroDado.SMTP_Port = configEmail.SMTP_Port;
+                primeiroDado.Email = configEmail.Email;
+                primeiroDado.Senha = configEmail.Senha;
+
+                // Atualiza o dado existente no banco
+                await dal.AtualizarAsync(primeiroDado);
+            }
+        }
+
         private ConexaoDB LeituraFrmConexaoDB()
         {
             try
@@ -392,6 +437,28 @@ namespace Integrador_Com_CRM
                 {
                     Token = FrmDadosAPIUUC.Token,
                     Instancia = FrmDadosAPIUUC.Nome_Instancia
+                };
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro: {ex.Message}", "Envio de OS", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetodosGerais.RegistrarLog("OS", $"Erro: {ex.Message}");
+                throw;
+            }
+        }
+
+        private ConfigEmail LeituraFrmConfigEmail()
+        {
+            try
+            {
+
+                return new ConfigEmail
+                {
+                    SMTP_Server = frmConfigEmail.Server,
+                    SMTP_Port = Convert.ToInt32(frmConfigEmail.Port),
+                    Email = frmConfigEmail.Email,
+                    Senha = frmConfigEmail.Senha
                 };
 
             }

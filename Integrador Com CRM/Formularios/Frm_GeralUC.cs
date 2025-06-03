@@ -1,6 +1,7 @@
 ﻿
 using Aplication.IntegradorCRM.Metodos.Boleto;
 using Aplication.IntegradorCRM.Metodos.OS;
+using CDI_OminiService.Formularios;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM;
 using Metodos.IntegradorCRM.Metodos;
@@ -22,7 +23,8 @@ namespace Integrador_Com_CRM.Formularios
         private readonly Frm_BoletoAcoesCRM_UC BoletoAcoes;
         DAL<BoletoAcoesModel> _dalBoletoAcoes;
         private readonly Frm_ConfigUC FrmConfigUC;
-        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig)
+        private readonly FrmConfigEmail Frm_ConfigEmail;
+        public Frm_GeralUC(ControleOrdemDeServico controlOS, ControleBoletos controleBoletos, Frm_BoletoAcoesCRM_UC BoletosAcoes, Frm_ConfigUC FrmConfig, FrmConfigEmail frmConfigEmail)
         {
             InitializeComponent();
 
@@ -34,6 +36,7 @@ namespace Integrador_Com_CRM.Formularios
             controlBoletos = new ControleBoletos();
             DadosAPI = (_dalDadosAPI.Listar()).FirstOrDefault();
             FrmConfigUC = FrmConfig;
+            Frm_ConfigEmail = frmConfigEmail;  
         }
 
         private bool verificarLicenca(Frm_ConfigUC FrmConfigUC)
@@ -92,14 +95,16 @@ namespace Integrador_Com_CRM.Formularios
 
             string tokenCDI = "F65F9082EE9DB13A464B5DC0A9F2B8D56840CA3A1178826B0DF17DA2CE7DD621";
 
-            await EmailService.EnviarEmailAsync(
-                   destinatario: "casainfosc@gmail.com",
-                   assunto: "Verificação de Token inválida!",
-                   mensagem: emailRequest.TextoEmail,
-                   mensagemEhHtml: false);
+            //await EmailService.EnviarEmailAsync(frmConfigEmail, new EmailModel(
+            //       destinatario: "casainfosc@gmail.com",
+            //       assunto: "Verificação de Token inválida!",
+            //       mensagem: emailRequest.TextoEmail,
+            //       mensagemEhHtml: false));
             //bool enviadoComSucesso = await EnvioEmail.EnviarEmail(emailRequest, tokenCDI);
 
         }
+
+
 
         // Método para obter o endereço IP local
         private string ObterEnderecoIpLocal()
@@ -153,7 +158,7 @@ namespace Integrador_Com_CRM.Formularios
             return false;
         }
 
-        public async Task<bool> VerificarBoletos(Frm_ConfigUC FrmConfigUC)
+        public async Task<bool> VerificarBoletos(Frm_ConfigUC FrmConfigUC, ConfigEmail configEmail)
         {
 
             if (verificarLicenca(FrmConfigUC))
@@ -161,7 +166,7 @@ namespace Integrador_Com_CRM.Formularios
                 List<AcaoSituacao_Boleto> AcoesSituacaoBoleto = (await _dalAcaoSitBoleto.ListarAsync()).ToList();
                 List<BoletoAcoesModel> BoletoAcoesCRM = (await _dalBoletoAcoes.ListarAsync()).ToList();
 
-                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, InstanciarConfigGeral(FrmConfigUC));
+                await controlBoletos.VerificarNovosBoletos(DadosAPI, AcoesSituacaoBoleto, BoletoAcoesCRM, InstanciarConfigGeral(FrmConfigUC), configEmail);
                 return true;
             }
             return false;
@@ -177,7 +182,7 @@ namespace Integrador_Com_CRM.Formularios
                 ChBox_OSEnviarMensCancel = FrmConfigUC.ChBox_OSEnviarMensCancel,
                 HoraBoletoCobDiaria = FrmConfigUC.HoraBoletoCobDiaria,
                 DataBoletoSelect = FrmConfigUC.DataBoletoSelect,
-                ChBox_BoletoEnviarPDFa = FrmConfigUC.ChBox_BoletoEnviarPDFa,
+                ChBox_BoletoEnviarPDFPorWhats = FrmConfigUC.ChBox_BoletoEnviarPDFa,
                 ChBox_BoletoEnviarMensCancelamento = FrmConfigUC.ChBox_BoletoEnviarMensCancelamento,
                 ChBox_BoletoMensFimdeSemana = FrmConfigUC.ChBox_BoletoMensFimdeSemana,
             };
@@ -191,7 +196,7 @@ namespace Integrador_Com_CRM.Formularios
 
                 MetodosGerais.RegistrarLog("BOLETO", $"\n----------------> Boletos consultados manualmente <-----------------\n");
 
-                bool deucerto = await VerificarBoletos(FrmConfigUC);
+                bool deucerto = await VerificarBoletos(FrmConfigUC, InstanciarConfigEmail(Frm_ConfigEmail));
                 if (deucerto) MessageBox.Show("Consulta de Boletos Efetuada com sucesso", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
@@ -207,6 +212,17 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
+
+        private ConfigEmail InstanciarConfigEmail(FrmConfigEmail Frm)
+        {
+            return new ConfigEmail()
+            {
+                SMTP_Server = Frm.Server,
+                SMTP_Port = Convert.ToInt32(Frm.Port),
+                Email = Frm.Email,
+                Senha = Frm.Senha
+            };
+        }
 
 
         private async void Btn_BuscarOS_Click(object sender, EventArgs e)
