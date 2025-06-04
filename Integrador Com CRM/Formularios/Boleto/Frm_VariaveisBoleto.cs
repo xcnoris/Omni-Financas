@@ -13,23 +13,33 @@ namespace CDI_OminiService.Formularios.Boleto
 {
     public partial class Frm_VariaveisBoleto : Form
     {
-        private TextBox TxtMensagem;
-        public Frm_VariaveisBoleto(TextBox txtMensagem)
+        private Frm_CadastroAcoesBoletos frmCadastroAcoes;
+        private Frm_CadastroSituacoes frmCadastroSituacoes;
+
+        public Frm_VariaveisBoleto(Frm_CadastroAcoesBoletos frm_CadastroAcoes)
         {
             InitializeComponent();
 
-            TxtMensagem = txtMensagem;
+            frmCadastroAcoes = frm_CadastroAcoes;
+        }
+
+        public Frm_VariaveisBoleto(Frm_CadastroSituacoes frm_CadastroSituacoes)
+        {
+            InitializeComponent();
+
+            frmCadastroSituacoes = frm_CadastroSituacoes;
         }
 
 
         public void InserirTextoNaPosicaoDoCursor(Button btn)
         {
-            if (btn != null)
+            if(frmCadastroAcoes is null)
             {
-                int pos = TxtMensagem.SelectionStart;
-                TxtMensagem.Text = TxtMensagem.Text.Insert(pos, btn.Text);
-                TxtMensagem.SelectionStart = pos + btn.Text.Length;
-                TxtMensagem.Focus(); // Retorna o foco ao TextBox
+                frmCadastroSituacoes.InserirTextoNaPosicaoDoCursor(btn.Text);
+            }
+            if (frmCadastroSituacoes is null)
+            {
+                frmCadastroAcoes.InserirTextoNaPosicaoDoCursor(btn.Text);
             }
         }
 

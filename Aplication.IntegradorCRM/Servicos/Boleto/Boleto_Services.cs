@@ -76,7 +76,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using DAL<BoletoAcoesModel> dalSitBoleto = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
             BoletoAcoesModel? AcaoBoleto = await dalSitBoleto.BuscarPorAsync(x => x.Dias_Cobrancas == DiasEmAtraso);
 
-            return InstanciarModeloRequest(AcaoBoleto.Mensagem_Atualizacao, retornoBoleto);
+            return InstanciarModeloRequest(AcaoBoleto.MensagemAtualizacaoWhats, retornoBoleto);
            
         }
 

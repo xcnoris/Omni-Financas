@@ -60,6 +60,8 @@
             Btn_BuscarMAC = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Txt_Token = new TextBox();
             label1 = new Label();
+            ChBox_BoletoEnviarPDFPorEmail = new CheckBox();
+            label2 = new Label();
             groupBox1.SuspendLayout();
             groupBox7.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -103,7 +105,7 @@
             groupBox7.Size = new Size(486, 87);
             groupBox7.TabIndex = 4;
             groupBox7.TabStop = false;
-            groupBox7.Text = "Config Select";
+            groupBox7.Text = "Parâmetros";
             // 
             // ChBox_OSMensCancel
             // 
@@ -206,6 +208,8 @@
             // groupBox9
             // 
             groupBox9.BackColor = Color.Transparent;
+            groupBox9.Controls.Add(ChBox_BoletoEnviarPDFPorEmail);
+            groupBox9.Controls.Add(label2);
             groupBox9.Controls.Add(ChBox_BoletoEnviarMensCancel);
             groupBox9.Controls.Add(label15);
             groupBox9.Controls.Add(ChBox_BoletoEnviarMensFimdesem);
@@ -214,17 +218,17 @@
             groupBox9.Controls.Add(label9);
             groupBox9.Controls.Add(label10);
             groupBox9.ForeColor = Color.Black;
-            groupBox9.Location = new Point(336, 225);
+            groupBox9.Location = new Point(23, 225);
             groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(437, 78);
+            groupBox9.Size = new Size(275, 143);
             groupBox9.TabIndex = 6;
             groupBox9.TabStop = false;
-            groupBox9.Text = "Config Select";
+            groupBox9.Text = "Parâmetros";
             // 
             // ChBox_BoletoEnviarMensCancel
             // 
             ChBox_BoletoEnviarMensCancel.AutoSize = true;
-            ChBox_BoletoEnviarMensCancel.Location = new Point(366, 28);
+            ChBox_BoletoEnviarMensCancel.Location = new Point(174, 58);
             ChBox_BoletoEnviarMensCancel.Name = "ChBox_BoletoEnviarMensCancel";
             ChBox_BoletoEnviarMensCancel.Size = new Size(15, 14);
             ChBox_BoletoEnviarMensCancel.TabIndex = 22;
@@ -235,7 +239,7 @@
             label15.AutoSize = true;
             label15.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label15.ForeColor = Color.Black;
-            label15.Location = new Point(205, 26);
+            label15.Location = new Point(13, 56);
             label15.Name = "label15";
             label15.Size = new Size(162, 17);
             label15.TabIndex = 21;
@@ -244,7 +248,7 @@
             // ChBox_BoletoEnviarMensFimdesem
             // 
             ChBox_BoletoEnviarMensFimdesem.AutoSize = true;
-            ChBox_BoletoEnviarMensFimdesem.Location = new Point(251, 53);
+            ChBox_BoletoEnviarMensFimdesem.Location = new Point(251, 86);
             ChBox_BoletoEnviarMensFimdesem.Name = "ChBox_BoletoEnviarMensFimdesem";
             ChBox_BoletoEnviarMensFimdesem.Size = new Size(15, 14);
             ChBox_BoletoEnviarMensFimdesem.TabIndex = 20;
@@ -255,7 +259,7 @@
             label11.AutoSize = true;
             label11.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
             label11.ForeColor = Color.Black;
-            label11.Location = new Point(13, 51);
+            label11.Location = new Point(13, 84);
             label11.Name = "label11";
             label11.Size = new Size(232, 17);
             label11.TabIndex = 19;
@@ -307,7 +311,7 @@
             groupBox6.Controls.Add(DTP_BoletoCobDiaria);
             groupBox6.Controls.Add(label3);
             groupBox6.ForeColor = Color.Black;
-            groupBox6.Location = new Point(23, 238);
+            groupBox6.Location = new Point(327, 295);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(312, 55);
             groupBox6.TabIndex = 5;
@@ -343,9 +347,9 @@
             groupBox8.Controls.Add(label8);
             groupBox8.Controls.Add(label4);
             groupBox8.ForeColor = Color.Black;
-            groupBox8.Location = new Point(18, 309);
+            groupBox8.Location = new Point(327, 225);
             groupBox8.Name = "groupBox8";
-            groupBox8.Size = new Size(478, 59);
+            groupBox8.Size = new Size(366, 59);
             groupBox8.TabIndex = 7;
             groupBox8.TabStop = false;
             groupBox8.Text = "Config Select";
@@ -354,7 +358,7 @@
             // 
             DTP_BoletoSelect.CustomFormat = "HH:mm";
             DTP_BoletoSelect.Format = DateTimePickerFormat.Short;
-            DTP_BoletoSelect.Location = new Point(370, 22);
+            DTP_BoletoSelect.Location = new Point(250, 24);
             DTP_BoletoSelect.Name = "DTP_BoletoSelect";
             DTP_BoletoSelect.Size = new Size(95, 25);
             DTP_BoletoSelect.TabIndex = 6;
@@ -367,9 +371,9 @@
             label8.ForeColor = Color.Black;
             label8.Location = new Point(5, 27);
             label8.Name = "label8";
-            label8.Size = new Size(359, 17);
+            label8.Size = new Size(239, 17);
             label8.TabIndex = 8;
-            label8.Text = "Buscar Boletos registradas no banco de dados a partir de:";
+            label8.Text = "Buscar Boletos registrados a partir de:";
             // 
             // label4
             // 
@@ -428,6 +432,26 @@
             label1.Size = new Size(47, 17);
             label1.TabIndex = 1;
             label1.Text = "Token:";
+            // 
+            // ChBox_BoletoEnviarPDFPorEmail
+            // 
+            ChBox_BoletoEnviarPDFPorEmail.AutoSize = true;
+            ChBox_BoletoEnviarPDFPorEmail.Location = new Point(251, 110);
+            ChBox_BoletoEnviarPDFPorEmail.Name = "ChBox_BoletoEnviarPDFPorEmail";
+            ChBox_BoletoEnviarPDFPorEmail.Size = new Size(15, 14);
+            ChBox_BoletoEnviarPDFPorEmail.TabIndex = 24;
+            ChBox_BoletoEnviarPDFPorEmail.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            label2.ForeColor = Color.Black;
+            label2.Location = new Point(13, 108);
+            label2.Name = "label2";
+            label2.Size = new Size(231, 17);
+            label2.TabIndex = 23;
+            label2.Text = "Enviar PDF por email ao Criar Boleto:";
             // 
             // Frm_ConfigUC
             // 
@@ -489,5 +513,7 @@
         private CheckBox ChBox_BoletoEnviarMensCancel;
         private Label label15;
         internal DateTimePicker DTP_OSSelect;
+        private CheckBox ChBox_BoletoEnviarPDFPorEmail;
+        private Label label2;
     }
 }

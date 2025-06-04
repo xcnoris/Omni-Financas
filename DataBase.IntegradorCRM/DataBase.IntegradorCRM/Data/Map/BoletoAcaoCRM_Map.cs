@@ -11,10 +11,10 @@ namespace DataBase.IntegradorCRM.Data.Map
             bld.HasKey(x => x.Id);
             bld.Property(x => x.Dias_Cobrancas);
             bld.Property(x => x.Dias_Cobrancas).IsRequired().HasMaxLength(300);
-            bld.Property(x => x.Mensagem_Atualizacao).IsRequired().HasMaxLength(1000);
-            bld.Property(x => x.EnviarPDF);
+            bld.Property(x => x.MensagemAtualizacaoWhats).IsRequired().HasMaxLength(1000);
+            bld.Property(x => x.EnviarPDFPorWhats);
             bld.Property(x => x.Data_Criacao).IsRequired();
-
+            bld.Property(x => x.EnviarPDFPorEmail).IsRequired();
         }
     }
 }

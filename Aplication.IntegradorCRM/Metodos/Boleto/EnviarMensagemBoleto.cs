@@ -1,7 +1,6 @@
 ﻿using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;

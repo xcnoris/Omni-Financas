@@ -185,6 +185,7 @@ namespace Integrador_Com_CRM.Formularios
                 ChBox_BoletoEnviarPDFPorWhats = FrmConfigUC.ChBox_BoletoEnviarPDFa,
                 ChBox_BoletoEnviarMensCancelamento = FrmConfigUC.ChBox_BoletoEnviarMensCancelamento,
                 ChBox_BoletoMensFimdeSemana = FrmConfigUC.ChBox_BoletoMensFimdeSemana,
+                ChBox_BoletoEnviarPDFPorEmail = FrmConfigUC.ChBoxBoletoEnviarPDFPorEmail,
             };
         }
 

@@ -76,6 +76,14 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
+        internal bool ChBoxBoletoEnviarPDFPorEmail
+        {
+            get
+            {
+                return ChBox_BoletoEnviarPDFPorEmail.Checked;
+            }
+        }
+
 
         public Frm_ConfigUC()
         {
@@ -96,6 +104,7 @@ namespace Integrador_Com_CRM.Formularios
               $"DTP_BoletoSelect|{DTP_BoletoSelect.Value.ToString("dd/MM/yyyy")}\n" +
               $"ChBox_BoletoEnviarPDF|{ChBox_BoletoEnviarPDF.Checked}\n" +
               $"ChBox_BoletoMensCanc|{ChBox_BoletoEnviarMensCancel.Checked}\n" +
+              $"ChBox_BoletoEnviarPDFPorEmail|{ChBox_BoletoEnviarPDFPorEmail.Checked}\n" +
               $"ChBox_BoletoMensFds|{ChBox_BoletoEnviarMensFimdesem.Checked}";
 
 
@@ -156,6 +165,10 @@ namespace Integrador_Com_CRM.Formularios
                                 ChBox_BoletoEnviarPDF.Checked = Convert.ToBoolean(valor);
                                 break;
 
+                            case "ChBox_BoletoEnviarPDFPorEmail":
+                                ChBox_BoletoEnviarPDFPorEmail.Checked = Convert.ToBoolean(valor);
+                                break;
+
                             case "ChBox_BoletoMensCanc":
                                 ChBox_BoletoEnviarMensCancel.Checked = Convert.ToBoolean(valor);
                                 break;
@@ -188,6 +201,7 @@ namespace Integrador_Com_CRM.Formularios
                               $"DTP_BoletoSelect|{DateTime.Now.ToString("dd/MM/yyyy")}\n" +
                               $"ChBox_BoletoEnviarPDF|False\n" +
                               $"ChBox_BoletoMensCanc|False\n" +
+                              $"ChBox_BoletoEnviarPDFPorEmail|False\n" +
                               $"ChBox_BoletoMensFds|False";
 
             File.WriteAllText(caminhoArquivo, conteudo);

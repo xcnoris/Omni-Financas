@@ -1,4 +1,5 @@
-﻿using CDI_OminiService.Formularios.Boleto;
+﻿using CDI_OminiService.Formularios;
+using CDI_OminiService.Formularios.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
@@ -12,6 +13,10 @@ namespace Integrador_Com_CRM.Formularios
         private Frm_VariaveisBoleto FrmVariaveis;
         private readonly DAL<BoletoAcoesModel> _dalAcoesBoletos;
         private Frm_BoletoAcoesCRM_UC FrmBoletoAcoes;
+
+        //User Control
+        private readonly FrmMensEmailUC frmMensEmailUC;
+        private readonly FrmMensWhatsUC frmMensWhatslUC;
         public int DiaCobranca { get; set; }
 
         public Frm_CadastroAcoesBoletos(bool Criacao, BoletoAcoesModel BoletoAacao, string SalvarAtualizar, Frm_BoletoAcoesCRM_UC FrmBoletoAcoesCRMUC)
@@ -21,10 +26,15 @@ namespace Integrador_Com_CRM.Formularios
             _dalAcoesBoletos = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
             FrmBoletoAcoes = FrmBoletoAcoesCRMUC;
 
+            frmMensEmailUC = new FrmMensEmailUC();
+            frmMensWhatslUC = new FrmMensWhatsUC();
+
             Btn_Salvar.Text = SalvarAtualizar;
 
             if (!Criacao)
                 CarregarCampos(BoletoAacao);
+
+            AdicionarUserControls();
         }
 
 
@@ -42,9 +52,11 @@ namespace Integrador_Com_CRM.Formularios
         {
             Txt_Id.Text = BoletoAcoes.Id.ToString();
             Txt_DiaCobranca.Text = BoletoAcoes.Dias_Cobrancas.ToString();
-            Txt_Mensagem.Text = BoletoAcoes.Mensagem_Atualizacao;
-            Check_EnviarPDF.Checked = BoletoAcoes.EnviarPDF;
+            Check_EnviarPDFPorWhats.Checked = BoletoAcoes.EnviarPDFPorWhats;
             DiaCobranca = BoletoAcoes.Dias_Cobrancas;
+
+            frmMensEmailUC.TxtMensEmail = BoletoAcoes.MensagemAtualizacaoWhats.ToString();
+            frmMensWhatslUC.TxtMensWhats = BoletoAcoes.MensagemAtualizacaoWhats.ToString();
         }
         private async Task SalvarAtualizar()
         {
@@ -76,8 +88,10 @@ namespace Integrador_Com_CRM.Formularios
                     }
                 }
 
-                bool enviarPDF = Check_EnviarPDF.Checked;
-                string Mensagem = Txt_Mensagem.Text;
+                bool enviarPDFWhats = Check_EnviarPDFPorWhats.Checked;
+                bool enviarPDFEmail = Check_EnviarPDFPorEmail.Checked;
+                string MensagemWhats = frmMensWhatslUC.TxtMensWhats;
+                string MensagemEmail = frmMensEmailUC.TxtMensEmail;
 
 
                 // Criar um objeto para representar o registro da linha
@@ -85,8 +99,10 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     Id = Id ?? 0,
                     Dias_Cobrancas = IdCategoria,
-                    EnviarPDF = enviarPDF,
-                    Mensagem_Atualizacao = Mensagem
+                    EnviarPDFPorWhats = enviarPDFWhats,
+                    EnviarPDFPorEmail = enviarPDFWhats,
+                    MensagemAtualizacaoWhats = MensagemWhats,
+                    MensagemAtualizacaoEmail = MensagemEmail,
                 };
 
                 if (Id != null && Id > 0)
@@ -98,8 +114,8 @@ namespace Integrador_Com_CRM.Formularios
                     {
                         // Atualiza os dados do registro existente
                         registroExistente.Dias_Cobrancas = IdCategoria;
-                        registroExistente.EnviarPDF = enviarPDF;
-                        registroExistente.Mensagem_Atualizacao = Mensagem;
+                        registroExistente.EnviarPDFPorWhats = enviarPDFWhats;
+                        registroExistente.MensagemAtualizacaoWhats = MensagemWhats;
 
                         await _dalAcoesBoletos.AtualizarAsync(registroExistente);
                     }
@@ -121,7 +137,33 @@ namespace Integrador_Com_CRM.Formularios
         }
 
 
+        private void AdicionarUserControls()
+        {
+            frmMensWhatslUC.Dock = DockStyle.Fill;
+            frmMensEmailUC.Dock = DockStyle.Fill;
+      
 
+
+            TabPage MensWhats = new TabPage
+            {
+                Name = "Whatsapp",
+                Text = "Whatsapp"
+            };
+            MensWhats.Controls.Add(frmMensWhatslUC);
+
+            TabPage MensEmail = new TabPage
+            {
+                Name = "Email",
+                Text = "Email"
+            };
+            MensEmail.Controls.Add(frmMensEmailUC);
+
+         
+
+            TBC_Dados.TabPages.Add(MensWhats);
+            TBC_Dados.TabPages.Add(MensEmail);
+         
+        }
 
 
         private async Task<bool> VerificaValoresRepetidos()
@@ -162,9 +204,40 @@ namespace Integrador_Com_CRM.Formularios
             if (FrmVariaveis is not null)
                 FrmVariaveis.Close();
 
-            FrmVariaveis = new Frm_VariaveisBoleto(Txt_Mensagem);
+            FrmVariaveis = new Frm_VariaveisBoleto(this);
             FrmVariaveis.Show();
         }
+
+
+
+        public void InserirTextoNaPosicaoDoCursor(string text)
+        {
+            if (text is null) return;
+
+            // Pegando a aba selecionada no TabControl
+            var abaSelecionada = TBC_Dados.SelectedTab;
+
+            if (abaSelecionada == null || abaSelecionada.Controls.Count == 0)
+                return;
+
+            // Pegando o primeiro controle da aba (esperamos que seja o UserControl)
+            var controle = abaSelecionada.Controls[0];
+
+            // Verifica o tipo do controle e trata conforme necessário
+            if (controle is FrmMensEmailUC emailUC)
+            {
+                frmMensEmailUC.InserirTextoNaPosicaoDoCursor(text);
+            }
+            else if (controle is FrmMensWhatsUC whatsUC)
+            {
+                frmMensWhatslUC.InserirTextoNaPosicaoDoCursor(text);
+            }
+        }
+
+
+       
+
+
 
         private void Frm_CadastroAcoesBoletos_FormClosed(object sender, FormClosedEventArgs e)
         {

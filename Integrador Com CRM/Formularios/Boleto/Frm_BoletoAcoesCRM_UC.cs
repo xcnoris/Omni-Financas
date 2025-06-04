@@ -121,10 +121,10 @@ namespace Integrador_Com_CRM.Formularios
 
                 // Adicionar a linha ao DataGridView
                 DGV_Dados.Rows.Add(
-                    BoletoAcao.EnviarPDF,
+                    BoletoAcao.EnviarPDFPorWhats,
                     BoletoAcao.Id,
                     BoletoAcao.Dias_Cobrancas,
-                    BoletoAcao.Mensagem_Atualizacao
+                    BoletoAcao.MensagemAtualizacaoWhats
                 );
             }
             catch (ValidationException ex)
@@ -194,8 +194,8 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     Id = id ?? 0,  // Se o ID for nulo, inicialize com 0 para um novo registro
                     Dias_Cobrancas = diasCobrancas,
-                    Mensagem_Atualizacao = Mensagem,
-                    EnviarPDF = EnviarPDF,
+                    MensagemAtualizacaoWhats = Mensagem,
+                    EnviarPDFPorWhats = EnviarPDF,
                 };
 
 

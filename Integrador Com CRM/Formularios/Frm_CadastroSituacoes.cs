@@ -46,6 +46,17 @@ namespace Integrador_Com_CRM.Formularios
             this.Show();
         }
 
+        public void InserirTextoNaPosicaoDoCursor(string text)
+        {
+            if (Text != null || Text is not "")
+            {
+                int pos = Txt_Mensagem.SelectionStart;
+                Txt_Mensagem.Text = Txt_Mensagem.Text.Insert(pos, Text);
+                Txt_Mensagem.SelectionStart = pos + Text.Length;
+                Txt_Mensagem.Focus(); // Retorna o foco ao TextBox
+            }
+        }
+
         private async Task CarregarCamposAsync(Situacao_OSBoleto situacaoOSBoleto, Situacao_Campos tiposCamposSituacao)
         {
             int idFiltro = (int)tiposCamposSituacao; // Converte o Enum para inteiro
@@ -178,7 +189,7 @@ namespace Integrador_Com_CRM.Formularios
                 if (FrmVariaveisBoleto is not null)
                     FrmVariaveisBoleto.Close();
 
-                FrmVariaveisBoleto = new Frm_VariaveisBoleto(Txt_Mensagem);
+                FrmVariaveisBoleto = new Frm_VariaveisBoleto(this);
                 FrmVariaveisBoleto.Show();
             }
             else if (TipoSituacao is Situacao_OSBoleto.OS)
