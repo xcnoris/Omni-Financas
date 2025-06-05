@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CDI_OminiService.Formularios.ACoesSituacoes;
+using Integrador_Com_CRM.Formularios;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Integrador_Com_CRM.Formularios;
 
 namespace CDI_OminiService.Formularios.Boleto
 {
@@ -15,12 +16,20 @@ namespace CDI_OminiService.Formularios.Boleto
     {
         private Frm_CadastroAcoesBoletos frmCadastroAcoes;
         private Frm_CadastroSituacoes frmCadastroSituacoes;
+        private FrmCadSituacoesBoleto frmCadSituacoesBoleto;
 
         public Frm_VariaveisBoleto(Frm_CadastroAcoesBoletos frm_CadastroAcoes)
         {
             InitializeComponent();
 
             frmCadastroAcoes = frm_CadastroAcoes;
+        }
+
+        public Frm_VariaveisBoleto(FrmCadSituacoesBoleto frm_CadastroSituacoesBoleto)
+        {
+            InitializeComponent();
+
+            frmCadSituacoesBoleto = frm_CadastroSituacoesBoleto;
         }
 
         public Frm_VariaveisBoleto(Frm_CadastroSituacoes frm_CadastroSituacoes)
@@ -33,11 +42,15 @@ namespace CDI_OminiService.Formularios.Boleto
 
         public void InserirTextoNaPosicaoDoCursor(Button btn)
         {
-            if(frmCadastroAcoes is null)
+            if(frmCadastroAcoes is null && frmCadastroSituacoes is null)
+            {
+                frmCadSituacoesBoleto.InserirTextoNaPosicaoDoCursor(btn.Text);
+            }
+            else if(frmCadSituacoesBoleto is null && frmCadastroAcoes is null)
             {
                 frmCadastroSituacoes.InserirTextoNaPosicaoDoCursor(btn.Text);
             }
-            if (frmCadastroSituacoes is null)
+            if (frmCadSituacoesBoleto is null && frmCadastroSituacoes is null)
             {
                 frmCadastroAcoes.InserirTextoNaPosicaoDoCursor(btn.Text);
             }

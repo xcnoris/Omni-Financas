@@ -33,13 +33,14 @@
             // 
             // Txt_MensEmail
             // 
-            Txt_MensEmail.Location = new Point(-3, 0);
+            Txt_MensEmail.Location = new Point(0, 0);
             Txt_MensEmail.MaxLength = 3000;
             Txt_MensEmail.Multiline = true;
             Txt_MensEmail.Name = "Txt_MensEmail";
             Txt_MensEmail.ScrollBars = ScrollBars.Vertical;
-            Txt_MensEmail.Size = new Size(461, 180);
+            Txt_MensEmail.Size = new Size(810, 298);
             Txt_MensEmail.TabIndex = 5;
+            Txt_MensEmail.TextChanged += Txt_MensEmail_TextChanged;
             // 
             // FrmMensEmailUC
             // 
@@ -47,7 +48,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(Txt_MensEmail);
             Name = "FrmMensEmailUC";
-            Size = new Size(461, 180);
+            Size = new Size(810, 298);
             ResumeLayout(false);
             PerformLayout();
         }

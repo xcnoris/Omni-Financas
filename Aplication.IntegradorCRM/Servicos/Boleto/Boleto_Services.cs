@@ -67,8 +67,22 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
             AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
 
-            return InstanciarModeloRequest(AcoesOS.Mensagem,retornoBoleto);
+            return InstanciarModeloRequest(AcoesOS.MensagemAtualizacaoWhats,retornoBoleto);
           
+        }
+
+        public static async Task<EmailModel> InstanciarAcaoRequesEmailtSitucaoBoleto(RetornoBoleto retornoBoleto, Situacao_Boleto SitBoleto)
+        {
+            using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
+            AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
+            EmailModel Email = new EmailModel()
+            {
+                mensagem = AcoesOS.MensagemAtualizacaoEmail,
+                mensagemEhHtml = AcoesOS.MensagemEmailEmHTML
+            };
+
+            return Email;
+
         }
 
         public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestBoleto(RetornoBoleto retornoBoleto, int DiasEmAtraso)

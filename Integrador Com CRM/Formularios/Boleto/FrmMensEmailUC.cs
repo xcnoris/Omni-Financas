@@ -28,7 +28,7 @@ namespace CDI_OminiService.Formularios.Boleto
 
         public void InserirTextoNaPosicaoDoCursor(string Text)
         {
-            if (Text !=  null || Text is not "")
+            if (Text != null || Text is not "")
             {
                 int pos = Txt_MensEmail.SelectionStart;
                 Txt_MensEmail.Text = Txt_MensEmail.Text.Insert(pos, Text);
@@ -40,6 +40,11 @@ namespace CDI_OminiService.Formularios.Boleto
         public FrmMensEmailUC()
         {
             InitializeComponent();
+        }
+
+        private void Txt_MensEmail_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

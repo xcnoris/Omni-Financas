@@ -1,4 +1,5 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using CDI_OminiService.Formularios.ACoesSituacoes;
+using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models.Enuns;
@@ -11,6 +12,7 @@ namespace Integrador_Com_CRM.Formularios
         private DAL<AcaoSituacao_OS> dalOS;
         List<AcaoSituacao_Boleto> AcoesSitBoleto;
         List<AcaoSituacao_OS> AcoesSitOS;
+        private List<AcaoSituacao_Boleto?> FrmCadSitBoletoList = new List<AcaoSituacao_Boleto?>();
 
         internal string BoletoQuitado
         {
@@ -73,10 +75,10 @@ namespace Integrador_Com_CRM.Formularios
             dalBoleto = new DAL<AcaoSituacao_Boleto>(context);
             dalOS = new DAL<AcaoSituacao_OS>(context);
 
-            CarregarDadosAPI();
+            CarregarMensagensSituacoes();
         }
 
-        private async Task CarregarDadosAPI()
+        public async Task CarregarMensagensSituacoes()
         {
             try
             {
@@ -111,9 +113,9 @@ namespace Integrador_Com_CRM.Formularios
         private void CarregarTxts(List<AcaoSituacao_Boleto> AcoesSitBoleto, List<AcaoSituacao_OS> AcoesSitOS)
         {
 
-            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)) is not null)
+            if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.AbertoOuABertura)) is not null)
             {
-                Txt_BolCriacao.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Aberto)).Nome;
+                Txt_BolCriacao.Text = AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.AbertoOuABertura)).Nome;
             }
             if (AcoesSitBoleto.FirstOrDefault(x => x.Situacao.Equals(Situacao_Boleto.Quitado)) is not null)
             {
@@ -141,37 +143,83 @@ namespace Integrador_Com_CRM.Formularios
 
         private void Btn_EditarMenCricaoOS_Click(object sender, EventArgs e)
         {
-            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Criacao);
+            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Criacao, this);
             FrmCadastroSit.MostrarFormulario();
-            CarregarDadosAPI();
+            CarregarMensagensSituacoes();
         }
 
         private void Btn_EditarMenCacelarOS_Click(object sender, EventArgs e)
         {
-            Frm_CadastroSituacoes FrmCadastroSit1 = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Cancelamento);
-            FrmCadastroSit1.MostrarFormulario();
-            CarregarDadosAPI();
+            //Frm_CadastroSituacoes FrmCadastroSit1 = new Frm_CadastroSituacoes(Situacao_OSBoleto.OS, Situacao_Campos.OS_Cancelamento);
+            //FrmCadastroSit1.MostrarFormulario();
+            //CarregarDadosAPI();
+
+            //if (!(TemFrmAberto(Situacao_Boleto.Aberto)))
+            //{
+            //    if (Txt_BolCriacao is null)
+            //    {
+                    
+            //    }
+            //    Frm_CadastroAcoesBoletos FrmCadACoes = new Frm_CadastroAcoesBoletos()
+            //}
+
         }
+
+        private bool TemFrmAberto(Situacao_Boleto situacao)
+        {
+            AcaoSituacao_Boleto? frm = FrmCadSitBoletoList.FirstOrDefault(x => x.Situacao.Equals(situacao));
+            if (frm is null)
+            {
+                return false;
+            }
+            return true;
+        }  
+
+
 
         private void botaoArredond2_Click(object sender, EventArgs e)
         {
-            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Criacao);
-            FrmCadastroSit.MostrarFormulario();
-            CarregarDadosAPI();
+            FrmCadSituacoesBoleto FrmCadSitBOl;
+            if (Txt_BolCriacao.Text == "")
+            {
+                FrmCadSitBOl = new FrmCadSituacoesBoleto(true, new AcaoSituacao_Boleto() { Situacao = Situacao_Boleto.AbertoOuABertura },"Salvar", this);
+            }
+            else
+            {
+                FrmCadSitBOl = new FrmCadSituacoesBoleto(false, new AcaoSituacao_Boleto() { Situacao = Situacao_Boleto.AbertoOuABertura }, "Atualizar", this);
+            }
+            FrmCadSitBOl.Show();
+            //CarregarDadosAPI();
         }
 
         private void botaoArredond1_Click(object sender, EventArgs e)
         {
-            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Quitado);
-            FrmCadastroSit.MostrarFormulario();
-            CarregarDadosAPI();
+            FrmCadSituacoesBoleto FrmCadSitBOl;
+            if (Txt_BolCriacao.Text == "")
+            {
+                FrmCadSitBOl = new FrmCadSituacoesBoleto(true, new AcaoSituacao_Boleto() { Situacao = Situacao_Boleto.Quitado }, "Salvar", this);
+            }
+            else
+            {
+                FrmCadSitBOl = new FrmCadSituacoesBoleto(false, new AcaoSituacao_Boleto() { Situacao = Situacao_Boleto.Quitado }, "Atualizar", this);
+            }
+            FrmCadSitBOl.Show();
+            //CarregarDadosAPI();
         }
 
         private void botaoArredond3_Click(object sender, EventArgs e)
         {
-            Frm_CadastroSituacoes FrmCadastroSit = new Frm_CadastroSituacoes(Situacao_OSBoleto.Boleto, Situacao_Campos.Boleto_Cancelado);
-            FrmCadastroSit.MostrarFormulario();
-            CarregarDadosAPI();
+            FrmCadSituacoesBoleto FrmCadSitBOl;
+            if (Txt_BolCriacao.Text == "")
+            {
+                FrmCadSitBOl = new FrmCadSituacoesBoleto(true, new AcaoSituacao_Boleto() { Situacao = Situacao_Boleto.Cancelada_Ou_Estornado }, "Salvar", this);
+            }
+            else
+            {
+                FrmCadSitBOl = new FrmCadSituacoesBoleto(false, new AcaoSituacao_Boleto() { Situacao = Situacao_Boleto.Cancelada_Ou_Estornado }, "Atualizar", this);
+            }
+            FrmCadSitBOl.Show();
+            //CarregarDadosAPI();
         }
 
         private void Btn_Editar1_MouseEnter(object sender, EventArgs e)

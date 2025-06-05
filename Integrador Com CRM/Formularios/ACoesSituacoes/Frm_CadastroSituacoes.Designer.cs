@@ -56,7 +56,7 @@
             Txt_Nome.Location = new Point(84, 53);
             Txt_Nome.MaxLength = 10;
             Txt_Nome.Name = "Txt_Nome";
-            Txt_Nome.Size = new Size(114, 23);
+            Txt_Nome.Size = new Size(149, 23);
             Txt_Nome.TabIndex = 1;
             // 
             // label1
@@ -77,7 +77,7 @@
             Btn_Salvar.Cursor = Cursors.Hand;
             Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Salvar.ForeColor = Color.White;
-            Btn_Salvar.Location = new Point(129, 254);
+            Btn_Salvar.Location = new Point(317, 440);
             Btn_Salvar.Name = "Btn_Salvar";
             Btn_Salvar.RaioCanto = 20;
             Btn_Salvar.Size = new Size(102, 23);
@@ -94,7 +94,7 @@
             Btn_Remover.Cursor = Cursors.Hand;
             Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Remover.ForeColor = Color.White;
-            Btn_Remover.Location = new Point(237, 254);
+            Btn_Remover.Location = new Point(425, 440);
             Btn_Remover.Name = "Btn_Remover";
             Btn_Remover.RaioCanto = 20;
             Btn_Remover.Size = new Size(102, 23);
@@ -107,11 +107,12 @@
             // 
             // Txt_Mensagem
             // 
-            Txt_Mensagem.Location = new Point(35, 105);
+            Txt_Mensagem.BackColor = Color.WhiteSmoke;
+            Txt_Mensagem.Location = new Point(12, 105);
             Txt_Mensagem.MaxLength = 3000;
             Txt_Mensagem.Multiline = true;
             Txt_Mensagem.Name = "Txt_Mensagem";
-            Txt_Mensagem.Size = new Size(394, 128);
+            Txt_Mensagem.Size = new Size(810, 314);
             Txt_Mensagem.TabIndex = 2;
             // 
             // label5
@@ -144,7 +145,7 @@
             Btn_Variaveis.Cursor = Cursors.Hand;
             Btn_Variaveis.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_Variaveis.ForeColor = SystemColors.Control;
-            Btn_Variaveis.Location = new Point(294, 49);
+            Btn_Variaveis.Location = new Point(687, 56);
             Btn_Variaveis.Name = "Btn_Variaveis";
             Btn_Variaveis.RaioCanto = 20;
             Btn_Variaveis.Size = new Size(135, 27);
@@ -160,8 +161,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
-            BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(461, 298);
+            ClientSize = new Size(834, 487);
             Controls.Add(Btn_Variaveis);
             Controls.Add(Txt_Id);
             Controls.Add(Txt_Nome);
@@ -174,9 +174,9 @@
             DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            MaximumSize = new Size(477, 337);
+            MaximumSize = new Size(850, 526);
             MinimizeBox = false;
-            MinimumSize = new Size(477, 337);
+            MinimumSize = new Size(850, 526);
             Name = "Frm_CadastroSituacoes";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Casdatro Situacões";

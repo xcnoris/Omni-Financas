@@ -11,7 +11,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
     {
 
 
-        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel, bool EnviarPDFBoletoPorWhats, ConfigEmail configEmail, bool EnviarPDFBoletoPorEmail)
+        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel, bool EnviarPDFBoletoPorWhats, ConfigEmail configEmail, bool EnviarPDFBoletoPorEmail, EmailModel emailModel)
         {
             // Validar entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || boletoInTabRel == null)
@@ -34,15 +34,9 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                 await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel);
                 // Verifica se esta marcado para enviar o PDF do boleto ao criar a oportunidade no CRM
 
-                EmailModel Email = new EmailModel()
-                {
-                    destinatario = boletoInTabRel.Email_Entidade,
-                    assunto = "Boleto",
-                    mensagem = request.text,
-                    mensagemEhHtml = false
-                };
+               
 
-                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, configEmail, Email);
+                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, configEmail, emailModel);
                 return true;
                 
             }

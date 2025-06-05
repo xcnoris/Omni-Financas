@@ -9,6 +9,7 @@
 
         public bool EnviarPDFPorWhats{ get; set; }
         public bool EnviarPDFPorEmail { get; set; }
+        public bool MensagemEmailEmHTML { get; set; }
         public DateTime Data_Criacao { get; set; }
     }
 }

@@ -4,8 +4,8 @@ namespace Modelos.IntegradorCRM.Models.Enuns
 {
     public enum Situacao_Boleto
     {
-        [Description("Aberto")]
-        Aberto = 1,
+        [Description("Aberto ou Abertura")]
+        AbertoOuABertura = 1,
 
         [Description("Quitado")]
         Quitado = 2,

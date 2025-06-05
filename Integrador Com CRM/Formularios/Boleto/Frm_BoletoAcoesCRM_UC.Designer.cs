@@ -30,10 +30,12 @@
         {
             components = new System.ComponentModel.Container();
             DGV_Dados = new DataGridView();
-            CheckBox = new DataGridViewCheckBoxColumn();
             label1 = new Label();
             Btn_Salvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Btn_Remover = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            CheckBox = new DataGridViewCheckBoxColumn();
+            ChboxPDFEmail = new DataGridViewCheckBoxColumn();
+            ChboxEmailHTML = new DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).BeginInit();
             SuspendLayout();
             // 
@@ -43,21 +45,13 @@
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGV_Dados.BackgroundColor = SystemColors.ControlLightLight;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DGV_Dados.Columns.AddRange(new DataGridViewColumn[] { CheckBox });
+            DGV_Dados.Columns.AddRange(new DataGridViewColumn[] { CheckBox, ChboxPDFEmail, ChboxEmailHTML });
             DGV_Dados.Location = new Point(21, 61);
             DGV_Dados.Name = "DGV_Dados";
             DGV_Dados.ReadOnly = true;
             DGV_Dados.Size = new Size(790, 292);
             DGV_Dados.TabIndex = 0;
             DGV_Dados.DoubleClick += DGV_Dados_DoubleClick;
-            // 
-            // CheckBox
-            // 
-            CheckBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            CheckBox.HeaderText = "Enviar PDF";
-            CheckBox.Name = "CheckBox";
-            CheckBox.ReadOnly = true;
-            CheckBox.Width = 69;
             // 
             // label1
             // 
@@ -105,6 +99,32 @@
             Btn_Remover.MouseEnter += Btn_Remover_MouseEnter;
             Btn_Remover.MouseLeave += Btn_Remover_MouseLeave;
             // 
+            // CheckBox
+            // 
+            CheckBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            CheckBox.HeaderText = "PDF Por Whats";
+            CheckBox.Name = "CheckBox";
+            CheckBox.ReadOnly = true;
+            CheckBox.Width = 91;
+            // 
+            // ChboxPDFEmail
+            // 
+            ChboxPDFEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ChboxPDFEmail.HeaderText = "PDF Por Email";
+            ChboxPDFEmail.Name = "ChboxPDFEmail";
+            ChboxPDFEmail.ReadOnly = true;
+            ChboxPDFEmail.Resizable = DataGridViewTriState.True;
+            ChboxPDFEmail.Width = 87;
+            // 
+            // ChboxEmailHTML
+            // 
+            ChboxEmailHTML.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ChboxEmailHTML.HeaderText = "Email Em HTML";
+            ChboxEmailHTML.Name = "ChboxEmailHTML";
+            ChboxEmailHTML.ReadOnly = true;
+            ChboxEmailHTML.Resizable = DataGridViewTriState.True;
+            ChboxEmailHTML.Width = 88;
+            // 
             // Frm_BoletoAcoesCRM_UC
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -132,5 +152,7 @@
         private ComponentesPerson.BotaoArredond Btn_Remover;
         private ComponentesPerson.Flecha flecha1;
         private DataGridViewCheckBoxColumn CheckBox;
+        private DataGridViewCheckBoxColumn ChboxPDFEmail;
+        private DataGridViewCheckBoxColumn ChboxEmailHTML;
     }
 }

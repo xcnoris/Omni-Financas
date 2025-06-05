@@ -81,25 +81,42 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                if (DGV_Dados.Columns.Count == 1)
+                if (DGV_Dados.Columns.Count == 3)
                 {
 
                     DGV_Dados.Columns.Add("ID", "ID");
-                    DGV_Dados.Columns["ID"].Width = 30;
+                    DGV_Dados.Columns["ID"].Width = 10;
                     DGV_Dados.Columns["ID"].ReadOnly = true;
 
                     DGV_Dados.Columns.Add("Dia_Cobranca", "Dia Cobrança");
-                    DGV_Dados.Columns["Dia_Cobranca"].Width = 400;
+                    DGV_Dados.Columns["Dia_Cobranca"].Width = 350;
 
-                    DGV_Dados.Columns.Add("Mensagem", "Mensagem Ação");
-                    DGV_Dados.Columns["Mensagem"].Width = 500;
+                    DGV_Dados.Columns.Add("Mensagem", "Mensagem Whats");
+                    DGV_Dados.Columns["Mensagem"].Width = 200;
 
-                    DGV_Dados.Columns["CheckBox"].DisplayIndex = 3;
 
+                    DGV_Dados.Columns.Add("MensagemEmail", "Mensagem Email");
+                    DGV_Dados.Columns["MensagemEmail"].Width = 200;
+
+
+                    DGV_Dados.Columns["CheckBox"].DisplayIndex = 6;
+                    DGV_Dados.Columns["CheckBox"].Width = 50;
+
+                    DGV_Dados.Columns["ChboxPDFEmail"].DisplayIndex = 6;
+                    DGV_Dados.Columns["ChboxPDFEmail"].Width = 50;
+
+                    DGV_Dados.Columns["ChboxEmailHTML"].DisplayIndex = 6;
+                    DGV_Dados.Columns["ChboxEmailHTML"].Width = 50;
+
+                    DGV_Dados.Columns["Mensagem"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    DGV_Dados.Columns["CheckBox"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    DGV_Dados.Columns["ChboxPDFEmail"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    DGV_Dados.Columns["ChboxEmailHTML"].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
 
                     // Impede que a última coluna ocupe todo o espaço
                     DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
 
                 }
             }
@@ -122,9 +139,13 @@ namespace Integrador_Com_CRM.Formularios
                 // Adicionar a linha ao DataGridView
                 DGV_Dados.Rows.Add(
                     BoletoAcao.EnviarPDFPorWhats,
+                    BoletoAcao.EnviarPDFPorEmail,
+                    BoletoAcao.MensagemEmailEmHTML,
                     BoletoAcao.Id,
                     BoletoAcao.Dias_Cobrancas,
-                    BoletoAcao.MensagemAtualizacaoWhats
+                    BoletoAcao.MensagemAtualizacaoWhats,
+                    BoletoAcao.MensagemAtualizacaoEmail
+
                 );
             }
             catch (ValidationException ex)
@@ -186,16 +207,23 @@ namespace Integrador_Com_CRM.Formularios
                 int? id = idValue != null ? Convert.ToInt32(idValue) : (int?)null;
 
                 int diasCobrancas = Convert.ToInt32(selectedRow.Cells["Dia_Cobranca"].Value);
-                string Mensagem = selectedRow.Cells["Mensagem"].Value.ToString();
-                bool EnviarPDF = Convert.ToBoolean(selectedRow.Cells["CheckBox"].Value);
+                string MensagemWhats = selectedRow.Cells["Mensagem"].Value.ToString();
+                string MensagemEmail = selectedRow.Cells["MensagemEmail"].Value.ToString();
+                bool EnviarPDFWhats = Convert.ToBoolean(selectedRow.Cells["CheckBox"].Value);
+                bool EnviarPDFEmail = Convert.ToBoolean(selectedRow.Cells["ChboxPDFEmail"].Value);
+                bool MensagemEmHTML = Convert.ToBoolean(selectedRow.Cells["ChboxEmailHTML"].Value);
 
                 // Criar um objeto para representar o registro da linha
-                var boletoAcao = new BoletoAcoesModel
+                BoletoAcoesModel boletoAcao = new BoletoAcoesModel
                 {
                     Id = id ?? 0,  // Se o ID for nulo, inicialize com 0 para um novo registro
                     Dias_Cobrancas = diasCobrancas,
-                    MensagemAtualizacaoWhats = Mensagem,
-                    EnviarPDFPorWhats = EnviarPDF,
+                    MensagemAtualizacaoWhats = MensagemWhats,
+                    MensagemAtualizacaoEmail = MensagemEmail,
+                    EnviarPDFPorWhats = EnviarPDFWhats,
+                    EnviarPDFPorEmail = EnviarPDFEmail,
+                    MensagemEmailEmHTML = MensagemEmHTML,
+
                 };
 
 

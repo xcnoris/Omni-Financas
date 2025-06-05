@@ -51,11 +51,13 @@ namespace Integrador_Com_CRM.Formularios
         private void CarregarCampos(BoletoAcoesModel? BoletoAcoes)
         {
             Txt_Id.Text = BoletoAcoes.Id.ToString();
-            Txt_DiaCobranca.Text = BoletoAcoes.Dias_Cobrancas.ToString();
+            Txt_Nome.Text = BoletoAcoes.Dias_Cobrancas.ToString();
             Check_EnviarPDFPorWhats.Checked = BoletoAcoes.EnviarPDFPorWhats;
+            Check_EnviarPDFPorEmail.Checked = BoletoAcoes.EnviarPDFPorEmail;
+            Chbox_EmailEmHTML.Checked = BoletoAcoes.MensagemEmailEmHTML;
             DiaCobranca = BoletoAcoes.Dias_Cobrancas;
 
-            frmMensEmailUC.TxtMensEmail = BoletoAcoes.MensagemAtualizacaoWhats.ToString();
+            frmMensEmailUC.TxtMensEmail = BoletoAcoes.MensagemAtualizacaoEmail.ToString();
             frmMensWhatslUC.TxtMensWhats = BoletoAcoes.MensagemAtualizacaoWhats.ToString();
         }
         private async Task SalvarAtualizar()
@@ -73,7 +75,7 @@ namespace Integrador_Com_CRM.Formularios
 
                 int IdCategoria;
 
-                if (string.IsNullOrWhiteSpace(Txt_DiaCobranca.Text) || !int.TryParse(Txt_DiaCobranca.Text, out IdCategoria))
+                if (string.IsNullOrWhiteSpace(Txt_Nome.Text) || !int.TryParse(Txt_Nome.Text, out IdCategoria))
                 {
                     MessageBox.Show("Por favor, informe um codigo de cobrança de categoria válido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return; // Interrompe a execução do método para evitar erros
@@ -83,13 +85,14 @@ namespace Integrador_Com_CRM.Formularios
                 {
                     if (!await VerificaValoresRepetidos())
                     {
-                        MessageBox.Show($"Dia de cobrança {Txt_DiaCobranca.Text} já cadastrado. Escolha outro dia!", $"Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Dia de cobrança {Txt_Nome.Text} já cadastrado. Escolha outro dia!", $"Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
 
                 bool enviarPDFWhats = Check_EnviarPDFPorWhats.Checked;
                 bool enviarPDFEmail = Check_EnviarPDFPorEmail.Checked;
+                bool MensagemEMailHTML = Chbox_EmailEmHTML.Checked;
                 string MensagemWhats = frmMensWhatslUC.TxtMensWhats;
                 string MensagemEmail = frmMensEmailUC.TxtMensEmail;
 
@@ -103,6 +106,7 @@ namespace Integrador_Com_CRM.Formularios
                     EnviarPDFPorEmail = enviarPDFWhats,
                     MensagemAtualizacaoWhats = MensagemWhats,
                     MensagemAtualizacaoEmail = MensagemEmail,
+                    MensagemEmailEmHTML = MensagemEMailHTML
                 };
 
                 if (Id != null && Id > 0)
@@ -115,7 +119,10 @@ namespace Integrador_Com_CRM.Formularios
                         // Atualiza os dados do registro existente
                         registroExistente.Dias_Cobrancas = IdCategoria;
                         registroExistente.EnviarPDFPorWhats = enviarPDFWhats;
+                        registroExistente.EnviarPDFPorEmail =  enviarPDFEmail;
                         registroExistente.MensagemAtualizacaoWhats = MensagemWhats;
+                        registroExistente.MensagemAtualizacaoEmail = MensagemEmail;
+                        registroExistente.MensagemEmailEmHTML = MensagemEMailHTML;
 
                         await _dalAcoesBoletos.AtualizarAsync(registroExistente);
                     }
@@ -170,7 +177,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             try
             {
-                BoletoAcoesModel? BAM = await _dalAcoesBoletos.BuscarPorAsync(x => x.Dias_Cobrancas == Convert.ToInt32(Txt_DiaCobranca.Text));
+                BoletoAcoesModel? BAM = await _dalAcoesBoletos.BuscarPorAsync(x => x.Dias_Cobrancas == Convert.ToInt32(Txt_Nome.Text));
                 if (BAM is null)
                 {
                     return true;

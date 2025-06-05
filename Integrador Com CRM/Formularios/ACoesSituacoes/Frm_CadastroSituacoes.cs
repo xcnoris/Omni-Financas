@@ -17,8 +17,10 @@ namespace Integrador_Com_CRM.Formularios
 
         private readonly DAL<AcaoSituacao_OS> _dalSituacaoOS;
         private readonly DAL<AcaoSituacao_Boleto> _dalSituacaoBoleto;
+        private readonly Frm_AcoesSituacoes FrmSit;
 
-        public Frm_CadastroSituacoes(Situacao_OSBoleto enumSituacao, Situacao_Campos SituacaoCampos)
+
+        public Frm_CadastroSituacoes(Situacao_OSBoleto enumSituacao, Situacao_Campos SituacaoCampos, Frm_AcoesSituacoes FrmAcoesSit)
         {
             InitializeComponent();
 
@@ -27,7 +29,7 @@ namespace Integrador_Com_CRM.Formularios
 
             _dalSituacaoOS = new DAL<AcaoSituacao_OS>(new IntegradorDBContext());
             _dalSituacaoBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
-
+            FrmSit = FrmAcoesSit;
 
             CarregarCamposAsync(enumSituacao, SituacaoCampos);
         }
@@ -74,7 +76,7 @@ namespace Integrador_Com_CRM.Formularios
                     // Atualiza os campos do formulário com os dados encontrados
                     Txt_Id.Text = registroExistente.Id.ToString();
                     Txt_Nome.Text = registroExistente.Nome;
-                    Txt_Mensagem.Text = registroExistente.Mensagem;
+                    Txt_Mensagem.Text = registroExistente.MensagemAtualizacaoWhats;
                 }
             }
             else if (situacaoOSBoleto == Situacao_OSBoleto.OS)
@@ -112,7 +114,7 @@ namespace Integrador_Com_CRM.Formularios
                     {
                         // Atualiza os dados do registro existente
                         registroExistente.Nome = Txt_Nome.Text;
-                        registroExistente.Mensagem = Txt_Mensagem.Text;
+                        registroExistente.MensagemAtualizacaoWhats = Txt_Mensagem.Text;
                         registroExistente.Data_Atualizacao = DateTime.Now;
 
                         await _dalSituacaoBoleto.AtualizarAsync(registroExistente);
@@ -123,7 +125,7 @@ namespace Integrador_Com_CRM.Formularios
                         {
                             Situacao = (Situacao_Boleto)IdSituacao,
                             Nome = Txt_Nome.Text,
-                            Mensagem = Txt_Mensagem.Text,
+                            MensagemAtualizacaoWhats = Txt_Mensagem.Text,
                             Data_Cricao = DateTime.Now,
                         };
                         await _dalSituacaoBoleto.AdicionarAsync(registroExistente);
@@ -159,6 +161,7 @@ namespace Integrador_Com_CRM.Formularios
                         };
                         await _dalSituacaoOS.AdicionarAsync(registroExistente);
                     }
+                    await FrmSit.CarregarMensagensSituacoes();
                     this.Close();
                 }
             }

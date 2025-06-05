@@ -33,12 +33,12 @@
             // 
             // Txt_MensWhats
             // 
-            Txt_MensWhats.Location = new Point(3, 3);
+            Txt_MensWhats.Location = new Point(0, 0);
             Txt_MensWhats.MaxLength = 3000;
             Txt_MensWhats.Multiline = true;
             Txt_MensWhats.Name = "Txt_MensWhats";
             Txt_MensWhats.ScrollBars = ScrollBars.Vertical;
-            Txt_MensWhats.Size = new Size(461, 180);
+            Txt_MensWhats.Size = new Size(810, 298);
             Txt_MensWhats.TabIndex = 4;
             // 
             // FrmMensWhatsUC
@@ -47,7 +47,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(Txt_MensWhats);
             Name = "FrmMensWhatsUC";
-            Size = new Size(461, 180);
+            Size = new Size(810, 298);
             ResumeLayout(false);
             PerformLayout();
         }
