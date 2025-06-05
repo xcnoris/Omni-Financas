@@ -1,4 +1,5 @@
-﻿using Aplication.IntegradorCRM.Servicos.Boleto;
+﻿using Aplication.IntegradorCRM.DTO;
+using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
@@ -11,17 +12,17 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
     {
 
 
-        public static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel, bool EnviarPDFBoletoPorWhats, ConfigEmail configEmail, bool EnviarPDFBoletoPorEmail, EmailModel emailModel)
+        public static async Task<bool> EnviarMensagemCriacao(MensagensEnvios requests, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel, bool EnviarPDFBoletoPorWhats, ConfigEmail configEmail, bool EnviarPDFBoletoPorEmail)
         {
             // Validar entrada
-            if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || boletoInTabRel == null)
-                throw new ArgumentException($"Parâmetros inválidos para CriarOportunidade. Request: {request} | token: {DadosAPI.Token} | boletoInTabRel: {boletoInTabRel}");
+            if (requests == null || string.IsNullOrEmpty(DadosAPI.Token) || boletoInTabRel == null)
+                throw new ArgumentException($"Parâmetros inválidos para CriarOportunidade. Request: {requests} | token: {DadosAPI.Token} | boletoInTabRel: {boletoInTabRel}");
 
             // Fazer a requisição para criar a oportunidade na API
             bool retornoCriaca = false;
             try
             {
-                retornoCriaca = await Boleto_Services.EnviarMensagemCriacao(request, DadosAPI);
+                retornoCriaca = await Boleto_Services.EnviarMensagemCriacao(requests, DadosAPI);
             }
             catch (Exception ex)
             {
@@ -36,7 +37,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 
                
 
-                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, configEmail, emailModel);
+                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, configEmail, requests.ModeloEmail);
                 return true;
                 
             }
@@ -47,28 +48,22 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             return false;
         }
 
-        public static async Task EnviarMensagem(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel BoletoRElacao, bool foiQuitado, bool EnviarPDFBoletoPorWhats, bool EnviarPDFBoletoPorEmail,  string CodigoAPI_EnvioPDF, ConfigEmail configEmail)
+        public static async Task EnviarMensagem(MensagensEnvios request, DadosAPIModels DadosAPI, DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel BoletoRElacao, bool foiQuitado, bool EnviarPDFBoletoPorWhats, bool EnviarPDFBoletoPorEmail,  string CodigoAPI_EnvioPDF, ConfigEmail configEmail)
         {
             // Validar dados de entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || BoletoRElacao == null)
                 throw new ArgumentException($"Parâmetros inválidos para CriarOportunidade. Request: {request} | token: {DadosAPI.Token} | boletoInTabRel: {BoletoRElacao}");
 
-            bool apiResponse = await Boleto_Services.EnviarMensagem(request, DadosAPI, BoletoRElacao.Id_DocumentoReceber.ToString());
+            bool apiResponse = await Boleto_Services.EnviarMensagem(request.ModeloWhatsapp, DadosAPI, BoletoRElacao.Id_DocumentoReceber.ToString());
 
 
             if (apiResponse != false)
             {
                 await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
 
-                EmailModel Email = new EmailModel()
-                {
-                    destinatario = BoletoRElacao.Email_Entidade,
-                    assunto = "Boleto",
-                    mensagem = request.text,
-                    mensagemEhHtml = false
-                };
+            
 
-                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia, configEmail, Email);
+                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia, configEmail, request.ModeloEmail);
                 MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {BoletoRElacao.Situacao} para o documento {BoletoRElacao.Id_DocumentoReceber}");
 
                 return;

@@ -1,14 +1,15 @@
-﻿using DataBase.IntegradorCRM.Data;
+﻿using Aplication.IntegradorCRM.DTO;
+using Aplication.IntegradorCRM.Servicos.OS;
+using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
-using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRM.Models;
+using Modelos.IntegradorCRM.Models.EF;
+using Modelos.IntegradorCRM.Models.Enuns;
 using Modelos.IntegradorCRMRM.Models;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
-using Modelos.IntegradorCRM.Models.Enuns;
-using Aplication.IntegradorCRM.Servicos.OS;
-using System.Net;
 
 namespace Aplication.IntegradorCRM.Servicos.Boleto
 {
@@ -31,14 +32,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
 
         #region Metodos Gerais
-        private static ModeloOportunidadeRequest InstanciarModeloRequest( string mensagem, RetornoBoleto RetornoBoleto)
-        {
-            return new ModeloOportunidadeRequest()
-            {
-                number = $"55{RetornoBoleto.Celular}",
-                text = MensagemComVariaveisBoleto.SubstituirVariaveis(mensagem, RetornoBoleto)
-            };
-        }
+      
 
 
         public async static Task VerificarQuitacao(Situacao_Boleto situacao, RelacaoBoletoModel BoletoRelacao,  DadosAPIModels DadosAPI, bool InTBRelacao, RetornoBoleto retorno, ConfigEmail configEmail)
@@ -62,37 +56,79 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             }
         }
 
-        public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestSitucaoBoleto(RetornoBoleto retornoBoleto, Situacao_Boleto SitBoleto)
+        public static async Task<MensagensEnvios> InstanciarAcaoRequestBoleto(RetornoBoleto retornoBoleto, int DiasEmAtraso)
         {
-            using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
-            AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
-
-            return InstanciarModeloRequest(AcoesOS.MensagemAtualizacaoWhats,retornoBoleto);
-          
-        }
-
-        public static async Task<EmailModel> InstanciarAcaoRequesEmailtSitucaoBoleto(RetornoBoleto retornoBoleto, Situacao_Boleto SitBoleto)
-        {
-            using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
-            AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
-            EmailModel Email = new EmailModel()
-            {
-                mensagem = AcoesOS.MensagemAtualizacaoEmail,
-                mensagemEhHtml = AcoesOS.MensagemEmailEmHTML
-            };
-
-            return Email;
-
-        }
-
-        public static async Task<ModeloOportunidadeRequest> InstanciarAcaoRequestBoleto(RetornoBoleto retornoBoleto, int DiasEmAtraso)
-        {
+            MensagensEnvios mensagemEnvio = new MensagensEnvios();
             using DAL<BoletoAcoesModel> dalSitBoleto = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
             BoletoAcoesModel? AcaoBoleto = await dalSitBoleto.BuscarPorAsync(x => x.Dias_Cobrancas == DiasEmAtraso);
 
-            return InstanciarModeloRequest(AcaoBoleto.MensagemAtualizacaoWhats, retornoBoleto);
-           
+
+            mensagemEnvio.ModeloWhatsapp = InstanciarModeloRequestWhats(AcaoBoleto.MensagemAtualizacaoWhats, retornoBoleto);
+            mensagemEnvio.ModeloEmail = InstanciarModeloRequestEmail(AcaoBoleto, retornoBoleto);
+
+            return mensagemEnvio;
+
+
+
         }
+
+        public static async Task<MensagensEnvios> InstanciarAcaoRequestBoletoSitucao(RetornoBoleto retornoBoleto, Situacao_Boleto SitBoleto)
+        {
+            MensagensEnvios mensagemEnvio = new MensagensEnvios();
+            using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
+            AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
+
+            mensagemEnvio.ModeloWhatsapp =  InstanciarModeloRequestWhats(AcoesOS.MensagemAtualizacaoWhats,retornoBoleto);
+            mensagemEnvio.ModeloEmail =  InstanciarModeloRequestEmailSituacao(AcoesOS, retornoBoleto);
+
+            return mensagemEnvio;
+        }
+        private static ModeloOportunidadeRequest InstanciarModeloRequestWhats(string mensagem, RetornoBoleto RetornoBoleto)
+        {
+            return new ModeloOportunidadeRequest()
+            {
+                number = $"55{RetornoBoleto.Celular}",
+                text = MensagemComVariaveisBoleto.SubstituirVariaveis(mensagem, RetornoBoleto)
+            };
+        }
+
+        private static EmailModel InstanciarModeloRequestEmailSituacao(AcaoSituacao_Boleto AcaoSituacai, RetornoBoleto RetornoBoleto)
+        {
+            return new EmailModel()
+            {
+                destinatario = RetornoBoleto.Email,
+                assunto = "Boleto",
+                mensagem = MensagemComVariaveisBoleto.SubstituirVariaveis(AcaoSituacai.MensagemAtualizacaoEmail, RetornoBoleto),
+                mensagemEhHtml = AcaoSituacai.MensagemEmailEmHTML,
+            };
+        }
+
+        private static EmailModel InstanciarModeloRequestEmail(BoletoAcoesModel AcaoSituacai, RetornoBoleto RetornoBoleto)
+        {
+            return new EmailModel()
+            {
+                destinatario = RetornoBoleto.Email,
+                assunto = "Boleto",
+                mensagem = MensagemComVariaveisBoleto.SubstituirVariaveis(AcaoSituacai.MensagemAtualizacaoEmail, RetornoBoleto),
+                mensagemEhHtml = AcaoSituacai.MensagemEmailEmHTML,
+            };
+        }
+
+        //public static async Task<EmailModel> InstanciarModeloRequestEmail(Situacao_Boleto SitBoleto, RetornoBoleto retornoBoleto)
+        //{
+        //    using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
+        //    AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
+        //    EmailModel Email = new EmailModel()
+        //    {
+        //        mensagem = AcoesOS.MensagemAtualizacaoEmail,
+        //        mensagemEhHtml = AcoesOS.MensagemEmailEmHTML
+        //    };
+
+        //    return Email;
+
+        //}
+
+
 
         internal async static Task VerificarBoletosCriados(RelacaoBoletoModel BoletoRelacao, int diasAtraso, int situacao, int situacaTBRelacao,  DadosAPIModels DadosAPI, List<BoletoAcoesModel> AcoesBoletoList, RetornoBoleto retornoBoleto, Configuracao_Geral ConfigGeral, ConfigEmail configEmail)
         {
@@ -150,10 +186,10 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         #region Metodo API
 
         // Método auxiliar para enviar requisição de criação de oportunidade para a API
-        internal static async Task<bool> EnviarMensagemCriacao(ModeloOportunidadeRequest request, DadosAPIModels DadosAPI)
+        internal static async Task<bool> EnviarMensagemCriacao(MensagensEnvios request, DadosAPIModels DadosAPI)
         {
             string url = $"https://cdi-omni-evolution-api.azvg4h.easypanel.host/message/sendText/{DadosAPI.Instancia}";
-            HttpContent content = MetodosGerais.CriarConteudoJson(request);
+            HttpContent content = MetodosGerais.CriarConteudoJson(request.ModeloWhatsapp);
             string jsonContent = await content.ReadAsStringAsync();
 
             for (int tentativa = 1; tentativa <= 5; tentativa++)
@@ -168,7 +204,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
 
                     if (response.IsSuccessStatusCode)
                     {
-                        MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Mensagem Criação enviada com sucesso! Mensagem: {request.text}");
+                        MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Mensagem Criação enviada com sucesso! Mensagem: {request.ModeloWhatsapp.text}");
                         return true;
                     }
 

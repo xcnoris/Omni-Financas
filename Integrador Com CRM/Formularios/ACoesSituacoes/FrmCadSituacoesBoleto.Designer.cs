@@ -212,6 +212,7 @@
             MinimizeBox = false;
             MinimumSize = new Size(850, 526);
             Name = "FrmCadSituacoesBoleto";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Situações Boleto";
             FormClosed += FrmCadSituacoesBoleto_FormClosed;
             ResumeLayout(false);

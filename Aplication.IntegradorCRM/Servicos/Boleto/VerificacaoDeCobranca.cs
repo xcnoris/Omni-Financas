@@ -1,4 +1,5 @@
-﻿using Aplication.IntegradorCRM.Metodos.Boleto;
+﻿using Aplication.IntegradorCRM.DTO;
+using Aplication.IntegradorCRM.Metodos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
@@ -13,19 +14,19 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         {
             //Busca as configurações de dias de cobranças no DGV no Frm_GeralUC
             BoletoAcoesModel? boletoAcaoBuscado = AcoesBoletoList.FirstOrDefault(x => x.Dias_Cobrancas.Equals(diasAtraso));
-
-            if (boletoAcaoBuscado is null)
+            MensagensEnvios ModeloRequests = await Boleto_Services.InstanciarAcaoRequestBoleto(retornoBoleto, diasAtraso);
+            if (ModeloRequests.ModeloWhatsapp is null || ModeloRequests.ModeloEmail is null)
             {
                 MetodosGerais.RegistrarLog("BOLETO", $"Não existe cobrança nem lembretes para data de vencimento do documento a receber: {boletoRelacao.Id_DocumentoReceber}. Atraso: {diasAtraso}!");
 
                 return;
             }
-            ModeloOportunidadeRequest atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestBoleto(retornoBoleto, diasAtraso);
+            //ModeloOportunidadeRequest atualizacaoRequest = await Boleto_Services.InstanciarAcaoRequestBoleto(retornoBoleto, diasAtraso);
 
-            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, atualizacaoRequest,  DadosAPI, boletoAcaoBuscado, PermitirEnvioFinsDeSemana, configEmail);
+            await VerificarAtraso(DiasAtrasoRelBoleto, diasAtraso, boletoRelacao, ModeloRequests,  DadosAPI, boletoAcaoBuscado, PermitirEnvioFinsDeSemana, configEmail);
         }
 
-        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoModel boletoRelacao, ModeloOportunidadeRequest atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesModel boletoAcaoBuscado, bool PermitirEnvioFinsDeSemana, ConfigEmail configEmail)
+        private async static Task VerificarAtraso(int DiasAtrasoRelBoleto, int diasAtraso, RelacaoBoletoModel boletoRelacao, MensagensEnvios atualizarAcaoRequest, DadosAPIModels DadosAPI, BoletoAcoesModel boletoAcaoBuscado, bool PermitirEnvioFinsDeSemana, ConfigEmail configEmail)
         {
             if (DiasAtrasoRelBoleto != diasAtraso)
             {

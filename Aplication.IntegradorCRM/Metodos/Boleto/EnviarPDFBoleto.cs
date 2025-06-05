@@ -27,16 +27,17 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<bool> ProcessarEnvioPDFBoleto(bool EnviarPDFPorWhats, bool EnviarPDFPorEmail, int idDocumentoReceber, string Token, string destinatario, string dataVencimentoBoleto, string InstanciaEnvoluctionAPI, ConfigEmail configEmail, EmailModel email)
+        public static async Task<bool> ProcessarEnvioPDFBoleto(bool EnviarPDFPorWhats ,bool EnviarPDFPorEmail, int idDocumentoReceber, string Token, string destinatario, string dataVencimentoBoleto, string InstanciaEnvoluctionAPI, ConfigEmail configEmail, EmailModel email)
         {
 
             string Base64Boleto = await GerarBase64DoPDF(idDocumentoReceber, Token, dataVencimentoBoleto);
             if (string.IsNullOrEmpty(Base64Boleto)) return false;
 
             // chama os metodos de envio do PDF
-            if (EnviarPDFPorEmail)
+            if (!(string.IsNullOrWhiteSpace(email.mensagem)))
             {
-                email.pdfBase64 = Base64Boleto;
+                if(EnviarPDFPorEmail)
+                    email.pdfBase64 = Base64Boleto;
                 await EmailService.EnviarEmailAsync(configEmail,  email);
             }
 
