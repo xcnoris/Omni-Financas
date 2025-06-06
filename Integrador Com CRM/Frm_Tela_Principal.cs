@@ -16,7 +16,6 @@ namespace Integrador_Com_CRM
 
         private System.Timers.Timer timer5Min;
         private System.Timers.Timer timerDaily;
-        private System.Timers.Timer timerMonday;
 
         //Declando Variaveis dos Formularios
         private readonly Frm_GeralUC FrmGeralUC;
@@ -31,11 +30,9 @@ namespace Integrador_Com_CRM
 
         ControleOrdemDeServico ControlOS;
         private readonly DAL<DadosAPIModels> _dalDadosAPI;
-        private readonly IntegradorDBContext context;
         ControleBoletos ControlBoleto;
 
-        DAL<OSAcoesModel> dalOSACoes = new DAL<OSAcoesModel>(new IntegradorDBContext());
-        List<OSAcoesModel> modelList;
+   
 
         public Frm_Tela_Principal()
         {
@@ -59,7 +56,6 @@ namespace Integrador_Com_CRM
             FrmAcoesSit = new Frm_AcoesSituacoes();
             frmConfigEmail = new FrmConfigEmail();
 
-            context = new IntegradorDBContext();
 
             ControlOS = new ControleOrdemDeServico();
             ControlBoleto = new ControleBoletos();
@@ -95,7 +91,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
+                        //await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
 
                     }
                     catch (Exception ex)
@@ -112,7 +108,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        await FrmGeralUC.VerificarBoletos(FrmConfigUC, InstanciarConfigEmail(frmConfigEmail));
+                        //await FrmGeralUC.VerificarBoletos(FrmConfigUC, InstanciarConfigEmail(frmConfigEmail));
                     }
                     catch (Exception ex)
                     {

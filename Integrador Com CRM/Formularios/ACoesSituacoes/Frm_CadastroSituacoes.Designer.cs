@@ -39,6 +39,7 @@
             label5 = new Label();
             label2 = new Label();
             Btn_Variaveis = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            botaoArredond1 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // Txt_Id
@@ -156,12 +157,28 @@
             Btn_Variaveis.MouseEnter += Btn_Variaveis_MouseEnter;
             Btn_Variaveis.MouseLeave += Btn_Variaveis_MouseLeave;
             // 
+            // botaoArredond1
+            // 
+            botaoArredond1.BackColor = Color.Teal;
+            botaoArredond1.Cursor = Cursors.Hand;
+            botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond1.ForeColor = SystemColors.Control;
+            botaoArredond1.Location = new Point(663, 15);
+            botaoArredond1.Name = "botaoArredond1";
+            botaoArredond1.RaioCanto = 20;
+            botaoArredond1.Size = new Size(159, 27);
+            botaoArredond1.TabIndex = 42;
+            botaoArredond1.Text = "Modelos Mensagens";
+            botaoArredond1.UseVisualStyleBackColor = false;
+            botaoArredond1.Click += botaoArredond1_Click;
+            // 
             // Frm_CadastroSituacoes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(834, 487);
+            Controls.Add(botaoArredond1);
             Controls.Add(Btn_Variaveis);
             Controls.Add(Txt_Id);
             Controls.Add(Txt_Nome);
@@ -196,5 +213,6 @@
         private Label label5;
         private Label label2;
         private ComponentesPerson.BotaoArredond Btn_Variaveis;
+        private ComponentesPerson.BotaoArredond botaoArredond1;
     }
 }

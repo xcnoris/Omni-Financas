@@ -4,6 +4,9 @@ using Metodos.IntegradorCRM.Metodos;
 using MimeKit;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
+using System;
+using System.Net.Http;
+using System.Net.Http.Json;
 
 public static class EmailService
 {
@@ -12,7 +15,7 @@ public static class EmailService
     //private static readonly string _smtpUser = "augusto@casainfosc.com";
     //private static readonly string _smtpPass = "f14gDiDMda3X";
 
-    public static async Task EnviarEmailAsync(ConfigEmail configEmail, EmailModel emailModel)
+    public static async Task<bool> EnviarEmailAsync(ConfigEmail configEmail, EmailModel emailModel)
     {
         var email = new MimeMessage();
         email.From.Add(MailboxAddress.Parse(configEmail.Email));
@@ -42,17 +45,41 @@ public static class EmailService
 
         try
         {
-            using var smtp = new SmtpClient();
-            await smtp.ConnectAsync(configEmail.SMTP_Server, configEmail.SMTP_Port ?? 587, SecureSocketOptions.SslOnConnect);
-            await smtp.AuthenticateAsync(configEmail.Email, configEmail.Senha);
-            await smtp.SendAsync(email);
-            await smtp.DisconnectAsync(true);
+            for (int tentativa = 1; tentativa <= 5; tentativa++)
+            {
+                try
+                {
+                    using var smtp = new SmtpClient();
+                    await smtp.ConnectAsync(configEmail.SMTP_Server, configEmail.SMTP_Port ?? 587, SecureSocketOptions.SslOnConnect);
+                    await smtp.AuthenticateAsync(configEmail.Email, configEmail.Senha);
+                    await smtp.SendAsync(email);
+                    await smtp.DisconnectAsync(true);
+
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - E-mail enviado com sucesso para: {email.To}");
+                    return true;
+                }
+                catch (SmtpCommandException ex)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Erro SMTP: {ex.Message} (Status: {ex.StatusCode})");
+                }
+                catch (SmtpProtocolException ex)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Erro de protocolo SMTP: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    MetodosGerais.RegistrarLog("BOLETO", $"Tentativa {tentativa} - Exceção geral ao enviar e-mail: {ex.Message}");
+                }
+
+                await Task.Delay(1000 * tentativa); // Backoff exponencial leve: 1s, 2s, ..., 5s
+            }
         }
         catch (Exception ex)
         {
-            // Aqui você pode logar a exceção, exibir no console, salvar no banco, etc.
-            MetodosGerais.RegistrarLog("ERROR", $"Erro ao enviar e-mail: {ex.Message}");
-            throw;
+            MetodosGerais.RegistrarLog("ERROR", $"Erro inesperado no envio de e-mail: {ex.Message}");
         }
+
+        return false;
+
     }
 }

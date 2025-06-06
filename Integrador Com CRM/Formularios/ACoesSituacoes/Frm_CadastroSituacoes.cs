@@ -1,4 +1,5 @@
-﻿using CDI_OminiService.Formularios.Boleto;
+﻿using CDI_OminiService.Formularios;
+using CDI_OminiService.Formularios.Boleto;
 using CDI_OminiService.Formularios.OS;
 using DataBase.IntegradorCRM.Data;
 using Modelos.IntegradorCRM.Models.EF;
@@ -14,6 +15,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private Frm_VariaveisBoleto FrmVariaveisBoleto;
         private Frm_VariaveisOS FrmVariaveisOS;
+        private FrmModelosDeMensagems ModelosMensagens;
 
         private readonly DAL<AcaoSituacao_OS> _dalSituacaoOS;
         private readonly DAL<AcaoSituacao_Boleto> _dalSituacaoBoleto;
@@ -242,6 +244,15 @@ namespace Integrador_Com_CRM.Formularios
         private void Btn_Variaveis_MouseLeave(object sender, EventArgs e)
         {
             Btn_Variaveis.BackColor = Color.Teal;
+        }
+
+        private void botaoArredond1_Click(object sender, EventArgs e)
+        {
+            if (ModelosMensagens is not null)
+                ModelosMensagens.Close();
+
+            ModelosMensagens = new FrmModelosDeMensagems();
+            ModelosMensagens.Show();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Integrador_Com_CRM.Formularios
         //User Control
         private readonly FrmMensEmailUC frmMensEmailUC;
         private readonly FrmMensWhatsUC frmMensWhatslUC;
+        private FrmModelosDeMensagems ModelosMensagens;
         public int DiaCobranca { get; set; }
 
         public Frm_CadastroAcoesBoletos(bool Criacao, BoletoAcoesModel BoletoAacao, string SalvarAtualizar, Frm_BoletoAcoesCRM_UC FrmBoletoAcoesCRMUC)
@@ -119,7 +120,7 @@ namespace Integrador_Com_CRM.Formularios
                         // Atualiza os dados do registro existente
                         registroExistente.Dias_Cobrancas = IdCategoria;
                         registroExistente.EnviarPDFPorWhats = enviarPDFWhats;
-                        registroExistente.EnviarPDFPorEmail =  enviarPDFEmail;
+                        registroExistente.EnviarPDFPorEmail = enviarPDFEmail;
                         registroExistente.MensagemAtualizacaoWhats = MensagemWhats;
                         registroExistente.MensagemAtualizacaoEmail = MensagemEmail;
                         registroExistente.MensagemEmailEmHTML = MensagemEMailHTML;
@@ -148,7 +149,7 @@ namespace Integrador_Com_CRM.Formularios
         {
             frmMensWhatslUC.Dock = DockStyle.Fill;
             frmMensEmailUC.Dock = DockStyle.Fill;
-      
+
 
 
             TabPage MensWhats = new TabPage
@@ -165,11 +166,11 @@ namespace Integrador_Com_CRM.Formularios
             };
             MensEmail.Controls.Add(frmMensEmailUC);
 
-         
+
 
             TBC_Dados.TabPages.Add(MensWhats);
             TBC_Dados.TabPages.Add(MensEmail);
-         
+
         }
 
 
@@ -242,7 +243,7 @@ namespace Integrador_Com_CRM.Formularios
         }
 
 
-       
+
 
 
 
@@ -281,6 +282,15 @@ namespace Integrador_Com_CRM.Formularios
         private void Btn_Remover_MouseLeave(object sender, EventArgs e)
         {
             Btn_Remover.BackColor = Color.DarkGray;
+        }
+
+        private void botaoArredond1_Click(object sender, EventArgs e)
+        {
+            if (ModelosMensagens is not null)
+                ModelosMensagens.Close();
+
+            ModelosMensagens = new FrmModelosDeMensagems();
+            ModelosMensagens.Show();
         }
     }
 }

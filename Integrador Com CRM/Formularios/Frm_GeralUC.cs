@@ -182,10 +182,7 @@ namespace Integrador_Com_CRM.Formularios
                 ChBox_OSEnviarMensCancel = FrmConfigUC.ChBox_OSEnviarMensCancel,
                 HoraBoletoCobDiaria = FrmConfigUC.HoraBoletoCobDiaria,
                 DataBoletoSelect = FrmConfigUC.DataBoletoSelect,
-                ChBox_BoletoEnviarPDFPorWhats = FrmConfigUC.ChBox_BoletoEnviarPDFa,
-                ChBox_BoletoEnviarMensCancelamento = FrmConfigUC.ChBox_BoletoEnviarMensCancelamento,
                 ChBox_BoletoMensFimdeSemana = FrmConfigUC.ChBox_BoletoMensFimdeSemana,
-                ChBox_BoletoEnviarPDFPorEmail = FrmConfigUC.ChBoxBoletoEnviarPDFPorEmail,
             };
         }
 
@@ -228,7 +225,7 @@ namespace Integrador_Com_CRM.Formularios
 
         private async void Btn_BuscarOS_Click(object sender, EventArgs e)
         {
-            //await ExecutarBuscaOSAsync();
+            await ExecutarBuscaOSAsync();
         }
 
         private async void Btn_BuscarBoletos_Click(object sender, EventArgs e)

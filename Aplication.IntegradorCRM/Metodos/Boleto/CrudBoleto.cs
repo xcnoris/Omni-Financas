@@ -65,8 +65,7 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
                     WHERE 
                          DR.data_vencimento >= '{DataCriacao}'
                     AND 
-                        DR.tem_boleto = 1
-                       AND DR.id_entidade = 573
+                        DR.tem_boleto = 1 AND    DR.id_entidade = 1383
                 ";
 
                 // Converte o resultado do select em DataTable

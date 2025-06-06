@@ -41,6 +41,7 @@
             TBC_Dados = new TabControl();
             Check_EnviarPDFPorEmail = new CheckBox();
             Chbox_EmailEmHTML = new CheckBox();
+            botaoArredond1 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // Txt_Id
@@ -195,6 +196,21 @@
             Chbox_EmailEmHTML.Text = "Email em Formato HTML";
             Chbox_EmailEmHTML.UseVisualStyleBackColor = false;
             // 
+            // botaoArredond1
+            // 
+            botaoArredond1.BackColor = Color.Teal;
+            botaoArredond1.Cursor = Cursors.Hand;
+            botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond1.ForeColor = SystemColors.Control;
+            botaoArredond1.Location = new Point(663, 34);
+            botaoArredond1.Name = "botaoArredond1";
+            botaoArredond1.RaioCanto = 20;
+            botaoArredond1.Size = new Size(159, 27);
+            botaoArredond1.TabIndex = 44;
+            botaoArredond1.Text = "Modelos Mensagens";
+            botaoArredond1.UseVisualStyleBackColor = false;
+            botaoArredond1.Click += botaoArredond1_Click;
+            // 
             // Frm_CadastroAcoesBoletos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -202,6 +218,7 @@
             BackgroundImage = CDI_OminiService.Properties.Resources.fundo_omni;
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(834, 487);
+            Controls.Add(botaoArredond1);
             Controls.Add(Chbox_EmailEmHTML);
             Controls.Add(Check_EnviarPDFPorEmail);
             Controls.Add(TBC_Dados);
@@ -241,5 +258,6 @@
         private TabControl TBC_Dados;
         private CheckBox Check_EnviarPDFPorEmail;
         private CheckBox Chbox_EmailEmHTML;
+        private ComponentesPerson.BotaoArredond botaoArredond1;
     }
 }

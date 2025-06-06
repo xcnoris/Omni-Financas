@@ -19,6 +19,7 @@ namespace CDI_OminiService.Formularios.ACoesSituacoes
         private readonly Frm_BoletoAcoesCRM_UC FrmBoletoAcoes;
         private readonly AcaoSituacao_Boleto acaoSitBoleto;
         private readonly Frm_AcoesSituacoes FrmAcoesSitBol;
+        private FrmModelosDeMensagems ModelosMensagens;
 
         public FrmCadSituacoesBoleto(bool Criacao, AcaoSituacao_Boleto SituacaoBoletoAacao, string SalvarAtualizar, Frm_AcoesSituacoes FrmAcoesSit)
         {
@@ -134,7 +135,7 @@ namespace CDI_OminiService.Formularios.ACoesSituacoes
         {
             this.Close();
         }
-     
+
         private void Btn_Salvar_Click(object sender, EventArgs e)
         {
             SalvarAtualizar();
@@ -154,7 +155,7 @@ namespace CDI_OminiService.Formularios.ACoesSituacoes
 
                 int IdCategoria;
 
-                if (string.IsNullOrWhiteSpace(Txt_DiaCobranca.Text) )
+                if (string.IsNullOrWhiteSpace(Txt_DiaCobranca.Text))
                 {
                     MessageBox.Show("Por favor, informe um nome válido.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return; // Interrompe a execução do método para evitar erros
@@ -226,6 +227,15 @@ namespace CDI_OminiService.Formularios.ACoesSituacoes
         {
             if (FrmVariaveis is not null)
                 FrmVariaveis.Close();
+        }
+
+        private void botaoArredond1_Click(object sender, EventArgs e)
+        {
+            if (ModelosMensagens is not null)
+                ModelosMensagens.Close();
+
+            ModelosMensagens = new FrmModelosDeMensagems();
+            ModelosMensagens.Show();
         }
     }
 }

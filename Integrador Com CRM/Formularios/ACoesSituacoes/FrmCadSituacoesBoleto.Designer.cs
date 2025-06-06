@@ -41,6 +41,7 @@
             Btn_Salvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Btn_Remover = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             Lbl_MensagemEnvio = new Label();
+            botaoArredond1 = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             SuspendLayout();
             // 
             // Chbox_EmailEmHTML
@@ -189,12 +190,28 @@
             Lbl_MensagemEnvio.TabIndex = 46;
             Lbl_MensagemEnvio.Text = "Mensagem Envio:";
             // 
+            // botaoArredond1
+            // 
+            botaoArredond1.BackColor = Color.Teal;
+            botaoArredond1.Cursor = Cursors.Hand;
+            botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
+            botaoArredond1.ForeColor = SystemColors.Control;
+            botaoArredond1.Location = new Point(673, 21);
+            botaoArredond1.Name = "botaoArredond1";
+            botaoArredond1.RaioCanto = 20;
+            botaoArredond1.Size = new Size(159, 27);
+            botaoArredond1.TabIndex = 56;
+            botaoArredond1.Text = "Modelos Mensagens";
+            botaoArredond1.UseVisualStyleBackColor = false;
+            botaoArredond1.Click += botaoArredond1_Click;
+            // 
             // FrmCadSituacoesBoleto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Cdi_2;
             ClientSize = new Size(834, 487);
+            Controls.Add(botaoArredond1);
             Controls.Add(Chbox_EmailEmHTML);
             Controls.Add(Check_EnviarPDFPorEmail);
             Controls.Add(TBC_Dados);
@@ -233,5 +250,6 @@
         private Integrador_Com_CRM.ComponentesPerson.BotaoArredond Btn_Salvar;
         private Integrador_Com_CRM.ComponentesPerson.BotaoArredond Btn_Remover;
         private Label Lbl_MensagemEnvio;
+        private Integrador_Com_CRM.ComponentesPerson.BotaoArredond botaoArredond1;
     }
 }

@@ -62,7 +62,9 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using DAL<BoletoAcoesModel> dalSitBoleto = new DAL<BoletoAcoesModel>(new IntegradorDBContext());
             BoletoAcoesModel? AcaoBoleto = await dalSitBoleto.BuscarPorAsync(x => x.Dias_Cobrancas == DiasEmAtraso);
 
-
+            if (AcaoBoleto is null)
+                return null;
+            
             mensagemEnvio.ModeloWhatsapp = InstanciarModeloRequestWhats(AcaoBoleto.MensagemAtualizacaoWhats, retornoBoleto);
             mensagemEnvio.ModeloEmail = InstanciarModeloRequestEmail(AcaoBoleto, retornoBoleto);
 
@@ -78,6 +80,9 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             using DAL<AcaoSituacao_Boleto> dalSitBoleto = new DAL<AcaoSituacao_Boleto>(new IntegradorDBContext());
             AcaoSituacao_Boleto? AcoesOS = await dalSitBoleto.BuscarPorAsync(x => x.Situacao == SitBoleto);
 
+            if (AcoesOS is null)
+                return null;
+            
             mensagemEnvio.ModeloWhatsapp =  InstanciarModeloRequestWhats(AcoesOS.MensagemAtualizacaoWhats,retornoBoleto);
             mensagemEnvio.ModeloEmail =  InstanciarModeloRequestEmailSituacao(AcoesOS, retornoBoleto);
 
@@ -226,8 +231,9 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
         }
 
         // Método auxiliar para adicionar o boleto no banco de dados
-        internal static async Task AdicionarBoletoNoBanco(DAL<RelacaoBoletoModel> dalTableRelacaoBoleto, RelacaoBoletoModel boletoInTabRel)
+        internal static async Task AdicionarBoletoNoBanco( RelacaoBoletoModel boletoInTabRel)
         {
+            using DAL<RelacaoBoletoModel> dalTableRelacaoBoleto = new DAL<RelacaoBoletoModel>(new IntegradorDBContext());
             boletoInTabRel.Data_Criacao = DateTime.Now;
 
             using (var dalBoletoUsing = new DAL<RelacaoBoletoModel>(new IntegradorDBContext()))
@@ -284,6 +290,7 @@ namespace Aplication.IntegradorCRM.Servicos.Boleto
             {
                 await dalBoletoUsing.AtualizarAsync(boletoRelacao);
                 MetodosGerais.RegistrarLog("CrudBoleto", $"DocReceber {boletoRelacao.Id_DocumentoReceber} atualizado no banco de dados!");
+                MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {boletoRelacao.Situacao} para o documento {boletoRelacao.Id_DocumentoReceber}");
             }
         }
 

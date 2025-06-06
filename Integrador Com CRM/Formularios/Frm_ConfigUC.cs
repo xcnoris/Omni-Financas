@@ -54,20 +54,8 @@ namespace Integrador_Com_CRM.Formularios
                 return DTP_BoletoSelect.Value.Date;
             }
         }
-        internal bool ChBox_BoletoEnviarPDFa
-        {
-            get
-            {
-                return ChBox_BoletoEnviarPDF.Checked;
-            }
-        }
-        internal bool ChBox_BoletoEnviarMensCancelamento
-        {
-            get
-            {
-                return ChBox_BoletoEnviarMensCancel.Checked;
-            }
-        }
+    
+       
         internal bool ChBox_BoletoMensFimdeSemana
         {
             get
@@ -76,13 +64,7 @@ namespace Integrador_Com_CRM.Formularios
             }
         }
 
-        internal bool ChBoxBoletoEnviarPDFPorEmail
-        {
-            get
-            {
-                return ChBox_BoletoEnviarPDFPorEmail.Checked;
-            }
-        }
+    
 
 
         public Frm_ConfigUC()
@@ -90,6 +72,8 @@ namespace Integrador_Com_CRM.Formularios
             InitializeComponent();
 
             CarregarConfiguracoes();
+
+            DTP_BoletoCobDiaria.Left += 5;
         }
 
 
@@ -102,9 +86,6 @@ namespace Integrador_Com_CRM.Formularios
               $"ChBox_OSEnvMensCanc|{ChBox_OSMensCancel.Checked}\n" +
               $"DTP_BoletoCobDiaria|{DTP_BoletoCobDiaria.Value.ToString("HH:mm")}\n" +
               $"DTP_BoletoSelect|{DTP_BoletoSelect.Value.ToString("dd/MM/yyyy")}\n" +
-              $"ChBox_BoletoEnviarPDF|{ChBox_BoletoEnviarPDF.Checked}\n" +
-              $"ChBox_BoletoMensCanc|{ChBox_BoletoEnviarMensCancel.Checked}\n" +
-              $"ChBox_BoletoEnviarPDFPorEmail|{ChBox_BoletoEnviarPDFPorEmail.Checked}\n" +
               $"ChBox_BoletoMensFds|{ChBox_BoletoEnviarMensFimdesem.Checked}";
 
 
@@ -159,18 +140,6 @@ namespace Integrador_Com_CRM.Formularios
                                 {
                                     DTP_BoletoSelect.Value = dataSelectBoleto;
                                 }
-                                break;
-
-                            case "ChBox_BoletoEnviarPDF":
-                                ChBox_BoletoEnviarPDF.Checked = Convert.ToBoolean(valor);
-                                break;
-
-                            case "ChBox_BoletoEnviarPDFPorEmail":
-                                ChBox_BoletoEnviarPDFPorEmail.Checked = Convert.ToBoolean(valor);
-                                break;
-
-                            case "ChBox_BoletoMensCanc":
-                                ChBox_BoletoEnviarMensCancel.Checked = Convert.ToBoolean(valor);
                                 break;
 
                             case "ChBox_BoletoMensFds":

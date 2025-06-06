@@ -1,4 +1,5 @@
-﻿using Aplication.IntegradorCRM.Servicos.Boleto;
+﻿using Aplication.IntegradorCRM.DTO;
+using Aplication.IntegradorCRM.Servicos.Boleto;
 using Metodos.IntegradorCRM.Metodos;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
@@ -27,26 +28,33 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<bool> ProcessarEnvioPDFBoleto(bool EnviarPDFPorWhats ,bool EnviarPDFPorEmail, int idDocumentoReceber, string Token, string destinatario, string dataVencimentoBoleto, string InstanciaEnvoluctionAPI, ConfigEmail configEmail, EmailModel email)
+        public static async Task<DeuCertoEnvioMensagensDTO> ProcessarEnvioPDFBoleto(bool EnviarPDFPorWhats ,bool EnviarPDFPorEmail, int idDocumentoReceber, string Token, string destinatario, string dataVencimentoBoleto, string InstanciaEnvoluctionAPI, ConfigEmail configEmail, EmailModel email, RelacaoBoletoModel boletoInTabRel, bool criacao)
         {
+            bool deuCertoEnvioPorEmail = false;
+            bool deuCertoEnvioWhats = false;
 
             string Base64Boleto = await GerarBase64DoPDF(idDocumentoReceber, Token, dataVencimentoBoleto);
-            if (string.IsNullOrEmpty(Base64Boleto)) return false;
+
+            if (string.IsNullOrEmpty(Base64Boleto) && EnviarPDFPorEmail && EnviarPDFPorWhats)
+                return new DeuCertoEnvioMensagensDTO();
 
             // chama os metodos de envio do PDF
             if (!(string.IsNullOrWhiteSpace(email.mensagem)))
             {
                 if(EnviarPDFPorEmail)
                     email.pdfBase64 = Base64Boleto;
-                await EmailService.EnviarEmailAsync(configEmail,  email);
+                deuCertoEnvioPorEmail = await EmailService.EnviarEmailAsync(configEmail,  email);
             }
 
             if (EnviarPDFPorWhats)
-                await EnviarPDFBoletoNoWhatsapp(Base64Boleto, destinatario, Token, idDocumentoReceber, dataVencimentoBoleto, InstanciaEnvoluctionAPI);
+                deuCertoEnvioWhats = await EnviarPDFBoletoNoWhatsapp(Base64Boleto, destinatario, Token, idDocumentoReceber, dataVencimentoBoleto, InstanciaEnvoluctionAPI);
 
-            return true;
-            
 
+            return new DeuCertoEnvioMensagensDTO()
+            {
+                DeuCertoEnvioPorEmail = deuCertoEnvioPorEmail,
+                DeuCertoEnvioWhats = deuCertoEnvioPorEmail
+            };
         }
 
         public static async Task<string> GerarBase64DoPDF(int idDocumentoReceber, string Token, string dataVencimentoBoleto)

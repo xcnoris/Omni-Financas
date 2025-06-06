@@ -66,7 +66,7 @@ namespace Aplication.IntegradorCRM.Metodos.OS
                    LEFT JOIN 
                        pessoa_fisica pf ON ent.id_entidade = pf.id_entidade AND ent.tipo_entidade = 1
                     WHERE 
-                         OS.data_hora_cadastro >= '{DateTime}' 
+                         OS.data_hora_cadastro >= '{DateTime}'  
                         
                 ";
                 //string query = "SELECT id_ordem_servico, nome_cliente, fone_ddd_cliente + fone_numero_cliente AS telefone, email_cliente, id_categoria_ordem_servico FROM ordem_servico WHERE id_ordem_servico = 8674";

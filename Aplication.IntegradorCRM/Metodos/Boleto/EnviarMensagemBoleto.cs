@@ -2,6 +2,7 @@
 using Aplication.IntegradorCRM.Servicos.Boleto;
 using DataBase.IntegradorCRM.Data;
 using Metodos.IntegradorCRM.Metodos;
+using Microsoft.IdentityModel.Tokens;
 using Modelos.IntegradorCRM.Models;
 using Modelos.IntegradorCRM.Models.EF;
 using Modelos.IntegradorCRMRM.Models;
@@ -20,26 +21,32 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
 
             // Fazer a requisição para criar a oportunidade na API
             bool retornoCriaca = false;
-            try
+            if (!(string.IsNullOrWhiteSpace(requests.ModeloWhatsapp.text)) && !(string.IsNullOrWhiteSpace(requests.ModeloWhatsapp.number)))
             {
-                retornoCriaca = await Boleto_Services.EnviarMensagemCriacao(requests, DadosAPI);
-            }
-            catch (Exception ex)
-            {
-                return false;
+                try
+                {
+
+                    retornoCriaca = await Boleto_Services.EnviarMensagemCriacao(requests, DadosAPI);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
             }
 
-            if (retornoCriaca != false)
+            
+
+            if (retornoCriaca != false || string.IsNullOrWhiteSpace(requests.ModeloWhatsapp.text)) 
             {
                 // Atualizar a tabela de relação com o código da oportunidade e a data de criação
-                await Boleto_Services.AdicionarBoletoNoBanco(dalTableRelacaoBoleto, boletoInTabRel);
                 // Verifica se esta marcado para enviar o PDF do boleto ao criar a oportunidade no CRM
+                DeuCertoEnvioMensagensDTO DeuCertoEnvio =  await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, configEmail, requests.ModeloEmail,  boletoInTabRel, true);
 
-               
-
-                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, boletoInTabRel, DadosAPI.Token, DadosAPI.Instancia, configEmail, requests.ModeloEmail);
-                return true;
-                
+                if (DeuCertoEnvio.DeuCertoEnvioWhats || DeuCertoEnvio.DeuCertoEnvioPorEmail)
+                {
+                    await Boleto_Services.AdicionarBoletoNoBanco(boletoInTabRel);
+                    return true;
+                }
             }
 
 
@@ -53,32 +60,32 @@ namespace Aplication.IntegradorCRM.Metodos.Boleto
             // Validar dados de entrada
             if (request == null || string.IsNullOrEmpty(DadosAPI.Token) || BoletoRElacao == null)
                 throw new ArgumentException($"Parâmetros inválidos para CriarOportunidade. Request: {request} | token: {DadosAPI.Token} | boletoInTabRel: {BoletoRElacao}");
-
-            bool apiResponse = await Boleto_Services.EnviarMensagem(request.ModeloWhatsapp, DadosAPI, BoletoRElacao.Id_DocumentoReceber.ToString());
-
-
-            if (apiResponse != false)
+            bool apiResponse = false;
+            if (!(string.IsNullOrWhiteSpace(request.ModeloWhatsapp.text)) && !(string.IsNullOrWhiteSpace(request.ModeloWhatsapp.number)))
             {
-                await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
+                apiResponse = await Boleto_Services.EnviarMensagem(request.ModeloWhatsapp, DadosAPI, BoletoRElacao.Id_DocumentoReceber.ToString());
+            }
 
-            
 
-                await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia, configEmail, request.ModeloEmail);
-                MetodosGerais.RegistrarLog("BOLETO", $"Situação atualizada para {BoletoRElacao.Situacao} para o documento {BoletoRElacao.Id_DocumentoReceber}");
-
-                return;
+            if (apiResponse != false || string.IsNullOrWhiteSpace(request.ModeloWhatsapp.text))
+            {
+                DeuCertoEnvioMensagensDTO DeuCertoEnvio = await VerificarEnvioPDF(EnviarPDFBoletoPorWhats,EnviarPDFBoletoPorEmail, BoletoRElacao, DadosAPI.Token, DadosAPI.Instancia, configEmail, request.ModeloEmail, BoletoRElacao, false);
+                if (DeuCertoEnvio.DeuCertoEnvioWhats || DeuCertoEnvio.DeuCertoEnvioPorEmail)
+                {
+                    await Boleto_Services.AtualizarBoletoNoBanco(BoletoRElacao);
+                    return;
+                }
             }
 
             MetodosGerais.RegistrarLog("BOLETO", $"Erro: API retornou uma resposta nula ou inválida. | DR: {BoletoRElacao.Id_DocumentoReceber}");
 
         }
 
-        private static async Task VerificarEnvioPDF(bool EnviarPDFPorWhats, bool EnviarPDFPorEmail,RelacaoBoletoModel BoletoRElacao,string token, string InstanciaEnvoluctionAPI, ConfigEmail ConfigEmail, EmailModel Email)
+        private static async Task<DeuCertoEnvioMensagensDTO> VerificarEnvioPDF(bool EnviarPDFPorWhats, bool EnviarPDFPorEmail,RelacaoBoletoModel BoletoRElacao,string token, string InstanciaEnvoluctionAPI, ConfigEmail ConfigEmail, EmailModel Email, RelacaoBoletoModel boletoInTabRel, bool Criacao)
         {
             await Task.Delay(1000);
             string destinatarios = $"+55{BoletoRElacao.Celular_Entidade}";
-            await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(EnviarPDFPorWhats,EnviarPDFPorEmail, BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd-MM-yyyy"), InstanciaEnvoluctionAPI, ConfigEmail, Email);
-
+            return await EnviarPDFBoleto.ProcessarEnvioPDFBoleto(EnviarPDFPorWhats,EnviarPDFPorEmail, BoletoRElacao.Id_DocumentoReceber, token, destinatarios, BoletoRElacao.Data_Vencimento.ToString("dd-MM-yyyy"), InstanciaEnvoluctionAPI, ConfigEmail, Email, boletoInTabRel, Criacao);
         }
 
     }
