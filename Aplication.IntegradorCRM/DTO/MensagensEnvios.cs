@@ -7,5 +7,6 @@ namespace Aplication.IntegradorCRM.DTO
     {
         public ModeloOportunidadeRequest ModeloWhatsapp { get; set; }
         public EmailModel ModeloEmail { get; set; }
+
     }
 }
