@@ -8,8 +8,15 @@ namespace CDI_OminiService.Formularios
         {
             InitializeComponent();
             CriacaoBolHTML();
+            CobrancaBOl();
         }
-
+        private void CobrancaBOl()
+        {
+            Txt_CobranBOl.Text = @"Oi,<PrimNome_Fantasia>!
+Notamos que há um boleto em aberto em nosso sistema com vencimento em <Vencimento> no valor de <Valor>. 
+Se precisar de alguma informação ou se não recebeu o e-mail, avise por aqui e te enviamos o boleto diretamente.
+Estamos por aqui para ajudar no que for necessário! ??";
+        }
         private void CriacaoBolHTML()
         {
             Txt_CriacaoBolHTML.Text = @"<!DOCTYPE html>

@@ -137,6 +137,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.None;
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(Btn_TestarConexao);
             groupBox1.Controls.Add(Txt_Servidor);

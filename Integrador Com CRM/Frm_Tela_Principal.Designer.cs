@@ -39,7 +39,7 @@
             // 
             // TBC_Dados
             // 
-            TBC_Dados.Dock = DockStyle.Top;
+            TBC_Dados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             TBC_Dados.Location = new Point(0, 0);
             TBC_Dados.Name = "TBC_Dados";
             TBC_Dados.SelectedIndex = 0;
@@ -55,6 +55,7 @@
             // 
             // label7
             // 
+            label7.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label7.AutoSize = true;
             label7.BackColor = Color.Transparent;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -63,10 +64,11 @@
             label7.Name = "label7";
             label7.Size = new Size(80, 15);
             label7.TabIndex = 9;
-            label7.Text = "V - 1.25.5.1.0";
+            label7.Text = "V - 1.25.5.1.1";
             // 
             // btnFechar
             // 
+            btnFechar.Anchor = AnchorStyles.Bottom;
             btnFechar.BackColor = Color.Teal;
             btnFechar.Cursor = Cursors.Hand;
             btnFechar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -84,6 +86,7 @@
             // 
             // btnSalvar
             // 
+            btnSalvar.Anchor = AnchorStyles.Bottom;
             btnSalvar.BackColor = Color.Teal;
             btnSalvar.Cursor = Cursors.Hand;
             btnSalvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
@@ -111,8 +114,6 @@
             Controls.Add(label7);
             Controls.Add(TBC_Dados);
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MaximizeBox = false;
-            MaximumSize = new Size(850, 526);
             MinimumSize = new Size(850, 526);
             Name = "Frm_Tela_Principal";
             StartPosition = FormStartPosition.CenterScreen;

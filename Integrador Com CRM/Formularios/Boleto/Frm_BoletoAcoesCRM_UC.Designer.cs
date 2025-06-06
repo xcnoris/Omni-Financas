@@ -30,18 +30,19 @@
         {
             components = new System.ComponentModel.Container();
             DGV_Dados = new DataGridView();
-            label1 = new Label();
-            Btn_Salvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
-            Btn_Remover = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             CheckBox = new DataGridViewCheckBoxColumn();
             ChboxPDFEmail = new DataGridViewCheckBoxColumn();
             ChboxEmailHTML = new DataGridViewCheckBoxColumn();
+            label1 = new Label();
+            Btn_Salvar = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
+            Btn_Remover = new Integrador_Com_CRM.ComponentesPerson.BotaoArredond(components);
             ((System.ComponentModel.ISupportInitialize)DGV_Dados).BeginInit();
             SuspendLayout();
             // 
             // DGV_Dados
             // 
             DGV_Dados.AllowUserToAddRows = false;
+            DGV_Dados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGV_Dados.BackgroundColor = SystemColors.ControlLightLight;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -53,8 +54,35 @@
             DGV_Dados.TabIndex = 0;
             DGV_Dados.DoubleClick += DGV_Dados_DoubleClick;
             // 
+            // CheckBox
+            // 
+            CheckBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            CheckBox.HeaderText = "PDF Por Whats";
+            CheckBox.Name = "CheckBox";
+            CheckBox.ReadOnly = true;
+            CheckBox.Width = 82;
+            // 
+            // ChboxPDFEmail
+            // 
+            ChboxPDFEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ChboxPDFEmail.HeaderText = "PDF Por Email";
+            ChboxPDFEmail.Name = "ChboxPDFEmail";
+            ChboxPDFEmail.ReadOnly = true;
+            ChboxPDFEmail.Resizable = DataGridViewTriState.True;
+            ChboxPDFEmail.Width = 78;
+            // 
+            // ChboxEmailHTML
+            // 
+            ChboxEmailHTML.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ChboxEmailHTML.HeaderText = "Email Em HTML";
+            ChboxEmailHTML.Name = "ChboxEmailHTML";
+            ChboxEmailHTML.ReadOnly = true;
+            ChboxEmailHTML.Resizable = DataGridViewTriState.True;
+            ChboxEmailHTML.Width = 88;
+            // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
@@ -67,6 +95,7 @@
             // 
             // Btn_Salvar
             // 
+            Btn_Salvar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             Btn_Salvar.BackColor = Color.Teal;
             Btn_Salvar.Cursor = Cursors.Hand;
             Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -84,6 +113,7 @@
             // 
             // Btn_Remover
             // 
+            Btn_Remover.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             Btn_Remover.BackColor = Color.DarkGray;
             Btn_Remover.Cursor = Cursors.Hand;
             Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -98,32 +128,6 @@
             Btn_Remover.Click += Btn_Remover_Click;
             Btn_Remover.MouseEnter += Btn_Remover_MouseEnter;
             Btn_Remover.MouseLeave += Btn_Remover_MouseLeave;
-            // 
-            // CheckBox
-            // 
-            CheckBox.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            CheckBox.HeaderText = "PDF Por Whats";
-            CheckBox.Name = "CheckBox";
-            CheckBox.ReadOnly = true;
-            CheckBox.Width = 91;
-            // 
-            // ChboxPDFEmail
-            // 
-            ChboxPDFEmail.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            ChboxPDFEmail.HeaderText = "PDF Por Email";
-            ChboxPDFEmail.Name = "ChboxPDFEmail";
-            ChboxPDFEmail.ReadOnly = true;
-            ChboxPDFEmail.Resizable = DataGridViewTriState.True;
-            ChboxPDFEmail.Width = 87;
-            // 
-            // ChboxEmailHTML
-            // 
-            ChboxEmailHTML.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            ChboxEmailHTML.HeaderText = "Email Em HTML";
-            ChboxEmailHTML.Name = "ChboxEmailHTML";
-            ChboxEmailHTML.ReadOnly = true;
-            ChboxEmailHTML.Resizable = DataGridViewTriState.True;
-            ChboxEmailHTML.Width = 88;
             // 
             // Frm_BoletoAcoesCRM_UC
             // 

@@ -33,6 +33,7 @@
             // 
             // Txt_MensEmail
             // 
+            Txt_MensEmail.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Txt_MensEmail.Location = new Point(0, 0);
             Txt_MensEmail.MaxLength = 3000;
             Txt_MensEmail.Multiline = true;

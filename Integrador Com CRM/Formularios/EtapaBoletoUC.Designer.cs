@@ -42,6 +42,7 @@
             // 
             // groupBox3
             // 
+            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox3.BackColor = Color.Transparent;
             groupBox3.Controls.Add(Cbox_DiaCobranca);
             groupBox3.Controls.Add(Btn_BuscarBoletos);
@@ -92,6 +93,7 @@
             // DGV_Dados
             // 
             DGV_Dados.AllowUserToAddRows = false;
+            DGV_Dados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGV_Dados.BackgroundColor = SystemColors.ControlLightLight;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -102,6 +104,7 @@
             // 
             // label2
             // 
+            label2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
@@ -114,6 +117,7 @@
             // 
             // Txt_NumItens
             // 
+            Txt_NumItens.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             Txt_NumItens.Location = new Point(57, 350);
             Txt_NumItens.Name = "Txt_NumItens";
             Txt_NumItens.ReadOnly = true;

@@ -91,7 +91,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        //await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
+                        await FrmGeralUC.VerificarOrdensDeServicos(FrmConfigUC);
 
                     }
                     catch (Exception ex)
@@ -108,7 +108,7 @@ namespace Integrador_Com_CRM
                 {
                     try
                     {
-                        //await FrmGeralUC.VerificarBoletos(FrmConfigUC, InstanciarConfigEmail(frmConfigEmail));
+                        await FrmGeralUC.VerificarBoletos(FrmConfigUC, InstanciarConfigEmail(frmConfigEmail));
                     }
                     catch (Exception ex)
                     {

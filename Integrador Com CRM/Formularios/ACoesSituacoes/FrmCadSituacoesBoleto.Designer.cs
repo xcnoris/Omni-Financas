@@ -72,6 +72,7 @@
             // 
             // TBC_Dados
             // 
+            TBC_Dados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             TBC_Dados.Location = new Point(12, 141);
             TBC_Dados.Name = "TBC_Dados";
             TBC_Dados.SelectedIndex = 0;
@@ -80,6 +81,7 @@
             // 
             // Btn_VariaveisBoleto
             // 
+            Btn_VariaveisBoleto.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Btn_VariaveisBoleto.BackColor = Color.Teal;
             Btn_VariaveisBoleto.Cursor = Cursors.Hand;
             Btn_VariaveisBoleto.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -150,6 +152,7 @@
             // 
             // Btn_Salvar
             // 
+            Btn_Salvar.Anchor = AnchorStyles.Bottom;
             Btn_Salvar.BackColor = Color.Teal;
             Btn_Salvar.Cursor = Cursors.Hand;
             Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -165,6 +168,7 @@
             // 
             // Btn_Remover
             // 
+            Btn_Remover.Anchor = AnchorStyles.Bottom;
             Btn_Remover.BackColor = Color.DarkGray;
             Btn_Remover.Cursor = Cursors.Hand;
             Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -192,6 +196,7 @@
             // 
             // botaoArredond1
             // 
+            botaoArredond1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             botaoArredond1.BackColor = Color.Teal;
             botaoArredond1.Cursor = Cursors.Hand;
             botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -224,8 +229,6 @@
             Controls.Add(Btn_Salvar);
             Controls.Add(Btn_Remover);
             Controls.Add(Lbl_MensagemEnvio);
-            MaximizeBox = false;
-            MaximumSize = new Size(850, 526);
             MinimizeBox = false;
             MinimumSize = new Size(850, 526);
             Name = "FrmCadSituacoesBoleto";

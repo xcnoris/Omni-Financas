@@ -30,7 +30,7 @@
         {
             label13 = new Label();
             label1 = new Label();
-            textBox1 = new TextBox();
+            Txt_CobranBOl = new TextBox();
             Txt_CriacaoBolHTML = new TextBox();
             SuspendLayout();
             // 
@@ -56,15 +56,15 @@
             label1.TabIndex = 10;
             label1.Text = "Modelo Em HTML - Criação Email";
             // 
-            // textBox1
+            // Txt_CobranBOl
             // 
-            textBox1.Location = new Point(32, 34);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.ReadOnly = true;
-            textBox1.ScrollBars = ScrollBars.Both;
-            textBox1.Size = new Size(893, 93);
-            textBox1.TabIndex = 11;
+            Txt_CobranBOl.Location = new Point(32, 34);
+            Txt_CobranBOl.Multiline = true;
+            Txt_CobranBOl.Name = "Txt_CobranBOl";
+            Txt_CobranBOl.ReadOnly = true;
+            Txt_CobranBOl.ScrollBars = ScrollBars.Both;
+            Txt_CobranBOl.Size = new Size(893, 93);
+            Txt_CobranBOl.TabIndex = 11;
             // 
             // Txt_CriacaoBolHTML
             // 
@@ -84,7 +84,7 @@
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(958, 450);
             Controls.Add(Txt_CriacaoBolHTML);
-            Controls.Add(textBox1);
+            Controls.Add(Txt_CobranBOl);
             Controls.Add(label1);
             Controls.Add(label13);
             MaximizeBox = false;
@@ -102,7 +102,7 @@
 
         private Label label13;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox Txt_CobranBOl;
         private TextBox Txt_CriacaoBolHTML;
     }
 }

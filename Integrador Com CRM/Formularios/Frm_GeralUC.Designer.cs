@@ -35,6 +35,7 @@
             // 
             // Btn_BuscarOS
             // 
+            Btn_BuscarOS.Anchor = AnchorStyles.None;
             Btn_BuscarOS.BackColor = Color.Teal;
             Btn_BuscarOS.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
             Btn_BuscarOS.ForeColor = SystemColors.Control;
@@ -51,6 +52,7 @@
             // 
             // Btn_BuscarBoletos
             // 
+            Btn_BuscarBoletos.Anchor = AnchorStyles.None;
             Btn_BuscarBoletos.BackColor = Color.Teal;
             Btn_BuscarBoletos.Cursor = Cursors.Hand;
             Btn_BuscarBoletos.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);

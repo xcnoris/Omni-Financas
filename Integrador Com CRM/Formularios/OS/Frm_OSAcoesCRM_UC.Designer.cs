@@ -39,6 +39,7 @@
             // DGV_Dados
             // 
             DGV_Dados.AllowUserToAddRows = false;
+            DGV_Dados.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             DGV_Dados.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             DGV_Dados.BackgroundColor = SystemColors.ControlLightLight;
             DGV_Dados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -50,6 +51,7 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI", 25F, FontStyle.Bold);
@@ -62,6 +64,7 @@
             // 
             // Btn_Remover
             // 
+            Btn_Remover.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             Btn_Remover.BackColor = Color.DarkGray;
             Btn_Remover.Cursor = Cursors.Hand;
             Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -79,6 +82,7 @@
             // 
             // Btn_Incluir
             // 
+            Btn_Incluir.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             Btn_Incluir.BackColor = Color.Teal;
             Btn_Incluir.Cursor = Cursors.Hand;
             Btn_Incluir.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);

@@ -50,7 +50,13 @@ public static class EmailService
                 try
                 {
                     using var smtp = new SmtpClient();
-                    await smtp.ConnectAsync(configEmail.SMTP_Server, configEmail.SMTP_Port ?? 587, SecureSocketOptions.SslOnConnect);
+                    SecureSocketOptions securityOption = configEmail.SMTP_Port switch
+                    {
+                        465 => SecureSocketOptions.SslOnConnect,
+                        587 => SecureSocketOptions.StartTls,
+                        _ => SecureSocketOptions.Auto
+                    };
+                    await smtp.ConnectAsync(configEmail.SMTP_Server, configEmail.SMTP_Port ?? 587, securityOption);
                     await smtp.AuthenticateAsync(configEmail.Email, configEmail.Senha);
                     await smtp.SendAsync(email);
                     await smtp.DisconnectAsync(true);

@@ -42,6 +42,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.None;
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(Txt_Server);
             groupBox1.Controls.Add(label1);

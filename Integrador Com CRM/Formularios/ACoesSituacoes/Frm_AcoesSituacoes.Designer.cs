@@ -57,6 +57,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Anchor = AnchorStyles.None;
             groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(groupBox3);
             groupBox1.Controls.Add(groupBox2);

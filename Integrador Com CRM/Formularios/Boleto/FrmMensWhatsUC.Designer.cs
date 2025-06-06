@@ -33,7 +33,8 @@
             // 
             // Txt_MensWhats
             // 
-            Txt_MensWhats.Location = new Point(0, 0);
+            Txt_MensWhats.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Txt_MensWhats.Location = new Point(-3, 0);
             Txt_MensWhats.MaxLength = 3000;
             Txt_MensWhats.Multiline = true;
             Txt_MensWhats.Name = "Txt_MensWhats";

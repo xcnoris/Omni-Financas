@@ -74,6 +74,7 @@
             // 
             // Btn_Salvar
             // 
+            Btn_Salvar.Anchor = AnchorStyles.Bottom;
             Btn_Salvar.BackColor = Color.Teal;
             Btn_Salvar.Cursor = Cursors.Hand;
             Btn_Salvar.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -91,6 +92,7 @@
             // 
             // Btn_Remover
             // 
+            Btn_Remover.Anchor = AnchorStyles.Bottom;
             Btn_Remover.BackColor = Color.DarkGray;
             Btn_Remover.Cursor = Cursors.Hand;
             Btn_Remover.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -108,6 +110,7 @@
             // 
             // Txt_Mensagem
             // 
+            Txt_Mensagem.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             Txt_Mensagem.BackColor = Color.WhiteSmoke;
             Txt_Mensagem.Location = new Point(12, 105);
             Txt_Mensagem.MaxLength = 3000;
@@ -142,6 +145,7 @@
             // 
             // Btn_Variaveis
             // 
+            Btn_Variaveis.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Btn_Variaveis.BackColor = Color.Teal;
             Btn_Variaveis.Cursor = Cursors.Hand;
             Btn_Variaveis.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
@@ -159,6 +163,7 @@
             // 
             // botaoArredond1
             // 
+            botaoArredond1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             botaoArredond1.BackColor = Color.Teal;
             botaoArredond1.Cursor = Cursors.Hand;
             botaoArredond1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic);
