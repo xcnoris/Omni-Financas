@@ -1,4 +1,4 @@
-# Omni Finaças
+# Omni Finanças
 
 
 # Telas
